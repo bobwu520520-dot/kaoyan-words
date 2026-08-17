@@ -1,5 +1,5 @@
 /* 考研词汇 — Service Worker: 离线缓存 + 网络优先更新 */
-const CACHE = 'kaoyan-v8';
+const CACHE = 'kaoyan-v9';
 const ASSETS = [
   './', 'index.html', 'study.html', 'words.html', 'search.html', 'gate.html',
   'css/style.css',
