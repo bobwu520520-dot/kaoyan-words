@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1d5a63"><title>背单词 · 考研词汇</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"><style>
+/* ===== 墨墨风格专注背单词主界面 ===== */
+body { margin: 0; }
+.study { max-width: 860px; margin: 0 auto; padding: 10px 16px calc(12px + env(safe-area-inset-bottom)); height: 100dvh; max-height: 100dvh; overflow: hidden; display: flex; flex-direction: column; box-sizing: border-box; }
+/* 顶部栏: 恒定 */
+.topbar { display: flex; align-items: center; gap: 12px; padding: 10px 2px; }
+.topbar .menu-btn { border: 1px solid var(--border,#e5e7eb); background: var(--card-bg,#fff); border-radius: 10px; padding: 7px 13px; font-size: 14px; cursor: pointer; }
+.topbar .tier-name { font-weight: 700; font-size: 15px; }
+.topbar .tier-progress { flex: 1; text-align: center; color: #6b7280; font-size: 13px; font-variant-numeric: tabular-nums; }
+.topbar .today-num { color: var(--color-primary,#1d5a63); font-weight: 700; }
+/* 主卡片: 恒定高度, 内容内部滚动 */
+.shell { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.s-card { flex: 1; min-height: 0; background: var(--card-bg,#fff); border: 1px solid var(--border,#e5e7eb); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,.06); display: flex; flex-direction: column; overflow: hidden; }
+.s-front, .s-back { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; }
+.s-front { align-items: center; justify-content: center; text-align: center; padding: 24px; gap: 14px; }
+.s-word { font-size: clamp(44px, 9vw, 68px); font-weight: 750; letter-spacing: -1px; line-height: 1.1; }
+.s-phonetic { color: #77818a; font-size: 18px; }
+.s-reveal { font-size: 16px; padding: 12px 34px; border-radius: 999px; }
+.s-hint { color: #9aa4ab; font-size: 12px; }
+.s-back { padding: 22px 26px; gap: 12px; }
+/* 翻面后单词保留在左上角(缩小) */
+.s-back-head { display: flex; align-items: baseline; gap: 10px; }
+.s-word-mini { font-size: 26px; font-weight: 750; letter-spacing: -0.5px; line-height: 1.2; }
+.s-phonetic-mini { color: #77818a; font-size: 14px; }
+.s-meaning { font-size: 21px; font-weight: 650; line-height: 1.5; }
+.s-meta { font-size: 13px; color: #69737b; }
+.s-obscure { font-size: 14px; color: #8a5a16; background: #fff7e6; border-radius: 10px; padding: 9px 12px; }
+.s-detail { background: #f7f8f9; border-radius: 12px; padding: 12px 14px; font-size: 14.5px; line-height: 1.65; }
+.s-detail strong { display: block; font-size: 12px; color: #69737b; margin-bottom: 5px; letter-spacing: .03em; }
+.s-detail .zh { color: #657078; margin-top: 6px; font-size: 13.5px; }
+.s-actions { display: flex; gap: 10px; margin-top: 2px; }
+.s-actions .btn { flex: 1; font-size: 13.5px; }
+.btn { border: 1px solid #d7dde0; background: #fff; border-radius: 11px; padding: 10px 15px; cursor: pointer; font-size: 14px; }
+.btn.primary { background: var(--color-primary,#1d5a63); color: #fff; border-color: var(--color-primary,#1d5a63); }
+.btn[disabled] { opacity: .55; cursor: default; }
+.ai-result { margin-top: 2px; font-size: 13.5px; }
+.ai-result .example-en { font-size: 14.5px; }
+/* 底部评分栏: 恒定, 不随卡片变化 */
+.ratings { display: flex; gap: 10px; padding: 14px 2px 4px; align-items: stretch; }
+.ratings .rbtn { flex: 1; border: 1px solid #d7dde0; background: var(--card-bg,#fff); border-radius: 16px; padding: 16px 8px; cursor: pointer; font-size: 17px; font-weight: 700; transition: .15s; }
+.ratings .rbtn small { display: block; font-weight: 400; color: #8a949b; font-size: 11px; margin-top: 3px; }
+.ratings .rbtn:hover { transform: translateY(-2px); }
+.ratings .rbtn.r0:hover { border-color: #c0392b; color: #c0392b; }
+.ratings .r1:hover { border-color: #e67e22; color: #e67e22; }
+.ratings .r2:hover { border-color: #1d5a63; color: #1d5a63; }
+.ratings .r3:hover { border-color: #16a085; color: #16a085; }
+.nav-btn { border: 1px solid #d7dde0; background: var(--card-bg,#fff); border-radius: 12px; width: 46px; font-size: 16px; cursor: pointer; }
+/* 抽屉: 其他板块 */
+.drawer-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.32); z-index: 40; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(360px, 88vw); background: var(--card-bg,#fff); z-index: 41; box-shadow: -8px 0 32px rgba(0,0,0,.12); overflow-y: auto; padding: 18px 20px 40px; box-sizing: border-box; }
+.drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.drawer-head h2 { margin: 0; font-size: 18px; }
+.drawer-close { border: 0; background: none; font-size: 22px; cursor: pointer; color: #6b7280; }
+.drawer h4 { margin: 18px 0 8px; font-size: 13px; color: #69737b; letter-spacing: .04em; }
+.drawer .btn { width: 100%; margin: 5px 0; text-align: center; }
+.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.plan { border: 1px solid var(--border,#e5e7eb); border-radius: 14px; padding: 12px; cursor: pointer; }
+.plan.active { border-color: var(--color-primary,#1d5a63); box-shadow: 0 0 0 2px rgba(29,90,99,.12); }
+.plan h3 { margin: 0 0 4px; font-size: 14px; }
+.plan p { margin: 2px 0; color: #6b7280; font-size: 12px; }
+.plan .progress { height: 5px; background: #edf0f2; border-radius: 99px; overflow: hidden; margin-top: 8px; }
+.plan .progress i { display: block; height: 100%; background: var(--color-primary,#1d5a63); }
+.stats-box { background: #f7f8f9; border-radius: 14px; padding: 14px; }
+.stats-box h3 { margin: 0 0 8px; font-size: 14px; }
+.streak-line { font-size: 13px; color: #374151; margin: 4px 0 10px; }
+.streak-line b { color: var(--color-primary,#1d5a63); font-size: 18px; }
+.bars { display: flex; align-items: flex-end; gap: 4px; height: 52px; margin-bottom: 5px; }
+.bar { flex: 1; min-width: 4px; background: #d9e8e4; border-radius: 3px 3px 0 0; position: relative; }
+.bar.today { background: var(--color-primary,#1d5a63); }
+.bar:hover::after { content: attr(data-tip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #1f2937; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 5px; white-space: nowrap; z-index: 5; }
+.drawer .daily-row { display: flex; align-items: center; gap: 10px; }
+.drawer .daily-row input { width: 70px; padding: 8px; border: 1px solid #d7dde0; border-radius: 9px; font-size: 14px; }
+.mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.mini-stats .ms { background: #f7f8f9; border-radius: 10px; padding: 8px; text-align: center; }
+.mini-stats .ms b { display: block; font-size: 17px; }
+.mini-stats .ms span { font-size: 11px; color: #8a949b; }
+.upgrade-notice { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: #1d5a63; color: #fff; padding: 9px 16px; border-radius: 10px; font-size: 13px; box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 50; }
+.empty { padding: 40px; text-align: center; }
+.small { font-size: 12px; color: #7b858d; }
+.ai-modal { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; }
+.ai-modal[hidden] { display: none; }
+.ai-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
+.ai-modal-panel { position: relative; width: min(420px, 92vw); background: var(--card-bg,#fff); border-radius: 18px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0,0,0,.2); }
+.ai-modal-head { display: flex; justify-content: space-between; align-items: flex-start; }
+.ai-modal-head h2 { margin: 0 0 4px; font-size: 17px; }
+.ai-modal-head p { margin: 0 0 12px; font-size: 12px; color: #6b7280; }
+.ai-close { border: 0; background: none; font-size: 20px; cursor: pointer; color: #6b7280; }
+.ai-label { display: block; font-size: 12px; color: #4b5563; margin: 10px 0 4px; }
+.ai-input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #d7dde0; border-radius: 9px; font-size: 14px; }
+.ai-security { font-size: 11px; color: #8a949b; margin: 10px 0; }
+.ai-modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
+.ai-cancel { border: 1px solid #d7dde0; background: #fff; border-radius: 9px; padding: 8px 16px; cursor: pointer; }
+.ai-save { border: 0; background: var(--color-primary,#1d5a63); color: #fff; border-radius: 9px; padding: 8px 16px; cursor: pointer; }
+@media(max-width:600px){
+  .ratings { gap: 6px; padding: 10px 0 2px; }
+  .ratings .rbtn { padding: 14px 2px; font-size: 15px; border-radius: 12px; }
+  .ratings .rbtn small { display: none; }
+  .nav-btn { width: 36px; }
+  .study { padding: 6px 10px calc(8px + env(safe-area-inset-bottom)); }
+  .s-back { padding: 16px 16px; }
+  .s-word-mini { font-size: 22px; }
+  .s-card { border-radius: 16px; }
+  .s-word { font-size: clamp(38px, 10vw, 56px); }
+  .topbar { padding: 8px 0; }
+  .topbar .menu-btn { padding: 6px 10px; font-size: 13px; }
+}
+</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="study.html"><span class="brand-title">考研词汇</span><span class="brand-sub">Kaoyan Lexicon</span></a><nav class="nav"><a class="nav-link active" href="study.html">背单词</a><a class="nav-link" href="search.html">查词</a><a class="nav-link" href="words.html">词库</a></nav><button class="ai-settings-btn" id="ai-settings-btn" type="button">AI 设置</button><button class="theme-toggle" data-theme-toggle type="button"></button></div></header>
+<main class="study">
+  <div class="topbar">
+    <button class="menu-btn" id="drawer-open" type="button">☰ 更多</button>
+    <span class="tier-name" id="tier-name">核心高频</span>
+    <span class="tier-progress">今日完成 <span class="today-num" id="today">0</span></span>
+  </div>
+  <div class="shell">
+    <div class="s-card" id="card"><div class="empty"><h2>词库加载中…</h2></div></div>
+  </div>
+  <div class="ratings">
+    <button class="nav-btn" id="prev" type="button" aria-label="上一个">‹</button>
+    <button class="rbtn r0" id="grade0" type="button">陌生<small>30分钟再现</small></button>
+    <button class="rbtn r1" id="grade1" type="button">模糊<small>1 天</small></button>
+    <button class="rbtn r2" id="grade2" type="button">认识<small>3 天起,连续升级</small></button>
+    <button class="nav-btn" id="next" type="button" aria-label="下一个">›</button>
+  </div>
+  <p class="small" style="text-align:center;margin:8px 0 0">空格 翻面 · 1 陌生 / 2 模糊 / 3 认识 · 点「☰ 更多」管理计划 / 统计 / 设置</p>
+</main>
+<div id="upgrade-notice" class="upgrade-notice" hidden></div>
+
+<div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-hidden="true" inert>
+  <div class="drawer-head"><h2>学习管理</h2><button class="drawer-close" id="drawer-close" type="button" aria-label="关闭">×</button></div>
+  <h4>学习计划</h4>
+  <div class="plans" id="plans"></div>
+  <h4>学习统计</h4>
+  <div class="stats-box" id="stats-box" hidden><h3>学习统计</h3><p class="streak-line">连续打卡 <b id="streak-days">0</b> 天</p><div class="bars" id="daily-bars"></div><p class="small">近 14 天每日完成数</p></div>
+  <div class="mini-stats"><div class="ms"><b id="mastered">0</b><span>已掌握</span></div><div class="ms"><b id="due">0</b><span>待复习</span></div><div class="ms"><b id="weak">0</b><span>薄弱词</span></div></div>
+  <h4>每日目标</h4>
+  <div class="daily-row"><input id="daily" type="number" min="10" max="100" value="100"><span class="small">词 / 天（10-100）</span></div>
+  <h4>工具</h4>
+  <button class="btn" id="start" type="button">开始 / 继续背诵</button>
+  <button class="btn" id="review" type="button">优先复习到期词</button>
+  <button class="btn" id="weak-btn" type="button">复习薄弱词</button>
+  <button class="btn" id="shuffle" type="button">↻ 重新随机一组</button>
+  <h4>数据</h4>
+  <button class="btn" id="export-progress" type="button">导出进度</button>
+  <button class="btn" id="import-progress" type="button">导入进度</button>
+  <h4>账号</h4>
+  <button class="btn" id="logout-btn" type="button">退出登录（切换到其他账号）</button>
+  <p class="small">退出后可输入其他密码进入独立空间</p>
+  <h4>快捷键</h4>
+  <p class="small">Space 显示释义 · 1 陌生 · 2 模糊 · 3 认识 · ‹ › 切换单词</p>
+</aside>
+
+<div class="ai-modal" id="ai-modal" hidden aria-hidden="true" inert>
+<div class="ai-modal-backdrop" data-ai-close></div>
+<div class="ai-modal-panel" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
+  <div class="ai-modal-head"><div><h2 id="ai-modal-title">AI 设置</h2><p>AI 服务已内置（Worker 代理 + 自动回退），开箱即用；如需更换网关可在此覆盖。</p></div><button class="ai-close" type="button" data-ai-close aria-label="关闭">×</button></div>
+  <label class="ai-label">API 地址<input id="ai-base-url" class="ai-input" type="url" placeholder="https://api.deepseek.com/v1" autocomplete="off"></label>
+  <label class="ai-label">模型<input id="ai-model" class="ai-input" type="text" placeholder="deepseek-chat" autocomplete="off"></label>
+  <label class="ai-label">API Key<input id="ai-api-key" class="ai-input" type="password" placeholder="留空则使用内置 Key" autocomplete="off"></label>
+  <p class="ai-security">默认方案：请求先走 Cloudflare Worker 代理（Key 在服务端），国内网络连不上时自动回退直连。留空 Key 即用内置服务；填入自定义 API 地址与 Key 可切换网关。</p>
+  <div class="ai-modal-actions"><button class="ai-cancel" type="button" data-ai-close>取消</button><button class="ai-save" id="ai-save" type="button">保存设置</button></div>
+</div>
+</div>
+<script src="js/auth.js"></script>
+<script src="js/study.js"></script><script src="js/pwa.js"></script><script>document.querySelector('[data-theme-toggle]')?.addEventListener('click',()=>{let b=document.documentElement;b.dataset.theme=b.dataset.theme==='dark'?'light':'dark';localStorage.setItem('theme',b.dataset.theme)});(()=>{let t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t})();</script>
+<script>
+(function(){
+  'use strict';
+  // 抽屉开关
+  var drawer=document.getElementById('drawer'), backdrop=document.getElementById('drawer-backdrop');
+  function openD(){drawer.hidden=false;drawer.setAttribute('aria-hidden','false');drawer.removeAttribute('inert');backdrop.hidden=false;}
+  function closeD(){drawer.hidden=true;drawer.setAttribute('aria-hidden','true');drawer.setAttribute('inert','');backdrop.hidden=true;}
+  document.getElementById('drawer-open').addEventListener('click',openD);
+  document.getElementById('drawer-close').addEventListener('click',closeD);
+  backdrop.addEventListener('click',closeD);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!drawer.hidden)closeD();});
+  var logoutBtn=document.getElementById('logout-btn');
+  if(logoutBtn)logoutBtn.addEventListener('click',function(){
+    if(!confirm('确定退出当前账号？退出后可输入其他密码进入独立空间。'))return;
+    if(window.KaoyanGate)window.KaoyanGate.logout();
+    location.replace('gate.html');
+  });
+  // AI 设置弹窗
+  var modal=document.getElementById('ai-modal'), btn=document.getElementById('ai-settings-btn');
+  var base=document.getElementById('ai-base-url'), model=document.getElementById('ai-model'), key=document.getElementById('ai-api-key');
+  function load(){var c={};try{c=JSON.parse(localStorage.getItem('kaoyan_ai_config')||'{}');}catch(e){}
+    base.value=c.baseUrl||'https://api.deepseek.com/v1';model.value=c.model||'deepseek-chat';key.value=c.apiKey||'';key.placeholder='留空则使用内置 Key';}
+  function openM(){load();modal.hidden=false;modal.setAttribute('aria-hidden','false');modal.removeAttribute('inert');key.focus();}
+  function closeM(){modal.hidden=true;modal.setAttribute('aria-hidden','true');modal.setAttribute('inert','');}
+  btn.addEventListener('click',openM);
+  document.addEventListener('click',function(e){if(e.target.closest('[data-ai-close]'))closeM();});
+  document.getElementById('ai-save').addEventListener('click',function(){
+    var c={baseUrl:(base.value||'').trim().replace(/\/$/,'')||'https://api.deepseek.com/v1',model:(model.value||'').trim()||'deepseek-chat',apiKey:(key.value||'').trim()};
+    try{localStorage.setItem('kaoyan_ai_config',JSON.stringify(c));}catch(e){}
+    closeM();alert('AI 设置已保存。');
+  });
+})();
+</script>
+</body></html>

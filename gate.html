@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>考研词汇</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .gate-wrap { min-height: 100dvh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .gate-card { width: 100%; max-width: 360px; background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb); border-radius: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.08); padding: 36px 30px; text-align: center; }
+    .gate-mark { width: 56px; height: 56px; border-radius: 14px; background: var(--color-primary, #1d5a63); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700; margin-bottom: 14px; }
+    .gate-card h1 { font-size: 20px; margin: 0 0 6px; }
+    .gate-card p { color: var(--color-text-muted, #6b7280); font-size: 13px; margin: 0 0 20px; }
+    .gate-input { width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid #d7dde0; border-radius: 10px; font-size: 16px; text-align: center; outline: none; }
+    .gate-input:focus { border-color: var(--color-primary, #1d5a63); }
+    .gate-btn { width: 100%; margin-top: 14px; padding: 12px; border: 0; border-radius: 10px; background: var(--color-primary, #1d5a63); color: #fff; font-size: 15px; cursor: pointer; }
+    .gate-err { color: #c0392b; font-size: 13px; min-height: 18px; margin-top: 10px; }
+    .gate-tip { margin-top: 18px; font-size: 11px; color: #9aa4ab; }
+  </style>
+</head>
+<body>
+  <main class="gate-wrap">
+    <section class="gate-card">
+      <div class="gate-mark">研</div>
+      <h1>考研词汇 · 私享版</h1>
+      <p>请输入你的访问密码（每人一个独立空间）</p>
+      <input id="gate-input" class="gate-input" type="password" placeholder="访问密码" autocomplete="off" inputmode="text" />
+      <button id="gate-btn" class="gate-btn" type="button">进入</button>
+      <div id="gate-err" class="gate-err" role="alert"></div>
+      <p class="gate-tip">不同密码进入不同空间 · 请向分享者获取你的密码</p>
+    </section>
+  </main>
+  <script src="js/auth.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    var input = document.getElementById('gate-input');
+    var btn = document.getElementById('gate-btn');
+    var err = document.getElementById('gate-err');
+    var params = new URLSearchParams(location.search);
+    var next = params.get('next') || 'study.html';
+    if (!/^(index|study|words|search)\.html$/.test(next)) next = 'study.html';
+    function tryEnter() {
+      if (!window.KaoyanGate) { err.textContent = '初始化失败，请刷新重试'; return; }
+      var uid = window.KaoyanGate.login(input.value);
+      if (uid) {
+        location.replace(next);
+      } else {
+        err.textContent = '密码不正确';
+        input.value = '';
+        input.focus();
+      }
+    }
+    btn.addEventListener('click', tryEnter);
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryEnter(); });
+    input.focus();
+  })();
+  </script>
+</body>
+</html>

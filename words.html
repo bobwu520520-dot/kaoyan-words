@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>词库目录 · 考研词汇</title>
+  <meta name="description" content="考研英语一分层词库目录，支持字母索引、分层筛选与搜索。" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#1d5a63" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d5a63' stroke-width='2'%3E%3Cpath d='M4 4v16M4 4h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H4M20 4v16M20 4h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主内容</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="study.html" aria-label="考研词汇首页">
+        <svg class="brand-mark" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M3 3v18M3 3h5.5a2.5 2.5 0 0 1 2.5 2.5V21a2.5 2.5 0 0 0-2.5-2.5H3M21 3v18M21 3h-5.5a2.5 2.5 0 0 0-2.5 2.5V21a2.5 2.5 0 0 1 2.5-2.5H21" />
+        </svg>
+        <span class="brand-text">
+          <span class="brand-title">考研词汇</span>
+          <span class="brand-sub">Kaoyan Lexicon</span>
+        </span>
+      </a>
+      <nav class="nav"><a class="nav-link" href="study.html">背单词</a><a class="nav-link" href="search.html">查词</a><a class="nav-link" href="words.html">词库</a></nav>
+      <button class="theme-toggle" data-theme-toggle aria-label="切换到深色模式" type="button"></button>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="catalog-head">
+      <h1>词库目录</h1>
+      <p id="catalog-desc">英语一分层词库：核心高频 → 高频重点 → 重点扩展 → 普通扩展，全部词条含本地释义。支持数据完整度组合筛选；可多选单词，让 AI 把它们放进同一个考研英语句子。</p>
+    </div>
+
+    <div class="catalog-toolbar">
+      <div class="filter-search">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="filter-input" class="filter-input" type="search" inputmode="search" placeholder="在词库中搜索…" aria-label="在词库中搜索" />
+      </div>
+      <div class="filter-chips" id="filter-chips" role="group" aria-label="标签筛选">
+        <button class="filter-chip active" data-filter="all" type="button">全部词</button>
+        <button class="filter-chip" data-filter="核心高频" type="button">核心高频</button>
+        <button class="filter-chip" data-filter="高频重点" type="button">高频重点</button><button class="filter-chip" data-filter="重点扩展" type="button">重点扩展</button><button class="filter-chip" data-filter="普通扩展" type="button">普通扩展</button>
+      </div>
+      <div class="filter-chips data-filter-chips" id="data-filter-chips" role="group" aria-label="数据完整度筛选（可多选）">
+        <button class="filter-chip active" data-filter="all" type="button">不限数据</button>
+        <button class="filter-chip" data-filter="phonetic" type="button">有音标</button><button class="filter-chip" data-filter="pos" type="button">有词性</button><button class="filter-chip" data-filter="exam" type="button">有核心义</button><button class="filter-chip" data-filter="secondary" type="button">有僻义</button><button class="filter-chip" data-filter="collocation" type="button">有搭配</button><button class="filter-chip" data-filter="example" type="button">有例句</button><button class="filter-chip" data-filter="family" type="button">有词族</button><button class="filter-chip" data-filter="forms" type="button">有词形</button>
+      </div>
+      <span class="catalog-count-pill" id="count-pill"></span>
+      <button class="multi-clear-btn" id="select-visible" type="button">选择当前页</button><button class="multi-clear-btn" id="clear-selected" type="button">清空选择</button>
+    </div>
+
+    <div class="catalog-layout">
+      <nav class="letter-index" id="letter-index" aria-label="字母索引"></nav>
+      <div>
+        <div class="selection-panel" id="selection-panel" hidden>
+          <div><strong>已选择 <span id="selected-count">0</span>/8</strong><span class="selection-hint">至少选择 2 个单词</span></div>
+          <div class="selected-words" id="selected-words"></div>
+          <button class="multi-ai-btn" id="multi-ai-btn" type="button" disabled>✨ AI 多词造句</button>
+        </div>
+        <div class="catalog-list" id="catalog-list"></div>
+        <div class="load-more" id="load-more" hidden>
+          <button class="load-more-btn" id="load-more-btn" type="button">加载更多</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="multi-modal" id="multi-modal" hidden aria-hidden="true" inert>
+    <div class="multi-modal-backdrop" data-multi-close></div>
+    <section class="multi-modal-panel" role="dialog" aria-modal="true" aria-labelledby="multi-title">
+      <div class="multi-modal-head"><div><h2 id="multi-title">✨ AI 多词造句</h2><p id="multi-subtitle"></p></div><button class="ai-close" type="button" data-multi-close>×</button></div>
+      <div class="multi-result" id="multi-result"><p class="ai-empty">选择单词后点击生成。</p></div>
+      <div class="multi-actions"><button class="multi-secondary" id="multi-copy" type="button">复制句子</button><button class="multi-primary" id="multi-again" type="button">🔄 再生成</button></div>
+    </section>
+  </div>
+
+  <footer class="site-footer">
+    <p>词库按英语一备考优先级重新分层；AI内容按需生成，仅供学习参考。</p>
+    <p class="footer-note">仅供学习使用</p>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

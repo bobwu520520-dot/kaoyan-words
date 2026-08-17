@@ -1,0 +1,1985 @@
+{
+  "count": 220,
+  "words": [
+    {
+      "word": "abandon",
+      "phonetic": "əˈbændən",
+      "pos": "v.",
+      "translation": "放弃；遗弃",
+      "example_en": "She abandoned her career to raise her family.",
+      "example_zh": "她为了抚养家庭放弃了自己的事业。",
+      "tag": "核心"
+    },
+    {
+      "word": "abstract",
+      "phonetic": "ˈæbstrækt",
+      "pos": "adj.",
+      "translation": "抽象的",
+      "example_en": "Beauty is an abstract concept, not a physical object.",
+      "example_zh": "美是一个抽象的概念，而非具体的事物。",
+      "tag": "核心"
+    },
+    {
+      "word": "abundant",
+      "phonetic": "əˈbʌndənt",
+      "pos": "adj.",
+      "translation": "丰富的；充裕的",
+      "example_en": "The region has abundant natural resources.",
+      "example_zh": "该地区拥有丰富的自然资源。",
+      "tag": "高频"
+    },
+    {
+      "word": "accelerate",
+      "phonetic": "əkˈseləreɪt",
+      "pos": "v.",
+      "translation": "加速；加快",
+      "example_en": "Economic growth accelerated in the third quarter.",
+      "example_zh": "经济增长在第三季度加快了。",
+      "tag": "高频"
+    },
+    {
+      "word": "accomplish",
+      "phonetic": "əˈkʌmplɪʃ",
+      "pos": "v.",
+      "translation": "完成；实现",
+      "example_en": "She accomplished her goal of running a marathon.",
+      "example_zh": "她实现了跑马拉松的目标。",
+      "tag": "核心"
+    },
+    {
+      "word": "accumulate",
+      "phonetic": "əˈkjuːmjəleɪt",
+      "pos": "v.",
+      "translation": "积累；积聚",
+      "example_en": "He accumulated a fortune through years of hard work.",
+      "example_zh": "他通过多年的辛勤工作积累了一笔财富。",
+      "tag": "核心"
+    },
+    {
+      "word": "accurate",
+      "phonetic": "ˈækjərət",
+      "pos": "adj.",
+      "translation": "精确的；准确的",
+      "example_en": "The report gives an accurate picture of the situation.",
+      "example_zh": "这份报告准确地反映了局势。",
+      "tag": "高频"
+    },
+    {
+      "word": "acquire",
+      "phonetic": "əˈkwaɪər",
+      "pos": "v.",
+      "translation": "获得；习得",
+      "example_en": "Students acquire language skills through practice.",
+      "example_zh": "学生通过练习习得语言技能。",
+      "tag": "核心"
+    },
+    {
+      "word": "adequate",
+      "phonetic": "ˈædɪkwət",
+      "pos": "adj.",
+      "translation": "足够的；胜任的",
+      "example_en": "We need adequate funding to complete the project.",
+      "example_zh": "我们需要充足的资金来完成这个项目。",
+      "tag": "核心"
+    },
+    {
+      "word": "adjust",
+      "phonetic": "əˈdʒʌst",
+      "pos": "v.",
+      "translation": "调整；适应",
+      "example_en": "You must adjust to the new working environment.",
+      "example_zh": "你必须适应新的工作环境。",
+      "tag": "高频"
+    },
+    {
+      "word": "advocate",
+      "phonetic": "ˈædvəkeɪt",
+      "pos": "v.",
+      "translation": "提倡；主张",
+      "example_en": "Many doctors advocate a balanced diet.",
+      "example_zh": "许多医生提倡均衡的饮食。",
+      "tag": "核心"
+    },
+    {
+      "word": "ambiguous",
+      "phonetic": "æmˈbɪɡjuəs",
+      "pos": "adj.",
+      "translation": "模棱两可的",
+      "example_en": "His answer was deliberately ambiguous.",
+      "example_zh": "他的回答故意模棱两可。",
+      "tag": "核心"
+    },
+    {
+      "word": "analyze",
+      "phonetic": "ˈænəlaɪz",
+      "pos": "v.",
+      "translation": "分析",
+      "example_en": "Scientists analyzed the data carefully.",
+      "example_zh": "科学家们仔细分析了这些数据。",
+      "tag": "核心"
+    },
+    {
+      "word": "anticipate",
+      "phonetic": "ænˈtɪsɪpeɪt",
+      "pos": "v.",
+      "translation": "预期；预料",
+      "example_en": "We anticipate a rise in sales next year.",
+      "example_zh": "我们预计明年销售额会上升。",
+      "tag": "核心"
+    },
+    {
+      "word": "arbitrary",
+      "phonetic": "ˈɑːrbɪtreri",
+      "pos": "adj.",
+      "translation": "任意的；武断的",
+      "example_en": "The decision seemed arbitrary and unfair.",
+      "example_zh": "这个决定显得武断且不公。",
+      "tag": "高频"
+    },
+    {
+      "word": "assemble",
+      "phonetic": "əˈsembl",
+      "pos": "v.",
+      "translation": "集合；组装",
+      "example_en": "The workers assembled the parts into a machine.",
+      "example_zh": "工人们把零件组装成了一台机器。",
+      "tag": "高频"
+    },
+    {
+      "word": "assess",
+      "phonetic": "əˈses",
+      "pos": "v.",
+      "translation": "评估；评价",
+      "example_en": "The committee will assess the risks involved.",
+      "example_zh": "委员会将评估涉及的风险。",
+      "tag": "核心"
+    },
+    {
+      "word": "assign",
+      "phonetic": "əˈsaɪn",
+      "pos": "v.",
+      "translation": "分配；指派",
+      "example_en": "The teacher assigned us a difficult task.",
+      "example_zh": "老师给我们布置了一项困难的任务。",
+      "tag": "高频"
+    },
+    {
+      "word": "assume",
+      "phonetic": "əˈsuːm",
+      "pos": "v.",
+      "translation": "假设；承担",
+      "example_en": "I assume you have finished the report.",
+      "example_zh": "我假设你已经完成了报告。",
+      "tag": "核心"
+    },
+    {
+      "word": "assure",
+      "phonetic": "əˈʃʊr",
+      "pos": "v.",
+      "translation": "保证；使确信",
+      "example_en": "I assure you that the work will be done on time.",
+      "example_zh": "我向你保证工作会按时完成。",
+      "tag": "高频"
+    },
+    {
+      "word": "attain",
+      "phonetic": "əˈteɪn",
+      "pos": "v.",
+      "translation": "达到；获得",
+      "example_en": "He attained the highest score in the exam.",
+      "example_zh": "他在考试中获得了最高分。",
+      "tag": "高频"
+    },
+    {
+      "word": "attribute",
+      "phonetic": "əˈtrɪbjuːt",
+      "pos": "v.",
+      "translation": "归因于",
+      "example_en": "She attributed her success to hard work.",
+      "example_zh": "她把自己的成功归因于努力工作。",
+      "tag": "核心"
+    },
+    {
+      "word": "authentic",
+      "phonetic": "ɔːˈθentɪk",
+      "pos": "adj.",
+      "translation": "真实的；真正的",
+      "example_en": "This is an authentic Italian restaurant.",
+      "example_zh": "这是一家正宗的意大利餐厅。",
+      "tag": "高频"
+    },
+    {
+      "word": "barrier",
+      "phonetic": "ˈbæriər",
+      "pos": "n.",
+      "translation": "障碍；屏障",
+      "example_en": "Language is a barrier to communication.",
+      "example_zh": "语言是沟通的障碍。",
+      "tag": "高频"
+    },
+    {
+      "word": "boost",
+      "phonetic": "buːst",
+      "pos": "v.",
+      "translation": "促进；提升",
+      "example_en": "The new policy boosted the economy.",
+      "example_zh": "新政策促进了经济发展。",
+      "tag": "高频"
+    },
+    {
+      "word": "burden",
+      "phonetic": "ˈbɜːrdn",
+      "pos": "n.",
+      "translation": "负担",
+      "example_en": "The debt became a heavy burden on the family.",
+      "example_zh": "债务成了这个家庭沉重的负担。",
+      "tag": "高频"
+    },
+    {
+      "word": "capacity",
+      "phonetic": "kəˈpæsəti",
+      "pos": "n.",
+      "translation": "能力；容量",
+      "example_en": "The hall has a capacity of five hundred people.",
+      "example_zh": "这个大厅可容纳五百人。",
+      "tag": "核心"
+    },
+    {
+      "word": "category",
+      "phonetic": "ˈkætəɡɔːri",
+      "pos": "n.",
+      "translation": "类别；范畴",
+      "example_en": "Books are sorted into different categories.",
+      "example_zh": "书籍被分入不同的类别。",
+      "tag": "高频"
+    },
+    {
+      "word": "challenge",
+      "phonetic": "ˈtʃælɪndʒ",
+      "pos": "n.",
+      "translation": "挑战",
+      "example_en": "The new job presents a real challenge.",
+      "example_zh": "这份新工作带来了真正的挑战。",
+      "tag": "核心"
+    },
+    {
+      "word": "circumstance",
+      "phonetic": "ˈsɜːrkəmstæns",
+      "pos": "n.",
+      "translation": "情况；环境",
+      "example_en": "Under no circumstances should you give up.",
+      "example_zh": "在任何情况下你都不应放弃。",
+      "tag": "核心"
+    },
+    {
+      "word": "coherent",
+      "phonetic": "koʊˈhɪrənt",
+      "pos": "adj.",
+      "translation": "连贯的；条理清楚的",
+      "example_en": "She presented a coherent argument.",
+      "example_zh": "她提出了一个条理清楚的论点。",
+      "tag": "高频"
+    },
+    {
+      "word": "commit",
+      "phonetic": "kəˈmɪt",
+      "pos": "v.",
+      "translation": "投入；承诺",
+      "example_en": "The government committed funds to education.",
+      "example_zh": "政府向教育投入了资金。",
+      "tag": "核心"
+    },
+    {
+      "word": "compensate",
+      "phonetic": "ˈkɑːmpenseɪt",
+      "pos": "v.",
+      "translation": "补偿；赔偿",
+      "example_en": "The company compensated him for the injury.",
+      "example_zh": "公司因他受伤而给予赔偿。",
+      "tag": "高频"
+    },
+    {
+      "word": "complex",
+      "phonetic": "kəmˈpleks",
+      "pos": "adj.",
+      "translation": "复杂的",
+      "example_en": "This is a complex problem with no easy solution.",
+      "example_zh": "这是一个没有简单解决办法的复杂问题。",
+      "tag": "核心"
+    },
+    {
+      "word": "component",
+      "phonetic": "kəmˈpoʊnənt",
+      "pos": "n.",
+      "translation": "组成部分；成分",
+      "example_en": "Trust is a key component of any relationship.",
+      "example_zh": "信任是任何关系的关键组成部分。",
+      "tag": "高频"
+    },
+    {
+      "word": "comprehensive",
+      "phonetic": "ˌkɑːmprɪˈhensɪv",
+      "pos": "adj.",
+      "translation": "全面的；综合的",
+      "example_en": "The report offers a comprehensive analysis.",
+      "example_zh": "这份报告提供了全面的分析。",
+      "tag": "核心"
+    },
+    {
+      "word": "compromise",
+      "phonetic": "ˈkɑːmprəmaɪz",
+      "pos": "v./n.",
+      "translation": "妥协；折中",
+      "example_en": "Both sides reached a compromise.",
+      "example_zh": "双方达成了妥协。",
+      "tag": "核心"
+    },
+    {
+      "word": "conceal",
+      "phonetic": "kənˈsiːl",
+      "pos": "v.",
+      "translation": "隐藏；隐瞒",
+      "example_en": "He concealed his true feelings from everyone.",
+      "example_zh": "他对所有人都隐瞒了真实的感受。",
+      "tag": "高频"
+    },
+    {
+      "word": "conceive",
+      "phonetic": "kənˈsiːv",
+      "pos": "v.",
+      "translation": "构想；设想",
+      "example_en": "He conceived a brilliant plan.",
+      "example_zh": "他想出了一个绝妙的计划。",
+      "tag": "高频"
+    },
+    {
+      "word": "concentrate",
+      "phonetic": "ˈkɑːnsntreɪt",
+      "pos": "v.",
+      "translation": "集中；专心",
+      "example_en": "I cannot concentrate in a noisy room.",
+      "example_zh": "我在嘈杂的房间里无法集中注意力。",
+      "tag": "高频"
+    },
+    {
+      "word": "confirm",
+      "phonetic": "kənˈfɜːrm",
+      "pos": "v.",
+      "translation": "确认；证实",
+      "example_en": "Please confirm your reservation by email.",
+      "example_zh": "请通过电子邮件确认您的预订。",
+      "tag": "核心"
+    },
+    {
+      "word": "conflict",
+      "phonetic": "ˈkɑːnflɪkt",
+      "pos": "n.",
+      "translation": "冲突；矛盾",
+      "example_en": "There is a conflict between work and family.",
+      "example_zh": "工作与家庭之间存在冲突。",
+      "tag": "核心"
+    },
+    {
+      "word": "conform",
+      "phonetic": "kənˈfɔːrm",
+      "pos": "v.",
+      "translation": "遵从；符合",
+      "example_en": "Students must conform to the school rules.",
+      "example_zh": "学生必须遵守学校的规定。",
+      "tag": "高频"
+    },
+    {
+      "word": "confront",
+      "phonetic": "kənˈfrʌnt",
+      "pos": "v.",
+      "translation": "面对；对抗",
+      "example_en": "We must confront these difficulties directly.",
+      "example_zh": "我们必须直接面对这些困难。",
+      "tag": "高频"
+    },
+    {
+      "word": "conscious",
+      "phonetic": "ˈkɑːnʃəs",
+      "pos": "adj.",
+      "translation": "有意识的；故意的",
+      "example_en": "He was conscious of being watched.",
+      "example_zh": "他意识到自己正被人注视。",
+      "tag": "核心"
+    },
+    {
+      "word": "consensus",
+      "phonetic": "kənˈsensəs",
+      "pos": "n.",
+      "translation": "共识；一致",
+      "example_en": "The committee reached a consensus on the issue.",
+      "example_zh": "委员会在这个问题上达成了共识。",
+      "tag": "核心"
+    },
+    {
+      "word": "consequence",
+      "phonetic": "ˈkɑːnsəkwens",
+      "pos": "n.",
+      "translation": "后果；结果",
+      "example_en": "You must face the consequences of your actions.",
+      "example_zh": "你必须面对自己行为的后果。",
+      "tag": "核心"
+    },
+    {
+      "word": "constitute",
+      "phonetic": "ˈkɑːnstətuːt",
+      "pos": "v.",
+      "translation": "构成；组成",
+      "example_en": "Women constitute half of the workforce.",
+      "example_zh": "女性占劳动力的一半。",
+      "tag": "核心"
+    },
+    {
+      "word": "contemporary",
+      "phonetic": "kənˈtempəreri",
+      "pos": "adj.",
+      "translation": "当代的；同时代的",
+      "example_en": "She is a contemporary artist.",
+      "example_zh": "她是一位当代艺术家。",
+      "tag": "高频"
+    },
+    {
+      "word": "contradict",
+      "phonetic": "ˌkɑːntrəˈdɪkt",
+      "pos": "v.",
+      "translation": "反驳；与…矛盾",
+      "example_en": "His actions contradict his words.",
+      "example_zh": "他的行为与他的言辞相矛盾。",
+      "tag": "高频"
+    },
+    {
+      "word": "contribute",
+      "phonetic": "kənˈtrɪbjuːt",
+      "pos": "v.",
+      "translation": "贡献；捐献",
+      "example_en": "Everyone contributed to the success.",
+      "example_zh": "每个人都为成功做出了贡献。",
+      "tag": "核心"
+    },
+    {
+      "word": "convert",
+      "phonetic": "kənˈvɜːrt",
+      "pos": "v.",
+      "translation": "转换；转化",
+      "example_en": "They converted the room into a study.",
+      "example_zh": "他们把房间改造成了书房。",
+      "tag": "高频"
+    },
+    {
+      "word": "convince",
+      "phonetic": "kənˈvɪns",
+      "pos": "v.",
+      "translation": "使确信；说服",
+      "example_en": "He convinced me to change my mind.",
+      "example_zh": "他说服我改变了主意。",
+      "tag": "核心"
+    },
+    {
+      "word": "coordinate",
+      "phonetic": "koʊˈɔːrdɪneɪt",
+      "pos": "v.",
+      "translation": "协调",
+      "example_en": "She coordinates the activities of the team.",
+      "example_zh": "她协调团队的活动。",
+      "tag": "高频"
+    },
+    {
+      "word": "correspond",
+      "phonetic": "ˌkɔːrəˈspɑːnd",
+      "pos": "v.",
+      "translation": "相符；对应",
+      "example_en": "The results correspond with our expectations.",
+      "example_zh": "结果与我们的预期相符。",
+      "tag": "高频"
+    },
+    {
+      "word": "crucial",
+      "phonetic": "ˈkruːʃl",
+      "pos": "adj.",
+      "translation": "至关重要的",
+      "example_en": "Sleep is crucial to good health.",
+      "example_zh": "睡眠对健康至关重要。",
+      "tag": "核心"
+    },
+    {
+      "word": "decline",
+      "phonetic": "dɪˈklaɪn",
+      "pos": "v.",
+      "translation": "下降；婉拒",
+      "example_en": "Sales declined sharply last month.",
+      "example_zh": "上个月销售额急剧下降。",
+      "tag": "核心"
+    },
+    {
+      "word": "dedicate",
+      "phonetic": "ˈdedɪkeɪt",
+      "pos": "v.",
+      "translation": "奉献；致力于",
+      "example_en": "He dedicated his life to science.",
+      "example_zh": "他把自己的一生奉献给了科学。",
+      "tag": "高频"
+    },
+    {
+      "word": "demonstrate",
+      "phonetic": "ˈdemənstreɪt",
+      "pos": "v.",
+      "translation": "证明；示范",
+      "example_en": "The experiment demonstrates the theory.",
+      "example_zh": "实验证明了这一理论。",
+      "tag": "核心"
+    },
+    {
+      "word": "derive",
+      "phonetic": "dɪˈraɪv",
+      "pos": "v.",
+      "translation": "源自；获得",
+      "example_en": "The word derives from Latin.",
+      "example_zh": "这个词源自拉丁语。",
+      "tag": "高频"
+    },
+    {
+      "word": "deserve",
+      "phonetic": "dɪˈzɜːrv",
+      "pos": "v.",
+      "translation": "应得；值得",
+      "example_en": "You deserve a rest after all that work.",
+      "example_zh": "做了那么多工作，你值得休息一下。",
+      "tag": "高频"
+    },
+    {
+      "word": "diminish",
+      "phonetic": "dɪˈmɪnɪʃ",
+      "pos": "v.",
+      "translation": "减少；削弱",
+      "example_en": "His influence has diminished over time.",
+      "example_zh": "他的影响力随着时间减弱了。",
+      "tag": "高频"
+    },
+    {
+      "word": "discipline",
+      "phonetic": "ˈdɪsəplɪn",
+      "pos": "n.",
+      "translation": "纪律；学科",
+      "example_en": "Self-discipline is the key to success.",
+      "example_zh": "自律是成功的关键。",
+      "tag": "核心"
+    },
+    {
+      "word": "distinct",
+      "phonetic": "dɪˈstɪŋkt",
+      "pos": "adj.",
+      "translation": "明显的；截然不同的",
+      "example_en": "There are two distinct possibilities.",
+      "example_zh": "存在两种截然不同的可能性。",
+      "tag": "核心"
+    },
+    {
+      "word": "distinguish",
+      "phonetic": "dɪˈstɪŋɡwɪʃ",
+      "pos": "v.",
+      "translation": "区分；辨别",
+      "example_en": "Can you distinguish between the two flavors?",
+      "example_zh": "你能分辨出这两种味道吗？",
+      "tag": "核心"
+    },
+    {
+      "word": "distort",
+      "phonetic": "dɪˈstɔːrt",
+      "pos": "v.",
+      "translation": "歪曲；扭曲",
+      "example_en": "The mirror distorted his reflection.",
+      "example_zh": "镜子扭曲了他的倒影。",
+      "tag": "高频"
+    },
+    {
+      "word": "distribute",
+      "phonetic": "dɪˈstrɪbjuːt",
+      "pos": "v.",
+      "translation": "分配；分发",
+      "example_en": "The charity distributed food to the poor.",
+      "example_zh": "慈善机构向穷人分发食物。",
+      "tag": "高频"
+    },
+    {
+      "word": "diverse",
+      "phonetic": "daɪˈvɜːrs",
+      "pos": "adj.",
+      "translation": "多样的；不同的",
+      "example_en": "The city has a diverse population.",
+      "example_zh": "这座城市人口多元化。",
+      "tag": "核心"
+    },
+    {
+      "word": "domain",
+      "phonetic": "doʊˈmeɪn",
+      "pos": "n.",
+      "translation": "领域；范围",
+      "example_en": "This falls within the domain of science.",
+      "example_zh": "这属于科学的范畴。",
+      "tag": "高频"
+    },
+    {
+      "word": "dominate",
+      "phonetic": "ˈdɑːmɪneɪt",
+      "pos": "v.",
+      "translation": "主导；控制",
+      "example_en": "The company dominates the market.",
+      "example_zh": "这家公司主导着市场。",
+      "tag": "核心"
+    },
+    {
+      "word": "elaborate",
+      "phonetic": "ɪˈlæbəreɪt",
+      "pos": "v./adj.",
+      "translation": "详细说明；精心制作的",
+      "example_en": "Could you elaborate on your idea?",
+      "example_zh": "你能详细说明一下你的想法吗？",
+      "tag": "高频"
+    },
+    {
+      "word": "emerge",
+      "phonetic": "ɪˈmɜːrdʒ",
+      "pos": "v.",
+      "translation": "出现；浮现",
+      "example_en": "A new problem has emerged.",
+      "example_zh": "出现了一个新问题。",
+      "tag": "核心"
+    },
+    {
+      "word": "emphasize",
+      "phonetic": "ˈemfəsaɪz",
+      "pos": "v.",
+      "translation": "强调",
+      "example_en": "The teacher emphasized the importance of practice.",
+      "example_zh": "老师强调了练习的重要性。",
+      "tag": "核心"
+    },
+    {
+      "word": "encounter",
+      "phonetic": "ɪnˈkaʊntər",
+      "pos": "v./n.",
+      "translation": "遇到；遭遇",
+      "example_en": "We encountered some difficulties.",
+      "example_zh": "我们遇到了一些困难。",
+      "tag": "高频"
+    },
+    {
+      "word": "endure",
+      "phonetic": "ɪnˈdʊr",
+      "pos": "v.",
+      "translation": "忍受；持久",
+      "example_en": "He endured the pain in silence.",
+      "example_zh": "他默默忍受着痛苦。",
+      "tag": "高频"
+    },
+    {
+      "word": "enhance",
+      "phonetic": "ɪnˈhæns",
+      "pos": "v.",
+      "translation": "提高；增强",
+      "example_en": "Education enhances people's lives.",
+      "example_zh": "教育提升了人们的生活。",
+      "tag": "核心"
+    },
+    {
+      "word": "ensure",
+      "phonetic": "ɪnˈʃʊr",
+      "pos": "v.",
+      "translation": "确保；保证",
+      "example_en": "Please ensure the door is locked.",
+      "example_zh": "请确保门已上锁。",
+      "tag": "核心"
+    },
+    {
+      "word": "essential",
+      "phonetic": "ɪˈsenʃl",
+      "pos": "adj.",
+      "translation": "必不可少的；本质的",
+      "example_en": "Water is essential for life.",
+      "example_zh": "水是生命所必需的。",
+      "tag": "核心"
+    },
+    {
+      "word": "establish",
+      "phonetic": "ɪˈstæblɪʃ",
+      "pos": "v.",
+      "translation": "建立；确立",
+      "example_en": "The school was established in 1990.",
+      "example_zh": "这所学校建于1990年。",
+      "tag": "核心"
+    },
+    {
+      "word": "evaluate",
+      "phonetic": "ɪˈvæljueɪt",
+      "pos": "v.",
+      "translation": "评估；评价",
+      "example_en": "We need to evaluate the results.",
+      "example_zh": "我们需要评估结果。",
+      "tag": "核心"
+    },
+    {
+      "word": "evident",
+      "phonetic": "ˈevɪdənt",
+      "pos": "adj.",
+      "translation": "明显的",
+      "example_en": "It is evident that he is lying.",
+      "example_zh": "很明显他在撒谎。",
+      "tag": "高频"
+    },
+    {
+      "word": "evolve",
+      "phonetic": "ɪˈvɑːlv",
+      "pos": "v.",
+      "translation": "演变；进化",
+      "example_en": "The plan evolved over several months.",
+      "example_zh": "这个计划经过几个月的演变而成。",
+      "tag": "高频"
+    },
+    {
+      "word": "exaggerate",
+      "phonetic": "ɪɡˈzædʒəreɪt",
+      "pos": "v.",
+      "translation": "夸大；夸张",
+      "example_en": "Don't exaggerate the difficulty of the task.",
+      "example_zh": "不要夸大任务的难度。",
+      "tag": "高频"
+    },
+    {
+      "word": "exceed",
+      "phonetic": "ɪkˈsiːd",
+      "pos": "v.",
+      "translation": "超过；超出",
+      "example_en": "The cost exceeded our budget.",
+      "example_zh": "成本超出了我们的预算。",
+      "tag": "核心"
+    },
+    {
+      "word": "exclude",
+      "phonetic": "ɪkˈskluːd",
+      "pos": "v.",
+      "translation": "排除",
+      "example_en": "They excluded him from the meeting.",
+      "example_zh": "他们把他排除在会议之外。",
+      "tag": "高频"
+    },
+    {
+      "word": "exclusive",
+      "phonetic": "ɪkˈskluːsɪv",
+      "pos": "adj.",
+      "translation": "独有的；排外的",
+      "example_en": "This club is exclusive to members.",
+      "example_zh": "这个俱乐部只对会员开放。",
+      "tag": "高频"
+    },
+    {
+      "word": "exert",
+      "phonetic": "ɪɡˈzɜːrt",
+      "pos": "v.",
+      "translation": "施加；运用",
+      "example_en": "She exerted a great deal of influence.",
+      "example_zh": "她施加了很大的影响。",
+      "tag": "高频"
+    },
+    {
+      "word": "expand",
+      "phonetic": "ɪkˈspænd",
+      "pos": "v.",
+      "translation": "扩大；扩展",
+      "example_en": "The company plans to expand overseas.",
+      "example_zh": "公司计划向海外扩张。",
+      "tag": "核心"
+    },
+    {
+      "word": "explicit",
+      "phonetic": "ɪkˈsplɪsɪt",
+      "pos": "adj.",
+      "translation": "明确的；直白的",
+      "example_en": "He gave explicit instructions.",
+      "example_zh": "他给出了明确的指示。",
+      "tag": "核心"
+    },
+    {
+      "word": "exploit",
+      "phonetic": "ɪkˈsplɔɪt",
+      "pos": "v.",
+      "translation": "利用；剥削",
+      "example_en": "We must exploit this opportunity.",
+      "example_zh": "我们必须利用这个机会。",
+      "tag": "高频"
+    },
+    {
+      "word": "expose",
+      "phonetic": "ɪkˈspoʊz",
+      "pos": "v.",
+      "translation": "暴露；揭露",
+      "example_en": "The report exposed serious problems.",
+      "example_zh": "报告揭露了严重的问题。",
+      "tag": "核心"
+    },
+    {
+      "word": "facilitate",
+      "phonetic": "fəˈsɪlɪteɪt",
+      "pos": "v.",
+      "translation": "促进；使便利",
+      "example_en": "The new tool facilitates communication.",
+      "example_zh": "新工具促进了沟通。",
+      "tag": "高频"
+    },
+    {
+      "word": "feasible",
+      "phonetic": "ˈfiːzəbl",
+      "pos": "adj.",
+      "translation": "可行的",
+      "example_en": "Is this plan feasible?",
+      "example_zh": "这个计划可行吗？",
+      "tag": "高频"
+    },
+    {
+      "word": "fluctuate",
+      "phonetic": "ˈflʌktʃueɪt",
+      "pos": "v.",
+      "translation": "波动；起伏",
+      "example_en": "Prices fluctuate throughout the year.",
+      "example_zh": "价格全年都在波动。",
+      "tag": "高频"
+    },
+    {
+      "word": "fundamental",
+      "phonetic": "ˌfʌndəˈmentl",
+      "pos": "adj.",
+      "translation": "基本的；根本的",
+      "example_en": "Honesty is a fundamental value.",
+      "example_zh": "诚实是一种基本价值观。",
+      "tag": "核心"
+    },
+    {
+      "word": "generate",
+      "phonetic": "ˈdʒenəreɪt",
+      "pos": "v.",
+      "translation": "产生；引起",
+      "example_en": "Wind turbines generate electricity.",
+      "example_zh": "风力涡轮机发电。",
+      "tag": "核心"
+    },
+    {
+      "word": "genuine",
+      "phonetic": "ˈdʒenjuɪn",
+      "pos": "adj.",
+      "translation": "真正的；真诚的",
+      "example_en": "She showed genuine concern for others.",
+      "example_zh": "她对他人表现出真诚的关怀。",
+      "tag": "高频"
+    },
+    {
+      "word": "guarantee",
+      "phonetic": "ˌɡærənˈtiː",
+      "pos": "v./n.",
+      "translation": "保证",
+      "example_en": "I guarantee the quality of the product.",
+      "example_zh": "我保证产品的质量。",
+      "tag": "核心"
+    },
+    {
+      "word": "highlight",
+      "phonetic": "ˈhaɪlaɪt",
+      "pos": "v.",
+      "translation": "强调；突出",
+      "example_en": "The report highlights the main issues.",
+      "example_zh": "报告突出了主要问题。",
+      "tag": "高频"
+    },
+    {
+      "word": "hostile",
+      "phonetic": "ˈhɑːstaɪl",
+      "pos": "adj.",
+      "translation": "敌对的；不友好的",
+      "example_en": "He faced a hostile audience.",
+      "example_zh": "他面对着充满敌意的听众。",
+      "tag": "高频"
+    },
+    {
+      "word": "illustrate",
+      "phonetic": "ˈɪləstreɪt",
+      "pos": "v.",
+      "translation": "说明；阐明",
+      "example_en": "This example illustrates the point.",
+      "example_zh": "这个例子说明了这一点。",
+      "tag": "核心"
+    },
+    {
+      "word": "immense",
+      "phonetic": "ɪˈmens",
+      "pos": "adj.",
+      "translation": "巨大的",
+      "example_en": "The task requires immense effort.",
+      "example_zh": "这项任务需要巨大的努力。",
+      "tag": "高频"
+    },
+    {
+      "word": "impact",
+      "phonetic": "ˈɪmpækt",
+      "pos": "n./v.",
+      "translation": "影响",
+      "example_en": "The policy had a huge impact on society.",
+      "example_zh": "这项政策对社会产生了巨大影响。",
+      "tag": "核心"
+    },
+    {
+      "word": "impose",
+      "phonetic": "ɪmˈpoʊz",
+      "pos": "v.",
+      "translation": "强加；征收",
+      "example_en": "The government imposed new taxes.",
+      "example_zh": "政府征收了新税。",
+      "tag": "高频"
+    },
+    {
+      "word": "incentive",
+      "phonetic": "ɪnˈsentɪv",
+      "pos": "n.",
+      "translation": "激励；动机",
+      "example_en": "Bonuses are an incentive to work harder.",
+      "example_zh": "奖金是更努力工作的激励。",
+      "tag": "高频"
+    },
+    {
+      "word": "incorporate",
+      "phonetic": "ɪnˈkɔːrpəreɪt",
+      "pos": "v.",
+      "translation": "包含；并入",
+      "example_en": "The design incorporates new features.",
+      "example_zh": "设计融入了新功能。",
+      "tag": "高频"
+    },
+    {
+      "word": "indicate",
+      "phonetic": "ˈɪndɪkeɪt",
+      "pos": "v.",
+      "translation": "表明；指示",
+      "example_en": "The data indicates a clear trend.",
+      "example_zh": "数据显示出明确的趋势。",
+      "tag": "核心"
+    },
+    {
+      "word": "indispensable",
+      "phonetic": "ˌɪndɪˈspensəbl",
+      "pos": "adj.",
+      "translation": "不可或缺的",
+      "example_en": "Water is indispensable to life.",
+      "example_zh": "水是生命不可或缺的。",
+      "tag": "高频"
+    },
+    {
+      "word": "inevitable",
+      "phonetic": "ɪnˈevɪtəbl",
+      "pos": "adj.",
+      "translation": "不可避免的",
+      "example_en": "Change is inevitable in life.",
+      "example_zh": "生活中变化是不可避免的。",
+      "tag": "核心"
+    },
+    {
+      "word": "inherent",
+      "phonetic": "ɪnˈhɪrənt",
+      "pos": "adj.",
+      "translation": "固有的；内在的",
+      "example_en": "There are inherent risks in any investment.",
+      "example_zh": "任何投资都有固有的风险。",
+      "tag": "高频"
+    },
+    {
+      "word": "initiate",
+      "phonetic": "ɪˈnɪʃieɪt",
+      "pos": "v.",
+      "translation": "发起；开始",
+      "example_en": "The company initiated a new program.",
+      "example_zh": "公司发起了一个新项目。",
+      "tag": "高频"
+    },
+    {
+      "word": "innovate",
+      "phonetic": "ˈɪnəveɪt",
+      "pos": "v.",
+      "translation": "创新",
+      "example_en": "Companies must innovate to survive.",
+      "example_zh": "公司必须创新才能生存。",
+      "tag": "高频"
+    },
+    {
+      "word": "insight",
+      "phonetic": "ˈɪnsaɪt",
+      "pos": "n.",
+      "translation": "洞察力；见解",
+      "example_en": "The book offers deep insights into human nature.",
+      "example_zh": "这本书对人性有深刻的见解。",
+      "tag": "核心"
+    },
+    {
+      "word": "integrate",
+      "phonetic": "ˈɪntɪɡreɪt",
+      "pos": "v.",
+      "translation": "整合；融入",
+      "example_en": "We must integrate the two systems.",
+      "example_zh": "我们必须整合这两个系统。",
+      "tag": "核心"
+    },
+    {
+      "word": "intellectual",
+      "phonetic": "ˌɪntəˈlektʃuəl",
+      "pos": "adj.",
+      "translation": "智力的；理性的",
+      "example_en": "The debate is an intellectual challenge.",
+      "example_zh": "这场辩论是一种智力的挑战。",
+      "tag": "高频"
+    },
+    {
+      "word": "interpret",
+      "phonetic": "ɪnˈtɜːrprɪt",
+      "pos": "v.",
+      "translation": "解释；口译",
+      "example_en": "How do you interpret these results?",
+      "example_zh": "你如何解释这些结果？",
+      "tag": "核心"
+    },
+    {
+      "word": "intervene",
+      "phonetic": "ˌɪntərˈviːn",
+      "pos": "v.",
+      "translation": "干预；介入",
+      "example_en": "The government intervened in the market.",
+      "example_zh": "政府干预了市场。",
+      "tag": "高频"
+    },
+    {
+      "word": "invest",
+      "phonetic": "ɪnˈvest",
+      "pos": "v.",
+      "translation": "投资",
+      "example_en": "He invested his savings in stocks.",
+      "example_zh": "他把积蓄投资于股票。",
+      "tag": "核心"
+    },
+    {
+      "word": "involve",
+      "phonetic": "ɪnˈvɑːlv",
+      "pos": "v.",
+      "translation": "涉及；包含",
+      "example_en": "The job involves a lot of travel.",
+      "example_zh": "这份工作需要大量出差。",
+      "tag": "核心"
+    },
+    {
+      "word": "isolate",
+      "phonetic": "ˈaɪsəleɪt",
+      "pos": "v.",
+      "translation": "孤立；隔离",
+      "example_en": "They isolated the source of the problem.",
+      "example_zh": "他们找到了问题的根源。",
+      "tag": "高频"
+    },
+    {
+      "word": "justify",
+      "phonetic": "ˈdʒʌstɪfaɪ",
+      "pos": "v.",
+      "translation": "证明…正当；辩护",
+      "example_en": "How can you justify such behavior?",
+      "example_zh": "你如何为这种行为辩解？",
+      "tag": "核心"
+    },
+    {
+      "word": "launch",
+      "phonetic": "lɔːntʃ",
+      "pos": "v.",
+      "translation": "发起；发射",
+      "example_en": "The company launched a new product.",
+      "example_zh": "公司推出了新产品。",
+      "tag": "核心"
+    },
+    {
+      "word": "legitimate",
+      "phonetic": "lɪˈdʒɪtəmət",
+      "pos": "adj.",
+      "translation": "合法的；合理的",
+      "example_en": "He has a legitimate reason for absence.",
+      "example_zh": "他有合理的缺席理由。",
+      "tag": "高频"
+    },
+    {
+      "word": "maintain",
+      "phonetic": "meɪnˈteɪn",
+      "pos": "v.",
+      "translation": "维持；维护",
+      "example_en": "It is hard to maintain a friendship over distance.",
+      "example_zh": "远距离维持友谊很难。",
+      "tag": "核心"
+    },
+    {
+      "word": "manipulate",
+      "phonetic": "məˈnɪpjuleɪt",
+      "pos": "v.",
+      "translation": "操纵；操作",
+      "example_en": "He manipulated the data to fit his theory.",
+      "example_zh": "他操纵数据以符合他的理论。",
+      "tag": "高频"
+    },
+    {
+      "word": "modify",
+      "phonetic": "ˈmɑːdɪfaɪ",
+      "pos": "v.",
+      "translation": "修改；调整",
+      "example_en": "We need to modify the plan slightly.",
+      "example_zh": "我们需要对计划稍作修改。",
+      "tag": "高频"
+    },
+    {
+      "word": "monitor",
+      "phonetic": "ˈmɑːnɪtər",
+      "pos": "v./n.",
+      "translation": "监控；监视",
+      "example_en": "Doctors monitor the patient's condition.",
+      "example_zh": "医生监控病人的状况。",
+      "tag": "高频"
+    },
+    {
+      "word": "mutual",
+      "phonetic": "ˈmjuːtʃuəl",
+      "pos": "adj.",
+      "translation": "相互的",
+      "example_en": "The two countries share mutual interests.",
+      "example_zh": "两国有共同的利益。",
+      "tag": "高频"
+    },
+    {
+      "word": "negotiate",
+      "phonetic": "nɪˈɡoʊʃieɪt",
+      "pos": "v.",
+      "translation": "谈判；协商",
+      "example_en": "The two sides are negotiating a deal.",
+      "example_zh": "双方正在协商一项协议。",
+      "tag": "高频"
+    },
+    {
+      "word": "notion",
+      "phonetic": "ˈnoʊʃn",
+      "pos": "n.",
+      "translation": "概念；观念",
+      "example_en": "He has no notion of time.",
+      "example_zh": "他没有时间概念。",
+      "tag": "高频"
+    },
+    {
+      "word": "objective",
+      "phonetic": "əbˈdʒektɪv",
+      "pos": "n./adj.",
+      "translation": "目标；客观的",
+      "example_en": "Our main objective is to increase sales.",
+      "example_zh": "我们的主要目标是提高销售额。",
+      "tag": "核心"
+    },
+    {
+      "word": "obtain",
+      "phonetic": "əbˈteɪn",
+      "pos": "v.",
+      "translation": "获得",
+      "example_en": "You can obtain the form online.",
+      "example_zh": "你可以在网上获取表格。",
+      "tag": "高频"
+    },
+    {
+      "word": "obvious",
+      "phonetic": "ˈɑːbviəs",
+      "pos": "adj.",
+      "translation": "明显的",
+      "example_en": "The answer is obvious to everyone.",
+      "example_zh": "答案对每个人来说都很明显。",
+      "tag": "基础"
+    },
+    {
+      "word": "occupy",
+      "phonetic": "ˈɑːkjupaɪ",
+      "pos": "v.",
+      "translation": "占据；从事",
+      "example_en": "Reading occupies most of my free time.",
+      "example_zh": "阅读占据了我大部分的空闲时间。",
+      "tag": "高频"
+    },
+    {
+      "word": "oppose",
+      "phonetic": "əˈpoʊz",
+      "pos": "v.",
+      "translation": "反对",
+      "example_en": "Many people oppose the new law.",
+      "example_zh": "许多人反对这项新法律。",
+      "tag": "核心"
+    },
+    {
+      "word": "optimistic",
+      "phonetic": "ˌɑːptɪˈmɪstɪk",
+      "pos": "adj.",
+      "translation": "乐观的",
+      "example_en": "He is optimistic about the future.",
+      "example_zh": "他对未来持乐观态度。",
+      "tag": "高频"
+    },
+    {
+      "word": "perspective",
+      "phonetic": "pərˈspektɪv",
+      "pos": "n.",
+      "translation": "视角；观点",
+      "example_en": "Try to see things from my perspective.",
+      "example_zh": "试着从我的角度看问题。",
+      "tag": "核心"
+    },
+    {
+      "word": "phenomenon",
+      "phonetic": "fəˈnɑːmɪnən",
+      "pos": "n.",
+      "translation": "现象",
+      "example_en": "Earthquakes are natural phenomena.",
+      "example_zh": "地震是自然现象。",
+      "tag": "核心"
+    },
+    {
+      "word": "plausible",
+      "phonetic": "ˈplɔːzəbl",
+      "pos": "adj.",
+      "translation": "貌似合理的",
+      "example_en": "His explanation sounds plausible.",
+      "example_zh": "他的解释听起来合情合理。",
+      "tag": "高频"
+    },
+    {
+      "word": "pose",
+      "phonetic": "poʊz",
+      "pos": "v.",
+      "translation": "构成；提出",
+      "example_en": "The new law poses a threat to small businesses.",
+      "example_zh": "新法律对小企业构成威胁。",
+      "tag": "高频"
+    },
+    {
+      "word": "potential",
+      "phonetic": "pəˈtenʃl",
+      "pos": "adj./n.",
+      "translation": "潜在的；潜力",
+      "example_en": "She has great potential as a writer.",
+      "example_zh": "她作为作家有很大的潜力。",
+      "tag": "核心"
+    },
+    {
+      "word": "predominant",
+      "phonetic": "prɪˈdɑːmɪnənt",
+      "pos": "adj.",
+      "translation": "占主导的",
+      "example_en": "English is the predominant language online.",
+      "example_zh": "英语是网上占主导地位的语言。",
+      "tag": "高频"
+    },
+    {
+      "word": "preserve",
+      "phonetic": "prɪˈzɜːrv",
+      "pos": "v.",
+      "translation": "保护；保存",
+      "example_en": "We must preserve the environment for future generations.",
+      "example_zh": "我们必须为后代保护环境。",
+      "tag": "高频"
+    },
+    {
+      "word": "prevail",
+      "phonetic": "prɪˈveɪl",
+      "pos": "v.",
+      "translation": "盛行；获胜",
+      "example_en": "Justice will prevail in the end.",
+      "example_zh": "正义终将获胜。",
+      "tag": "高频"
+    },
+    {
+      "word": "primary",
+      "phonetic": "ˈpraɪmeri",
+      "pos": "adj.",
+      "translation": "主要的；首要的",
+      "example_en": "Safety is our primary concern.",
+      "example_zh": "安全是我们首要的关切。",
+      "tag": "核心"
+    },
+    {
+      "word": "principle",
+      "phonetic": "ˈprɪnsəpl",
+      "pos": "n.",
+      "translation": "原则；原理",
+      "example_en": "He lives by strong moral principles.",
+      "example_zh": "他遵循坚定的道德原则生活。",
+      "tag": "核心"
+    },
+    {
+      "word": "priority",
+      "phonetic": "praɪˈɔːrəti",
+      "pos": "n.",
+      "translation": "优先；优先事项",
+      "example_en": "Health should be a top priority.",
+      "example_zh": "健康应是头等大事。",
+      "tag": "核心"
+    },
+    {
+      "word": "profound",
+      "phonetic": "prəˈfaʊnd",
+      "pos": "adj.",
+      "translation": "深刻的；深远的",
+      "example_en": "The book had a profound effect on me.",
+      "example_zh": "这本书对我产生了深刻的影响。",
+      "tag": "核心"
+    },
+    {
+      "word": "prominent",
+      "phonetic": "ˈprɑːmɪnənt",
+      "pos": "adj.",
+      "translation": "突出的；著名的",
+      "example_en": "She is a prominent scientist.",
+      "example_zh": "她是一位杰出的科学家。",
+      "tag": "高频"
+    },
+    {
+      "word": "promote",
+      "phonetic": "prəˈmoʊt",
+      "pos": "v.",
+      "translation": "促进；推广",
+      "example_en": "The campaign promotes healthy eating.",
+      "example_zh": "这项活动推广健康饮食。",
+      "tag": "核心"
+    },
+    {
+      "word": "prospect",
+      "phonetic": "ˈprɑːspekt",
+      "pos": "n.",
+      "translation": "前景；前途",
+      "example_en": "Job prospects in this field are good.",
+      "example_zh": "这个领域的就业前景很好。",
+      "tag": "核心"
+    },
+    {
+      "word": "pursue",
+      "phonetic": "pərˈsuː",
+      "pos": "v.",
+      "translation": "追求；继续",
+      "example_en": "She decided to pursue a career in medicine.",
+      "example_zh": "她决定从事医学事业。",
+      "tag": "核心"
+    },
+    {
+      "word": "radical",
+      "phonetic": "ˈrædɪkl",
+      "pos": "adj.",
+      "translation": "根本的；激进的",
+      "example_en": "The proposal calls for radical changes.",
+      "example_zh": "该提议要求进行根本性的变革。",
+      "tag": "高频"
+    },
+    {
+      "word": "range",
+      "phonetic": "reɪndʒ",
+      "pos": "n./v.",
+      "translation": "范围；涉及",
+      "example_en": "The prices range from $10 to $50.",
+      "example_zh": "价格从10美元到50美元不等。",
+      "tag": "核心"
+    },
+    {
+      "word": "rational",
+      "phonetic": "ˈræʃənl",
+      "pos": "adj.",
+      "translation": "理性的",
+      "example_en": "We need a rational approach to the problem.",
+      "example_zh": "我们需要用理性的方法解决问题。",
+      "tag": "高频"
+    },
+    {
+      "word": "readily",
+      "phonetic": "ˈredɪli",
+      "pos": "adv.",
+      "translation": "乐意地；容易地",
+      "example_en": "Information is readily available online.",
+      "example_zh": "信息在网上很容易获取。",
+      "tag": "高频"
+    },
+    {
+      "word": "reconcile",
+      "phonetic": "ˈrekənsaɪl",
+      "pos": "v.",
+      "translation": "调和；使和解",
+      "example_en": "He tried to reconcile the two sides.",
+      "example_zh": "他试图调和双方。",
+      "tag": "高频"
+    },
+    {
+      "word": "reform",
+      "phonetic": "rɪˈfɔːrm",
+      "pos": "v./n.",
+      "translation": "改革",
+      "example_en": "The government plans to reform education.",
+      "example_zh": "政府计划改革教育。",
+      "tag": "高频"
+    },
+    {
+      "word": "regulate",
+      "phonetic": "ˈreɡjuleɪt",
+      "pos": "v.",
+      "translation": "管理；调节",
+      "example_en": "The body regulates its temperature.",
+      "example_zh": "身体调节自身的温度。",
+      "tag": "高频"
+    },
+    {
+      "word": "reinforce",
+      "phonetic": "ˌriːɪnˈfɔːrs",
+      "pos": "v.",
+      "translation": "加强；强化",
+      "example_en": "The success reinforced his confidence.",
+      "example_zh": "成功增强了他的信心。",
+      "tag": "高频"
+    },
+    {
+      "word": "reject",
+      "phonetic": "rɪˈdʒekt",
+      "pos": "v.",
+      "translation": "拒绝；驳回",
+      "example_en": "The committee rejected the proposal.",
+      "example_zh": "委员会驳回了这项提案。",
+      "tag": "核心"
+    },
+    {
+      "word": "relevant",
+      "phonetic": "ˈreləvənt",
+      "pos": "adj.",
+      "translation": "相关的",
+      "example_en": "This point is not relevant to the topic.",
+      "example_zh": "这一点与主题无关。",
+      "tag": "核心"
+    },
+    {
+      "word": "reluctant",
+      "phonetic": "rɪˈlʌktənt",
+      "pos": "adj.",
+      "translation": "不情愿的",
+      "example_en": "He was reluctant to admit his mistake.",
+      "example_zh": "他不愿承认自己的错误。",
+      "tag": "核心"
+    },
+    {
+      "word": "render",
+      "phonetic": "ˈrendər",
+      "pos": "v.",
+      "translation": "使成为；提供",
+      "example_en": "The explosion rendered the building unsafe.",
+      "example_zh": "爆炸使这栋楼变得不安全。",
+      "tag": "高频"
+    },
+    {
+      "word": "represent",
+      "phonetic": "ˌreprɪˈzent",
+      "pos": "v.",
+      "translation": "代表",
+      "example_en": "The symbol represents peace.",
+      "example_zh": "这个符号代表和平。",
+      "tag": "核心"
+    },
+    {
+      "word": "resolve",
+      "phonetic": "rɪˈzɑːlv",
+      "pos": "v.",
+      "translation": "解决；决心",
+      "example_en": "We must resolve this conflict peacefully.",
+      "example_zh": "我们必须和平解决这场冲突。",
+      "tag": "核心"
+    },
+    {
+      "word": "resource",
+      "phonetic": "ˈriːsɔːrs",
+      "pos": "n.",
+      "translation": "资源",
+      "example_en": "Water is a precious resource.",
+      "example_zh": "水是宝贵的资源。",
+      "tag": "核心"
+    },
+    {
+      "word": "restrict",
+      "phonetic": "rɪˈstrɪkt",
+      "pos": "v.",
+      "translation": "限制",
+      "example_en": "The law restricts the use of plastic.",
+      "example_zh": "法律限制了塑料的使用。",
+      "tag": "高频"
+    },
+    {
+      "word": "retain",
+      "phonetic": "rɪˈteɪn",
+      "pos": "v.",
+      "translation": "保留；保持",
+      "example_en": "He retains his position as chairman.",
+      "example_zh": "他保留了主席的职位。",
+      "tag": "高频"
+    },
+    {
+      "word": "reveal",
+      "phonetic": "rɪˈviːl",
+      "pos": "v.",
+      "translation": "揭示；透露",
+      "example_en": "The study reveals surprising results.",
+      "example_zh": "研究揭示了令人惊讶的结果。",
+      "tag": "核心"
+    },
+    {
+      "word": "revenue",
+      "phonetic": "ˈrevənuː",
+      "pos": "n.",
+      "translation": "收入；税收",
+      "example_en": "The company's revenue increased this year.",
+      "example_zh": "公司今年的收入增长了。",
+      "tag": "核心"
+    },
+    {
+      "word": "rigorous",
+      "phonetic": "ˈrɪɡərəs",
+      "pos": "adj.",
+      "translation": "严格的；严密的",
+      "example_en": "The experiment followed rigorous methods.",
+      "example_zh": "实验采用了严密的方法。",
+      "tag": "高频"
+    },
+    {
+      "word": "rival",
+      "phonetic": "ˈraɪvl",
+      "pos": "n./adj.",
+      "translation": "竞争对手",
+      "example_en": "The two firms are bitter rivals.",
+      "example_zh": "这两家公司是激烈的竞争对手。",
+      "tag": "高频"
+    },
+    {
+      "word": "scarce",
+      "phonetic": "skers",
+      "pos": "adj.",
+      "translation": "稀缺的；不足的",
+      "example_en": "Clean water is scarce in the region.",
+      "example_zh": "该地区清洁水源稀缺。",
+      "tag": "高频"
+    },
+    {
+      "word": "scheme",
+      "phonetic": "skiːm",
+      "pos": "n.",
+      "translation": "计划；方案",
+      "example_en": "They devised a scheme to cut costs.",
+      "example_zh": "他们设计了一个削减成本的方案。",
+      "tag": "高频"
+    },
+    {
+      "word": "secure",
+      "phonetic": "sɪˈkjʊr",
+      "pos": "adj./v.",
+      "translation": "安全的；获得",
+      "example_en": "She secured a place at the university.",
+      "example_zh": "她获得了大学的录取名额。",
+      "tag": "高频"
+    },
+    {
+      "word": "significant",
+      "phonetic": "sɪɡˈnɪfɪkənt",
+      "pos": "adj.",
+      "translation": "重要的；显著的",
+      "example_en": "There has been a significant improvement.",
+      "example_zh": "已经有了显著的改善。",
+      "tag": "核心"
+    },
+    {
+      "word": "simulate",
+      "phonetic": "ˈsɪmjuleɪt",
+      "pos": "v.",
+      "translation": "模拟",
+      "example_en": "The software simulates real driving conditions.",
+      "example_zh": "这款软件模拟真实的驾驶条件。",
+      "tag": "高频"
+    },
+    {
+      "word": "sophisticated",
+      "phonetic": "səˈfɪstɪkeɪtɪd",
+      "pos": "adj.",
+      "translation": "复杂的；精密的",
+      "example_en": "The system uses sophisticated technology.",
+      "example_zh": "该系统采用精密的技术。",
+      "tag": "高频"
+    },
+    {
+      "word": "specific",
+      "phonetic": "spəˈsɪfɪk",
+      "pos": "adj.",
+      "translation": "具体的；特定的",
+      "example_en": "Can you be more specific?",
+      "example_zh": "你能说得更具体些吗？",
+      "tag": "核心"
+    },
+    {
+      "word": "speculate",
+      "phonetic": "ˈspekjuleɪt",
+      "pos": "v.",
+      "translation": "推测；投机",
+      "example_en": "We can only speculate about the cause.",
+      "example_zh": "我们只能推测原因。",
+      "tag": "高频"
+    },
+    {
+      "word": "stable",
+      "phonetic": "ˈsteɪbl",
+      "pos": "adj.",
+      "translation": "稳定的",
+      "example_en": "The economy remains stable.",
+      "example_zh": "经济保持稳定。",
+      "tag": "高频"
+    },
+    {
+      "word": "statistics",
+      "phonetic": "stəˈtɪstɪks",
+      "pos": "n.",
+      "translation": "统计学；统计",
+      "example_en": "The statistics show a clear trend.",
+      "example_zh": "统计数据显示出明确的趋势。",
+      "tag": "高频"
+    },
+    {
+      "word": "status",
+      "phonetic": "ˈsteɪtəs",
+      "pos": "n.",
+      "translation": "地位；状态",
+      "example_en": "What is the status of the project?",
+      "example_zh": "项目的状态如何？",
+      "tag": "高频"
+    },
+    {
+      "word": "stem",
+      "phonetic": "stem",
+      "pos": "v./n.",
+      "translation": "源自；阻止",
+      "example_en": "The problem stems from poor planning.",
+      "example_zh": "问题源于计划不周。",
+      "tag": "高频"
+    },
+    {
+      "word": "stimulate",
+      "phonetic": "ˈstɪmjuleɪt",
+      "pos": "v.",
+      "translation": "刺激；激发",
+      "example_en": "Coffee stimulates the nervous system.",
+      "example_zh": "咖啡刺激神经系统。",
+      "tag": "高频"
+    },
+    {
+      "word": "strategy",
+      "phonetic": "ˈstrætədʒi",
+      "pos": "n.",
+      "translation": "策略；战略",
+      "example_en": "We need a new marketing strategy.",
+      "example_zh": "我们需要新的营销策略。",
+      "tag": "核心"
+    },
+    {
+      "word": "strive",
+      "phonetic": "straɪv",
+      "pos": "v.",
+      "translation": "努力；奋斗",
+      "example_en": "We strive for excellence.",
+      "example_zh": "我们追求卓越。",
+      "tag": "高频"
+    },
+    {
+      "word": "substantial",
+      "phonetic": "səbˈstænʃl",
+      "pos": "adj.",
+      "translation": "大量的；实质的",
+      "example_en": "He made a substantial contribution.",
+      "example_zh": "他做出了大量贡献。",
+      "tag": "核心"
+    },
+    {
+      "word": "sufficient",
+      "phonetic": "səˈfɪʃnt",
+      "pos": "adj.",
+      "translation": "足够的",
+      "example_en": "We have sufficient evidence to proceed.",
+      "example_zh": "我们有足够的证据继续。",
+      "tag": "核心"
+    },
+    {
+      "word": "suppress",
+      "phonetic": "səˈpres",
+      "pos": "v.",
+      "translation": "压制；抑制",
+      "example_en": "He suppressed his anger.",
+      "example_zh": "他压抑住了愤怒。",
+      "tag": "高频"
+    },
+    {
+      "word": "survey",
+      "phonetic": "ˈsɜːrveɪ",
+      "pos": "n./v.",
+      "translation": "调查",
+      "example_en": "A survey shows most people are satisfied.",
+      "example_zh": "调查显示大多数人感到满意。",
+      "tag": "高频"
+    },
+    {
+      "word": "sustain",
+      "phonetic": "səˈsteɪn",
+      "pos": "v.",
+      "translation": "维持；支撑",
+      "example_en": "He could not sustain his interest.",
+      "example_zh": "他无法维持自己的兴趣。",
+      "tag": "核心"
+    },
+    {
+      "word": "tackle",
+      "phonetic": "ˈtækl",
+      "pos": "v.",
+      "translation": "处理；应付",
+      "example_en": "We must tackle the root of the problem.",
+      "example_zh": "我们必须从根源上解决问题。",
+      "tag": "高频"
+    },
+    {
+      "word": "target",
+      "phonetic": "ˈtɑːrɡɪt",
+      "pos": "n./v.",
+      "translation": "目标",
+      "example_en": "We aim to target young consumers.",
+      "example_zh": "我们的目标是年轻消费者。",
+      "tag": "高频"
+    },
+    {
+      "word": "tedious",
+      "phonetic": "ˈtiːdiəs",
+      "pos": "adj.",
+      "translation": "乏味的；冗长的",
+      "example_en": "The lecture was long and tedious.",
+      "example_zh": "讲座又长又乏味。",
+      "tag": "高频"
+    },
+    {
+      "word": "terminal",
+      "phonetic": "ˈtɜːrmɪnl",
+      "pos": "n./adj.",
+      "translation": "终点站；晚期的",
+      "example_en": "He is in the terminal stage of the disease.",
+      "example_zh": "他处于疾病的晚期。",
+      "tag": "高频"
+    },
+    {
+      "word": "thrive",
+      "phonetic": "θraɪv",
+      "pos": "v.",
+      "translation": "繁荣；茁壮成长",
+      "example_en": "Plants thrive in sunlight.",
+      "example_zh": "植物在阳光下茁壮成长。",
+      "tag": "高频"
+    },
+    {
+      "word": "tolerance",
+      "phonetic": "ˈtɑːlərəns",
+      "pos": "n.",
+      "translation": "容忍；宽容",
+      "example_en": "We should show tolerance toward others.",
+      "example_zh": "我们应对他人表现出宽容。",
+      "tag": "高频"
+    },
+    {
+      "word": "transform",
+      "phonetic": "trænsˈfɔːrm",
+      "pos": "v.",
+      "translation": "转变；改变",
+      "example_en": "Technology has transformed our lives.",
+      "example_zh": "科技改变了我们的生活。",
+      "tag": "核心"
+    },
+    {
+      "word": "transition",
+      "phonetic": "trænˈzɪʃn",
+      "pos": "n.",
+      "translation": "过渡；转变",
+      "example_en": "The country is in a period of transition.",
+      "example_zh": "国家正处于过渡时期。",
+      "tag": "高频"
+    },
+    {
+      "word": "transmit",
+      "phonetic": "trænsˈmɪt",
+      "pos": "v.",
+      "translation": "传输；传播",
+      "example_en": "Mosquitoes transmit diseases.",
+      "example_zh": "蚊子传播疾病。",
+      "tag": "高频"
+    },
+    {
+      "word": "transparent",
+      "phonetic": "trænsˈpærənt",
+      "pos": "adj.",
+      "translation": "透明的",
+      "example_en": "The government should be transparent.",
+      "example_zh": "政府应当透明。",
+      "tag": "高频"
+    },
+    {
+      "word": "trend",
+      "phonetic": "trend",
+      "pos": "n.",
+      "translation": "趋势",
+      "example_en": "There is a growing trend toward remote work.",
+      "example_zh": "远程办公的趋势日益增长。",
+      "tag": "核心"
+    },
+    {
+      "word": "trigger",
+      "phonetic": "ˈtrɪɡər",
+      "pos": "v.",
+      "translation": "触发；引起",
+      "example_en": "The event triggered a debate.",
+      "example_zh": "这一事件引发了一场辩论。",
+      "tag": "高频"
+    },
+    {
+      "word": "ultimate",
+      "phonetic": "ˈʌltɪmət",
+      "pos": "adj.",
+      "translation": "最终的；根本的",
+      "example_en": "His ultimate goal is to become a doctor.",
+      "example_zh": "他的最终目标是成为一名医生。",
+      "tag": "核心"
+    },
+    {
+      "word": "undermine",
+      "phonetic": "ˌʌndərˈmaɪn",
+      "pos": "v.",
+      "translation": "破坏；削弱",
+      "example_en": "Doubt can undermine confidence.",
+      "example_zh": "怀疑会削弱信心。",
+      "tag": "高频"
+    },
+    {
+      "word": "undertake",
+      "phonetic": "ˌʌndərˈteɪk",
+      "pos": "v.",
+      "translation": "承担；从事",
+      "example_en": "She undertook the task willingly.",
+      "example_zh": "她欣然承担了这项任务。",
+      "tag": "高频"
+    },
+    {
+      "word": "unique",
+      "phonetic": "juˈniːk",
+      "pos": "adj.",
+      "translation": "独特的",
+      "example_en": "Each person's fingerprint is unique.",
+      "example_zh": "每个人的指纹都是独特的。",
+      "tag": "核心"
+    },
+    {
+      "word": "utilize",
+      "phonetic": "ˈjuːtəlaɪz",
+      "pos": "v.",
+      "translation": "利用",
+      "example_en": "We must utilize our resources wisely.",
+      "example_zh": "我们必须明智地利用资源。",
+      "tag": "高频"
+    },
+    {
+      "word": "valid",
+      "phonetic": "ˈvælɪd",
+      "pos": "adj.",
+      "translation": "有效的",
+      "example_en": "This ticket is valid for three days.",
+      "example_zh": "这张票三天内有效。",
+      "tag": "高频"
+    },
+    {
+      "word": "vanish",
+      "phonetic": "ˈvænɪʃ",
+      "pos": "v.",
+      "translation": "消失",
+      "example_en": "The plane vanished into the clouds.",
+      "example_zh": "飞机消失在云层中。",
+      "tag": "高频"
+    },
+    {
+      "word": "vary",
+      "phonetic": "ˈveri",
+      "pos": "v.",
+      "translation": "变化；不同",
+      "example_en": "Opinions vary on this issue.",
+      "example_zh": "在这个问题上意见不一。",
+      "tag": "高频"
+    },
+    {
+      "word": "verify",
+      "phonetic": "ˈverɪfaɪ",
+      "pos": "v.",
+      "translation": "核实；证实",
+      "example_en": "Please verify your email address.",
+      "example_zh": "请核实您的电子邮箱地址。",
+      "tag": "高频"
+    },
+    {
+      "word": "violate",
+      "phonetic": "ˈvaɪəleɪt",
+      "pos": "v.",
+      "translation": "违反；侵犯",
+      "example_en": "He violated the rules of the club.",
+      "example_zh": "他违反了俱乐部的规定。",
+      "tag": "高频"
+    },
+    {
+      "word": "virtual",
+      "phonetic": "ˈvɜːrtʃuəl",
+      "pos": "adj.",
+      "translation": "虚拟的；实际上的",
+      "example_en": "Virtual meetings save travel time.",
+      "example_zh": "虚拟会议节省了出差时间。",
+      "tag": "高频"
+    },
+    {
+      "word": "vital",
+      "phonetic": "ˈvaɪtl",
+      "pos": "adj.",
+      "translation": "至关重要的",
+      "example_en": "Sleep is vital to health.",
+      "example_zh": "睡眠对健康至关重要。",
+      "tag": "核心"
+    },
+    {
+      "word": "vulnerable",
+      "phonetic": "ˈvʌlnərəbl",
+      "pos": "adj.",
+      "translation": "脆弱的；易受伤害的",
+      "example_en": "Children are vulnerable to disease.",
+      "example_zh": "儿童容易感染疾病。",
+      "tag": "核心"
+    },
+    {
+      "word": "yield",
+      "phonetic": "jiːld",
+      "pos": "v./n.",
+      "translation": "产生；屈服",
+      "example_en": "The tree yields a large crop of apples.",
+      "example_zh": "这棵树结出大量苹果。",
+      "tag": "核心"
+    },
+    {
+      "word": "zone",
+      "phonetic": "zoʊn",
+      "pos": "n.",
+      "translation": "区域；地带",
+      "example_en": "This is a no-parking zone.",
+      "example_zh": "这是禁停区。",
+      "tag": "基础"
+    }
+  ]
+}
