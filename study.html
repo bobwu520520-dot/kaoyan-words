@@ -11,23 +11,29 @@ body { margin: 0; }
 /* 主卡片: 恒定高度, 内容内部滚动 */
 .shell { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .s-card { flex: 1; min-height: 0; background: var(--card-bg,#fff); border: 1px solid var(--border,#e5e7eb); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,.06); display: flex; flex-direction: column; overflow: hidden; }
-.s-front, .s-back { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; }
-.s-front { align-items: center; justify-content: center; text-align: center; padding: 24px; gap: 14px; }
-.s-word { font-size: clamp(44px, 9vw, 68px); font-weight: 750; letter-spacing: -1px; line-height: 1.1; }
-.s-phonetic { color: #77818a; font-size: 18px; }
-.s-reveal { font-size: 16px; padding: 12px 34px; border-radius: 999px; }
-.s-hint { color: #9aa4ab; font-size: 12px; }
-.s-back { padding: 22px 26px; gap: 12px; }
-/* 翻面后单词保留在左上角(缩小) */
+/* 正面: 只有单词, 点空白翻面 */
+.s-front { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; gap: 14px; cursor: pointer; user-select: none; }
+.s-front:active { background: var(--color-primary-soft,#f3f7f6); }
+.s-word { font-size: clamp(44px, 9vw, 68px); font-weight: 750; letter-spacing: -1px; line-height: 1.1; pointer-events: none; }
+.s-phonetic { color: #77818a; font-size: 18px; pointer-events: none; }
+.s-hint { color: #9aa4ab; font-size: 12px; pointer-events: none; }
+/* 背面: 上部单词/音标/词性固定, 下部释义例句助记可滚动 */
+.s-back { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.s-word-area { flex-shrink: 0; padding: 20px 26px 12px; border-bottom: 1px solid var(--border,#eef0f2); cursor: pointer; user-select: none; }
+.s-word-area:active { background: var(--color-primary-soft,#f3f7f6); }
 .s-back-head { display: flex; align-items: baseline; gap: 10px; }
-.s-word-mini { font-size: 26px; font-weight: 750; letter-spacing: -0.5px; line-height: 1.2; }
+.s-word-mini { font-size: 30px; font-weight: 750; letter-spacing: -0.5px; line-height: 1.2; }
 .s-phonetic-mini { color: #77818a; font-size: 14px; }
+.s-pos-line { font-size: 12.5px; color: #8a949b; margin-top: 5px; }
+.s-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 26px 20px; display: flex; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; }
 .s-meaning { font-size: 21px; font-weight: 650; line-height: 1.5; }
 .s-meta { font-size: 13px; color: #69737b; }
 .s-obscure { font-size: 14px; color: #8a5a16; background: #fff7e6; border-radius: 10px; padding: 9px 12px; }
 .s-detail { background: #f7f8f9; border-radius: 12px; padding: 12px 14px; font-size: 14.5px; line-height: 1.65; }
 .s-detail strong { display: block; font-size: 12px; color: #69737b; margin-bottom: 5px; letter-spacing: .03em; }
 .s-detail .zh { color: #657078; margin-top: 6px; font-size: 13.5px; }
+.s-mnemo { background: #eef6f2; border-radius: 12px; padding: 12px 14px; font-size: 14.5px; line-height: 1.65; }
+.s-mnemo strong { display: block; font-size: 12px; color: #3d7a5f; margin-bottom: 5px; letter-spacing: .03em; }
 .s-actions { display: flex; gap: 10px; margin-top: 2px; }
 .s-actions .btn { flex: 1; font-size: 13.5px; }
 .btn { border: 1px solid #d7dde0; background: #fff; border-radius: 11px; padding: 10px 15px; cursor: pointer; font-size: 14px; }
@@ -35,8 +41,10 @@ body { margin: 0; }
 .btn[disabled] { opacity: .55; cursor: default; }
 .ai-result { margin-top: 2px; font-size: 13.5px; }
 .ai-result .example-en { font-size: 14.5px; }
-/* 底部评分栏: 恒定, 不随卡片变化 */
-.ratings { display: flex; gap: 10px; padding: 14px 2px 4px; align-items: stretch; }
+/* 底部评分栏: 翻面后出现 */
+.ratings { display: none; gap: 10px; padding: 14px 2px 4px; align-items: stretch; }
+.ratings.show { display: flex; animation: ratingIn .18s ease; }
+@keyframes ratingIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .ratings .rbtn { flex: 1; border: 1px solid #d7dde0; background: var(--card-bg,#fff); border-radius: 16px; padding: 16px 8px; cursor: pointer; font-size: 17px; font-weight: 700; transition: .15s; }
 .ratings .rbtn small { display: block; font-weight: 400; color: #8a949b; font-size: 11px; margin-top: 3px; }
 .ratings .rbtn:hover { transform: translateY(-2px); }
@@ -97,8 +105,9 @@ body { margin: 0; }
   .ratings .rbtn small { display: none; }
   .nav-btn { width: 36px; }
   .study { padding: 6px 10px calc(8px + env(safe-area-inset-bottom)); }
-  .s-back { padding: 16px 16px; }
-  .s-word-mini { font-size: 22px; }
+  .s-word-area { padding: 14px 16px 10px; }
+  .s-body { padding: 12px 16px 16px; }
+  .s-word-mini { font-size: 24px; }
   .s-card { border-radius: 16px; }
   .s-word { font-size: clamp(38px, 10vw, 56px); }
   .topbar { padding: 8px 0; }
@@ -114,7 +123,7 @@ body { margin: 0; }
   <div class="shell">
     <div class="s-card" id="card"><div class="empty"><h2>词库加载中…</h2></div></div>
   </div>
-  <div class="ratings">
+  <div class="ratings" id="ratings">
     <button class="nav-btn" id="prev" type="button" aria-label="上一个">‹</button>
     <button class="rbtn r0" id="grade0" type="button">陌生<small>30分钟再现</small></button>
     <button class="rbtn r1" id="grade1" type="button">模糊<small>1 天</small></button>

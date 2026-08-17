@@ -72,7 +72,7 @@ function check(name, cond) { if (cond) { pass++; console.log('  ✓ ' + name); }
   console.log('测试1: 正常流程 + 当天防重复计数 + 刷新持久化');
   setDay(16, 10);
   let t = await run({});
-  check('词库加载后队列有词', t.els['card'].innerHTML.includes('点击显示释义'));
+  check('词库加载后队列有词', t.els['card'].innerHTML.includes('点击空白处查看释义'));
   t.els['grade2'].onclick(); // 认识第一个词
   let s = JSON.parse(t.storage.get('kaoyan_study_v3'));
   check('认识后 todayDone=1', s.todayDone === 1);
@@ -246,7 +246,7 @@ function check(name, cond) { if (cond) { pass++; console.log('  ✓ ' + name); }
   s = JSON.parse(t.storage.get('kaoyan_study_v3'));
   check('旧数据加载不崩溃且保留', s.progress.abandon.level === 3 && s.todayDone === 3);
   // 旧数据到期(next=0)应进入复习队列
-  check('旧到期词进入队列(第一个词)', t.els['card'].innerHTML.includes('abandon') || t.els['card'].innerHTML.includes('点击显示释义'));
+  check('旧到期词进入队列(第一个词)', t.els['card'].innerHTML.includes('abandon') || t.els['card'].innerHTML.includes('点击空白处查看释义'));
   t.els['grade2'].onclick();
   s = JSON.parse(t.storage.get('kaoyan_study_v3'));
   check('旧数据评"认识"后 success=1 且不崩溃', s.progress.abandon.success === 1);

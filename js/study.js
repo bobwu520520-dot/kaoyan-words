@@ -150,29 +150,45 @@ const AI_CFG_KEY=(window.KaoyanGate&&window.KaoyanGate.storageKey?window.KaoyanG
   }
   function renderCard(){
     const w=queue[idx];
-    if(!w){$('card').innerHTML='<div class="empty"><h2>本组完成 🎉</h2><p>已完成这一组，可以继续下一组。</p><button class="btn primary" id="next-group">下一组</button></div>';if($('next-group'))$('next-group').onclick=()=>{buildQueue();renderCard();};return;}
+    if(!w){$('card').innerHTML='<div class="empty"><h2>本组完成 🎉</h2><p>已完成这一组，可以继续下一组。</p><button class="btn primary" id="next-group">下一组</button></div>';if($('next-group'))$('next-group').onclick=()=>{buildQueue();renderCard();};setRatings(false);return;}
     const p=w.pos||'—'; const meaning=w.exam_meaning||w.translation||''; const ex=w.example_en||'';
+    const rt=$('ratings'); if(rt)rt.classList.toggle('show',shown);
     if(!shown){
-      $('card').innerHTML=`<div class="s-front"><div class="s-word">${esc(w.word)}</div><div class="s-phonetic">${esc(w.phonetic||'')}</div><button class="btn primary s-reveal" id="show">点击显示释义</button><div class="s-hint">评分后自动显示释义例句 · 1 陌生 / 2 模糊 / 3 认识</div></div>`;
+      // 正面: 只有单词+音标, 点空白翻面
+      $('card').innerHTML=`<div class="s-front"><div class="s-word">${esc(w.word)}</div><div class="s-phonetic">${esc(w.phonetic||'')}</div><div class="s-hint">点击空白处查看释义</div></div>`;
     }else{
+      // 背面: 上部单词区固定(不可移动), 下部释义/例句/助记可滑动
       const setEx=settings().example;
       $('card').innerHTML=`<div class="s-back">
-        <div class="s-back-head"><span class="s-word-mini">${esc(w.word)}</span>${w.phonetic?`<span class="s-phonetic-mini">${esc(w.phonetic)}</span>`:''}</div>
-        <div class="s-meaning">${esc(meaning||'暂无释义')}</div>
-        <div class="s-meta">${esc(p)} · ${esc(w.true_priority||'')} · ${esc(w.tier||'')}</div>
-        ${w.secondary_meanings?`<div class="s-obscure">熟词僻义：${esc(w.secondary_meanings)}</div>`:''}
-        ${setEx!==false?`<div class="s-detail"><strong>高频搭配</strong>${esc(w.collocation_hint||'可用 AI 生成并核验')}</div>
-        <div class="s-detail"><strong>例句</strong><div>${esc(ex||'暂无离线例句')}</div>${w.example_zh?`<div class="zh">${esc(w.example_zh)}</div>`:''}</div>`:''}
-        ${w.ai_long_sentence?`<div class="s-detail"><strong>语法结构</strong>${esc(w.ai_long_sentence)}</div>`:''}
-        <div class="s-actions"><button class="btn" id="lookup">📖 在线词典</button><button class="btn" id="ai">✨ AI 造句</button>${autoAdvance?`<button class="btn primary" id="continue">继续 ▸</button>`:''}</div>
-        ${autoAdvance?`<div class="answer-bar"><span class="ab-tip">已评分，${Math.max(1,Math.round(ADVANCE_MS/1000))} 秒后自动下一词</span></div>`:''}
+        <div class="s-word-area" id="word-area">
+          <div class="s-back-head"><span class="s-word-mini">${esc(w.word)}</span>${w.phonetic?`<span class="s-phonetic-mini">${esc(w.phonetic)}</span>`:''}</div>
+          <div class="s-pos-line">${esc(p)} · ${esc(w.tier||'')}${w.true_priority?` · ${esc(w.true_priority)}`:''}</div>
+        </div>
+        <div class="s-body">
+          <div class="s-meaning">${esc(meaning||'暂无释义')}</div>
+          ${w.secondary_meanings?`<div class="s-obscure">熟词僻义：${esc(w.secondary_meanings)}</div>`:''}
+          ${setEx!==false?`<div class="s-detail"><strong>高频搭配</strong>${esc(w.collocation_hint||'可用 AI 生成并核验')}</div>
+          <div class="s-detail"><strong>例句</strong><div>${esc(ex||'暂无离线例句')}</div>${w.example_zh?`<div class="zh">${esc(w.example_zh)}</div>`:''}</div>`:''}
+          ${w.mnemonics?`<div class="s-mnemo"><strong>💡 助记</strong>${esc(w.mnemonics)}</div>`:''}
+          ${w.ai_long_sentence?`<div class="s-detail"><strong>语法结构</strong>${esc(w.ai_long_sentence)}</div>`:''}
+          <div class="s-actions"><button class="btn" id="lookup">📖 在线词典</button><button class="btn" id="ai">✨ AI 造句</button>${autoAdvance?`<button class="btn primary" id="continue">继续 ▸</button>`:''}</div>
+          ${autoAdvance?`<div class="answer-bar"><span class="ab-tip">已评分，点一下或 ${Math.max(1,Math.round(ADVANCE_MS/1000))} 秒后自动下一词</span></div>`:''}
+        </div>
       </div>`;
       if($('lookup'))$('lookup').onclick=()=>lookupMeaning(w);
       if($('ai'))$('ai').onclick=()=>ai(w);
       if($('continue'))$('continue').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}nextWord();};
+      // 点单词区(评分后)立即下一词; 未评分时点单词区不动作
+      if($('word-area'))$('word-area').onclick=()=>{if(autoAdvance)nextWord();};
       if(autoAdvance){if(advanceTimer)clearTimeout(advanceTimer);advanceTimer=setTimeout(()=>{advanceTimer=null;nextWord();},ADVANCE_MS);}
     }
-    if($('show'))$('show').onclick=()=>{shown=true;renderCard();if(!meaning)lookupMeaning(w);};
+  }
+  function setRatings(show){const rt=$('ratings');if(rt)rt.classList.toggle('show',show);}
+  // 点卡片空白: 正面→翻面; 评分后→下一词
+  function onCardTap(){
+    const w=queue[idx];if(!w)return;
+    if(autoAdvance){nextWord();return;}
+    if(!shown){shown=true;renderCard();if(!(w.exam_meaning||w.translation))lookupMeaning(w);}
   }
   async function lookupMeaning(w){
     if(loading)return;loading=true;const btn=$('lookup');if(btn)btn.textContent='在线获取中…';
@@ -219,9 +235,14 @@ const AI_CFG_KEY=(window.KaoyanGate&&window.KaoyanGate.storageKey?window.KaoyanG
       state.hardCount[w.word]=(state.hardCount[w.word]||0)+1; // 兼容旧"顽固词"统计
     }
     p.last=Date.now();state.progress[w.word]=p;save();renderStats();
-    // 评分后直接显示释义例句(无需手动翻面),2.8 秒后自动下一词
+    // 评分后: 答案界面保持(释义例句+助记), 点一下或自动进入下一词
     autoAdvance=true;shown=true;renderQueue();renderCard();speakWord(w);
   }
+  // 点卡片空白: 正面翻面 / 评分后下一词(按钮点击不受影响)
+  $('card').addEventListener('click',function(e){
+    if(e.target.closest('button,a,input,textarea'))return;
+    onCardTap();
+  });
   $('grade0').onclick=()=>rate(0);$('grade1').onclick=()=>rate(1);$('grade2').onclick=()=>rate(2);
   $('next').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}autoAdvance=false;idx=Math.min(queue.length-1,idx+1);shown=false;renderQueue();renderCard();};
   $('prev').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}autoAdvance=false;idx=Math.max(0,idx-1);shown=false;renderQueue();renderCard();};
@@ -233,7 +254,7 @@ const AI_CFG_KEY=(window.KaoyanGate&&window.KaoyanGate.storageKey?window.KaoyanG
   function exportProgress(){const payload={version:3,exportedAt:new Date().toISOString(),state};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kaoyan-study-progress.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);}
   function importProgress(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=()=>{const f=input.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(r.result);if(p.version&&p.version!==3)throw new Error('version');const incoming=p.state||p;if(!incoming.progress||typeof incoming.progress!=='object')throw new Error('invalid');const today=state.today,todayDone=state.todayDone,todaySeen=state.todaySeen;state=Object.assign(state,incoming);state.progress=state.progress||{};state.today=today;state.todayDone=todayDone;state.todaySeen=todaySeen;save();location.reload();}catch(e){alert('进度文件无效。');}};r.readAsText(f);};input.click();}
   if($('export-progress'))$('export-progress').onclick=exportProgress;if($('import-progress'))$('import-progress').onclick=importProgress;
-  window.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,button,select'))return;if(e.code==='Space'){e.preventDefault();if($('show'))$('show').click();else if(autoAdvance&&$('continue'))$('continue').click();else if($('card'))renderCard();}else if(['1','2','3'].includes(e.key)&&!e.ctrlKey&&!e.metaKey){e.preventDefault();rate(Number(e.key)-1);}});
+  window.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,button,select'))return;if(e.code==='Space'){e.preventDefault();onCardTap();}else if(['1','2','3'].includes(e.key)&&!e.ctrlKey&&!e.metaKey){e.preventDefault();if(!shown){onCardTap();return;}rate(Number(e.key)-1);}});
   // 页面挂机跨过零点时,回到页面自动切到新一天
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&state.today!==localDay()){if(state.todayDone>0)state.history[state.today]=state.todayDone;state.today=localDay();state.todayDone=0;state.todaySeen={};save();renderStats();}});
   // 暴露给 study.html 设置面板
