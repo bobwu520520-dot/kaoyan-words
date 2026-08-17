@@ -153,20 +153,24 @@ const AI_CFG_KEY=(window.KaoyanGate&&window.KaoyanGate.storageKey?window.KaoyanG
     if(!w){$('card').innerHTML='<div class="empty"><h2>本组完成 🎉</h2><p>已完成这一组，可以继续下一组。</p><button class="btn primary" id="next-group">下一组</button></div>';if($('next-group'))$('next-group').onclick=()=>{buildQueue();renderCard();};return;}
     const p=w.pos||'—'; const meaning=w.exam_meaning||w.translation||''; const ex=w.example_en||'';
     if(!shown){
-      $('card').innerHTML=`<div class="s-front"><div class="s-word">${esc(w.word)}</div><div class="s-phonetic">${esc(w.phonetic||'')}</div><button class="btn primary s-reveal" id="show">点击显示释义</button><div class="s-hint">空格键 翻面 · 翻面后 1-4 评分</div></div>`;
+      $('card').innerHTML=`<div class="s-front"><div class="s-word">${esc(w.word)}</div><div class="s-phonetic">${esc(w.phonetic||'')}</div><button class="btn primary s-reveal" id="show">点击显示释义</button><div class="s-hint">评分后自动显示释义例句 · 1 陌生 / 2 模糊 / 3 认识</div></div>`;
     }else{
+      const setEx=settings().example;
       $('card').innerHTML=`<div class="s-back">
         <div class="s-back-head"><span class="s-word-mini">${esc(w.word)}</span>${w.phonetic?`<span class="s-phonetic-mini">${esc(w.phonetic)}</span>`:''}</div>
         <div class="s-meaning">${esc(meaning||'暂无释义')}</div>
         <div class="s-meta">${esc(p)} · ${esc(w.true_priority||'')} · ${esc(w.tier||'')}</div>
         ${w.secondary_meanings?`<div class="s-obscure">熟词僻义：${esc(w.secondary_meanings)}</div>`:''}
-        <div class="s-detail"><strong>高频搭配</strong>${esc(w.collocation_hint||'可用 AI 生成并核验')}</div>
-        <div class="s-detail"><strong>例句</strong><div>${esc(ex||'暂无离线例句')}</div>${w.example_zh?`<div class="zh">${esc(w.example_zh)}</div>`:''}</div>
+        ${setEx!==false?`<div class="s-detail"><strong>高频搭配</strong>${esc(w.collocation_hint||'可用 AI 生成并核验')}</div>
+        <div class="s-detail"><strong>例句</strong><div>${esc(ex||'暂无离线例句')}</div>${w.example_zh?`<div class="zh">${esc(w.example_zh)}</div>`:''}</div>`:''}
         ${w.ai_long_sentence?`<div class="s-detail"><strong>语法结构</strong>${esc(w.ai_long_sentence)}</div>`:''}
-        <div class="s-actions"><button class="btn" id="lookup">📖 在线词典</button><button class="btn" id="ai">✨ AI 造句</button></div>
+        <div class="s-actions"><button class="btn" id="lookup">📖 在线词典</button><button class="btn" id="ai">✨ AI 造句</button>${autoAdvance?`<button class="btn primary" id="continue">继续 ▸</button>`:''}</div>
+        ${autoAdvance?`<div class="answer-bar"><span class="ab-tip">已评分，${Math.max(1,Math.round(ADVANCE_MS/1000))} 秒后自动下一词</span></div>`:''}
       </div>`;
       if($('lookup'))$('lookup').onclick=()=>lookupMeaning(w);
       if($('ai'))$('ai').onclick=()=>ai(w);
+      if($('continue'))$('continue').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}nextWord();};
+      if(autoAdvance){if(advanceTimer)clearTimeout(advanceTimer);advanceTimer=setTimeout(()=>{advanceTimer=null;nextWord();},ADVANCE_MS);}
     }
     if($('show'))$('show').onclick=()=>{shown=true;renderCard();if(!meaning)lookupMeaning(w);};
   }
@@ -186,6 +190,19 @@ const AI_CFG_KEY=(window.KaoyanGate&&window.KaoyanGate.storageKey?window.KaoyanG
       const raw=await window.KaoyanGate.chat(body,custom);
       const data=JSON.parse(raw);let c=data.choices?.[0]?.message?.content||'{}';c=c.replace(/^```json\s*/i,'').replace(/```$/,'').trim();const o=JSON.parse(c);w.exam_meaning=o.meaning||w.exam_meaning;w.secondary_meanings=o.obscure||w.secondary_meanings;w.collocation_hint=(o.collocations||[]).join(' · ');w.example_en=o.sentence||w.example_en;w.example_zh=o.translation||w.example_zh;w.ai_long_sentence=o.structure||'';cache[w.word]={exam_meaning:w.exam_meaning,secondary_meanings:w.secondary_meanings,collocation_hint:w.collocation_hint,example_en:w.example_en,example_zh:w.example_zh,ai_long_sentence:w.ai_long_sentence};localStorage.setItem(AI_CACHE_KEY,JSON.stringify(cache));shown=true;renderCard();}catch(e){alert('AI生成失败，请检查网络后重试。');}finally{if($('ai')){$('ai').disabled=false;$('ai').textContent='✨ AI 造句';}}
   }
+  // ---- 设置(背景/字号/发音/例句等,与 study.html 设置面板共享) ----
+  let autoAdvance=false,advanceTimer=null; const ADVANCE_MS=2800;
+  function settings(){let s={};try{s=JSON.parse(localStorage.getItem('kaoyan_settings')||'{}');}catch(e){}return s;}
+  function speakWord(w){
+    try{
+      const s=settings(); if(!s.speak)return;
+      if(!window.speechSynthesis)return;
+      window.speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(w.word);u.lang='en-US';u.rate=.85;
+      window.speechSynthesis.speak(u);
+    }catch(e){}
+  }
+  function nextWord(){autoAdvance=false;idx++;shown=false;if(idx>=queue.length){buildQueue();renderPlans();}renderQueue();renderCard();}
   function rate(grade){
     const w=queue[idx];if(!w)return;
     const p=state.progress[w.word]||{level:0,wrong:0,failStreak:0,success:0};
@@ -202,13 +219,23 @@ const AI_CFG_KEY=(window.KaoyanGate&&window.KaoyanGate.storageKey?window.KaoyanG
       state.hardCount[w.word]=(state.hardCount[w.word]||0)+1; // 兼容旧"顽固词"统计
     }
     p.last=Date.now();state.progress[w.word]=p;save();renderStats();
-    idx++;shown=false;if(idx>=queue.length){buildQueue();renderPlans();}renderQueue();renderCard();
+    // 评分后直接显示释义例句(无需手动翻面),2.8 秒后自动下一词
+    autoAdvance=true;shown=true;renderQueue();renderCard();speakWord(w);
   }
-  $('grade0').onclick=()=>rate(0);$('grade1').onclick=()=>rate(1);$('grade2').onclick=()=>rate(2);$('next').onclick=()=>{idx=Math.min(queue.length-1,idx+1);shown=false;renderQueue();renderCard();};$('prev').onclick=()=>{idx=Math.max(0,idx-1);shown=false;renderQueue();renderCard();};$('shuffle').onclick=()=>{buildQueue();renderCard();};$('start').onclick=()=>{shown=false;renderCard();};$('review').onclick=()=>{const pool=words.filter(w=>isDue(w,Date.now()));queue=shuffle(pool).slice(0,100);idx=0;shown=false;renderQueue();renderCard();};$('weak-btn').onclick=()=>{const pool=words.filter(w=>isWeak(w)&&(state.progress[w.word]?.level||0)<4);queue=shuffle(pool).slice(0,100);idx=0;shown=false;renderQueue();renderCard();};$('daily').onchange=e=>{state.daily=Math.max(10,Math.min(100,+e.target.value||100));save();buildQueue();renderCard();};
+  $('grade0').onclick=()=>rate(0);$('grade1').onclick=()=>rate(1);$('grade2').onclick=()=>rate(2);
+  $('next').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}autoAdvance=false;idx=Math.min(queue.length-1,idx+1);shown=false;renderQueue();renderCard();};
+  $('prev').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}autoAdvance=false;idx=Math.max(0,idx-1);shown=false;renderQueue();renderCard();};
+  $('shuffle').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}autoAdvance=false;buildQueue();renderCard();};
+  $('start').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}autoAdvance=false;shown=false;renderCard();};
+  $('review').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}autoAdvance=false;const pool=words.filter(w=>isDue(w,Date.now()));queue=shuffle(pool).slice(0,100);idx=0;shown=false;renderQueue();renderCard();};
+  $('weak-btn').onclick=()=>{if(advanceTimer){clearTimeout(advanceTimer);advanceTimer=null;}autoAdvance=false;const pool=words.filter(w=>isWeak(w)&&(state.progress[w.word]?.level||0)<4);queue=shuffle(pool).slice(0,100);idx=0;shown=false;renderQueue();renderCard();};
+  $('daily').onchange=e=>{state.daily=Math.max(10,Math.min(100,+e.target.value||100));save();buildQueue();renderCard();};
   function exportProgress(){const payload={version:3,exportedAt:new Date().toISOString(),state};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kaoyan-study-progress.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);}
   function importProgress(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=()=>{const f=input.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(r.result);if(p.version&&p.version!==3)throw new Error('version');const incoming=p.state||p;if(!incoming.progress||typeof incoming.progress!=='object')throw new Error('invalid');const today=state.today,todayDone=state.todayDone,todaySeen=state.todaySeen;state=Object.assign(state,incoming);state.progress=state.progress||{};state.today=today;state.todayDone=todayDone;state.todaySeen=todaySeen;save();location.reload();}catch(e){alert('进度文件无效。');}};r.readAsText(f);};input.click();}
   if($('export-progress'))$('export-progress').onclick=exportProgress;if($('import-progress'))$('import-progress').onclick=importProgress;
-  window.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,button,select'))return;if(e.code==='Space'){e.preventDefault();if($('show'))$('show').click();else if($('card'))renderCard();}else if(['1','2','3'].includes(e.key)&&!e.ctrlKey&&!e.metaKey){if(!shown){e.preventDefault();if($('show'))$('show').click();return;}rate(Number(e.key)-1);}});
+  window.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,button,select'))return;if(e.code==='Space'){e.preventDefault();if($('show'))$('show').click();else if(autoAdvance&&$('continue'))$('continue').click();else if($('card'))renderCard();}else if(['1','2','3'].includes(e.key)&&!e.ctrlKey&&!e.metaKey){e.preventDefault();rate(Number(e.key)-1);}});
   // 页面挂机跨过零点时,回到页面自动切到新一天
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&state.today!==localDay()){if(state.todayDone>0)state.history[state.today]=state.todayDone;state.today=localDay();state.todayDone=0;state.todaySeen={};save();renderStats();}});
+  // 暴露给 study.html 设置面板
+  window.__studyRenderCard=renderCard;window.__studyDaily=()=>state.daily;window.__studySetDaily=n=>{state.daily=Math.max(10,Math.min(100,+n||100));save();buildQueue();renderCard();};
 })();

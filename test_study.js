@@ -137,12 +137,14 @@ function check(name, cond) { if (cond) { pass++; console.log('  ✓ ' + name); }
   check('不认识 wrong=1 failStreak=1 success=0', s6.progress[wA].wrong === 1 && s6.progress[wA].failStreak === 1 && s6.progress[wA].success === 0);
   check('不认识不计入今日完成', s6.todayDone === 0);
   // 模糊 → 1 天
+  t.els['next'].onclick();
   t.els['grade1'].onclick();
   s6 = JSON.parse(t.storage.get('kaoyan_study_v3'));
   const wB = Object.keys(s6.progress).find(k => k !== wA);
   const d1 = s6.progress[wB].next - NOW.getTime();
   check('模糊→1天', d1 >= 23*3600000 && d1 <= 25*3600000);
   // 认识 → 3 天
+  t.els['next'].onclick();
   t.els['grade2'].onclick();
   s6 = JSON.parse(t.storage.get('kaoyan_study_v3'));
   const wC = Object.keys(s6.progress).find(k => k !== wA && k !== wB);

@@ -121,7 +121,13 @@ body { margin: 0; }
     <button class="rbtn r2" id="grade2" type="button">认识<small>3 天起,连续升级</small></button>
     <button class="nav-btn" id="next" type="button" aria-label="下一个">›</button>
   </div>
-  <p class="small" style="text-align:center;margin:8px 0 0">空格 翻面 · 1 陌生 / 2 模糊 / 3 认识 · 点「☰ 更多」管理计划 / 统计 / 设置</p>
+  <!-- 底部 Tab:墨墨风(移动端) -->
+  <nav class="tabbar" aria-label="主导航">
+    <button class="tab active" data-nav="study.html" type="button"><span class="tab-ico">📖</span>背单词</button>
+    <button class="tab" data-nav="search.html" type="button"><span class="tab-ico">🔍</span>考研词汇</button>
+    <button class="tab" data-nav="words.html" type="button"><span class="tab-ico">📚</span>词书</button>
+    <button class="tab" id="tab-menu" type="button"><span class="tab-ico">☰</span>菜单</button>
+  </nav>
 </main>
 <div id="upgrade-notice" class="upgrade-notice" hidden></div>
 
@@ -136,6 +142,7 @@ body { margin: 0; }
   <h4>每日目标</h4>
   <div class="daily-row"><input id="daily" type="number" min="10" max="100" value="100"><span class="small">词 / 天（10-100）</span></div>
   <h4>工具</h4>
+  <button class="btn" id="settings-open" type="button">⚙️ 设置（背景 / 主题 / 字号 / 发音）</button>
   <button class="btn" id="start" type="button">开始 / 继续背诵</button>
   <button class="btn" id="review" type="button">优先复习到期词</button>
   <button class="btn" id="weak-btn" type="button">复习薄弱词</button>
@@ -161,6 +168,45 @@ body { margin: 0; }
   <div class="ai-modal-actions"><button class="ai-cancel" type="button" data-ai-close>取消</button><button class="ai-save" id="ai-save" type="button">保存设置</button></div>
 </div>
 </div>
+
+<!-- 设置面板:背景/主题/字号/发音/例句/每日目标 -->
+<div class="settings-panel" id="settings-panel" hidden aria-hidden="true" inert>
+<div class="settings-backdrop" data-set-close></div>
+<div class="settings-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+  <div class="settings-head"><h2 id="settings-title">设置</h2><button class="settings-close" type="button" data-set-close aria-label="关闭">×</button></div>
+  <div class="settings-group">
+    <h4>背景主题</h4>
+    <div class="bg-options" id="bg-options">
+      <button class="bg-opt" data-bg="default" type="button"><span class="bg-swatch" style="background:#f4efe4"></span>米白</button>
+      <button class="bg-opt" data-bg="green" type="button"><span class="bg-swatch" style="background:#e9f1e4"></span>护眼绿</button>
+      <button class="bg-opt" data-bg="blue" type="button"><span class="bg-swatch" style="background:#e7eef6"></span>淡蓝</button>
+      <button class="bg-opt" data-bg="gray" type="button"><span class="bg-swatch" style="background:#eef0f2"></span>极简灰</button>
+    </div>
+  </div>
+  <div class="settings-group">
+    <h4>夜间模式</h4>
+    <div class="switch-row"><span>深色主题（夜间护眼）</span><label class="switch"><input type="checkbox" id="set-dark"><span class="slider"></span></label></div>
+  </div>
+  <div class="settings-group">
+    <h4>字号</h4>
+    <div class="size-options" id="size-options">
+      <button class="size-opt" data-size="sm" type="button">小</button>
+      <button class="size-opt" data-size="md" type="button">标准</button>
+      <button class="size-opt" data-size="lg" type="button">大</button>
+    </div>
+  </div>
+  <div class="settings-group">
+    <h4>背诵选项</h4>
+    <div class="switch-row"><span>评分后自动朗读单词</span><label class="switch"><input type="checkbox" id="set-speak"><span class="slider"></span></label></div>
+    <div class="switch-row"><span>答案页显示例句</span><label class="switch"><input type="checkbox" id="set-example"><span class="slider"></span></label></div>
+    <div class="switch-row"><span>每日目标</span><label class="small" style="display:flex;align-items:center;gap:6px">今日<input id="set-daily" type="number" min="10" max="100" style="width:64px;padding:6px;border:1px solid #d7dde0;border-radius:8px">词</label></div>
+  </div>
+  <div class="settings-danger">
+    <button class="btn" id="set-reset" type="button">恢复默认</button>
+    <button class="btn" id="set-close" type="button">关闭</button>
+  </div>
+</div>
+</div>
 <script src="js/auth.js"></script>
 <script src="js/study.js"></script><script src="js/pwa.js"></script><script>document.querySelector('[data-theme-toggle]')?.addEventListener('click',()=>{let b=document.documentElement;b.dataset.theme=b.dataset.theme==='dark'?'light':'dark';localStorage.setItem('theme',b.dataset.theme)});(()=>{let t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t})();</script>
 <script>
@@ -171,6 +217,7 @@ body { margin: 0; }
   function openD(){drawer.hidden=false;drawer.setAttribute('aria-hidden','false');drawer.removeAttribute('inert');backdrop.hidden=false;}
   function closeD(){drawer.hidden=true;drawer.setAttribute('aria-hidden','true');drawer.setAttribute('inert','');backdrop.hidden=true;}
   document.getElementById('drawer-open').addEventListener('click',openD);
+  if(new URLSearchParams(location.search).get('drawer')==='1')openD();
   document.getElementById('drawer-close').addEventListener('click',closeD);
   backdrop.addEventListener('click',closeD);
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!drawer.hidden)closeD();});
@@ -180,6 +227,47 @@ body { margin: 0; }
     if(window.KaoyanGate)window.KaoyanGate.logout();
     location.replace('gate.html');
   });
+  // 底部 Tab 导航(墨墨风)
+  document.querySelectorAll('.tabbar .tab[data-nav]').forEach(function(t){
+    t.addEventListener('click',function(){location.href=t.dataset.nav;});
+  });
+  document.getElementById('tab-menu').addEventListener('click',openD);
+  // 设置面板
+  var setPanel=document.getElementById('settings-panel');
+  var SET_KEY=(window.KaoyanGate&&window.KaoyanGate.storageKey?window.KaoyanGate.storageKey('kaoyan_settings'):'kaoyan_settings');
+  var setCfg={bg:'default',size:'md',dark:false,speak:false,example:true};
+  try{setCfg=Object.assign(setCfg,JSON.parse(localStorage.getItem(SET_KEY)||'{}'));}catch(e){}
+  function applySet(){
+    var root=document.documentElement;
+    if(setCfg.bg==='default')root.removeAttribute('data-bg');else root.setAttribute('data-bg',setCfg.bg);
+    root.setAttribute('data-size',setCfg.size);
+    if(setCfg.dark)root.dataset.theme='dark';else root.dataset.theme='light';
+    document.querySelectorAll('.bg-opt').forEach(function(b){b.classList.toggle('active',b.dataset.bg===setCfg.bg);});
+    document.querySelectorAll('.size-opt').forEach(function(s){s.classList.toggle('active',s.dataset.size===setCfg.size);});
+    document.getElementById('set-dark').checked=setCfg.dark;
+    document.getElementById('set-speak').checked=setCfg.speak;
+    document.getElementById('set-example').checked=setCfg.example;
+    document.getElementById('set-daily').value=window.__studyDaily?window.__studyDaily():100;
+    try{localStorage.setItem(SET_KEY,JSON.stringify(setCfg));}catch(e){}
+  }
+  function saveSet(){try{localStorage.setItem(SET_KEY,JSON.stringify(setCfg));}catch(e){}}
+  function openSet(){applySet();setPanel.hidden=false;setPanel.setAttribute('aria-hidden','false');setPanel.removeAttribute('inert');}
+  function closeSet(){setPanel.hidden=true;setPanel.setAttribute('aria-hidden','true');setPanel.setAttribute('inert','');}
+  document.getElementById('settings-open').addEventListener('click',openSet);
+  document.getElementById('set-close').addEventListener('click',closeSet);
+  document.addEventListener('click',function(e){if(e.target.closest('[data-set-close]'))closeSet();});
+  document.querySelectorAll('#bg-options .bg-opt').forEach(function(b){b.addEventListener('click',function(){setCfg.bg=b.dataset.bg;applySet();saveSet();});});
+  document.querySelectorAll('#size-options .size-opt').forEach(function(s){s.addEventListener('click',function(){setCfg.size=s.dataset.size;applySet();saveSet();});});
+  document.getElementById('set-dark').addEventListener('change',function(e){setCfg.dark=e.target.checked;applySet();saveSet();});
+  document.getElementById('set-speak').addEventListener('change',function(e){setCfg.speak=e.target.checked;saveSet();});
+  document.getElementById('set-example').addEventListener('change',function(e){setCfg.example=e.target.checked;saveSet();if(window.__studyRenderCard)window.__studyRenderCard();});
+  document.getElementById('set-daily').addEventListener('change',function(e){if(window.__studySetDaily)window.__studySetDaily(+e.target.value);saveSet();});
+  document.getElementById('set-reset').addEventListener('click',function(){
+    if(!confirm('恢复默认设置？'))return;
+    setCfg={bg:'default',size:'md',dark:false,speak:false,example:true};
+    applySet();saveSet();
+  });
+  applySet();
   // AI 设置弹窗
   var modal=document.getElementById('ai-modal'), btn=document.getElementById('ai-settings-btn');
   var base=document.getElementById('ai-base-url'), model=document.getElementById('ai-model'), key=document.getElementById('ai-api-key');

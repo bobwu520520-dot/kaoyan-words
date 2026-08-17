@@ -76,6 +76,13 @@
       <div class="chip-row" id="recent-chips"></div>
     </section>
   </main>
+  <!-- 底部 Tab:墨墨风(移动端) -->
+  <nav class="tabbar" aria-label="主导航">
+    <button class="tab" data-nav="study.html" type="button"><span class="tab-ico">📖</span>背单词</button>
+    <button class="tab active" data-nav="search.html" type="button"><span class="tab-ico">🔍</span>考研词汇</button>
+    <button class="tab" data-nav="words.html" type="button"><span class="tab-ico">📚</span>词书</button>
+    <button class="tab" data-nav="study.html?drawer=1" type="button"><span class="tab-ico">☰</span>菜单</button>
+  </nav>
 
   <footer class="site-footer">
     <p>内置词库音标与中文释义来自开源 <a href="https://github.com/skywind3000/ECDICT" target="_blank" rel="noopener">ECDICT</a>；词库外单词及部分例句来自 <a href="https://dictionaryapi.dev" target="_blank" rel="noopener">Free Dictionary API</a>（Wiktionary，CC-BY-SA）。</p>
@@ -106,5 +113,8 @@
   <script src="js/auth.js"></script>
   <script src="js/app.js"></script>
   <script src="js/pwa.js"></script>
-</body>
+  <script>
+  (function(){document.querySelectorAll('.tabbar .tab[data-nav]').forEach(function(t){t.addEventListener('click',function(){location.href=t.dataset.nav;});});})();
+  </script>
+  </body>
 </html>
