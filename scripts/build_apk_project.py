@@ -289,7 +289,10 @@ public class MainActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 String url = request.getUrl().toString();
-                if (url.startsWith("file:///android_asset/") || url.startsWith("http://127.0.0.1") || url.startsWith("http://localhost")) {
+                if (url.startsWith("file:///android_asset/") || 
+                    url.startsWith("http://127.0.0.1") || 
+                    url.startsWith("http://localhost") || 
+                    url.startsWith("https://bobwu520520-dot.github.io/kaoyan-words/")) {
                     return false;
                 }
                 if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -302,6 +305,16 @@ public class MainActivity extends Activity {
                     }
                 }
                 return false;
+            }
+        });
+
+        mWebView.setDownloadListener(new android.webkit.DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                } catch (Exception ignored) {}
             }
         });
 

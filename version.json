@@ -1,7 +1,10 @@
 {
-  "version": "9.54",
-  "version_code": 954,
+  "version": "9.55",
+  "version_code": 955,
   "app_name": "考研词汇通_金毛背单词",
-  "apk_name": "考研词汇通_金毛背单词_v9.54.apk",
-  "zip_name": "考研词汇v9.54.zip"
+  "apk_name": "考研词汇通_金毛背单词_v9.55.apk",
+  "zip_name": "考研词汇v9.55.zip",
+  "changelog": "1. 手机端全自动更新机制与后台静默预缓存\n2. 修复桌面端背词卡片样式丢失与全端响应式居中\n3. 5,619 考研大纲词 100% 国际标准 IPA 音标全覆盖\n4. 专属全天候公网网站上线 (https://bobwu520520-dot.github.io/kaoyan-words/)",
+  "web_url": "https://bobwu520520-dot.github.io/kaoyan-words/",
+  "updated_at": "2026-09-03"
 }

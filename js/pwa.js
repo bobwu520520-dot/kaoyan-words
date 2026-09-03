@@ -2,12 +2,123 @@
 (function () {
   'use strict';
 
-  // 1. Service Worker 注册
+  // 1. 全局版本号与手机自动更新引擎 (Universal Auto-Updater)
+  var CURRENT_VERSION_CODE = 955;
+  var CURRENT_VERSION_STR = '9.55';
+
+  function showUpdateBanner(remote) {
+    if (document.getElementById('kaoyan-update-banner')) return;
+    var banner = document.createElement('div');
+    banner.id = 'kaoyan-update-banner';
+    banner.style.cssText = 'position:fixed;bottom:calc(68px + env(safe-area-inset-bottom, 0px));left:50%;transform:translateX(-50%);z-index:99999;background:linear-gradient(135deg, #0d9488, #1d5a63);color:#fff;padding:10px 16px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.3);display:flex;align-items:center;gap:12px;max-width:92vw;animation:fadeIn 0.3s ease;font-size:13px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);';
+
+    var verText = remote && remote.version ? 'v' + remote.version : '最新版';
+    banner.innerHTML = 
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<span style="font-size:20px">🚀</span>' +
+        '<div>' +
+          '<div style="font-weight:700">发现新版本 ' + verText + '</div>' +
+          '<div style="font-size:11px;opacity:0.88">词库与功能已升级，点击立即无缝生效</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:6px">' +
+        '<button id="ky-do-update-btn" type="button" style="background:#fff;color:#0d9488;border:none;padding:6px 12px;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)">立即更新</button>' +
+        '<button id="ky-close-update-btn" type="button" style="background:rgba(255,255,255,0.2);color:#fff;border:none;padding:6px 8px;border-radius:10px;font-size:12px;cursor:pointer">✕</button>' +
+      '</div>';
+
+    document.body.appendChild(banner);
+
+    banner.querySelector('#ky-do-update-btn').onclick = function () {
+      if (window.KaoyanToast) window.KaoyanToast('正在无缝切换到新版本...');
+      if (window._kaoyanSwWaiting) {
+        window._kaoyanSwWaiting.postMessage({ action: 'skipWaiting' });
+      }
+      if (location.protocol === 'file:') {
+        location.href = 'https://bobwu520520-dot.github.io/kaoyan-words/' + (location.pathname.split('/').pop() || 'study.html');
+        return;
+      }
+      setTimeout(function () {
+        location.reload();
+      }, 300);
+    };
+
+    banner.querySelector('#ky-close-update-btn').onclick = function () {
+      banner.remove();
+    };
+  }
+
+  function checkRemoteVersion(isManual) {
+    var checkUrl = 'https://bobwu520520-dot.github.io/kaoyan-words/version.json?_t=' + Date.now();
+    fetch(checkUrl, { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (remote) {
+        if (remote && remote.version_code && remote.version_code > CURRENT_VERSION_CODE) {
+          showUpdateBanner(remote);
+        } else if (isManual) {
+          if (window.KaoyanToast) window.KaoyanToast('✓ 已是最新版本 (v' + CURRENT_VERSION_STR + ')，离线词库就绪');
+          if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
+        }
+      })
+      .catch(function () {
+        if (isManual && window.KaoyanToast) {
+          window.KaoyanToast('✓ 本地词库已处于离线就绪状态 (v' + CURRENT_VERSION_STR + ')');
+        }
+      });
+  }
+
+  // Service Worker 注册与自动更新机制
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js').catch(function () {});
+      navigator.serviceWorker.register('sw.js').then(function (reg) {
+        // 定时轮询更新（每 10 分钟检测一次云端新缓存）
+        setInterval(function () {
+          reg.update().catch(function () {});
+        }, 10 * 60 * 1000);
+
+        // 页面从后台切回前台时，主动触发更新检查
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible') {
+            reg.update().catch(function () {});
+            checkRemoteVersion(false);
+          }
+        });
+
+        // 监听新 SW 安装就绪
+        reg.addEventListener('updatefound', function () {
+          var newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', function () {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              window._kaoyanSwWaiting = newWorker;
+              showUpdateBanner({ version: CURRENT_VERSION_STR });
+            }
+          });
+        });
+      }).catch(function () {});
+
+      // 监听 controllerchange 自动刷新
+      var refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (refreshing) return;
+        refreshing = true;
+        location.reload();
+      });
     });
   }
+
+  // 每次页面加载后 3 秒静默检查一次版本
+  setTimeout(function () {
+    checkRemoteVersion(false);
+  }, 3000);
+
+  window.KaoyanAutoUpdater = {
+    checkUpdate: checkRemoteVersion,
+    currentVersion: CURRENT_VERSION_STR,
+    currentVersionCode: CURRENT_VERSION_CODE
+  };
 
   // 2. 离线/在线网络状态胶囊指示器
   function showNetToast(msg, isOffline) {

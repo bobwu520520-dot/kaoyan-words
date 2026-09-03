@@ -415,8 +415,12 @@
     }
     // 检查更新
     if (target.closest('#mem-check-update-btn')) {
-      if (window.KaoyanToast) window.KaoyanToast('✓ 离线词库与云端同步已处于最新状态 (v9.54)');
-      if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
+      if (window.KaoyanAutoUpdater && typeof window.KaoyanAutoUpdater.checkUpdate === 'function') {
+        window.KaoyanAutoUpdater.checkUpdate(true);
+      } else {
+        if (window.KaoyanToast) window.KaoyanToast('✓ 离线词库与云端同步已处于最新状态 (v9.55)');
+        if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
+      }
       return;
     }
     // 云端备份
