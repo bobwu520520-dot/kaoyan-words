@@ -278,7 +278,7 @@
       (ai.zh ? '<p class="example-zh">' + esc(ai.zh) + '</p>' : '') + '</div>';
   }
 
-  // 助记与延伸：词根词缀拆解 + 词族派生（像墨墨一样的延伸记忆）
+  // 助记与延伸：词根词缀拆解 + 词族派生科学记忆法
   function mnemonicPanel(w) {
     var rows = '';
     if (w.root) rows += '<p class="root-line"><strong>词根拆解：</strong>' + esc(w.root) + '</p>';

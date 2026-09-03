@@ -2510,7 +2510,7 @@ main, .exam-section:not([hidden]), .s-card-inner {
 }
 
 
-/* ===== 墨墨/不背单词沉浸风格 (Deep Minimalist Recall & Study) ===== */
+/* ===== 考研极简沉浸回忆卡片风格 (Deep Minimalist Recall & Study) ===== */
 .bb-container {
   display: flex;
   flex-direction: column;
@@ -3574,7 +3574,7 @@ body.zen-focus-active .zen-exit-floating-btn {
     border-radius: 8px !important;
   }
 
-  /* 墨墨风格背词卡片单手大拇指优化 */
+  /* 考研沉浸背词卡片单手大拇指触控优化 */
   .bb-container {
     padding: 16px 14px !important;
     min-height: calc(100vh - 160px) !important;

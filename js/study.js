@@ -465,7 +465,7 @@
     }
 
     if (!shown) {
-      // 墨墨/不背单词风格 State 1：未展开回忆页面
+      // 考研极简闪卡 State 1：未展开回忆页面
       $('card').innerHTML = `
         <div class="bb-container unrevealed" id="show">
           <!-- 顶部状态栏 -->
@@ -507,7 +507,7 @@
       return;
     }
 
-    // 墨墨/不背单词风格 State 2：展开答案与例句助记页面
+    // 考研极简闪卡 State 2：展开答案与例句助记页面
     const pInfo = state.progress[w.word] || { level: 0 };
     const nextIntervalDays = pInfo.level >= 4 ? '81 天后' : pInfo.level >= 2 ? '15 天后' : (pInfo.level >= 1 ? '5 天后' : '3 天后');
 
@@ -602,19 +602,19 @@
           </div>
         </div>
 
-        <!-- 3 按钮操作栏 (认识、模糊、忘记) -->
+        <!-- 3 级记忆分级操作栏 (熟记、待巩固、需重背) -->
         <div class="bb-rating-bar">
           <button class="bb-rate-btn bb-rate-known" id="grade3" type="button">
-            <span class="bb-rate-label">认识</span>
-            <span class="bb-rate-sub">${nextIntervalDays}</span>
+            <span class="bb-rate-label">熟记</span>
+            <span class="bb-rate-sub">掌握 · ${nextIntervalDays}</span>
           </button>
           <button class="bb-rate-btn bb-rate-fuzzy" id="grade1" type="button">
-            <span class="bb-rate-label">模糊</span>
-            <span class="bb-rate-sub">今日 / 5 天后</span>
+            <span class="bb-rate-label">待巩固</span>
+            <span class="bb-rate-sub">夹生 · 近期复现</span>
           </button>
           <button class="bb-rate-btn bb-rate-forgot" id="grade0" type="button">
-            <span class="bb-rate-label">忘记</span>
-            <span class="bb-rate-sub">今日 / 3 天后</span>
+            <span class="bb-rate-label">需重背</span>
+            <span class="bb-rate-sub">生疏 · 循环强化</span>
           </button>
         </div>
       </div>
@@ -711,10 +711,10 @@
         // Horizontal Swipe
         if (Math.abs(dx) > 60 && Math.abs(dy) < 70 && dt < 450) {
           if (dx < 0) {
-            if (window.KaoyanToast) window.KaoyanToast('👈 滑动：不认识 / 模糊');
+            if (window.KaoyanToast) window.KaoyanToast('👈 滑动：需重背 / 待巩固');
             rate(0);
           } else {
-            if (window.KaoyanToast) window.KaoyanToast('👉 滑动：认识 / 掌握 ✓');
+            if (window.KaoyanToast) window.KaoyanToast('👉 滑动：熟记掌握 ✓');
             rate(2);
           }
           if (navigator.vibrate) try { navigator.vibrate(15); } catch(err){}
