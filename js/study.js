@@ -456,13 +456,21 @@
       }, 80);
     }
 
+    function getStudyTimeStr() {
+      if (!window._kaoyanStudyStartTime) window._kaoyanStudyStartTime = Date.now();
+      var elapsed = Math.floor((Date.now() - window._kaoyanStudyStartTime) / 1000);
+      var mins = String(Math.floor(elapsed / 60)).padStart(2, '0');
+      var secs = String(elapsed % 60).padStart(2, '0');
+      return mins + ':' + secs;
+    }
+
     if (!shown) {
       // 墨墨/不背单词风格 State 1：未展开回忆页面
       $('card').innerHTML = `
         <div class="bb-container unrevealed" id="show">
           <!-- 顶部状态栏 -->
           <div class="bb-top-bar">
-            <span class="bb-timer" id="bb-timer-display">00:03</span>
+            <span class="bb-timer" id="bb-timer-display">${getStudyTimeStr()}</span>
             <div class="bb-top-tools">
               ${voicePillsHtml}
               ${window.KaoyanQuiz ? KaoyanQuiz.favBtn(w.word) : ''}
@@ -507,7 +515,7 @@
       <div class="bb-container">
         <!-- 顶部状态栏 -->
         <div class="bb-top-bar">
-          <span class="bb-timer" id="bb-timer-display">00:07</span>
+          <span class="bb-timer" id="bb-timer-display">${getStudyTimeStr()}</span>
           <div class="bb-top-tools">
             ${voicePillsHtml}
             ${window.KaoyanQuiz ? KaoyanQuiz.favBtn(w.word) : ''}

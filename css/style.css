@@ -2509,6 +2509,328 @@ main, .exam-section:not([hidden]), .s-card-inner {
   display: none;
 }
 
+
+/* ===== 墨墨/不背单词沉浸风格 (Deep Minimalist Recall & Study) ===== */
+.bb-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 10px 14px calc(4px + env(safe-area-inset-bottom));
+  background: var(--color-surface);
+  color: var(--color-text);
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 顶部状态与计时 */
+.bb-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+.bb-timer {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  background: var(--color-surface-offset);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+}
+.bb-top-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bb-tool-icon {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  cursor: pointer;
+  padding: 3px 5px;
+  border-radius: 6px;
+}
+
+/* 单词头部 (Word + Phonetic) */
+.bb-word-header {
+  text-align: center;
+  margin: 8px 0 12px;
+  flex-shrink: 0;
+}
+.bb-word {
+  font-size: clamp(23px, 6.5vw, 29px) !important;
+  font-weight: 800;
+  color: #2dd4bf;
+  letter-spacing: -0.2px;
+  line-height: 1.2;
+}
+[data-theme='light'] .bb-word {
+  color: #0d9488;
+}
+.bb-phonetic-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+.bb-phonetic-tag {
+  font-size: 10px;
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-weight: 700;
+}
+.bb-audio-inline-btn {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 4px;
+  color: #2dd4bf;
+}
+
+/* State 1: 未展开回忆区 (Recall State) */
+.bb-recall-prompt {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  min-height: 180px;
+}
+.bb-recall-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+.bb-recall-sub {
+  font-size: 12px;
+  color: var(--color-text-faint);
+}
+
+/* 浮动发音按钮 (Floating Audio Button) */
+.bb-floating-audio-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 18px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: color-mix(in oklab, #2dd4bf 14%, var(--color-surface-offset));
+  border: 2px solid color-mix(in oklab, #2dd4bf 40%, transparent);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+.bb-floating-audio-btn:active {
+  transform: scale(0.92);
+}
+
+/* State 2: 答案已展开区 (Answer Content) */
+.bb-answer-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 2px;
+  animation: pageSlideInRight 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 释义栏 */
+.bb-meaning-box {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 7px 10px;
+}
+.bb-pos-tag {
+  background: color-mix(in oklab, var(--color-primary) 18%, transparent);
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.bb-meaning-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.45;
+  flex: 1;
+}
+.bb-meaning-opt-btn {
+  background: transparent;
+  border: none;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+/* 例句 & 助记 板块 */
+.bb-section-box {
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+.bb-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.bb-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: 0.5px;
+}
+.bb-section-tag {
+  font-size: 10px;
+  color: #10b981;
+  background: color-mix(in oklab, #10b981 12%, transparent);
+  border: 1px solid color-mix(in oklab, #10b981 25%, transparent);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.bb-section-actions {
+  display: flex;
+  gap: 6px;
+}
+.bb-mini-btn {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.bb-example-item {
+  margin-bottom: 6px;
+}
+.bb-example-item:last-child {
+  margin-bottom: 0;
+}
+.bb-example-en {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+.bb-example-en em, .bb-example-en mark, .bb-example-en strong {
+  color: #2dd4bf;
+  font-style: normal;
+  font-weight: 700;
+  background: transparent;
+}
+[data-theme='light'] .bb-example-en em, [data-theme='light'] .bb-example-en mark, [data-theme='light'] .bb-example-en strong {
+  color: #0d9488;
+}
+.bb-example-zh {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* 助记内容 */
+.bb-mnemonic-content {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+.bb-root-text {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.bb-sub-tag {
+  font-size: 11px;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* 3 按钮操作栏 (认识、模糊、忘记) */
+.bb-rating-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.bb-rate-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 4px;
+  border-radius: 10px;
+  background: var(--color-surface-offset);
+  border: 1.5px solid var(--color-border);
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease;
+  touch-action: manipulation;
+}
+.bb-rate-btn:active {
+  transform: scale(0.94);
+}
+.bb-rate-known {
+  border-color: #22c55e;
+}
+.bb-rate-known .bb-rate-label {
+  color: #22c55e;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.bb-rate-fuzzy {
+  border-color: #eab308;
+}
+.bb-rate-fuzzy .bb-rate-label {
+  color: #eab308;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.bb-rate-forgot {
+  border-color: #ef4444;
+}
+.bb-rate-forgot .bb-rate-label {
+  color: #ef4444;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+.bb-rate-sub {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
 /* ===== 📱 移动端 10 维深度响应式强化 (Mobile Perfection Engine) ===== */
 @media (max-width: 640px) {
   .study-header-collapsible {
@@ -2546,326 +2868,7 @@ main, .exam-section:not([hidden]), .s-card-inner {
     overflow: hidden;
   }
 
-  /* ===== 墨墨/不背单词沉浸风格 (Deep Minimalist Recall & Study) ===== */
-  .bb-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 10px 14px calc(4px + env(safe-area-inset-bottom));
-    background: var(--color-surface);
-    color: var(--color-text);
-    user-select: none;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* 顶部状态与计时 */
-  .bb-top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    color: var(--color-text-muted);
-    font-family: var(--font-body);
-    margin-bottom: 4px;
-    flex-shrink: 0;
-  }
-  .bb-timer {
-    font-family: monospace;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    background: var(--color-surface-offset);
-    padding: 2px 8px;
-    border-radius: 6px;
-    border: 1px solid var(--color-border);
-  }
-  .bb-top-tools {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .bb-tool-icon {
-    background: transparent;
-    border: none;
-    color: var(--color-text-muted);
-    font-size: 15px;
-    cursor: pointer;
-    padding: 3px 5px;
-    border-radius: 6px;
-  }
-
-  /* 单词头部 (Word + Phonetic) */
-  .bb-word-header {
-    text-align: center;
-    margin: 8px 0 12px;
-    flex-shrink: 0;
-  }
-  .bb-word {
-    font-size: clamp(23px, 6.5vw, 29px) !important;
-    font-weight: 800;
-    color: #2dd4bf;
-    letter-spacing: -0.2px;
-    line-height: 1.2;
-  }
-  [data-theme='light'] .bb-word {
-    color: #0d9488;
-  }
-  .bb-phonetic-row {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 4px;
-    font-size: 12.5px;
-    color: var(--color-text-muted);
-  }
-  .bb-phonetic-tag {
-    font-size: 10px;
-    background: var(--color-surface-offset);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    padding: 1px 4px;
-    font-weight: 700;
-  }
-  .bb-audio-inline-btn {
-    background: transparent;
-    border: none;
-    font-size: 13px;
-    cursor: pointer;
-    padding: 0 4px;
-    color: #2dd4bf;
-  }
-
-  /* State 1: 未展开回忆区 (Recall State) */
-  .bb-recall-prompt {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    min-height: 180px;
-  }
-  .bb-recall-title {
-    font-size: 14.5px;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    margin-bottom: 6px;
-  }
-  .bb-recall-sub {
-    font-size: 12px;
-    color: var(--color-text-faint);
-  }
-
-  /* 浮动发音按钮 (Floating Audio Button) */
-  .bb-floating-audio-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 18px;
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: color-mix(in oklab, #2dd4bf 14%, var(--color-surface-offset));
-    border: 2px solid color-mix(in oklab, #2dd4bf 40%, transparent);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    transition: transform 0.18s ease;
-  }
-  .bb-floating-audio-btn:active {
-    transform: scale(0.92);
-  }
-
-  /* State 2: 答案已展开区 (Answer Content) */
-  .bb-answer-content {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-right: 2px;
-    animation: pageSlideInRight 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  /* 释义栏 */
-  .bb-meaning-box {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    background: var(--color-surface-offset);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    padding: 7px 10px;
-  }
-  .bb-pos-tag {
-    background: color-mix(in oklab, var(--color-primary) 18%, transparent);
-    color: var(--color-primary);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 5px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-  .bb-meaning-text {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text);
-    line-height: 1.45;
-    flex: 1;
-  }
-  .bb-meaning-opt-btn {
-    background: transparent;
-    border: none;
-    font-size: 12px;
-    color: var(--color-text-muted);
-    cursor: pointer;
-  }
-
-  /* 例句 & 助记 板块 */
-  .bb-section-box {
-    background: var(--color-surface-offset);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    padding: 8px 10px;
-  }
-  .bb-section-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-  }
-  .bb-section-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    letter-spacing: 0.5px;
-  }
-  .bb-section-tag {
-    font-size: 10px;
-    color: #10b981;
-    background: color-mix(in oklab, #10b981 12%, transparent);
-    border: 1px solid color-mix(in oklab, #10b981 25%, transparent);
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-weight: 600;
-  }
-  .bb-section-actions {
-    display: flex;
-    gap: 6px;
-  }
-  .bb-mini-btn {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    padding: 2px 6px;
-    font-size: 11px;
-    cursor: pointer;
-  }
-  .bb-example-item {
-    margin-bottom: 6px;
-  }
-  .bb-example-item:last-child {
-    margin-bottom: 0;
-  }
-  .bb-example-en {
-    font-size: 12.5px;
-    line-height: 1.5;
-    color: var(--color-text);
-  }
-  .bb-example-en em, .bb-example-en mark, .bb-example-en strong {
-    color: #2dd4bf;
-    font-style: normal;
-    font-weight: 700;
-    background: transparent;
-  }
-  [data-theme='light'] .bb-example-en em, [data-theme='light'] .bb-example-en mark, [data-theme='light'] .bb-example-en strong {
-    color: #0d9488;
-  }
-  .bb-example-zh {
-    font-size: 11.5px;
-    color: var(--color-text-muted);
-    margin-top: 2px;
-  }
-
-  /* 助记内容 */
-  .bb-mnemonic-content {
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--color-text);
-  }
-  .bb-root-text {
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
-  .bb-sub-tag {
-    font-size: 11px;
-    color: var(--color-primary);
-    font-weight: 700;
-  }
-
-  /* 3 按钮操作栏 (认识、模糊、忘记) */
-  .bb-rating-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 8px;
-    flex-shrink: 0;
-    padding-top: 2px;
-  }
-  .bb-rate-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-    padding: 8px 4px;
-    border-radius: 10px;
-    background: var(--color-surface-offset);
-    border: 1.5px solid var(--color-border);
-    cursor: pointer;
-    transition: transform 0.16s ease, border-color 0.16s ease;
-    touch-action: manipulation;
-  }
-  .bb-rate-btn:active {
-    transform: scale(0.94);
-  }
-  .bb-rate-known {
-    border-color: #22c55e;
-  }
-  .bb-rate-known .bb-rate-label {
-    color: #22c55e;
-    font-size: 13.5px;
-    font-weight: 700;
-  }
-  .bb-rate-fuzzy {
-    border-color: #eab308;
-  }
-  .bb-rate-fuzzy .bb-rate-label {
-    color: #eab308;
-    font-size: 13.5px;
-    font-weight: 700;
-  }
-  .bb-rate-forgot {
-    border-color: #ef4444;
-  }
-  .bb-rate-forgot .bb-rate-label {
-    color: #ef4444;
-    font-size: 13.5px;
-    font-weight: 700;
-  }
-  .bb-rate-sub {
-    font-size: 10px;
-    color: var(--color-text-muted);
-  }
+  .s-card-fixed-top {
     padding: 2px 4px;
     flex-shrink: 0;
   }
