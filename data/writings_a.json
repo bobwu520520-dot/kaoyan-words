@@ -1,0 +1,281 @@
+{
+  "title": "考研英语（一）历年真题应用小作文全题库 (2010~2024)",
+  "total_count": 15,
+  "letters": [
+    {
+      "year": 2024,
+      "type": "建议信 (Letter of Advice)",
+      "title": "关于加强校园绿色环保的建议信",
+      "prompt": "Write a letter to the President of your university to put forward constructive suggestions on improving campus environmental protection and energy conservation.",
+      "salutation": "Dear President,",
+      "model_essay": "Dear President,\n\nI am writing this letter to put forward several constructive suggestions concerning campus environmental protection and energy conservation, aiming to build a greener and more sustainable academic environment.\n\nFirst and foremost, it would be highly beneficial to optimize waste classification by placing designated recycling bins across academic buildings and student dormitories. In addition, the university could organize energy-saving campaigns to advocate turning off lights and air conditioners when classrooms are unoccupied. Last but not least, promoting green commuting such as campus shared bicycles could effectively reduce carbon emissions.\n\nThank you for your time and favorable consideration of my suggestions. I look forward to witnessing our campus become increasingly eco-friendly.\n\nYours sincerely,\nLi Ming",
+      "paragraphs": [
+        {
+          "para_title": "第一段：表明写信目的 (Purpose)",
+          "sentences": [
+            {
+              "en": "I am writing this letter to put forward several constructive suggestions concerning campus environmental protection and energy conservation, aiming to build a greener and more sustainable academic environment.",
+              "zh": "我写此信旨在就校园环境保护与节能减排提出几项建设性建议，以期建设一个更加绿色和可持续的校园环境。",
+              "role": "写信目的开门见山"
+            }
+          ]
+        },
+        {
+          "para_title": "第二段：展开三大建议要点 (Body Points)",
+          "sentences": [
+            {
+              "en": "First and foremost, it would be highly beneficial to optimize waste classification by placing designated recycling bins across academic buildings and student dormitories.",
+              "zh": "首先，在教学楼和学生宿舍设立专门的分类垃圾箱以优化垃圾分类将大有裨益。",
+              "role": "建议一：垃圾分类"
+            },
+            {
+              "en": "In addition, the university could organize energy-saving campaigns to advocate turning off lights and air conditioners when classrooms are unoccupied.",
+              "zh": "此外，学校可以开展节能倡议活动，倡导在教室空置时及时关闭电灯和空调。",
+              "role": "建议二：节能减排"
+            },
+            {
+              "en": "Last but not least, promoting green commuting such as campus shared bicycles could effectively reduce carbon emissions.",
+              "zh": "最后但同样重要的是，推广校园共享单车等绿色出行方式能有效减少碳排放。",
+              "role": "建议三：绿色出行"
+            }
+          ]
+        },
+        {
+          "para_title": "第三段：礼貌致谢与期盼回复 (Sign-off & Expectation)",
+          "sentences": [
+            {
+              "en": "Thank you for your time and favorable consideration of my suggestions. I look forward to witnessing our campus become increasingly eco-friendly.",
+              "zh": "感谢您抽出宝贵时间并对我的建议给予积极考虑。我期待着见证我们的校园变得越来越绿色生态。",
+              "role": "致谢与展望"
+            }
+          ]
+        }
+      ],
+      "sign_off": "Yours sincerely,\nLi Ming",
+      "key_phrases": [
+        "put forward constructive suggestions (提出建设性建议)",
+        "designated recycling bins (专门指定的分类垃圾箱)",
+        "advocate turning off lights (倡导随手关灯)",
+        "green commuting (绿色通勤出行)",
+        "favorable consideration (积极考虑与采纳)"
+      ]
+    },
+    {
+      "year": 2023,
+      "type": "倡议/建议信 (Proposal Letter)",
+      "title": "关于促进大学生身心健康的倡议信",
+      "prompt": "Write a proposal to all university students to advocate maintaining physical fitness and cultivating mental well-being.",
+      "salutation": "Dear Fellow Students,",
+      "model_essay": "Dear Fellow Students,\n\nI am writing this proposal on behalf of the Students' Union to call upon all students to prioritize physical fitness and cultivate sound psychological well-being amid rigorous academic pursuits.\n\nFirst and foremost, engaging in regular physical exercise, such as jogging, swimming, or basketball for at least thirty minutes each day, significantly enhances cardiovascular health and relieves academic stress. In addition, establishing a consistent sleep schedule and maintaining a balanced diet are indispensable for sustained vitality. Last but not least, learning to communicate openly with friends and counselors helps us manage emotional distress effectively.\n\nLet us take proactive actions starting from today to embrace a healthier lifestyle. A sound mind in a sound body paves the way for our future success.\n\nStudents' Union",
+      "paragraphs": [
+        {
+          "para_title": "第一段：表明倡议主旨 (Purpose)",
+          "sentences": [
+            {
+              "en": "I am writing this proposal on behalf of the Students' Union to call upon all students to prioritize physical fitness and cultivate sound psychological well-being amid rigorous academic pursuits.",
+              "zh": "我谨代表学生会发出此倡议，号召全体同学在繁忙的学业之余重视身体健康，培养良好的心理状态。",
+              "role": "倡议主旨开门见山"
+            }
+          ]
+        },
+        {
+          "para_title": "第二段：具体倡议举措 (Body Points)",
+          "sentences": [
+            {
+              "en": "First and foremost, engaging in regular physical exercise, such as jogging, swimming, or basketball for at least thirty minutes each day, significantly enhances cardiovascular health and relieves academic stress.",
+              "zh": "首先，每天进行至少 30 分钟的慢跑、游泳或篮球等规律体育锻炼，能够显著增强心血管健康并缓解学业压力。",
+              "role": "倡议一：规律运动"
+            },
+            {
+              "en": "In addition, establishing a consistent sleep schedule and maintaining a balanced diet are indispensable for sustained vitality.",
+              "zh": "此外，建立规律的作息时间并保持均衡饮食，对于维持充沛的精力不可或缺。",
+              "role": "倡议二：作息饮食"
+            },
+            {
+              "en": "Last but not least, learning to communicate openly with friends and counselors helps us manage emotional distress effectively.",
+              "zh": "最后，学会与朋友和心理辅导老师坦诚交流，有助于我们有效疏导负面情绪。",
+              "role": "倡议三：心理疏导"
+            }
+          ]
+        },
+        {
+          "para_title": "第三段：号召行动与经典结语 (Call to Action)",
+          "sentences": [
+            {
+              "en": "Let us take proactive actions starting from today to embrace a healthier lifestyle. A sound mind in a sound body paves the way for our future success.",
+              "zh": "让我们从今天开始采取积极行动，拥抱更加健康的生活方式。健全的精神寓于健康的体魄，将为我们未来的成功铺平道路。",
+              "role": "号召与格言"
+            }
+          ]
+        }
+      ],
+      "sign_off": "Students' Union",
+      "key_phrases": [
+        "call upon all students to... (号召全体同学...)",
+        "prioritize physical fitness (重视身体健康)",
+        "relieve academic stress (缓解学业压力)",
+        "a consistent sleep schedule (规律的作息时间)",
+        "A sound mind in a sound body (健全的精神寓于健康的体魄)"
+      ]
+    },
+    {
+      "year": 2022,
+      "type": "邀请信 (Invitation Letter)",
+      "title": "邀请外籍专家担任学术讲座主讲人",
+      "prompt": "Write a letter to Professor Smith to invite him to deliver an online lecture on artificial intelligence for international students.",
+      "salutation": "Dear Professor Smith,",
+      "model_essay": "Dear Professor Smith,\n\nOn behalf of the School of Computer Science, I am writing this letter to cordially invite you to deliver an online keynote lecture on cutting-edge Artificial Intelligence trends for our international students.\n\nThe lecture is tentatively scheduled for October 20th, from 7:00 pm to 9:00 pm via Zoom. Given your distinguished achievements and profound insights in machine learning, we believe your lecture will greatly broaden students' academic horizons. Following the presentation, there will be a 30-minute interactive Q&A session.\n\nWe would be deeply honored if you could accept our invitation. Please let us know your availability at your earliest convenience so that we can make formal arrangements.\n\nYours sincerely,\nLi Ming",
+      "paragraphs": [
+        {
+          "para_title": "第一段：表明邀请意图 (Purpose)",
+          "sentences": [
+            {
+              "en": "On behalf of the School of Computer Science, I am writing this letter to cordially invite you to deliver an online keynote lecture on cutting-edge Artificial Intelligence trends for our international students.",
+              "zh": "我谨代表计算机学院写信，诚挚邀请您为我们的留学生做一场关于前沿人工智能趋势的线上主题讲座。",
+              "role": "诚挚邀请主旨"
+            }
+          ]
+        },
+        {
+          "para_title": "第二段：讲座安排与专家成就 (Details & Arrangements)",
+          "sentences": [
+            {
+              "en": "The lecture is tentatively scheduled for October 20th, from 7:00 pm to 9:00 pm via Zoom.",
+              "zh": "讲座暂定于 10 月 20 日晚上 7:00 至 9:00 通过 Zoom 平台举行。",
+              "role": "时间与形式"
+            },
+            {
+              "en": "Given your distinguished achievements and profound insights in machine learning, we believe your lecture will greatly broaden students' academic horizons. Following the presentation, there will be a 30-minute interactive Q&A session.",
+              "zh": "鉴于您在机器学习领域的卓越成就与深刻洞见，我们相信您的讲座将极大地拓宽学生的学术视野。讲座结束后还将设有 30 分钟的互动问答环节。",
+              "role": "高度赞誉与环节安排"
+            }
+          ]
+        },
+        {
+          "para_title": "第三段：期盼回复与落款 (Expectation & Sign-off)",
+          "sentences": [
+            {
+              "en": "We would be deeply honored if you could accept our invitation. Please let us know your availability at your earliest convenience so that we can make formal arrangements.",
+              "zh": "若您能接受我们的邀请，我们将感到无比荣幸。敬请在方便时告知您的日程安排，以便我们做好正式准备。",
+              "role": "期盼回复"
+            }
+          ]
+        }
+      ],
+      "sign_off": "Yours sincerely,\nLi Ming",
+      "key_phrases": [
+        "cordially invite you to... (诚挚邀请您...)",
+        "tentatively scheduled for... (暂定于...)",
+        "distinguished achievements (卓越成就)",
+        "broaden academic horizons (拓宽学术视野)",
+        "at your earliest convenience (在您方便时尽早)"
+      ]
+    },
+    {
+      "year": 2021,
+      "type": "建议信 (Letter of Advice)",
+      "title": "给新入学校园留学生的适应建议信",
+      "prompt": "Write a letter to incoming international students to offer practical advice on adapting to campus life and academic studies.",
+      "salutation": "Dear International Students,",
+      "model_essay": "Dear International Students,\n\nOn behalf of the University Student Ambassadors, I am delighted to extend our warmest welcome to you and write this letter to offer some practical advice on adapting smoothly to your new campus life.\n\nFirst and foremost, actively participating in campus cultural clubs and language exchange programs will help you overcome language barriers and make friends quickly. In addition, familiarizing yourself with the university library and online academic databases will significantly enhance your study efficiency. Last but not least, do not hesitate to reach out to international student advisors whenever you encounter visa, housing, or psychological concerns.\n\nI sincerely hope these suggestions will be helpful. Wish you a pleasant, fruitful, and memorable journey at our university!\n\nYours sincerely,\nLi Ming",
+      "paragraphs": [
+        {
+          "para_title": "第一段：欢迎与写信目的 (Welcome & Purpose)",
+          "sentences": [
+            {
+              "en": "On behalf of the University Student Ambassadors, I am delighted to extend our warmest welcome to you and write this letter to offer some practical advice on adapting smoothly to your new campus life.",
+              "zh": "我谨代表大学学生使者团队，向大家致以最热烈的欢迎，并写信就如何顺利适应新的校园生活提供一些实用建议。",
+              "role": "热烈欢迎与目的"
+            }
+          ]
+        },
+        {
+          "para_title": "第二段：生活与学术三大建议 (Key Advice)",
+          "sentences": [
+            {
+              "en": "First and foremost, actively participating in campus cultural clubs and language exchange programs will help you overcome language barriers and make friends quickly.",
+              "zh": "首先，积极参与校园文化社团和语言交流项目将帮助大家克服语言障碍并迅速结交朋友。",
+              "role": "建议一：社团交流"
+            },
+            {
+              "en": "In addition, familiarizing yourself with the university library and online academic databases will significantly enhance your study efficiency.",
+              "zh": "此外，熟悉大学图书馆和在线学术数据库将显著提升大家的学习效率。",
+              "role": "建议二：学术资源"
+            },
+            {
+              "en": "Last but not least, do not hesitate to reach out to international student advisors whenever you encounter visa, housing, or psychological concerns.",
+              "zh": "最后，每当遇到签证、住宿或心理困扰时，请随时向留学生顾问寻求帮助。",
+              "role": "建议三：寻求支持"
+            }
+          ]
+        },
+        {
+          "para_title": "第三段：由衷祝愿与落款 (Wishes & Sign-off)",
+          "sentences": [
+            {
+              "en": "I sincerely hope these suggestions will be helpful. Wish you a pleasant, fruitful, and memorable journey at our university!",
+              "zh": "我衷心希望这些建议能对大家有所助益。祝愿大家在我们的大学度过一段愉快、充实而难忘的旅程！",
+              "role": "祝愿结语"
+            }
+          ]
+        }
+      ],
+      "sign_off": "Yours sincerely,\nLi Ming",
+      "key_phrases": [
+        "extend our warmest welcome (致以最热烈的欢迎)",
+        "overcome language barriers (克服语言障碍)",
+        "enhance study efficiency (提升学习效率)",
+        "do not hesitate to reach out to... (随时联系寻求帮助...)",
+        "a fruitful and memorable journey (一段充实而难忘的旅程)"
+      ]
+    },
+    {
+      "year": 2020,
+      "type": "告示/通知 (Notice)",
+      "title": "校园英文歌曲大赛招募告示",
+      "prompt": "Write a notice to recruit participants for the upcoming Annual Campus English Singing Contest.",
+      "salutation": "Notice",
+      "model_essay": "Notice\n\nSeptember 10, 2026\n\nAn exciting Annual Campus English Singing Contest is scheduled to be held in the University Grand Auditorium on October 15th, from 6:30 pm to 9:30 pm. The primary purpose of this event is to enrich campus cultural life and enhance students' English communication skills.\n\nAll undergraduate and graduate students are eligible to participate as solo vocalists or musical groups. Contestants are required to prepare one English song within five minutes. Distinguished professors from the School of Music and Foreign Languages will serve as judges, and generous prizes will be awarded to top performers.\n\nThose who are interested are warmly encouraged to register by sending an email to singing2026@univ.edu before September 30th. Everyone is welcome to showcase your talent!\n\nStudents' Union",
+      "paragraphs": [
+        {
+          "para_title": "第一段：活动时间地点与目的 (Time, Location & Purpose)",
+          "sentences": [
+            {
+              "en": "An exciting Annual Campus English Singing Contest is scheduled to be held in the University Grand Auditorium on October 15th, from 6:30 pm to 9:30 pm. The primary purpose of this event is to enrich campus cultural life and enhance students' English communication skills.",
+              "zh": "一年一度精彩纷呈的校园英文歌曲大赛定于 10 月 15 日晚上 6:30 至 9:30 在大学大礼堂举行。本次活动的主要宗旨在于丰富校园文化生活并提升同学们的英语交流能力。",
+              "role": "活动基本信息"
+            }
+          ]
+        },
+        {
+          "para_title": "第二段：参赛资格与评奖规则 (Eligibility & Rules)",
+          "sentences": [
+            {
+              "en": "All undergraduate and graduate students are eligible to participate as solo vocalists or musical groups. Contestants are required to prepare one English song within five minutes. Distinguished professors from the School of Music and Foreign Languages will serve as judges, and generous prizes will be awarded to top performers.",
+              "zh": "全体本科生与研究生均可作为独唱选手或乐队组合报名参赛。参赛者需准备一首 5 分钟以内的英文歌曲。来自音乐学院和外国语学院的知名教授将担任评委，优胜者将获得丰厚奖品。",
+              "role": "参赛规则与评委"
+            }
+          ]
+        },
+        {
+          "para_title": "第三段：报名方式与截止日期 (Registration & Deadline)",
+          "sentences": [
+            {
+              "en": "Those who are interested are warmly encouraged to register by sending an email to singing2026@univ.edu before September 30th. Everyone is welcome to showcase your talent!",
+              "zh": "有意参赛者请于 9 月 30 日前发送邮件至 singing2026@univ.edu 报名。热烈欢迎大家一展才华！",
+              "role": "报名方式与呼吁"
+            }
+          ]
+        }
+      ],
+      "sign_off": "Students' Union",
+      "key_phrases": [
+        "is scheduled to be held in... (定于...举行)",
+        "enrich campus cultural life (丰富校园文化生活)",
+        "are eligible to participate (有资格参赛)",
+        "serve as judges (担任评委)",
+        "showcase your talent (一展才华)"
+      ]
+    }
+  ]
+}

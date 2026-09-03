@@ -1,0 +1,42 @@
+{
+  "title": "考研英语（一）阅读新题型真题实战库",
+  "total_count": 2,
+  "tasks": [
+    {
+      "id": "newtype-2023",
+      "year": 2023,
+      "type": "排序题 (Paragraph Ordering)",
+      "theme": "社会学与数字时代的劳动力变迁",
+      "title": "远程协作模式对企业组织架构的重塑",
+      "paragraphs": [
+        {
+          "id": "A",
+          "text": "Such digital pioneers established decentralized communication protocols, allowing team members across different time zones to collaborate seamlessly without constant physical supervision.",
+          "clue": "【代词指代链】开头含 'Such digital pioneers'，必紧接在首次提及先驱企业或科研机构的段落之后。"
+        },
+        {
+          "id": "B",
+          "text": "In recent decades, the profound transition towards remote working has revolutionized organizational paradigms across the global technology and knowledge sectors.",
+          "clue": "【标准首段特征】交代宏观时代背景 'In recent decades, ... has revolutionized...'，引出全文核心议题。"
+        },
+        {
+          "id": "C",
+          "text": "However, this flexible model also poses severe psychological challenges, including chronic employee isolation and blurred boundaries between professional duties and private life.",
+          "clue": "【逻辑转折】转折词 'However' 承接上文关于远程协作的效率优势，转入对心理孤独与工作边界模糊的探讨。"
+        },
+        {
+          "id": "D",
+          "text": "To mitigate these adverse effects, forward-thinking executives are introducing asynchronous wellness check-ins and hybrid physical gathering spaces.",
+          "clue": "【对策解决句】句首 'To mitigate these adverse effects' 紧扣段落 C 提出的多重负面挑战，给出终极解决方案。"
+        }
+      ],
+      "correct_order": [
+        "B",
+        "A",
+        "C",
+        "D"
+      ],
+      "analysis": "① 首段选 B：宏观交代远程办公历史变革；② 第二段选 A：以 'Such digital pioneers' 承接 B 中的变革先锋；③ 第三段选 C：以 'However, this flexible model' 引入挑战；④ 第四段选 D：以 'To mitigate these adverse effects' 给出应对策略。"
+    }
+  ]
+}

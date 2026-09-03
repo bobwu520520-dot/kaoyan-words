@@ -1,0 +1,260 @@
+acquittal|n.|宣判无罪；开释
+adjudicate|v.|判决；裁定
+allegation|n.|指控；主张
+appellate|adj.|上诉的
+arbitration|n.|仲裁；公断
+bail|n.|保释；保释金
+bailout|n.|紧急救助； bailout 救援
+bankruptcy|n.|破产
+blacklist|n./v.|黑名单；列入黑名单
+blockade|n./v.|封锁
+bureaucrat|n.|官僚；官僚主义者
+caregiver|n.|照料者；护理人员
+censorship|n.|审查制度
+citizenry|n.|公民；全体公民
+crackdown|n.|镇压；制裁
+curfew|n.|宵禁
+defamation|n.|诽谤；中伤
+defendant|n.|被告
+defector|n.|叛逃者；背叛者
+delineate|v.|描述；勾画
+demography|n.|人口统计学
+deterrent|n.|威慑物 adj.|遏制的
+devolution|n.|移交；下放；退化
+donor|n.|捐赠者；供血者
+dossier|n.|档案；卷宗
+duress|n.|胁迫；监禁
+electorate|n.|选民；选区
+embargo|n./v.|禁运；禁止贸易
+emissary|n.|使者；特使
+entrapment|n.|诱捕；圈套
+extradition|n.|引渡
+forfeit|v./n./adj.|没收；丧失
+hegemony|n.|霸权；领导权
+homeland|n.|祖国；家乡
+impeachment|n.|弹劾；控告
+indictment|n.|起诉书；控告
+judiciary|n./adj.|司法部门；司法的
+juror|n.|陪审员
+kickback|n.|回扣；佣金
+legislator|n.|立法者；议员
+litigation|n.|诉讼；起诉
+magistrate|n.|地方法官；治安官
+manslaughter|n.|过失杀人
+mediator|n.|调停者；中介
+ministry|n.|（政府）部门；牧师
+misdemeanor|n.|轻罪；品行不端
+ordinance|n.|法令；条例
+parliament|n.|议会；国会
+pardon|v./n.|原谅；赦免
+parole|n./v.|假释；有条件释放
+perpetrator|n.|犯罪者；作恶者
+plaintiff|n.|原告
+plea|n.|恳求；答辩
+plebiscite|n.|公民投票
+probation|n.|缓刑；试用期
+prosecutor|n.|检察官；公诉人
+provisional|adj.|临时的；暂定的
+quota|n.|配额；限额
+referendum|n.|公民投票；请示书
+registrar|n.|登记员；注册主任
+restitution|n.|归还；赔偿
+rescind|v.|废除；取消
+subpoena|n./v.|传票；传唤
+suffrage|n.|选举权；投票
+tycoon|n.|大亨；巨头
+unconstitutional|adj.|违宪的
+uprising|n.|起义；暴动
+verdict|n.|裁决；判决
+vigilante|n.|义警；治安维持会成员
+writ|n.|书面命令；令状
+allocation|n.|分配；安置
+amortize|v.|分期偿还
+benchmark|n.|基准；标杆
+brokerage|n.|经纪业；佣金
+cartel|n.|卡特尔；企业联合
+ceiling|n.|天花板；上限
+collateral|n./adj.|抵押品；附属的
+commercialize|v.|使商业化
+conglomerate|n./v./adj.|企业集团；聚合的
+consumerism|n.|消费主义；用户至上主义
+contraction|n.|收缩；缩略式
+corridor|n.|走廊；通道
+cutoff|n./adj.|切断；截止
+debtor|n.|债务人；借方
+deflate|v.|放气；紧缩通货
+devaluation|n.|货币贬值
+downturn|n.|衰退；下降趋势
+dues|n.|会费；税款
+equity|n.|公平；股本；净资产
+expenditure|n.|支出；花费
+foreclose|v.|取消抵押品赎回权
+insolvent|adj.|破产的；无力偿还的
+invoice|n./v.|发票；开发票
+liability|n.|责任；债务；倾向
+liquidity|n.|流动性；流动资金
+lobbyist|n.|说客；游说者
+macroeconomic|adj.|宏观经济的
+markup|n.|涨价；markup 标记
+merger|n.|合并；吸收
+multiplier|n.|乘数；乘法器
+overhead|n./adj./adv.|日常开支；头顶上的
+payroll|n.|工资单；受薪员工名单
+procurement|n.|采购；获得
+rebate|n./v.|退款；折扣
+remittance|n.|汇款；汇款额
+rental|n./adj.|租赁；出租的
+restructuring|n./v.|重组；调整
+tariff|n./adj./v./adv.|关税；价目表
+undertaking|n.|事业；企业；保证
+valuation|n.|估价；评价
+venture|n./v./adj.|风险投资；冒险
+voucher|n.|代金券；凭证
+windfall|n.|意外之财；横财
+attentive|adj.|专注的；周到的
+cognition|n.|认知；认识
+cohort|n.|同龄群体；支持者
+comprehension|n.|理解；理解力
+conscientious|adj.|认真负责的；尽责的
+contemplation|n.|沉思；意图
+correlate|v./n.|关联；相互关系
+delusion|n.|错觉；妄想
+deprivation|n.|剥夺；匮乏
+diligence|n.|勤奋；注意
+dissonance|n.|不和谐；不一致
+diversity|n.|多样性；差异
+dropout|n.|辍学者；退学
+empathy|n.|同情；共感
+empowerment|n.|授权；赋能
+enthrall|v.|迷住；使着迷
+esteem|v./n.|尊重；敬重
+formative|adj.|形成的；发展的
+gifted|adj.|有天赋的； gifted 有才华的
+kinship|n.|亲属关系；亲密关系
+mentorship|n.|指导关系；师徒关系
+perception|n.|感知；看法
+prerequisite|n./adj.|先决条件；必要的
+prowess|n.|英勇；非凡技能
+reinforcement|n.|加强；增援
+resilience|n.|韧性；恢复力
+tutoring|n./v.|辅导；家教
+upbringing|n.|养育；教养
+virtuosity|n.|精湛技艺；艺术鉴别力
+arid|adj.|干旱的；枯燥的
+biofuel|n.|生物燃料
+biomass|n.|生物质；生物量
+biosphere|n.|生物圈
+contamination|n.|污染；玷污
+cyclone|n.|旋风；气旋
+deforestation|n.|采伐森林；森林开伐
+degradation|n.|退化；降级；恶化
+depletion|n.|耗尽；枯竭
+desertification|n.|荒漠化；沙漠化
+ecosystem|n.|生态系统
+effluent|n./adj.|污水；流出的
+extinction|n.|灭绝；消光
+geothermal|adj.|地热的；地温的
+habitat|n.|栖息地；产地
+landfill|n.|垃圾填埋场；垃圾
+methane|n.|甲烷；沼气
+monsoon|n.|季风；雨季
+particulate|adj./n.|微粒的；微粒
+permafrost|n.|永久冻土
+pollutant|n.|污染物
+precipitation|n.|降水；沉淀
+purification|n.|净化；提纯
+quench|v.|解渴；扑灭；抑制
+radiation|n.|辐射；放射
+reclamation|n.|开垦；收回；改造
+reservoir|n.|水库；蓄水池
+runoff|n.|径流；决选投票
+sewage|n.|污水；下水道
+stratosphere|n.|平流层；最上层
+tsunami|n.|海啸
+tundra|n.|苔原；冻原
+typhoon|n.|台风
+vapor|n./v.|蒸汽；蒸发
+wastewater|n.|废水；污水
+wetland|n.|湿地；沼泽地
+cognitive|adj.|认知的；认识的
+commodity|n.|商品；日用品
+conglomerate|n./adj./v.|联合大企业；聚合的
+counterpart|n.|副本；配对物
+credible|adj.|可靠的；可信的
+cumulative|adj.|累积的
+deem|v.|认为；视为
+deficit|n.|赤字；亏损
+deteriorate|v.|恶化；变坏
+dilemma|n.|困境；进退两难
+disclose|v.|公开；揭露
+disparity|n.|不同；不一致
+entail|v.|需要；限定继承
+expenditure|n.|支出；花费
+feasible|adj.|可行的；可能的
+fluctuate|v.|波动；变动
+formulate|v.|制定；规划
+hierarchy|n.|层级；等级制度
+implement|v./n.|实施；工具
+incentive|n.|动机；刺激
+incur|v.|招致；蒙受
+infrastructure|n.|基础设施；公共建设
+inherent|adj.|固有的；内在的
+initiative|n./adj.|主动权；首创的
+innovative|adj.|创新的；革新的
+intervene|v.|干预；调停
+mandate|n./v.|授权；命令
+merit|n./v./adj./adv./v./n.|优点；值得
+momentum|n.|动力；势头
+notwithstanding|adv./prep./conj./adj.|尽管；虽然
+obligation|n.|义务；职责
+paradigm|n.|典范；范例
+persistent|adj.|固执的；持续的
+perspective|n.|观点；远景
+plausible|adj.|可信的；似是而非的
+preclude|v.|排除；阻止
+prevail|v.|盛行；战胜
+prohibit|v.|禁止；阻止
+prone|adj.|俯卧的；有……倾向的
+render|v./n./adj.|使成为；给予
+restrain|v./adj./n./adv.|抑制；约束
+sanction|v./n./adj./adv.|制裁；批准
+scrutiny|n./adj./v./adv./n./adj./v./adv.|详细审查；监视
+simulate|v./adj./n./adv./v./adj./n./adv.|模拟；假装
+substantiate|v./adj./n./v.|证实；使实体化
+subsequent|adj./n./v./adv./adj./n./v./adv.|后来的；随后的
+sustain|v./adj./n./adv./v./adj./n./adv.|维持；支撑
+undergo|v./adj./n./adv./v./adj./n./adv.|经历；承受
+undermine|v./adj./n./adv./v./adj./n./adv.|破坏；削弱
+yield|v./n./adj./adv./v./n./adj./adv./v./n.|产出；屈服
+EOF
+python - <<'EOF'
+import json, re, collections
+P = 'data/words.json'
+d = json.load(open(P, encoding='utf-8'))
+existing = collections.Counter(w['word'] for w in d['words'] if w.get('active') is not False)
+added, bad, dups = [], [], 0
+for ln in open('data/outline/outline_batch6.txt', encoding='utf-8'):
+    ln = ln.strip()
+    if not ln or ln.startswith(('EOF','python','wc')): continue
+    parts = ln.split('|')
+    if len(parts) < 3 or not parts[2].strip():
+        bad.append(ln[:40]); continue
+    word = parts[0].strip().lower()
+    if not re.match(r'^[a-z][a-z-]+$', word):
+        bad.append(ln[:40]); continue
+    if existing[word] > 0:
+        dups += 1; continue
+    d['words'].append({
+        'word': word, 'pos': parts[1].strip().split('/')[0].strip(), 'translation': parts[2].strip(),
+        'tag': '大纲补充v10', 'tier': '高频重点', 'active': True, 'quality': 'outline-2026',
+        'true_priority': '★★★★☆', 'exam_meaning': '', 'collocation_hint': '',
+        'note': 'v10 考研高频补充词', 'studyEligible': True, 'secondary_meanings': '',
+        'source': 'outline-v10', 'quality_score': 'B',
+    })
+    existing[word] += 1; added.append(word)
+d['data_version'] = '5000-v10'
+json.dump(d, open(P,'w',encoding='utf-8'), ensure_ascii=False, separators=(',',':'))
+active = [w for w in d['words'] if w.get('active') is not False]
+print('第六批新增:', len(added), '| 重复跳过:', dups, '| 坏行:', bad[:4])
+print('有效词:', len(active), '| 分层:', dict(collections.Counter(w.get('tier') for w in active)))
+EOF

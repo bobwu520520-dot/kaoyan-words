@@ -1,296 +1,537 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1d5a63"><title>背单词 · 考研词汇</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"><style>
-/* ===== 墨墨风格专注背单词主界面 ===== */
-body { margin: 0; }
-.study { max-width: 860px; margin: 0 auto; padding: 10px 16px calc(12px + env(safe-area-inset-bottom)); height: 100dvh; max-height: 100dvh; overflow: hidden; display: flex; flex-direction: column; box-sizing: border-box; }
-/* 顶部栏: 恒定 */
-.topbar { display: flex; align-items: center; gap: 12px; padding: 10px 2px; }
-.topbar .menu-btn { border: 1px solid var(--border,#e5e7eb); background: var(--card-bg,#fff); border-radius: 10px; padding: 7px 13px; font-size: 14px; cursor: pointer; }
-.topbar .tier-name { font-weight: 700; font-size: 15px; }
-.topbar .tier-progress { flex: 1; text-align: center; color: #6b7280; font-size: 13px; font-variant-numeric: tabular-nums; }
-.topbar .today-num { color: var(--color-primary,#1d5a63); font-weight: 700; }
-/* 主卡片: 恒定高度, 内容内部滚动 */
-.shell { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-.s-card { flex: 1; min-height: 0; background: var(--card-bg,#fff); border: 1px solid var(--border,#e5e7eb); border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,.06); display: flex; flex-direction: column; overflow: hidden; }
-/* 正面: 只有单词, 点空白翻面 */
-.s-front { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; gap: 14px; cursor: pointer; user-select: none; }
-.s-front:active { background: var(--color-primary-soft,#f3f7f6); }
-.s-word { font-size: clamp(44px, 9vw, 68px); font-weight: 750; letter-spacing: -1px; line-height: 1.1; pointer-events: none; }
-.s-phonetic { color: #77818a; font-size: 18px; pointer-events: none; }
-.s-hint { color: #9aa4ab; font-size: 12px; pointer-events: none; }
-/* 背面: 上部单词/音标/词性固定, 下部释义例句助记可滚动 */
-.s-back { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.s-word-area { flex-shrink: 0; padding: 20px 26px 12px; border-bottom: 1px solid var(--border,#eef0f2); cursor: pointer; user-select: none; }
-.s-word-area:active { background: var(--color-primary-soft,#f3f7f6); }
-.s-back-head { display: flex; align-items: baseline; gap: 10px; }
-.s-word-mini { font-size: 30px; font-weight: 750; letter-spacing: -0.5px; line-height: 1.2; }
-.s-phonetic-mini { color: #77818a; font-size: 14px; }
-.s-pos-line { font-size: 12.5px; color: #8a949b; margin-top: 5px; }
-.s-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 26px 20px; display: flex; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; }
-.s-meaning { font-size: 21px; font-weight: 650; line-height: 1.5; }
-.s-meta { font-size: 13px; color: #69737b; }
-.s-obscure { font-size: 14px; color: #8a5a16; background: #fff7e6; border-radius: 10px; padding: 9px 12px; }
-.s-detail { background: #f7f8f9; border-radius: 12px; padding: 12px 14px; font-size: 14.5px; line-height: 1.65; }
-.s-detail strong { display: block; font-size: 12px; color: #69737b; margin-bottom: 5px; letter-spacing: .03em; }
-.s-detail .zh { color: #657078; margin-top: 6px; font-size: 13.5px; }
-.s-mnemo { background: #eef6f2; border-radius: 12px; padding: 12px 14px; font-size: 14.5px; line-height: 1.65; }
-.s-mnemo strong { display: block; font-size: 12px; color: #3d7a5f; margin-bottom: 5px; letter-spacing: .03em; }
-.s-actions { display: flex; gap: 10px; margin-top: 2px; }
-.s-actions .btn { flex: 1; font-size: 13.5px; }
-.btn { border: 1px solid #d7dde0; background: #fff; border-radius: 11px; padding: 10px 15px; cursor: pointer; font-size: 14px; }
-.btn.primary { background: var(--color-primary,#1d5a63); color: #fff; border-color: var(--color-primary,#1d5a63); }
-.btn[disabled] { opacity: .55; cursor: default; }
-.ai-result { margin-top: 2px; font-size: 13.5px; }
-.ai-result .example-en { font-size: 14.5px; }
-/* 底部评分栏: 翻面后出现 */
-.ratings { display: none; gap: 10px; padding: 14px 2px 4px; align-items: stretch; }
-.ratings.show { display: flex; animation: ratingIn .18s ease; }
-@keyframes ratingIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.ratings .rbtn { flex: 1; border: 1px solid #d7dde0; background: var(--card-bg,#fff); border-radius: 16px; padding: 16px 8px; cursor: pointer; font-size: 17px; font-weight: 700; transition: .15s; }
-.ratings .rbtn small { display: block; font-weight: 400; color: #8a949b; font-size: 11px; margin-top: 3px; }
-.ratings .rbtn:hover { transform: translateY(-2px); }
-.ratings .rbtn.r0:hover { border-color: #c0392b; color: #c0392b; }
-.ratings .r1:hover { border-color: #e67e22; color: #e67e22; }
-.ratings .r2:hover { border-color: #1d5a63; color: #1d5a63; }
-.ratings .r3:hover { border-color: #16a085; color: #16a085; }
-.nav-btn { border: 1px solid #d7dde0; background: var(--card-bg,#fff); border-radius: 12px; width: 46px; font-size: 16px; cursor: pointer; }
-/* 抽屉: 其他板块 */
-.drawer-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.32); z-index: 40; }
-.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(360px, 88vw); background: var(--card-bg,#fff); z-index: 41; box-shadow: -8px 0 32px rgba(0,0,0,.12); overflow-y: auto; padding: 18px 20px 40px; box-sizing: border-box; }
-.drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.drawer-head h2 { margin: 0; font-size: 18px; }
-.drawer-close { border: 0; background: none; font-size: 22px; cursor: pointer; color: #6b7280; }
-.drawer h4 { margin: 18px 0 8px; font-size: 13px; color: #69737b; letter-spacing: .04em; }
-.drawer .btn { width: 100%; margin: 5px 0; text-align: center; }
-.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.plan { border: 1px solid var(--border,#e5e7eb); border-radius: 14px; padding: 12px; cursor: pointer; }
-.plan.active { border-color: var(--color-primary,#1d5a63); box-shadow: 0 0 0 2px rgba(29,90,99,.12); }
-.plan h3 { margin: 0 0 4px; font-size: 14px; }
-.plan p { margin: 2px 0; color: #6b7280; font-size: 12px; }
-.plan .progress { height: 5px; background: #edf0f2; border-radius: 99px; overflow: hidden; margin-top: 8px; }
-.plan .progress i { display: block; height: 100%; background: var(--color-primary,#1d5a63); }
-.stats-box { background: #f7f8f9; border-radius: 14px; padding: 14px; }
-.stats-box h3 { margin: 0 0 8px; font-size: 14px; }
-.streak-line { font-size: 13px; color: #374151; margin: 4px 0 10px; }
-.streak-line b { color: var(--color-primary,#1d5a63); font-size: 18px; }
-.bars { display: flex; align-items: flex-end; gap: 4px; height: 52px; margin-bottom: 5px; }
-.bar { flex: 1; min-width: 4px; background: #d9e8e4; border-radius: 3px 3px 0 0; position: relative; }
-.bar.today { background: var(--color-primary,#1d5a63); }
-.bar:hover::after { content: attr(data-tip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #1f2937; color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 5px; white-space: nowrap; z-index: 5; }
-.drawer .daily-row { display: flex; align-items: center; gap: 10px; }
-.drawer .daily-row input { width: 70px; padding: 8px; border: 1px solid #d7dde0; border-radius: 9px; font-size: 14px; }
-.mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-.mini-stats .ms { background: #f7f8f9; border-radius: 10px; padding: 8px; text-align: center; }
-.mini-stats .ms b { display: block; font-size: 17px; }
-.mini-stats .ms span { font-size: 11px; color: #8a949b; }
-.upgrade-notice { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: #1d5a63; color: #fff; padding: 9px 16px; border-radius: 10px; font-size: 13px; box-shadow: 0 4px 16px rgba(0,0,0,.18); z-index: 50; }
-.empty { padding: 40px; text-align: center; }
-.small { font-size: 12px; color: #7b858d; }
-.ai-modal { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; }
-.ai-modal[hidden] { display: none; }
-.ai-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.4); }
-.ai-modal-panel { position: relative; width: min(420px, 92vw); background: var(--card-bg,#fff); border-radius: 18px; padding: 20px 22px; box-shadow: 0 16px 48px rgba(0,0,0,.2); }
-.ai-modal-head { display: flex; justify-content: space-between; align-items: flex-start; }
-.ai-modal-head h2 { margin: 0 0 4px; font-size: 17px; }
-.ai-modal-head p { margin: 0 0 12px; font-size: 12px; color: #6b7280; }
-.ai-close { border: 0; background: none; font-size: 20px; cursor: pointer; color: #6b7280; }
-.ai-label { display: block; font-size: 12px; color: #4b5563; margin: 10px 0 4px; }
-.ai-input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #d7dde0; border-radius: 9px; font-size: 14px; }
-.ai-security { font-size: 11px; color: #8a949b; margin: 10px 0; }
-.ai-modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
-.ai-cancel { border: 1px solid #d7dde0; background: #fff; border-radius: 9px; padding: 8px 16px; cursor: pointer; }
-.ai-save { border: 0; background: var(--color-primary,#1d5a63); color: #fff; border-radius: 9px; padding: 8px 16px; cursor: pointer; }
-@media(max-width:600px){
-  .ratings { gap: 6px; padding: 10px 0 2px; }
-  .ratings .rbtn { padding: 14px 2px; font-size: 15px; border-radius: 12px; }
-  .ratings .rbtn small { display: none; }
-  .nav-btn { width: 36px; }
-  .study { padding: 6px 10px calc(8px + env(safe-area-inset-bottom)); }
-  .s-word-area { padding: 14px 16px 10px; }
-  .s-body { padding: 12px 16px 16px; }
-  .s-word-mini { font-size: 24px; }
-  .s-card { border-radius: 16px; }
-  .s-word { font-size: clamp(38px, 10vw, 56px); }
-  .topbar { padding: 8px 0; }
-  .topbar .menu-btn { padding: 6px 10px; font-size: 13px; }
-}
-</style></head><body><header class="site-header"><div class="header-inner"><a class="brand" href="study.html"><span class="brand-title">考研词汇</span><span class="brand-sub">Kaoyan Lexicon</span></a><nav class="nav"><a class="nav-link active" href="study.html">背单词</a><a class="nav-link" href="search.html">查词</a><a class="nav-link" href="words.html">词库</a></nav><button class="ai-settings-btn" id="ai-settings-btn" type="button">AI 设置</button><button class="theme-toggle" data-theme-toggle type="button"></button></div></header>
-<main class="study">
-  <div class="topbar">
-    <button class="menu-btn" id="drawer-open" type="button">☰ 更多</button>
-    <span class="tier-name" id="tier-name">核心高频</span>
-    <span class="tier-progress">今日完成 <span class="today-num" id="today">0</span></span>
-  </div>
-  <div class="shell">
-    <div class="s-card" id="card"><div class="empty"><h2>词库加载中…</h2></div></div>
-  </div>
-  <div class="ratings" id="ratings">
-    <button class="nav-btn" id="prev" type="button" aria-label="上一个">‹</button>
-    <button class="rbtn r0" id="grade0" type="button">陌生<small>30分钟再现</small></button>
-    <button class="rbtn r1" id="grade1" type="button">模糊<small>1 天</small></button>
-    <button class="rbtn r2" id="grade2" type="button">认识<small>3 天起,连续升级</small></button>
-    <button class="nav-btn" id="next" type="button" aria-label="下一个">›</button>
-  </div>
-  <!-- 底部 Tab:墨墨风(移动端) -->
-  <nav class="tabbar" aria-label="主导航">
-    <button class="tab active" data-nav="study.html" type="button"><span class="tab-ico">📖</span>背单词</button>
-    <button class="tab" data-nav="search.html" type="button"><span class="tab-ico">🔍</span>考研词汇</button>
-    <button class="tab" data-nav="words.html" type="button"><span class="tab-ico">📚</span>词书</button>
-    <button class="tab" id="tab-menu" type="button"><span class="tab-ico">☰</span>菜单</button>
-  </nav>
-</main>
-<div id="upgrade-notice" class="upgrade-notice" hidden></div>
-
-<div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
-<aside class="drawer" id="drawer" hidden aria-hidden="true" inert>
-  <div class="drawer-head"><h2>学习管理</h2><button class="drawer-close" id="drawer-close" type="button" aria-label="关闭">×</button></div>
-  <h4>学习计划</h4>
-  <div class="plans" id="plans"></div>
-  <h4>学习统计</h4>
-  <div class="stats-box" id="stats-box" hidden><h3>学习统计</h3><p class="streak-line">连续打卡 <b id="streak-days">0</b> 天</p><div class="bars" id="daily-bars"></div><p class="small">近 14 天每日完成数</p></div>
-  <div class="mini-stats"><div class="ms"><b id="mastered">0</b><span>已掌握</span></div><div class="ms"><b id="due">0</b><span>待复习</span></div><div class="ms"><b id="weak">0</b><span>薄弱词</span></div></div>
-  <h4>每日目标</h4>
-  <div class="daily-row"><input id="daily" type="number" min="10" max="100" value="100"><span class="small">词 / 天（10-100）</span></div>
-  <h4>工具</h4>
-  <button class="btn" id="settings-open" type="button">⚙️ 设置（背景 / 主题 / 字号 / 发音）</button>
-  <button class="btn" id="start" type="button">开始 / 继续背诵</button>
-  <button class="btn" id="review" type="button">优先复习到期词</button>
-  <button class="btn" id="weak-btn" type="button">复习薄弱词</button>
-  <button class="btn" id="shuffle" type="button">↻ 重新随机一组</button>
-  <h4>数据</h4>
-  <button class="btn" id="export-progress" type="button">导出进度</button>
-  <button class="btn" id="import-progress" type="button">导入进度</button>
-  <h4>账号</h4>
-  <button class="btn" id="logout-btn" type="button">退出登录（切换到其他账号）</button>
-  <p class="small">退出后可输入其他密码进入独立空间</p>
-  <h4>快捷键</h4>
-  <p class="small">Space 显示释义 · 1 陌生 · 2 模糊 · 3 认识 · ‹ › 切换单词</p>
-</aside>
-
-<div class="ai-modal" id="ai-modal" hidden aria-hidden="true" inert>
-<div class="ai-modal-backdrop" data-ai-close></div>
-<div class="ai-modal-panel" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title">
-  <div class="ai-modal-head"><div><h2 id="ai-modal-title">AI 设置</h2><p>AI 服务已内置（Worker 代理 + 自动回退），开箱即用；如需更换网关可在此覆盖。</p></div><button class="ai-close" type="button" data-ai-close aria-label="关闭">×</button></div>
-  <label class="ai-label">API 地址<input id="ai-base-url" class="ai-input" type="url" placeholder="https://api.deepseek.com/v1" autocomplete="off"></label>
-  <label class="ai-label">模型<input id="ai-model" class="ai-input" type="text" placeholder="deepseek-chat" autocomplete="off"></label>
-  <label class="ai-label">API Key<input id="ai-api-key" class="ai-input" type="password" placeholder="留空则使用内置 Key" autocomplete="off"></label>
-  <p class="ai-security">默认方案：请求先走 Cloudflare Worker 代理（Key 在服务端），国内网络连不上时自动回退直连。留空 Key 即用内置服务；填入自定义 API 地址与 Key 可切换网关。</p>
-  <div class="ai-modal-actions"><button class="ai-cancel" type="button" data-ai-close>取消</button><button class="ai-save" id="ai-save" type="button">保存设置</button></div>
-</div>
-</div>
-
-<!-- 设置面板:背景/主题/字号/发音/例句/每日目标 -->
-<div class="settings-panel" id="settings-panel" hidden aria-hidden="true" inert>
-<div class="settings-backdrop" data-set-close></div>
-<div class="settings-card" role="dialog" aria-modal="true" aria-labelledby="settings-title">
-  <div class="settings-head"><h2 id="settings-title">设置</h2><button class="settings-close" type="button" data-set-close aria-label="关闭">×</button></div>
-  <div class="settings-group">
-    <h4>背景主题</h4>
-    <div class="bg-options" id="bg-options">
-      <button class="bg-opt" data-bg="default" type="button"><span class="bg-swatch" style="background:#f4efe4"></span>米白</button>
-      <button class="bg-opt" data-bg="green" type="button"><span class="bg-swatch" style="background:#e9f1e4"></span>护眼绿</button>
-      <button class="bg-opt" data-bg="blue" type="button"><span class="bg-swatch" style="background:#e7eef6"></span>淡蓝</button>
-      <button class="bg-opt" data-bg="gray" type="button"><span class="bg-swatch" style="background:#eef0f2"></span>极简灰</button>
-    </div>
-  </div>
-  <div class="settings-group">
-    <h4>夜间模式</h4>
-    <div class="switch-row"><span>深色主题（夜间护眼）</span><label class="switch"><input type="checkbox" id="set-dark"><span class="slider"></span></label></div>
-  </div>
-  <div class="settings-group">
-    <h4>字号</h4>
-    <div class="size-options" id="size-options">
-      <button class="size-opt" data-size="sm" type="button">小</button>
-      <button class="size-opt" data-size="md" type="button">标准</button>
-      <button class="size-opt" data-size="lg" type="button">大</button>
-    </div>
-  </div>
-  <div class="settings-group">
-    <h4>背诵选项</h4>
-    <div class="switch-row"><span>评分后自动朗读单词</span><label class="switch"><input type="checkbox" id="set-speak"><span class="slider"></span></label></div>
-    <div class="switch-row"><span>答案页显示例句</span><label class="switch"><input type="checkbox" id="set-example"><span class="slider"></span></label></div>
-    <div class="switch-row"><span>每日目标</span><label class="small" style="display:flex;align-items:center;gap:6px">今日<input id="set-daily" type="number" min="10" max="100" style="width:64px;padding:6px;border:1px solid #d7dde0;border-radius:8px">词</label></div>
-  </div>
-  <div class="settings-danger">
-    <button class="btn" id="set-reset" type="button">恢复默认</button>
-    <button class="btn" id="set-close" type="button">关闭</button>
-  </div>
-</div>
-</div>
-<script src="js/auth.js"></script>
-<script src="js/study.js"></script><script src="js/pwa.js"></script><script>document.querySelector('[data-theme-toggle]')?.addEventListener('click',()=>{let b=document.documentElement;b.dataset.theme=b.dataset.theme==='dark'?'light':'dark';localStorage.setItem('theme',b.dataset.theme)});(()=>{let t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t})();</script>
-<script>
-(function(){
-  'use strict';
-  // 抽屉开关
-  var drawer=document.getElementById('drawer'), backdrop=document.getElementById('drawer-backdrop');
-  function openD(){drawer.hidden=false;drawer.setAttribute('aria-hidden','false');drawer.removeAttribute('inert');backdrop.hidden=false;}
-  function closeD(){drawer.hidden=true;drawer.setAttribute('aria-hidden','true');drawer.setAttribute('inert','');backdrop.hidden=true;}
-  document.getElementById('drawer-open').addEventListener('click',openD);
-  if(new URLSearchParams(location.search).get('drawer')==='1')openD();
-  document.getElementById('drawer-close').addEventListener('click',closeD);
-  backdrop.addEventListener('click',closeD);
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!drawer.hidden)closeD();});
-  var logoutBtn=document.getElementById('logout-btn');
-  if(logoutBtn)logoutBtn.addEventListener('click',function(){
-    if(!confirm('确定退出当前账号？退出后可输入其他密码进入独立空间。'))return;
-    if(window.KaoyanGate)window.KaoyanGate.logout();
-    location.replace('gate.html');
-  });
-  // 底部 Tab 导航(墨墨风)
-  document.querySelectorAll('.tabbar .tab[data-nav]').forEach(function(t){
-    t.addEventListener('click',function(){location.href=t.dataset.nav;});
-  });
-  document.getElementById('tab-menu').addEventListener('click',openD);
-  // 设置面板
-  var setPanel=document.getElementById('settings-panel');
-  var SET_KEY=(window.KaoyanGate&&window.KaoyanGate.storageKey?window.KaoyanGate.storageKey('kaoyan_settings'):'kaoyan_settings');
-  var setCfg={bg:'default',size:'md',dark:false,speak:false,example:true};
-  try{setCfg=Object.assign(setCfg,JSON.parse(localStorage.getItem(SET_KEY)||'{}'));}catch(e){}
-  function applySet(){
-    var root=document.documentElement;
-    if(setCfg.bg==='default')root.removeAttribute('data-bg');else root.setAttribute('data-bg',setCfg.bg);
-    root.setAttribute('data-size',setCfg.size);
-    if(setCfg.dark)root.dataset.theme='dark';else root.dataset.theme='light';
-    document.querySelectorAll('.bg-opt').forEach(function(b){b.classList.toggle('active',b.dataset.bg===setCfg.bg);});
-    document.querySelectorAll('.size-opt').forEach(function(s){s.classList.toggle('active',s.dataset.size===setCfg.size);});
-    document.getElementById('set-dark').checked=setCfg.dark;
-    document.getElementById('set-speak').checked=setCfg.speak;
-    document.getElementById('set-example').checked=setCfg.example;
-    document.getElementById('set-daily').value=window.__studyDaily?window.__studyDaily():100;
-    try{localStorage.setItem(SET_KEY,JSON.stringify(setCfg));}catch(e){}
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1d5a63"><title>背单词 · 考研词汇</title><link rel="stylesheet" href="css/style.css"><style>
+html,body{height:100%;height:100dvh;margin:0;padding:0;overflow:hidden}
+body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px, calc(52px + env(safe-area-inset-bottom, 0px)));box-sizing:border-box;display:flex;flex-direction:column}
+.study2{flex:1;min-height:0;display:flex;flex-direction:column;max-width:860px;margin:0 auto;width:100%;height:100%;overflow:hidden}
+.mobile-only{display:none}
+@media(max-width:640px){.site-header{display:none}.mobile-only{display:inline-flex}}
+.s-top{flex:none;display:flex;align-items:center;gap:8px;padding:6px 14px 2px}
+.s-top .tier-name{font-size:13px;font-weight:600;color:var(--color-text);white-space:nowrap}
+.s-top .prog{flex:1;display:flex;align-items:center;gap:8px}
+.s-top .progress{flex:1;height:6px}
+.s-top .hp{font-size:12px;color:var(--color-text-muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.s-top .hp b{color:var(--color-primary)}
+.icon-btn{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid var(--color-border);background:var(--color-surface-2);color:var(--color-text-muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.icon-btn:hover{color:var(--color-primary);border-color:var(--color-primary)}
+.s-card{flex:1;min-height:0;margin:4px 12px 6px;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:16px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;overflow:hidden}
+.s-card-inner{flex:1;min-height:0;display:flex;flex-direction:column;height:100%;overflow:hidden;animation:fadein .22s ease}
+.s-card-inner.unrevealed{justify-content:center;align-items:center;padding:16px 20px;overflow-y:auto;cursor:pointer}
+.s-card-fixed-top{flex:none;padding:10px 16px 6px;text-align:center;border-bottom:1px solid color-mix(in oklab,var(--color-border) 60%,transparent);background:var(--color-surface-2);z-index:2}
+.s-card-scroll-box{flex:1;min-height:0;overflow-y:auto;padding:10px 14px 12px;-webkit-overflow-scrolling:touch;background:var(--color-surface);border-radius:12px;margin:6px 10px;border:1px solid color-mix(in oklab,var(--color-border) 70%,transparent)}
+.s-card-fixed-bottom{flex:none;padding:8px 12px 10px;background:var(--color-surface-2);border-top:1.5px solid var(--color-border);box-shadow:0 -4px 16px rgba(0,0,0,0.04);z-index:2}
+.hint-tap{text-align:center;color:var(--color-text-faint);font-size:12.5px;margin-top:20px}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.wordtop{text-align:center}
+.small{font-size:12px;color:var(--color-text-faint)}
+.word{font-size:calc(34px * var(--fs, 1));font-weight:750;letter-spacing:-.5px;color:var(--color-text);line-height:1.15}
+.speak-btn{vertical-align:middle;margin-left:8px;width:30px;height:30px;border-radius:50%;border:1px solid color-mix(in oklab,var(--color-primary) 30%,transparent);background:var(--color-primary-soft);color:var(--color-primary);font-size:13px;cursor:pointer;transition:.15s}
+.speak-btn:hover{background:var(--color-primary);color:var(--color-surface-2)}
+.phonetic{color:var(--color-text-muted);margin:4px;font-size:13px}
+.meaning{font-size:calc(17px * var(--fs, 1));margin:8px 0 2px;font-weight:600;color:var(--color-text)}
+.obscure{font-size:12px;color:var(--color-accent);background:var(--color-accent-soft);border-radius:8px;padding:5px 9px;display:inline-block;margin-top:6px}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left}
+.detail{padding:9px 11px;background:var(--color-surface-offset);border-radius:10px}
+.detail strong{display:block;font-size:11px;color:var(--color-text-muted);margin-bottom:3px}
+.detail p{margin:0;line-height:1.5;color:var(--color-text);font-size:13px}
+.sentence{margin-top:8px;padding:11px 13px;background:color-mix(in oklab,var(--color-primary) 5%,var(--color-surface-2));border-left:3px solid var(--color-primary);border-radius:10px;line-height:1.6;text-align:left}
+.sentence strong{font-size:11px;color:var(--color-text-muted);display:block;margin-bottom:4px;letter-spacing:.05em}
+.sentence div{font-size:calc(14px * var(--fs, 1))}
+.sentence .zh{color:var(--color-text-muted);margin-top:5px;font-size:calc(12px * var(--fs, 1))}
+.sentence .word-hl{background:color-mix(in oklab,var(--color-accent) 26%,transparent);border-radius:3px;padding:0 3px;font-weight:600}
+.rating{display:flex;gap:6px;justify-content:center}
+.rating button{flex:1;max-width:110px;padding:11px 4px;font-size:13px;font-weight:600;border-radius:10px;border:1px solid var(--color-border);background:var(--color-surface-offset);color:var(--color-text-muted);cursor:pointer;transition:.15s;white-space:nowrap}
+.rating button:disabled{opacity:.4;cursor:not-allowed}
+.rating button.g0:not(:disabled){background:color-mix(in srgb,#c0392b 10%,var(--color-surface-2));color:#c0392b;border-color:color-mix(in srgb,#c0392b 30%,transparent)}
+.rating button.g1:not(:disabled){background:color-mix(in srgb,#b45309 12%,var(--color-surface-2));color:#b45309;border-color:color-mix(in srgb,#b45309 30%,transparent)}
+.rating button.g2:not(:disabled){background:color-mix(in srgb,#1d7a4f 10%,var(--color-surface-2));color:#1d7a4f;border-color:color-mix(in srgb,#1d7a4f 30%,transparent)}
+.rating button.g3:not(:disabled){background:var(--color-primary);color:var(--color-surface-2);border-color:var(--color-primary)}
+.kbd-badge{display:inline-block;font-size:10px;padding:1px 4px;border-radius:3px;background:rgba(0,0,0,0.08);margin-right:3px}
+.rating-hint{grid-column:1/-1;text-align:center;font-size:11px;color:var(--color-text-faint);margin:0;min-height:15px}
+.empty{padding:40px 20px;text-align:center;color:var(--color-text-muted)}
+.empty h2{font-size:20px;margin-bottom:8px}
+.s-drawer{position:fixed;inset:0;z-index:90;display:flex;justify-content:flex-end}
+.s-drawer[hidden]{display:none}
+.drawer-mask{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+.drawer-panel{position:relative;width:min(360px,88vw);height:100%;background:var(--color-surface-2);border-left:1px solid var(--color-border);overflow-y:auto;padding:18px 16px calc(20px + env(safe-area-inset-bottom));box-sizing:border-box}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.drawer-head h3{margin:0;font-size:17px}
+.drawer-close{width:30px;height:30px;border-radius:50%;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-muted);font-size:18px;cursor:pointer}
+.d-block{border:1px solid var(--color-border);border-radius:12px;padding:12px;margin-bottom:12px}
+.d-block h4{margin:0 0 8px;font-size:13px;color:var(--color-text-muted)}
+.d-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;color:var(--color-text-muted)}
+.d-stats b{color:var(--color-primary)}
+.d-stats span b{color:var(--color-text)}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.plan{padding:10px;cursor:pointer;border:1px solid var(--color-border);border-radius:10px;background:var(--color-surface)}
+.plan.active{border-color:var(--color-primary);box-shadow:0 0 0 2px color-mix(in oklab,var(--color-primary) 15%,transparent)}
+.plan h5{margin:0 0 3px;font-size:13px}
+.plan p{margin:2px 0 0;color:var(--color-text-muted);font-size:11px}
+.plan .progress{margin-top:6px;height:5px}
+.d-actions{display:flex;flex-wrap:wrap;gap:7px}
+.d-btn{border:1px solid var(--color-border);background:var(--color-surface-2);color:var(--color-text);border-radius:9px;padding:8px 11px;font-size:12px;cursor:pointer}
+.d-btn:hover{border-color:var(--color-primary);color:var(--color-primary)}
+.d-btn.primary{background:var(--color-primary);color:var(--color-surface-2);border-color:var(--color-primary);font-weight:600}
+.d-btn.primary:hover{background:var(--color-primary-hover)}
+.d-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--color-text)}
+.fs-btns{display:flex;gap:5px}
+.fs-b.on{background:var(--color-primary);color:var(--color-surface-2);border-color:var(--color-primary);font-weight:600}
+.d-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--color-primary)}
+.d-row input{width:64px;padding:6px 8px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-surface);color:var(--color-text)}
+.queue{display:flex;flex-wrap:wrap;gap:5px}
+.qdot{width:24px;height:24px;border-radius:7px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-muted);cursor:pointer;font-size:11px}
+.qdot.done{background:var(--color-core-soft);border-color:color-mix(in oklab,var(--color-core) 40%,transparent);color:var(--color-core)}
+.qdot.current{outline:2px solid var(--color-primary)}
+.small{font-size:12px;color:var(--color-text-muted);line-height:1.65}
+.upgrade-notice{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--color-primary);color:var(--color-surface-2);padding:9px 16px;border-radius:10px;font-size:13px;box-shadow:var(--shadow-md);z-index:95}
+.stats-box{border:1px solid var(--color-border);border-radius:12px;padding:12px;margin-bottom:12px}
+.stats-box h3{margin:0 0 6px;font-size:14px}
+.streak-line{font-size:13px;color:var(--color-text);margin:2px 0 8px}
+.streak-line b{color:var(--color-primary);font-size:17px}
+.bars{display:flex;align-items:flex-end;gap:3px;height:48px;margin-bottom:4px}
+.bar{flex:1;min-width:4px;background:var(--color-core-soft);border-radius:2px 2px 0 0;position:relative}
+.bar.today{background:var(--color-primary)}
+.skip-btn{display:none;margin:0 auto;background:none;border:0;color:var(--color-text-faint);font-size:12px;cursor:pointer;text-decoration:underline}
+.skip-btn:hover{color:var(--color-primary)}
+@media(max-width:640px){
+  .skip-btn{display:block;margin-top:2px}
+  .study2 {
+    padding: 4px 6px calc(62px + env(safe-area-inset-bottom)) !important;
+    height: 100dvh;
+    min-height: -webkit-fill-available;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
   }
-  function saveSet(){try{localStorage.setItem(SET_KEY,JSON.stringify(setCfg));}catch(e){}}
-  function openSet(){applySet();setPanel.hidden=false;setPanel.setAttribute('aria-hidden','false');setPanel.removeAttribute('inert');}
-  function closeSet(){setPanel.hidden=true;setPanel.setAttribute('aria-hidden','true');setPanel.setAttribute('inert','');}
-  document.getElementById('settings-open').addEventListener('click',openSet);
-  document.getElementById('set-close').addEventListener('click',closeSet);
-  document.addEventListener('click',function(e){if(e.target.closest('[data-set-close]'))closeSet();});
-  document.querySelectorAll('#bg-options .bg-opt').forEach(function(b){b.addEventListener('click',function(){setCfg.bg=b.dataset.bg;applySet();saveSet();});});
-  document.querySelectorAll('#size-options .size-opt').forEach(function(s){s.addEventListener('click',function(){setCfg.size=s.dataset.size;applySet();saveSet();});});
-  document.getElementById('set-dark').addEventListener('change',function(e){setCfg.dark=e.target.checked;applySet();saveSet();});
-  document.getElementById('set-speak').addEventListener('change',function(e){setCfg.speak=e.target.checked;saveSet();});
-  document.getElementById('set-example').addEventListener('change',function(e){setCfg.example=e.target.checked;saveSet();if(window.__studyRenderCard)window.__studyRenderCard();});
-  document.getElementById('set-daily').addEventListener('change',function(e){if(window.__studySetDaily)window.__studySetDaily(+e.target.value);saveSet();});
-  document.getElementById('set-reset').addEventListener('click',function(){
-    if(!confirm('恢复默认设置？'))return;
-    setCfg={bg:'default',size:'md',dark:false,speak:false,example:true};
-    applySet();saveSet();
+  .s-card {
+    margin: 0 !important;
+    width: 100% !important;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+  .s-card-inner {
+    padding: 10px 12px 6px !important;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .s-card-fixed-top {
+    flex-shrink: 0;
+    padding: 0 0 2px;
+  }
+  .word {
+    font-size: clamp(28px, 8.5vw, 38px) !important;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-top: 2px !important;
+  }
+  .phonetic {
+    font-size: 14.5px !important;
+    margin-top: 2px;
+  }
+  .meaning {
+    font-size: clamp(16.5px, 4.8vw, 21px) !important;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: 4px 0 2px !important;
+  }
+  .obscure {
+    font-size: 12px !important;
+    margin-top: 2px;
+  }
+  .card-tabs-nav {
+    margin: 6px 0 6px !important;
+    padding: 2px;
+  }
+  .card-tab-btn {
+    font-size: 12px !important;
+    padding: 5px 2px;
+  }
+  .s-card-scroll-box {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 2px 2px;
+    margin: 0 !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sentence {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+    border-radius: 8px;
+    margin-top: 4px;
+  }
+  .sentence div {
+    font-size: 13px !important;
+    line-height: 1.45;
+  }
+  .details {
+    gap: 6px !important;
+  }
+  .detail {
+    padding: 6px 8px !important;
+    font-size: 12px !important;
+  }
+  .s-card-fixed-bottom {
+    flex-shrink: 0;
+    padding: 6px 0 2px;
+    margin-top: auto;
+    background: transparent;
+    border-top: 1px solid var(--color-border);
+  }
+  .rating {
+    display: flex;
+    gap: 5px !important;
+    width: 100%;
+  }
+  .rating button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 11px 2px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+  .rating button.g3 {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .study-minimal-top {
+    padding: 4px 8px;
+  }
+}
+.study-minimal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  backdrop-filter: blur(10px);
+}
+.minimal-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.minimal-tier-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: var(--transition);
+}
+.minimal-tier-btn:hover {
+  border-color: var(--color-primary);
+}
+.minimal-mode-pill {
+  font-size: 10.5px;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 1px 5px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.minimal-center {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  max-width: 220px;
+}
+.minimal-prog-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--color-surface-offset);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+.minimal-prog-bar i {
+  display: block;
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 3px;
+  transition: width 0.25s ease;
+}
+.minimal-pct {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.minimal-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.minimal-icon-btn {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 12.5px;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: var(--transition);
+}
+.minimal-icon-btn:hover {
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.study-nav-dropdown-card {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 8px 12px;
+  animation: fadeIn 0.15s ease;
+}
+.study-nav-grid-pills {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.nav-grid-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 4px;
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: var(--transition);
+}
+.nav-grid-pill.active, .nav-grid-pill:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+</style></head><body>
+<div class="study-minimal-top">
+  <div class="minimal-left">
+    <button class="minimal-tier-btn" id="tier-switch-btn" type="button" title="点击切换词库 / 学习模式">
+      <span class="tier-name" id="tier-name">核心高频</span>
+      <span class="minimal-mode-pill" id="current-mode-indicator">📘 标准</span>
+    </button>
+  </div>
+  <div class="minimal-center">
+    <div class="minimal-prog-bar"><i id="today-bar" style="width:0%"></i></div>
+    <span class="minimal-pct" id="today-pct">0/100</span>
+    <span class="exam-countdown-badge" id="exam-countdown" style="font-size:10px;padding:1px 5px;margin-left:2px"></span>
+  </div>
+  <div class="minimal-right">
+    <button class="minimal-icon-btn" id="autoplay-btn" type="button" title="自动播放 / 闪卡连读模式">▶</button>
+    <button class="minimal-icon-btn" id="drawer-btn" type="button" title="⚙️ 学习偏好与模式设置">⚙</button>
+    <button class="minimal-icon-btn" id="study-menu-toggle" type="button" title="☰ 考研模块导航">☰</button>
+  </div>
+</div>
+
+<div id="study-top-nav-box" class="study-nav-dropdown-card" hidden>
+  <div class="study-nav-grid-pills">
+    <a class="nav-grid-pill active" href="study.html">📖 背单词</a>
+    <a class="nav-grid-pill" href="exam.html">📝 英一题型</a>
+    <a class="nav-grid-pill" href="words.html">📚 考研词库</a>
+    <a class="nav-grid-pill" href="memory.html">👤 我的与设置</a>
+  </div>
+</div>
+
+<div class="study2">
+<button class="zen-exit-floating-btn" id="zen-exit-btn" type="button">✕ 退出沉浸</button>
+<div class="s-card" id="card">
+  <div class="bb-container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;gap:14px;color:var(--color-text-muted);background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px">
+    <div style="font-size:36px">🐕</div>
+    <div style="font-size:15px;font-weight:700;color:var(--color-text)">考研词汇通 · 极速加载中</div>
+    <div style="font-size:12px;color:var(--color-text-muted)">5,619 考研大纲词 · 100% 离线学术例句</div>
+  </div>
+</div>
+</div>
+
+<div class="s-drawer" id="drawer" hidden>
+<div class="drawer-mask" id="drawer-mask"></div>
+<div class="drawer-panel">
+<div class="drawer-head"><h3>⚙️ 学习与偏好设置</h3><button class="drawer-close" id="drawer-close" type="button" aria-label="关闭">×</button></div>
+<div class="daily-quote-card" id="daily-quote-card"></div>
+
+<!-- 0. 学习模式切换 -->
+<div class="d-clean-section">
+  <div class="d-clean-title">🎯 学习模式专区</div>
+  <div class="clean-pill-group" id="drawer-study-modes">
+    <button class="clean-pill-btn active" data-study-mode="standard" type="button">📘 标准顺序</button>
+    <button class="clean-pill-btn" data-study-mode="weak" type="button">🎯 专攻薄弱词</button>
+    <button class="clean-pill-btn" data-study-mode="review" type="button">⏰ 艾宾浩斯复习</button>
+    <button class="clean-pill-btn" data-study-mode="fav" type="button">⭐ 生词本专练</button>
+    <button class="clean-pill-btn" id="drawer-commute-toggle" type="button">🚇 地铁单手</button>
+    <button class="clean-pill-btn" id="drawer-zen-toggle" type="button">🧘 沉浸专注</button>
+  </div>
+</div>
+
+<!-- 1. 词库层级切换 -->
+<div class="d-clean-section">
+  <div class="d-clean-title">📚 考研词库大纲与层级</div>
+  <div class="plans" id="plans"></div>
+</div>
+
+<!-- 2. 每日目标计划 -->
+<div class="d-clean-section">
+  <div class="d-clean-title">🎯 每日背词目标</div>
+  <div class="d-clean-row">
+    <span>每日计划词数</span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <input id="daily" type="number" min="10" max="200" value="100" style="width:64px;padding:4px 8px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font-weight:700;text-align:center">
+      <span style="font-size:12px;color:var(--color-text-muted)">词/天</span>
+    </div>
+  </div>
+</div>
+
+<!-- 3. 发音与触感 -->
+<div class="d-clean-section">
+  <div class="d-clean-title">🔊 发音朗读与震动反馈</div>
+  <div class="d-clean-row">
+    <span>发音口音</span>
+    <select id="tts-lang" style="border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);padding:4px 8px;border-radius:6px;font-size:12px">
+      <option value="en-US">🇺🇸 美音 (en-US)</option>
+      <option value="en-GB">🇬🇧 英音 (en-GB)</option>
+    </select>
+  </div>
+  <div class="d-clean-row">
+    <span>朗读语速</span>
+    <select id="tts-rate" style="border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);padding:4px 8px;border-radius:6px;font-size:12px">
+      <option value="0.8">🐢 慢速 (0.8x)</option>
+      <option value="0.92" selected>⚡ 标准 (0.9x)</option>
+      <option value="1.1">🐇 快速 (1.1x)</option>
+    </select>
+  </div>
+  <label class="d-clean-row" style="cursor:pointer">
+    <span>显示释义时自动朗读</span>
+    <input id="auto-read" type="checkbox" style="width:18px;height:18px;accent-color:var(--color-primary)">
+  </label>
+  <label class="d-clean-row" style="cursor:pointer">
+    <span>按键触感震动反馈</span>
+    <input id="haptic-toggle" type="checkbox" checked style="width:18px;height:18px;accent-color:var(--color-primary)">
+  </label>
+  <label class="d-clean-row" style="cursor:pointer">
+    <span>操作提示音效</span>
+    <input id="sound-toggle" type="checkbox" checked style="width:18px;height:18px;accent-color:var(--color-primary)">
+  </label>
+</div>
+
+<!-- 4. 界面字号 -->
+<div class="d-clean-section">
+  <div class="d-clean-title">🔠 单词卡片字号</div>
+  <div class="d-clean-row">
+    <span>字体大小</span>
+    <div class="fs-btns">
+      <button class="d-btn fs-b" data-fs="0.9" type="button">小</button>
+      <button class="d-btn fs-b on" data-fs="1" type="button">标准</button>
+      <button class="d-btn fs-b" data-fs="1.15" type="button">大</button>
+      <button class="d-btn fs-b" data-fs="1.30" type="button">特大</button>
+    </div>
+  </div>
+</div>
+
+<!-- 5. 快捷背诵操作 -->
+<div class="d-clean-section">
+  <div class="d-clean-title">⚡ 快速学习操作</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px">
+    <button class="d-btn primary" id="start" type="button">▶ 继续背诵</button>
+    <button class="d-btn" id="shuffle" type="button">↻ 换一组新词</button>
+    <button class="d-btn" id="weak-btn" type="button">⚡ 专练薄弱词</button>
+    <button class="d-btn" id="review" type="button">⏰ 复习到期词</button>
+    <button class="d-btn" id="fav-btn" type="button" style="grid-column:1/-1">⭐ 专练生词本</button>
+  </div>
+</div>
+
+<!-- 6. 学习进度统计与备份 -->
+<div class="d-clean-section">
+  <div class="d-clean-title">📊 学习数据与备份</div>
+  <div class="d-stats" style="margin-bottom:8px">
+    <span>今日完成 <b id="today">0</b></span>
+    <span>待复习 <b id="due">0</b></span>
+    <span>已掌握 <b id="mastered">0</b></span>
+    <span>薄弱词 <b id="weak">0</b></span>
+    <span>尚未完成 <b id="remain">0</b></span>
+  </div>
+  <div class="stats-box" id="stats-box" hidden style="margin-bottom:8px">
+    <p class="streak-line">🔥 连续打卡 <b id="streak-days">0</b> 天</p>
+    <div class="bars" id="daily-bars"></div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button class="d-btn" id="export-progress" type="button" style="flex:1">📤 导出备份</button>
+    <button class="d-btn" id="import-progress" type="button" style="flex:1">📥 导入恢复</button>
+  </div>
+</div>
+
+<div class="d-block" style="padding:10px 12px;background:var(--color-surface-offset);border-radius:10px">
+  <div class="queue" id="queue" style="margin-bottom:6px"></div>
+  <p class="small" style="margin:0">💡 提示：双击卡片快速朗读，左右滑动快速切词，点击空白查看释义。</p>
+</div>
+<div id="upgrade-notice" class="upgrade-notice" hidden></div>
+</div>
+</div>
+
+<nav class="bottom-nav" aria-label="移动端导航">
+  <a href="study.html" class="active"><span class="icon">📖</span><span>背单词</span></a>
+  <a href="exam.html"><span class="icon">📝</span><span>英一题型</span></a>
+  <a href="words.html"><span class="icon">📚</span><span>考研词库</span></a>
+  <a href="memory.html"><span class="icon">👤</span><span>我的</span></a>
+</nav>
+<script defer src="data/words_bundle.js"></script><script defer src="data/ai_examples_bundle.js"></script><script defer src="js/quiz.js"></script><script defer src="js/study.js"></script><script defer src="js/pwa.js"></script><script>
+const SUN='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',MOON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',OLED='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>';
+function paintTheme(){const b=document.documentElement,cur=b.dataset.theme||'light';document.querySelectorAll('[data-theme-toggle]').forEach(t=>{t.innerHTML=cur==='light'?MOON:(cur==='dark'?OLED:SUN);t.setAttribute('aria-label',cur==='light'?'切换到暗色模式':(cur==='dark'?'切换到OLED纯黑模式':'切换到浅色模式'));});}
+document.querySelectorAll('[data-theme-toggle]').forEach(t=>t.addEventListener('click',()=>{const b=document.documentElement,cur=b.dataset.theme||'light',next=cur==='light'?'dark':(cur==='dark'?'oled':'light');b.dataset.theme=next;localStorage.setItem('theme',next);paintTheme();}));
+document.getElementById('drawer-btn').addEventListener('click',()=>{document.getElementById('drawer').hidden=false;});
+document.getElementById('drawer-mask').addEventListener('click',()=>{document.getElementById('drawer').hidden=true;});
+document.getElementById('drawer-close').addEventListener('click',()=>{document.getElementById('drawer').hidden=true;});
+
+// 顶部考研导航菜单收纳/展开逻辑
+const menuToggle = document.getElementById('study-menu-toggle');
+const topNavBox = document.getElementById('study-top-nav-box');
+const menuArrow = document.getElementById('study-menu-arrow');
+if (menuToggle && topNavBox) {
+  menuToggle.addEventListener('click', () => {
+    const isHidden = topNavBox.hidden;
+    topNavBox.hidden = !isHidden;
+    menuArrow.textContent = isHidden ? '🔼' : '🔽';
+    menuToggle.classList.toggle('active', isHidden);
   });
-  applySet();
-  // AI 设置弹窗
-  var modal=document.getElementById('ai-modal'), btn=document.getElementById('ai-settings-btn');
-  var base=document.getElementById('ai-base-url'), model=document.getElementById('ai-model'), key=document.getElementById('ai-api-key');
-  function load(){var c={};try{c=JSON.parse(localStorage.getItem('kaoyan_ai_config')||'{}');}catch(e){}
-    base.value=c.baseUrl||'https://api.deepseek.com/v1';model.value=c.model||'deepseek-chat';key.value=c.apiKey||'';key.placeholder='留空则使用内置 Key';}
-  function openM(){load();modal.hidden=false;modal.setAttribute('aria-hidden','false');modal.removeAttribute('inert');key.focus();}
-  function closeM(){modal.hidden=true;modal.setAttribute('aria-hidden','true');modal.setAttribute('inert','');}
-  btn.addEventListener('click',openM);
-  document.addEventListener('click',function(e){if(e.target.closest('[data-ai-close]'))closeM();});
-  document.getElementById('ai-save').addEventListener('click',function(){
-    var c={baseUrl:(base.value||'').trim().replace(/\/$/,'')||'https://api.deepseek.com/v1',model:(model.value||'').trim()||'deepseek-chat',apiKey:(key.value||'').trim()};
-    try{localStorage.setItem('kaoyan_ai_config',JSON.stringify(c));}catch(e){}
-    closeM();alert('AI 设置已保存。');
-  });
-})();
-</script>
-</body></html>
+}
+
+(()=>{const FS=localStorage.getItem('kao_fs')||'1';document.documentElement.style.setProperty('--fs',FS);document.querySelectorAll('.fs-b').forEach(b=>{b.classList.toggle('on',b.dataset.fs===FS);b.addEventListener('click',()=>{document.documentElement.style.setProperty('--fs',b.dataset.fs);localStorage.setItem('kao_fs',b.dataset.fs);document.querySelectorAll('.fs-b').forEach(x=>x.classList.toggle('on',x===b));});});const AR=localStorage.getItem('kao_autoread')==='1';const ar=document.getElementById('auto-read');if(ar){ar.checked=AR;ar.addEventListener('change',()=>localStorage.setItem('kao_autoread',ar.checked?'1':'0'));window.kaoAutoRead=()=>ar.checked;}
+const ttsLang=document.getElementById('tts-lang');if(ttsLang){ttsLang.value=localStorage.getItem('kao_ttslang')||'en-US';ttsLang.addEventListener('change',()=>localStorage.setItem('kao_ttslang',ttsLang.value));}
+const ttsRate=document.getElementById('tts-rate');if(ttsRate){ttsRate.value=localStorage.getItem('kao_ttsrate')||'0.92';ttsRate.addEventListener('change',()=>localStorage.setItem('kao_ttsrate',ttsRate.value));}
+const hapticToggle=document.getElementById('haptic-toggle');if(hapticToggle){hapticToggle.checked=localStorage.getItem('kao_haptic')!=='0';hapticToggle.addEventListener('change',()=>localStorage.setItem('kao_haptic',hapticToggle.checked?'1':'0'));}
+const soundToggle=document.getElementById('sound-toggle');if(soundToggle){soundToggle.checked=localStorage.getItem('kao_sound')!=='0';soundToggle.addEventListener('change',()=>localStorage.setItem('kao_sound',soundToggle.checked?'1':'0'));}
+})();(()=>{let th=localStorage.getItem('theme');if(!th)th=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.dataset.theme=th;paintTheme();})();
+</script></body></html>

@@ -1,0 +1,2990 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>考研英语（一）· 全真题型应试指南与通关工坊</title>
+  <meta name="description" content="全国硕士研究生招生考试英语（一）大纲官方题型深度拆解：完形填空、唐迟逻辑阅读、新题型、长难句翻译、小作文书信告示与图画大作文九宫格满分方法论。">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#1e3a8a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="data/words_bundle.js"></script>
+  <script defer src="data/translations_bundle.js"></script>
+  <script defer src="data/exam_data_bundle.js"></script>
+  <script defer src="js/exam_workshop.js"></script>
+  <style>
+    /* 题型专属样式体系 */
+    .exam-hero {
+      background: linear-gradient(135deg, color-mix(in oklab, var(--color-primary) 16%, var(--color-surface)), var(--color-surface));
+      border: 1px solid color-mix(in oklab, var(--color-primary) 30%, transparent);
+      border-radius: var(--radius-xl);
+      padding: 24px 20px;
+      text-align: center;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .exam-hero h1 {
+      font-size: clamp(1.4rem, 3.5vw, 1.95rem);
+      margin: 0 0 8px;
+      color: var(--color-text);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .exam-hero p {
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      margin: 0 auto;
+      max-width: 720px;
+      line-height: 1.65;
+    }
+
+    /* 题型大纲导航卡片 (Type Tabs) */
+    .type-tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .type-tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .type-tab-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-text);
+      background: var(--color-surface-offset);
+      transform: translateY(-2px);
+    }
+    .type-tab-btn.active {
+      background: var(--color-surface);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      box-shadow: 0 4px 14px color-mix(in oklab, var(--color-primary) 22%, transparent);
+      font-weight: 700;
+    }
+    .type-tab-btn .tt-icon { font-size: 22px; margin-bottom: 4px; }
+    .type-tab-btn .tt-name { font-size: 13px; font-weight: inherit; }
+    .type-tab-btn .tt-score { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+    /* 题型内容卡片 */
+    .exam-section {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      animation: fadein 0.22s ease-out;
+    }
+    .exam-section[hidden] { display: none; }
+
+    .exam-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .exam-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .exam-card-head h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-text);
+    }
+    .exam-badge {
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      background: color-mix(in oklab, var(--color-primary) 15%, transparent);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    /* 模块重点框 */
+    .method-box {
+      background: var(--color-surface-offset);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      border-left: 4px solid var(--color-primary);
+      margin-bottom: 14px;
+      line-height: 1.7;
+    }
+    .method-box h3 {
+      font-size: 15px;
+      margin: 0 0 10px;
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .method-box p {
+      margin: 0 0 8px;
+      font-size: 13.5px;
+      color: var(--color-text);
+    }
+    .method-box ul, .method-box ol {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13.5px;
+      color: var(--color-text);
+    }
+    .method-box li { margin-bottom: 6px; }
+
+    /* 思维导图流程步骤框 */
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .flow-step-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      position: relative;
+    }
+    .flow-step-card strong {
+      display: block;
+      color: var(--color-primary);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .flow-step-card p {
+      font-size: 12.5px;
+      color: var(--color-text-muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* 模板展示框与复制按钮 */
+    .tpl-box {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-family: Georgia, Cambria, "Times New Roman", serif;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--color-text);
+      position: relative;
+      margin-top: 12px;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .copy-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* 错误选项排雷库 */
+    .trap-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .trap-card {
+      background: color-mix(in oklab, #c62828 6%, var(--color-surface));
+      border: 1px solid color-mix(in oklab, #c62828 25%, transparent);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .trap-card strong {
+      color: #c62828;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    /* 自查清单与诊断 */
+    .diag-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .diag-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition);
+    }
+    .diag-item:hover {
+      border-color: var(--color-primary);
+    }
+    .diag-item.checked {
+      background: color-mix(in oklab, #2e7d32 10%, var(--color-surface));
+      border-color: #2e7d32;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+    .diag-item input {
+      accent-color: #2e7d32;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+
+    /* 快捷直通工坊按钮 */
+    .jump-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 22px;
+      background: var(--color-primary);
+      color: var(--color-surface-2);
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 4px 14px color-mix(in oklab, var(--color-primary) 30%, transparent);
+      transition: var(--transition);
+    }
+    .jump-btn:hover {
+      background: var(--color-primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .exam-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      background: var(--color-surface);
+      padding: 10px 14px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+    }
+    .exam-progress-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--color-surface-offset);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .exam-progress-bar i {
+      display: block;
+      height: 100%;
+      background: var(--color-primary);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .exam-progress-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+    .exam-search-box {
+      margin-top: 12px;
+    }
+    .exam-search-box input {
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-size: 13px;
+    }
+    .exam-mastery-btn {
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-offset);
+      color: var(--color-text);
+      transition: var(--transition);
+    }
+    .exam-mastery-btn.done {
+      background: color-mix(in oklab, #2e7d32 15%, transparent);
+      border-color: #2e7d32;
+      color: #2e7d32;
+    }
+
+    /* 题型底部步进导航 */
+    .sec-nav-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--color-border);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .sec-nav-btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .sec-nav-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* ===== 考研题型 左右翻页式卡片系统 (Paginated Exam Study Deck) ===== */
+    .exam-subpage-nav {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 2px 10px;
+      margin-bottom: 14px;
+      border-bottom: 1px dashed var(--color-border);
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .exam-subpage-nav::-webkit-scrollbar { display: none; }
+
+    .subpage-pill {
+      flex: 0 0 auto;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface-offset);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .subpage-pill:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+    .subpage-pill.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #ffffff;
+      box-shadow: 0 2px 8px color-mix(in oklab, var(--color-primary) 30%, transparent);
+    }
+
+    .exam-subpage-deck {
+      position: relative;
+      min-height: 240px;
+    }
+    .exam-subpage-slide {
+      display: none;
+      animation: slidePageIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .exam-subpage-slide.active {
+      display: block;
+    }
+
+    @keyframes slidePageIn {
+      from {
+        opacity: 0;
+        transform: translateX(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .exam-page-flip-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--color-surface-offset);
+      border: 1px solid var(--color-border);
+    }
+    .exam-flip-btn {
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      touch-action: manipulation;
+    }
+    .exam-flip-btn:hover:not(:disabled) {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+    .exam-flip-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .subpage-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .subpage-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .subpage-dots .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-border);
+      transition: all 0.2s ease;
+    }
+    .subpage-dots .dot.active {
+      width: 14px;
+      border-radius: 4px;
+      background: var(--color-primary);
+    }
+    .subpage-counter {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    /* ===== 题型项目目录看板 (Exam Project Hub Grid) ===== */
+    .exam-hub-container {
+      animation: pageSlideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .exam-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .exam-project-card {
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+      color: var(--color-text);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .exam-project-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px color-mix(in oklab, var(--color-primary) 12%, transparent);
+    }
+    .exam-project-card:active {
+      transform: scale(0.98);
+    }
+    .ep-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .ep-icon-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ep-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+    .ep-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+    .ep-score-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: color-mix(in oklab, var(--color-primary) 12%, transparent);
+      color: var(--color-primary);
+    }
+    .ep-desc {
+      font-size: 12.5px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+      margin: 4px 0 10px;
+    }
+    .ep-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-primary);
+      border-top: 1px dashed var(--color-border);
+      padding-top: 8px;
+    }
+
+    /* ===== 小标题收纳框 (Collapsible Sub-Topic Box) ===== */
+    .exam-subtopic-box {
+      background: var(--color-surface-offset);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .subtopic-toggle-btn {
+      width: 100%;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 12.5px;
+      color: var(--color-text);
+      user-select: none;
+    }
+    .subtopic-toggle-btn .st-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .subtopic-toggle-btn .st-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-primary);
+      background: var(--color-surface);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--color-border);
+    }
+    .subtopic-toggle-btn .st-cur-title {
+      font-weight: 600;
+    }
+    .subtopic-toggle-btn .st-arrow {
+      font-size: 11.5px;
+      color: var(--color-text-muted);
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+    .subtopic-drawer-content {
+      padding: 8px 12px 10px;
+      border-top: 1px dashed var(--color-border);
+      background: var(--color-surface);
+    }
+    .subtopic-pills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    @media (max-width: 640px) {
+      .type-tabs {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+      .type-tab-btn {
+        padding: 8px 4px;
+      }
+      .type-tab-btn .tt-icon { font-size: 18px; }
+      .type-tab-btn .tt-name { font-size: 12px; }
+      .exam-card { padding: 16px 12px; }
+      .trap-grid, .flow-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部极简导航栏 -->
+  <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border)">
+    <div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px">
+      <span style="font-size:16px;font-weight:800;color:var(--color-text)">📝 英一题型通关工坊</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="theme-toggle" data-theme-toggle aria-label="切换深浅色模式" type="button"></button>
+        <button class="settings-btn" data-settings-open="true" type="button" title="⚙️ 系统偏好设置" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface-offset);cursor:pointer;font-size:14px">⚙️</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="main" style="max-width:960px;margin:0 auto;padding:16px 14px calc(75px + env(safe-area-inset-bottom))">
+    <!-- 收纳式顶部控制条 (Collapsible Header Bar) -->
+    <div class="exam-compact-bar" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <button class="multi-clear-btn" id="toggle-exam-overview-btn" type="button" style="font-size:12px;padding:4px 10px;border-radius:6px">⚙️ 收纳/展开 考纲与提分概览 🔽</button>
+      <div class="exam-progress-pill" style="font-size:12px;color:var(--color-primary);font-weight:600" id="exam-prog-text">掌握进度：0/7</div>
+    </div>
+
+    <!-- 可收纳的大纲与提分看板抽屉 (默认收纳，留出主视口给学习内容) -->
+    <div id="exam-overview-drawer" hidden>
+      <!-- Hero 题型大纲概览 -->
+      <div class="exam-hero">
+        <h1>考研英语（一）· 全题型应试指南与通关工坊</h1>
+        <p>教育部考试中心官方考试大纲（代码201）权威解析：融汇唐迟逻辑阅读、田静句法长难句、潘赟九宫格作文与命题人命题规律，攻克各板块拿分命门！</p>
+        <div class="exam-progress-wrap">
+          <div class="exam-progress-bar"><i id="exam-prog-fill" style="width:0%"></i></div>
+        </div>
+        <div class="exam-search-box" style="margin-top:10px">
+          <input type="search" id="exam-search" placeholder="🔍 快速搜索方法论考点（如：逻辑 / 转折 / 态度题 / 告示 / 九宫格 / 红花词）..." autocomplete="off">
+        </div>
+      </div>
+
+      <!-- 优势题型速拔突破看板 (High-Yield Advantageous Scoring Engine) -->
+      <div class="exam-advantage-card" style="background:linear-gradient(135deg, color-mix(in oklab, #f57f17 12%, var(--color-surface)), var(--color-surface));border:1.5px solid color-mix(in oklab, #f57f17 35%, transparent);border-radius:var(--radius-xl);padding:18px 20px;margin-bottom:18px;box-shadow:var(--shadow-sm)">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+          <h2 style="font-size:16px;font-weight:800;color:var(--color-text);margin:0;display:flex;align-items:center;gap:6px">
+            <span style="font-size:20px">🏆</span> 考研英语（一）· 优势题型提分突破看板
+          </h2>
+          <span style="font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:color-mix(in oklab, #f57f17 18%, transparent);color:#f57f17">
+            🎯 80+ 抢分基石：先拿稳优势 40 分！
+          </span>
+        </div>
+        <p style="font-size:13px;color:var(--color-text-muted);margin:0 0 14px;line-height:1.6">
+          考研英语（一）70+ 与 80+ 分的真正分水岭：<strong>“新题型 10 分满分 + 大小作文 25+ 分 + 阅读送分题 100% 命中”</strong>。这三大优势板块提分边际效益最高、复习见效最快！
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:10px">
+          <!-- 优势 1 -->
+          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <strong style="color:var(--color-primary);font-size:14px">🥇 大小作文 (30分)</strong>
+                <span style="font-size:11px;font-weight:700;color:#2e7d32;background:color-mix(in oklab, #2e7d32 15%, transparent);padding:2px 6px;border-radius:4px">保底 24~26分</span>
+              </div>
+              <p style="font-size:12px;color:var(--color-text-muted);margin:0 0 8px;line-height:1.5">
+                掌握九宫格结构与 10 大学术高阶句式，默写格式分与三段功能句，直接锁定高分卷面！
+              </p>
+            </div>
+            <button class="d-btn" data-switch-type="writing_b" type="button" style="font-size:12px;padding:5px 12px;border-radius:999px;background:var(--color-surface-offset);border:1px solid var(--color-border);color:var(--color-primary);font-weight:600;text-align:center;cursor:pointer">
+              直通大作文工坊 →
+            </button>
+          </div>
+
+          <!-- 优势 2 -->
+          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <strong style="color:#8e24aa;font-size:14px">🥈 阅读新题型 (10分)</strong>
+                <span style="font-size:11px;font-weight:700;color:#2e7d32;background:color-mix(in oklab, #2e7d32 15%, transparent);padding:2px 6px;border-radius:4px">必拿 10分满分</span>
+              </div>
+              <p style="font-size:12px;color:var(--color-text-muted);margin:0 0 8px;line-height:1.5">
+                代词指代链 + 冠词递进 + 逻辑连词前后咬合，无需读懂全篇，15 分钟拿下满分！
+              </p>
+            </div>
+            <button class="d-btn" data-switch-type="newtype" type="button" style="font-size:12px;padding:5px 12px;border-radius:999px;background:var(--color-surface-offset);border:1px solid var(--color-border);color:#8e24aa;font-weight:600;text-align:center;cursor:pointer">
+              直通新题型工坊 →
+            </button>
+          </div>
+
+          <!-- 优势 3 -->
+          <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <strong style="color:#1e88e5;font-size:14px">🥉 阅读送分题 (12分)</strong>
+                <span style="font-size:11px;font-weight:700;color:#2e7d32;background:color-mix(in oklab, #2e7d32 15%, transparent);padding:2px 6px;border-radius:4px">命中率 100%</span>
+              </div>
+              <p style="font-size:12px;color:var(--color-text-muted);margin:0 0 8px;line-height:1.5">
+                例证题（找论点看例前句）+ 态度题（排冷漠死亡词）+ 词汇题（正反逻辑推导），一分不丢！
+              </p>
+            </div>
+            <button class="d-btn" data-switch-type="reading" type="button" style="font-size:12px;padding:5px 12px;border-radius:999px;background:var(--color-surface-offset);border:1px solid var(--color-border);color:#1e88e5;font-weight:600;text-align:center;cursor:pointer">
+              直通阅读送分题解法 →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 题型项目目录看板 (默认展示7大项目，点击后进入具体学习) ===== -->
+    <div id="exam-hub-container" class="exam-hub-container">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h1 style="font-size:17px;font-weight:800;margin:0;color:var(--color-text)">🎯 考研英语（一）· 7 大题型通关项目</h1>
+        <div class="exam-progress-pill" style="font-size:12px;color:var(--color-primary);font-weight:700" id="hub-prog-text">0/7 已掌握</div>
+      </div>
+      <p style="font-size:12px;color:var(--color-text-muted);margin:0 0 10px">点击下方具体题型项目卡片，进入专项方法论、破题公式与真题工坊学习：</p>
+      
+      <div class="exam-hub-grid">
+        <div class="exam-project-card" data-open-project="reading">
+          <div class="ep-head">
+            <div class="ep-icon-title"><span class="ep-icon">📖</span><span class="ep-title">传统阅读理解</span></div>
+            <span class="ep-score-badge">Part A · 40分</span>
+          </div>
+          <p class="ep-desc">占总分40%半壁江山 · 唐迟逻辑六大题型拆解 · 4篇真题精读与同义替换排雷</p>
+          <div class="ep-foot"><span>💡 6大解题公式 · 4篇工坊</span><span>进入学习 →</span></div>
+        </div>
+
+        <div class="exam-project-card" data-open-project="trans">
+          <div class="ep-head">
+            <div class="ep-icon-title"><span class="ep-icon">🌐</span><span class="ep-title">英译汉长难句</span></div>
+            <span class="ep-score-badge">Part C · 10分</span>
+          </div>
+          <p class="ep-desc">105篇历年全真长难句精析 · 田静句法拆分（定从/状从/倒装/分割）与官方评分标准</p>
+          <div class="ep-foot"><span>💡 句法黄金拆分 · 105篇工坊</span><span>进入学习 →</span></div>
+        </div>
+
+        <div class="exam-project-card" data-open-project="cloze">
+          <div class="ep-head">
+            <div class="ep-icon-title"><span class="ep-icon">🧩</span><span class="ep-title">完形填空</span></div>
+            <span class="ep-score-badge">Section I · 10分</span>
+          </div>
+          <p class="ep-desc">20空语篇逻辑秒杀 · 逻辑转折同向线索 · 考研40大高频“红花词与绿叶词”必背库</p>
+          <div class="ep-foot"><span>💡 红花绿叶词 · 语篇逻辑</span><span>进入学习 →</span></div>
+        </div>
+
+        <div class="exam-project-card" data-open-project="newtype">
+          <div class="ep-head">
+            <div class="ep-icon-title"><span class="ep-icon">🎯</span><span class="ep-title">阅读新题型</span></div>
+            <span class="ep-score-badge">Part B · 10分</span>
+          </div>
+          <p class="ep-desc">80+提分突破口 · 7选5逻辑衔接 · 排序题抓首段与代词复现 · 小标题速配</p>
+          <div class="ep-foot"><span>💡 7选5/排序/小标题满分法</span><span>进入学习 →</span></div>
+        </div>
+
+        <div class="exam-project-card" data-open-project="writing_a">
+          <div class="ep-head">
+            <div class="ep-icon-title"><span class="ep-icon">✉️</span><span class="ep-title">应用文小作文</span></div>
+            <span class="ep-score-badge">Part A · 10分</span>
+          </div>
+          <p class="ep-desc">十大书信（建议/投诉/道歉/感谢/推荐）与告示满分母版 · 格式三大黄金红线</p>
+          <div class="ep-foot"><span>💡 十大书信告示母版</span><span>进入学习 →</span></div>
+        </div>
+
+        <div class="exam-project-card" data-open-project="writing_b">
+          <div class="ep-head">
+            <div class="ep-icon-title"><span class="ep-icon">🎨</span><span class="ep-title">图画大作文</span></div>
+            <span class="ep-score-badge">Part B · 20分</span>
+          </div>
+          <p class="ep-desc">潘赟九宫格高分三段论架构 · 8大社会热点母词母句 · 拒绝模板套作的个性化高分立意</p>
+          <div class="ep-foot"><span>💡 九宫格三段论 · 高分语料</span><span>进入学习 →</span></div>
+        </div>
+
+        <div class="exam-project-card" data-open-project="strategy">
+          <div class="ep-head">
+            <div class="ep-icon-title"><span class="ep-icon">⏱️</span><span class="ep-title">考场战略与急救</span></div>
+            <span class="ep-score-badge">180min 模拟</span>
+          </div>
+          <p class="ep-desc">180分钟黄金做题顺序与时间分配表 · 考前急救锦囊 · 终极全真涂卡计时训练</p>
+          <div class="ep-foot"><span>💡 180分钟全真节奏 · 涂卡器</span><span>进入学习 →</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📱 手机端学习界面顶部控制栏与返回按钮 (学习时显示) -->
+    <div id="exam-study-header-bar" style="display:none;justify-content:space-between;align-items:center;margin:6px 0 10px;flex-wrap:wrap;gap:8px">
+      <button class="btn" id="back-to-hub-btn" type="button" style="font-size:12px;padding:5px 12px;border-radius:8px;font-weight:700;background:var(--color-surface);border:1.5px solid var(--color-border);display:flex;align-items:center;gap:4px">
+        ← 返回题型目录
+      </button>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="filter-chip" id="toggle-immersive-btn" type="button" style="font-size:11.5px;padding:3px 10px">
+          📱 考场沉浸
+        </button>
+      </div>
+    </div>
+
+    <!-- 题型水平切换标签栏 (可在学习时辅助切换) -->
+    <div class="type-tabs" id="exam-type-tabs" role="tablist" style="display:none;margin-bottom:12px">
+      <button class="type-tab-btn active" data-type="reading" type="button">
+        <span class="tt-icon">📖</span>
+        <span class="tt-name">传统阅读</span>
+        <span class="tt-score">Part A (40分)</span>
+      </button>
+      <button class="type-tab-btn" data-type="trans" type="button">
+        <span class="tt-icon">🌐</span>
+        <span class="tt-name">英译汉长难句</span>
+        <span class="tt-score">Part C (10分)</span>
+      </button>
+      <button class="type-tab-btn" data-type="cloze" type="button">
+        <span class="tt-icon">🧩</span>
+        <span class="tt-name">完形填空</span>
+        <span class="tt-score">Section I (10分)</span>
+      </button>
+      <button class="type-tab-btn" data-type="newtype" type="button">
+        <span class="tt-icon">🎯</span>
+        <span class="tt-name">阅读新题型</span>
+        <span class="tt-score">Part B (10分)</span>
+      </button>
+      <button class="type-tab-btn" data-type="writing_a" type="button">
+        <span class="tt-icon">✉️</span>
+        <span class="tt-name">应用文小作文</span>
+        <span class="tt-score">Part A (10分)</span>
+      </button>
+      <button class="type-tab-btn" data-type="writing_b" type="button">
+        <span class="tt-icon">🎨</span>
+        <span class="tt-name">图画大作文</span>
+        <span class="tt-score">Part B (20分)</span>
+      </button>
+      <button class="type-tab-btn" data-type="strategy" type="button">
+        <span class="tt-icon">⏱️</span>
+        <span class="tt-name">考场战略</span>
+        <span class="tt-score">180m规划与急救</span>
+      </button>
+    </div>
+
+    <!-- ===== 板块 1：传统阅读理解 (Part A 40分) ===== -->
+    <section class="exam-section" id="sec-reading">
+      <div class="exam-card">
+        <div class="exam-card-head">
+          <h2>📖 Section II Part A · 传统阅读理解（40分）</h2>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="exam-badge">占总分 40% · 考研半壁江山</span>
+            <button class="filter-chip" onclick="document.getElementById('reading-workshop-root').scrollIntoView({behavior:'smooth'})" type="button" style="font-size:11.5px;padding:3px 8px">🚀 直达真题精读工坊 ↓</button>
+            <button class="exam-mastery-btn" data-sec-id="reading" type="button">🔘 标记为已掌握</button>
+          </div>
+        </div>
+        
+        <div class="method-box">
+          <h3>🎯 考研大纲考查核心与黄金做题节奏</h3>
+          <p>共 4 篇精读文章，每篇约 400~450 词，共 20 道选择题。主要考查主旨概括、细节辨析、语篇逻辑与观点态度。建议总用时：<strong>60~70 分钟</strong>（每篇 15~18 分钟）。</p>
+          <div class="flow-steps">
+            <div class="flow-step-card">
+              <strong>① 读题干定目标 (1 min)</strong>
+              <p>先扫 5 个题干，圈出专有名词/时间/核心词，预判文章主题，切勿看选项！</p>
+            </div>
+            <div class="flow-step-card">
+              <strong>② 段落精读锁句 (8~10 min)</strong>
+              <p>按“题文同序”原则回文定位，重点抓住段落首末句与转折处（However/Yet）。</p>
+            </div>
+            <div class="flow-step-card">
+              <strong>③ 逻辑对照排除 (5~6 min)</strong>
+              <p>对比选项与定位句，识别“同义替换”为真，“以偏概全/偷换概念”为伪。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>💡 唐迟老师阅读逻辑：六大题型独家拆解与解题公式</h3>
+          <ol>
+            <li><strong>事实细节题（占 50% 以上，题量最大）</strong>：
+              <br>• <strong>核心口诀</strong>：“定位到句，同义替换即答案；忠于原文，切忌主观臆断”。
+              <br>• <strong>解法公式</strong>：定位词阶梯（专有名词 > 数字年代 > 核心实词 > 名词短语）➔ 精准定位至 1~2 句话 ➔ 寻找同义词替换（词性转换、反向表述、主动变被动）。
+            </li>
+            <li style="margin-top:8px"><strong>主旨大意题（决定全文方向）</strong>：
+              <br>• <strong>核心口诀</strong>：“串线法抓中心，主题词统领全局”。
+              <br>• <strong>解法公式</strong>：各段首末句串联 + 统计全文最高频复现词。正确项必须具备宏观概括性且包含主题词；凡是只讲单段细节的选项一律判定为以偏概全！
+            </li>
+            <li style="margin-top:8px"><strong>观点态度题（考研常考考点）</strong>：
+              <br>• <strong>核心口诀</strong>：“锁定形容词副词情感极性，排除冷漠中立项”。
+              <br>• <strong>高频正确项</strong>：<code>objective</code> (客观), <code>supportive/positive</code> (支持/积极), <code>skeptical</code> (怀疑), <code>cautious/guarded</code> (谨慎), <code>critical</code> (批判)。
+              <br>• <strong>五大必错死亡词</strong>：<code>indifferent</code> (漠不关心), <code>unconcerned</code> (不关心), <code>neutral</code> (纯中立), <code>puzzled</code> (困惑), <code>scared</code> (恐惧)。
+            </li>
+            <li style="margin-top:8px"><strong>例证题（送分题）</strong>：
+              <br>• <strong>核心口诀</strong>：“找论点不找论据，答案在例子前/后一句总述”。
+              <br>• <strong>解法公式</strong>：90% 的情况下，例子所证明的论点就在例子上一句！凡是停留在例子细节本身的选项 100% 为干扰项！
+            </li>
+            <li style="margin-top:8px"><strong>词汇与指代题</strong>：
+              <br>• <strong>核心口诀</strong>：“语境决定词义，正反逻辑推导”。
+              <br>• <strong>解法公式</strong>：通过 <code>and</code>, <code>moreover</code> (同向顺承) 或 <code>but</code>, <code>however</code>, <code>rather than</code> (反向转折) 推导生词色彩，绝不选死记硬背的第一释义。
+            </li>
+            <li style="margin-top:8px"><strong>推理判断题</strong>：
+              <br>• <strong>核心口诀</strong>：“立足原文最近推理，委婉词常为正确项”。
+              <br>• <strong>解法公式</strong>：正确选项往往表达含蓄客观（常含 <code>may</code>, <code>might</code>, <code>could</code>, <code>not necessarily</code>, <code>tend to</code>），绝对化词汇（<code>must</code>, <code>always</code>）多为错。
+            </li>
+          </ol>
+
+          <div style="margin-top:14px;overflow-x:auto">
+            <h4 style="margin:0 0 8px;font-size:13px;color:var(--color-primary)">📊 考研阅读 6 大常考题型解题套路与反套路速查表</h4>
+            <table style="width:100%;border-collapse:collapse;font-size:12px;line-height:1.5">
+              <thead>
+                <tr style="background:var(--color-surface-offset);text-align:left">
+                  <th style="padding:6px 8px;border:1px solid var(--color-border);width:16%">题型分类</th>
+                  <th style="padding:6px 8px;border:1px solid var(--color-border);width:22%">题干典型标志</th>
+                  <th style="padding:6px 8px;border:1px solid var(--color-border);width:32%">官方正解特征</th>
+                  <th style="padding:6px 8px;border:1px solid var(--color-border);width:30%">命题人高频排雷陷阱</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">1. 事实细节题</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">According to Para X... / ...because...</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">定位句的同义替换（词性转换、句式转换）</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">偷换概念、张冠李戴、无中生有、极端绝对词</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">2. 主旨大意题</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">The text mainly discusses... / best title...</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">高度概括全文且必须包含最高频主题词</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">以偏概全（只讲单段细节）、过度泛化、无中生有</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">3. 观点态度题</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">The author's attitude towards... is...</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">objective, cautiously supportive, skeptical</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">indifferent, unconcerned, neutral, scared (必错)</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">4. 例证题</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">...is mentioned to show that...</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">例子上一句/下一句的总括性观点</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">停留在例子本身细节、就事论事（必错）</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">5. 词汇指代题</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">The word "..." in Para X closest in meaning to...</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">结合上下文正反逻辑推导出的贴切引申义</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">字面字典第一常见释义（往往是熟词僻义陷阱）</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">6. 推理判断题</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">It can be inferred from the text that...</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">语气委婉客观（常含 may/could/tend to）</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">过度推理、主观臆断、与原文事实相反</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:var(--color-accent);background:color-mix(in oklab, var(--color-accent) 8%, var(--color-surface))">
+          <h3 style="color:var(--color-accent)">🔥 真题母题实战精析（唐迟细节题同义替换全流程）</h3>
+          <div style="font-size:13px;line-height:1.6">
+            <p><strong>【真题题干】</strong> <em>According to Paragraph 2, traditional print newspapers suffered a steep decline primarily because ____.</em></p>
+            <p><strong>【原文定位句】</strong> <em>The rapid emergence of digital news outlets <u>diverted massive advertising revenues away from</u> conventional media.</em></p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:8px;margin-top:8px">
+              <div style="background:var(--color-surface);padding:10px 12px;border-radius:6px;border:1px solid #2e7d32">
+                <strong style="color:#2e7d32">✓ [正确项] they lost vital financial backing from commercial advertisers</strong>
+                <p style="font-size:12px;color:var(--color-text-muted);margin:2px 0 0">【精妙同义替换】<code>diverted advertising revenues away from</code> ➔ <code>lost vital financial backing from advertisers</code>，词性转换，核心逻辑 100% 吻合！</p>
+              </div>
+              <div style="background:var(--color-surface);padding:10px 12px;border-radius:6px;border:1px solid #c62828">
+                <strong style="color:#c62828">❌ [干扰项 A] readers completely lost interest in news reading</strong>
+                <p style="font-size:12px;color:var(--color-text-muted);margin:2px 0 0">【偷换概念+过于绝对】读者转移阵地不等于“失去兴趣”，<code>completely</code> 过于绝对，典型排雷项！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:#8e24aa;background:color-mix(in oklab, #8e24aa 8%, var(--color-surface))">
+          <h3 style="color:#8e24aa">⚡ 网络高分大神绝技：5 道题干“串联骨架法”（不读正文已知 70% 剧情）</h3>
+          <p style="font-size:13px">考研英语（一）命题专家严格遵循“题文同序”原则。在动笔精读之前，<strong>只看 5 道题干（绝对不看 ABCD 选项）</strong>，圈出其中的高频实词、主语与动词，连点成线：</p>
+          <div style="background:var(--color-surface);padding:12px 14px;border-radius:8px;border:1px solid var(--color-border);font-size:12.5px;line-height:1.6">
+            <p><strong>【真题全真推导演示】</strong>：</p>
+            <p>• <strong>题干 21</strong>: <em>The public enthusiasm for <u>artificial intelligence</u> in healthcare is triggered by ____.</em> ➔ 锁定背景：医疗AI受公众追捧；</p>
+            <p>• <strong>题干 22</strong>: <em>Doctors express deep skepticism regarding <u>diagnostic accuracy</u> because ____.</em> ➔ 核心矛盾：医生质疑AI诊断准确性；</p>
+            <p>• <strong>题干 23</strong>: <em>The case of Dr. Watson in Paragraph 3 illustrates that <u>algorithm bias</u> ____.</em> ➔ 例证支撑：算法偏见导致的误诊后果；</p>
+            <p>• <strong>题干 24</strong>: <em>According to the author, the primary remedy for <u>clinical AI risks</u> is ____.</em> ➔ 应对策略：临床风险的治理与法规；</p>
+            <p>• <strong>题干 25</strong>: <em>The author's attitude towards the widespread adoption of AI in hospitals is ____.</em> ➔ 态度主旨：审慎支持（cautious / objective）。</p>
+            <p style="color:var(--color-primary);font-weight:600;margin-top:6px">💡 <strong>【解题质变】</strong>：在不读正文前，考生已经掌握“医疗AI热潮 ➔ 医生质疑准确性 ➔ 算法偏见实例 ➔ 监管对策 ➔ 审慎态度”的完整行文主线，定位回文答题犹如开卷！</p>
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:#c62828">
+          <h3 style="color:#c62828">🚫 命题人七大错误选项特征库（快速排雷指南）</h3>
+          <div class="trap-grid">
+            <div class="trap-card">
+              <strong>1. 偷换概念 / 张冠李戴</strong>
+              将原文不同段落的两个主语或谓语拼凑混淆，更改修饰限制定语。
+            </div>
+            <div class="trap-card">
+              <strong>2. 以偏概全 / 断章取义</strong>
+              选项内容符合某一个段落的次要细节，但无法涵盖文章或题干主旨。
+            </div>
+            <div class="trap-card">
+              <strong>3. 正反混淆 / 颠倒因果</strong>
+              将原文的肯定变为否定，或将 A leads to B 颠倒为 B causes A。
+            </div>
+            <div class="trap-card">
+              <strong>4. 无中生有</strong>
+              用貌似高大上的学术词汇编造原文完全未提及的结论或主观臆测。
+            </div>
+            <div class="trap-card">
+              <strong>5. 过于绝对</strong>
+              含有 must, always, never, completely 等极端绝对词通常为错。
+            </div>
+            <div class="trap-card">
+              <strong>6. 常识正确但文章未提及</strong>
+              选项本身是社会常识，但文章压根没讲，考研阅读必须“忠于原文”。
+            </div>
+          </div>
+        </div>
+
+        <!-- 现场互动微测 1: 细节题同义替换 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 1 · 细节题同义替换辨析</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【原文定位句】</strong> <em>"The sudden cessation of federal research subsidies <u>jeopardized the financial viability of</u> numerous independent scientific laboratories."</em></p>
+            <p><strong>【题干】</strong> <em>According to the text, independent laboratories faced severe difficulties because ____.</em></p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>A.</span> <span>they completely abandoned their original scientific projects</span>
+            </button>
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>B.</span> <span>the termination of government funding threatened their economic survival</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>federal regulators strictly prohibited commercial experiments</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>independent researchers lacked technical expertise</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 名师深度解析：</strong><br>
+            • <strong>✓ 正确答案 B</strong>：完美同义替换！<code>sudden cessation</code> ➔ <code>termination</code>；<code>federal subsidies</code> ➔ <code>government funding</code>；<code>jeopardized financial viability</code> ➔ <code>threatened economic survival</code>，核心逻辑 100% 对应！<br>
+            • <strong>❌ A 干扰项</strong>：<code>completely</code> 过于绝对，无中生有；<br>
+            • <strong>❌ C 干扰项</strong>：偷换概念，原文是停拨补贴而非“严厉禁止实验”；<br>
+            • <strong>❌ D 干扰项</strong>：主观臆测，原文未提及缺乏技术专业度。
+          </div>
+        </div>
+
+        <!-- 现场互动微测 2: 例证题定位 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 2 · 例证题“找论点不看论据”秒杀</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【原文语段】</strong> <em>"<strong>(句1)</strong> Intrinsic curiosity remains the cornerstone of enduring academic achievement. <strong>(句2)</strong> For instance, Marie Curie spent countless agonizing nights in her drafty laboratory purifying radium without financial rewards."</em></p>
+            <p><strong>【题干】</strong> <em>The author mentions Marie Curie in Paragraph 2 in order to show that ____.</em></p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>A.</span> <span>radium purification requires painstaking laboratory conditions</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>B.</span> <span>Marie Curie suffered severe poverty during her early scientific career</span>
+            </button>
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>C.</span> <span>inner passion and curiosity drive long-term scholarly success</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>financial incentives are indispensable for Nobel Prize laureates</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 名师深度解析：</strong><br>
+            • <strong>✓ 正确答案 C</strong>：例证题铁律——<strong>“答案在例子前一句总述论点”</strong>！句 1 明确指出“内在好奇心是长期学术成就的基石”，C 项 <code>inner passion and curiosity drive long-term scholarly success</code> 与句 1 论点完全吻合！<br>
+            • <strong>❌ A & B 干扰项</strong>：均停留在居里夫人提炼镭、实验室环境差的“例子细节”，未上升到观点层面，必错！<br>
+            • <strong>❌ D 干扰项</strong>：与原文“without financial rewards”意思完全反向（正反颠倒）。
+          </div>
+        </div>
+
+        <!-- 现场互动微测 8: 观点态度题感情极性与死亡词排雷 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 8 · 观点态度题“情感极性与五大死亡词秒杀”</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【原文结尾句】</strong> <em>"While generative algorithms demonstrate breathtaking efficiency in drafting preliminary legal contracts, their inherent opacity and potential hallucinations necessitate rigorous oversight by senior jurists."</em></p>
+            <p><strong>【题干】</strong> <em>The author's attitude towards adopting generative AI in the legal sector can best be described as ____.</em></p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>A.</span> <span>cautiously supportive (谨慎支持 · 客观理性正解)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>B.</span> <span>indifferent (万年必错死亡词 · 漠不关心)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>completely biased (过于极端偏激)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>deeply scared (考研态度必错词 · 极度恐慌)</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 名师态度解题心法：</strong><br>
+            • <strong>✓ 正确答案 A</strong>：前半句 <code>While ... demonstrate efficiency</code> 认可其高效价值（正向支持）；后半句 <code>necessitate rigorous oversight</code> 强调必须严格监管（谨慎审慎），两者结合为典型的考研高频正确态度 <code>cautiously supportive / guarded optimism</code>（审慎支持）！<br>
+            • <strong>❌ B 死亡词</strong>：<code>indifferent</code>（漠不关心）是考研态度题第一大死亡词，作者既然专门撰文绝不可能“漠不关心”；<br>
+            • <strong>❌ C 过于绝对</strong>：<code>completely</code> 过于偏激，违背学术论文客观理性基调；<br>
+            • <strong>❌ D 死亡词</strong>：<code>scared</code>（恐慌害怕）是考研命题专家严厉排除的情绪化词汇。
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:#1e88e5">
+          <h3 style="color:#1e88e5">🧠 考研阅读 10 大长难句高频语法结构破解公式</h3>
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.5">
+              <thead>
+                <tr style="background:var(--color-surface-offset);text-align:left">
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:22%">语法结构</th>
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:38%">特征标志与典型公式</th>
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:40%">考研秒杀破译法则</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">1. 分隔与插入语</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)">主语 , 双逗号/双破折号 , 谓语</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)">直接将两个逗号/破折号之间的内容打括号跳过，连接主语和谓语读骨架。</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">2. 多重定从同位从嵌套</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)">that / which / who 连续引导修饰</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)">找准先行词，先译主干，长定语从句单独断句后置译为“该...”。</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">3. 倒装结构</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)">否定词 (Never/Hardly/Not until) 或 Only 前置</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)">还原为正常“主语 + 助动词 + 谓语”正常语序理解，强调否定含义。</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">4. 比较结构辨析</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>not so much A as B</code> / <code>more A than B</code></td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>not so much A as B</code> 译为“与其说是 A 不如说是 B”；重点强调 B！</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">5. 强调句型</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>It is [被强调部分] that / who ...</code></td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)">去掉 <code>It is</code> 和 <code>that</code> 依然构成完整句子，译为“正是...才...”。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 传统阅读历年真题精读工坊 -->
+        <div id="reading-workshop-root" style="margin-top:14px"></div>
+
+        <div class="method-box" style="border-left-color:#2e7d32">
+          <h3 style="color:#2e7d32">📋 传统阅读做题通关自查诊断表</h3>
+          <div class="diag-list">
+            <label class="diag-item"><input type="checkbox" data-diag="rd1"> <span>我是否在读文章前先圈出 5 个题干的关键定位词？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="rd2"> <span>我是否做到了“定位到句才做题”，没有凭模糊记忆盲选？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="rd3"> <span>做例证题时，我是否找到了例子前面的“总述论点句”？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="rd4"> <span>做主旨题时，我是否排除了没有包含全文核心主题词的选项？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="rd5"> <span>我是否坚决排除了 indifferent/unconcerned 等冷漠必错态度词？</span></label>
+          </div>
+        </div>
+
+        <div class="sec-nav-footer">
+          <button class="sec-nav-btn" data-switch-type="writing_b" type="button">← 上一题型：图画大作文</button>
+          <button class="sec-nav-btn primary" data-switch-type="trans" type="button" style="background:var(--color-primary);color:#fff">下一题型：英译汉长难句 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 板块 2：英译汉翻译 (Part C 10分) ===== -->
+    <section class="exam-section" id="sec-trans" hidden>
+      <div class="exam-card">
+        <div class="exam-card-head">
+          <h2>🌐 Section II Part C · 英译汉长难句翻译（10分）</h2>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="exam-badge">5 个长难句 · 每句 2.0 分</span>
+            <button class="filter-chip" onclick="document.getElementById('trans-workshop-root').scrollIntoView({behavior:'smooth'})" type="button" style="font-size:11.5px;padding:3px 8px">🚀 直达长难句工坊 ↓</button>
+            <button class="exam-mastery-btn" data-sec-id="trans" type="button">🔘 标记为已掌握</button>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>🎯 考研大纲考查核心与阅卷 2.0 分采分点量规</h3>
+          <p>在约 400 词的学术议论文中准确翻译 5 处结构复杂、内涵深刻的长难句（总计约 150 词）。考查“准确理解结构”与“地道汉语表达”。建议用时：<strong>20~25 分钟</strong>。</p>
+          <p><strong>官方扣分量规</strong>：每句满分 2.0 分，切分为 3~4 个独立意群采分点（每个 0.5 分）。主干结构翻译正确得 0.5，关键学术词引申准确得 0.5，逻辑连贯无语病得 0.5。</p>
+        </div>
+
+        <div class="method-box">
+          <h3>💡 四步认知递进法：彻底攻克学术长难句</h3>
+          <div class="flow-steps">
+            <div class="flow-step-card">
+              <strong>Step 1 意群切分·寻主干</strong>
+              <p>找谓语动词和从属连词，划出主句核心骨架（S+V+O），剥离从句与修饰。</p>
+            </div>
+            <div class="flow-step-card">
+              <strong>Step 2 语境引申·破难点</strong>
+              <p>跳出死记硬背的字面第一义，结合学术上下文引申出贴切、生动的学术词义。</p>
+            </div>
+            <div class="flow-step-card">
+              <strong>Step 3 亲动手·实战初译</strong>
+              <p>按中文“先因后果、前定后谓、层层递进”的习惯重新组合语序，杜绝生硬欧化。</p>
+            </div>
+            <div class="flow-step-card">
+              <strong>Step 4 对考点·满分精析</strong>
+              <p>对照 2.0 分官方采分点自查，避开漏译、错译、指代不明等失分陷阱。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>💎 考研英一五大必考句型汉化公式</h3>
+          <ul>
+            <li><strong>1. 定语从句汉化法</strong>：短定语（<8词）前置为“……的 + 先行词”；长定语（>8词）拆为独立分句，重复先行词或用代词承接。</li>
+            <li><strong>2. 被动语态地道转换</strong>：绝不可句句译为“被”！转换为主动句（“人们发现……”、“研究表明……”）或带“受/由/得到”的句式。</li>
+            <li><strong>3. 比较与否定结构</strong>：<code>not so much A as B</code> ➔ “与其说是 A，不如说是 B”；<code>more than</code> ➔ “不仅仅是 / 超过”。</li>
+            <li><strong>4. 同位语从句与插入语</strong>：<code>the notion that...</code> ➔ “……这一观点/主张”，插入语通常提前翻译。</li>
+            <li><strong>5. 状语从句与倒装</strong>：时间/条件状语从句通常提前至主句前翻译，符合中文“先交代背景，再得出结论”的叙事习惯。</li>
+          </ul>
+
+          <div style="margin-top:14px;overflow-x:auto">
+            <h4 style="margin:0 0 8px;font-size:13px;color:var(--color-primary)">📊 考研英译汉 6 大采分雷区与通顺润色对照表</h4>
+            <table style="width:100%;border-collapse:collapse;font-size:12px;line-height:1.5">
+              <thead>
+                <tr style="background:var(--color-surface-offset);text-align:left">
+                  <th style="padding:6px 8px;border:1px solid var(--color-border);width:20%">结构类型</th>
+                  <th style="padding:6px 8px;border:1px solid var(--color-border);width:38%;color:#c62828">❌ 死板生硬翻译（易扣 0.5~1.0 分）</th>
+                  <th style="padding:6px 8px;border:1px solid var(--color-border);width:42%;color:#2e7d32">✓ 地道满分润色（符合中文习惯）</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">1. 被动语态</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">It is estimated that... ➔ 它被估计……</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">据估计 / 人们普遍认为……（主客倒置）</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">2. 名词化结构</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">The discovery of new drugs... ➔ 新药的发现引起了……</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">科学家发现了新药，从而引起了……（化名为主谓动词）</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">3. 比较级引申</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">He is more a scholar than a writer. ➔ 他比作家更是个学者。</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">与其说他是作家，不如说他是学者。（精妙比较）</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">4. 否定转移</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">I don't think it is feasible. ➔ 我不认为它是可行的。</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">我认为这项方案并不可行。（否定后移到从句）</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">5. 限制与非限制定从</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">..., which caused great losses. ➔ ……那个造成了巨大损失的事情。</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">……，而这造成了极其惨重的损失。（拆句独立承接）</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border);font-weight:600">6. 时间/条件前置</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">We will succeed if we persist. ➔ 我们将会成功如果我们坚持。</td>
+                  <td style="padding:6px 8px;border:1px solid var(--color-border)">只要我们坚持不懈，就终将取得成功。（先条件后结果）</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:var(--color-accent);background:color-mix(in oklab, var(--color-accent) 8%, var(--color-surface))">
+          <h3 style="color:var(--color-accent)">🔥 翻译真题母题实战精析（意群采分点与地道汉化示范）</h3>
+          <div style="font-size:13px;line-height:1.6">
+            <p><strong>【真题长难句】</strong> <em>The profound challenge arises when an individual's intrinsic motivation is undermined by external material incentives, which inevitably stifles long-term creative pursuits.</em></p>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+              <div style="background:var(--color-surface);padding:8px 12px;border-radius:6px;border-left:3px solid var(--color-primary)">
+                <strong>[意群 1 · 0.5分]</strong> <code>The profound challenge arises when...</code> ➔ 当……时，严峻的挑战便随之产生
+              </div>
+              <div style="background:var(--color-surface);padding:8px 12px;border-radius:6px;border-left:3px solid var(--color-primary)">
+                <strong>[意群 2 · 0.5分]</strong> <code>an individual's intrinsic motivation is undermined by...</code> ➔ 个体的内在动机受到……的削弱（被动转主动）
+              </div>
+              <div style="background:var(--color-surface);padding:8px 12px;border-radius:6px;border-left:3px solid var(--color-primary)">
+                <strong>[意群 3 · 0.5分]</strong> <code>external material incentives</code> ➔ 外在物质激励（学术词精准引申）
+              </div>
+              <div style="background:var(--color-surface);padding:8px 12px;border-radius:6px;border-left:3px solid #2e7d32">
+                <strong style="color:#2e7d32">[意群 4 & 满分整合 · 0.5分]</strong> <code>which inevitably stifles long-term creative pursuits.</code> ➔ 这将不可避免地扼杀长期的创造性追求。<br>
+                <strong>🏆 官方满分汉化译文：</strong>“当个体的内在动机受到外在物质激励的削弱时，严峻的挑战便随之产生，而这必将扼杀其长期的创造性追求。”
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 现场互动微测 5: 长难句定语从句拆分与汉化采分点 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 5 · 长难句定语从句拆分与汉化采分点辨析</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【真题句】</strong> <em>"Darwin was well aware that those who held opposing viewpoints would inevitably challenge his findings, which contradicted the biblical account of creation."</em></p>
+            <p><strong>【考核点】</strong> 哪一个中文译文完全符合考研英译汉“定语从句后置拆译”与“意群自然顺畅”的官方 2.0 满分评分标准？</p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>A.</span> <span>达尔文深知，那些持反对观点的人必然会质疑他的研究成果，因为这些成果同《圣经》中的创世学说相抵触。</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>B.</span> <span>达尔文清楚地知道那个持反对意见的人必然挑战他与圣经创世记录相矛盾的发现。</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>达尔文清楚地知道持相反观点的人会挑战他的发现，这些人违背了圣经里的造物故事。</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>达尔文知道反对他的人会质疑他的理论，该理论同圣经关于创造的记载不同。</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 官方阅卷深度解析：</strong><br>
+            • <strong>✓ 正确答案 A</strong>：完美拆分意群！① <code>Darwin was well aware that...</code>（主干：达尔文深知）；② <code>those who held opposing viewpoints</code>（那些持反对观点的人）；③ <code>would inevitably challenge his findings</code>（必然会质疑他的研究成果）；④ <code>which contradicted...</code>（非限制性定从后置拆译为因果顺承“因为这些成果同《圣经》创世学说相抵触”），通顺地道拿满 2.0 分！<br>
+            • <strong>❌ B 干扰项</strong>：【定语前置死译】把 which 从句塞在“发现”前面造成长定语头重脚轻，语序生硬直接扣 0.5 分；<br>
+            • <strong>❌ C 干扰项</strong>：【关系代词指代错误】<code>which</code> 显然指代 <code>his findings</code>（研究成果），而非 <code>those</code>（持反对观点的人）；<br>
+            • <strong>❌ D 干扰项</strong>：【漏译核心副词】漏译 <code>inevitably</code>（必然地）和 <code>well</code>（深知/充分意识到），丢失核心采分点。
+          </div>
+        </div>
+
+        <!-- 105 篇考研真题长难句全真互动工坊 -->
+        <div id="trans-workshop-root" style="margin-top:14px"></div>
+
+        <div style="text-align:center;padding:12px 0">
+          <a class="jump-btn" href="translate.html">
+            🚀 独立全屏打开 105 篇考研英语一真题长难句工坊 →
+          </a>
+        </div>
+
+        <div class="sec-nav-footer">
+          <button class="sec-nav-btn" data-switch-type="reading" type="button">← 上一题型：传统阅读</button>
+          <button class="sec-nav-btn primary" data-switch-type="cloze" type="button" style="background:var(--color-primary);color:#fff">下一题型：完形填空 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 板块 3：完形填空 (Section I 10分) ===== -->
+    <section class="exam-section" id="sec-cloze" hidden>
+      <div class="exam-card">
+        <div class="exam-card-head">
+          <h2>🧩 Section I · 完形填空（10分）</h2>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="exam-badge">20 个空 · 每题 0.5 分</span>
+            <button class="filter-chip" onclick="document.getElementById('cloze-workshop-root').scrollIntoView({behavior:'smooth'})" type="button" style="font-size:11.5px;padding:3px 8px">🚀 直达完形真题工坊 ↓</button>
+            <button class="exam-mastery-btn" data-sec-id="cloze" type="button">🔘 标记为已掌握</button>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>🎯 考研大纲考查核心与时间控制</h3>
+          <p>一篇约 240~280 词的连贯短文，考查在语篇中综合运用词汇、语法及语篇逻辑关系的能力。建议用时：<strong>15~20 分钟</strong>。</p>
+        </div>
+
+        <div class="method-box">
+          <h3>💡 名师核心做题法：红花绿叶词与三遍解题法</h3>
+          <ul>
+            <li><strong>首句定基调</strong>：完形首句通常绝不设空，务必精读 2 遍，确定全文核心主题与作者情感极性（正向支持 / 负向批判）。</li>
+            <li><strong>红花词（历年真题高频正确项）</strong>：<code>however</code>, <code>although</code>, <code>while</code>, <code>because</code>, <code>whereas</code>, <code>subject to</code>, <code>in terms of</code>, <code>lead to</code>, <code>available</code>, <code>regardless of</code>。</li>
+            <li><strong>绿叶词（历年真题极低概率项）</strong>：<code>since</code> (表因为时真题罕见正确), <code>now that</code>, <code>if only</code>, <code>in that</code>, <code>lest</code>, <code>provided that</code>。</li>
+            <li><strong>七大语篇逻辑关系</strong>：转折对比 (<code>however, yet, whereas</code>)、因果关系 (<code>therefore, as a result, because</code>)、让步递进 (<code>furthermore, moreover, even if</code>)、总分举例 (<code>for example, for instance</code>)。</li>
+            <li><strong>上下义词与同义复现</strong>：考研完形 60% 题目答案可在上下文 2~3 句内找到原词复现或同义词提示！</li>
+          </ul>
+        </div>
+
+        <div class="method-box" style="border-left-color:var(--color-accent);background:color-mix(in oklab, var(--color-accent) 8%, var(--color-surface))">
+          <h3 style="color:var(--color-accent)">🔥 完形真题母题实战精析（红花词与逻辑反差真题）</h3>
+          <div style="font-size:13px;line-height:1.6">
+            <p><strong>【真题句境】</strong> <em>The macro economy displayed robust signs of recovery; ____, rural employment figures continued to stagnate.</em></p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:8px;margin-top:8px">
+              <div style="background:var(--color-surface);padding:10px 12px;border-radius:6px;border:1px solid #2e7d32">
+                <strong style="color:#2e7d32">✓ [正确项] however (转折副词 · 经典红花词)</strong>
+                <p style="font-size:12px;color:var(--color-text-muted);margin:2px 0 0">【逻辑剖析】前半句“强劲复苏 (robust recovery)”与后半句“持续停滞 (stagnate)”构成鲜明语义反差，必然填入转折连词 <code>however</code>！</p>
+              </div>
+              <div style="background:var(--color-surface);padding:10px 12px;border-radius:6px;border:1px solid #c62828">
+                <strong style="color:#c62828">❌ [干扰项] moreover / therefore</strong>
+                <p style="font-size:12px;color:var(--color-text-muted);margin:2px 0 0">【逻辑错误】<code>moreover</code> 为顺承递进，<code>therefore</code> 为因果，均违背前后两句的正反语义反差！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:#f57f17">
+          <h3 style="color:#f57f17">🌺 考研完形「红花词 vs 绿叶词」实战对比速查表（近 15 年真题统计）</h3>
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.5">
+              <thead>
+                <tr style="background:var(--color-surface-offset);text-align:left">
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:50%;color:#2e7d32">🌺 必选红花词（命中率 80%+ 优先选）</th>
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:50%;color:#c62828">🍃 陪跑绿叶词（极罕见为答案，慎选）</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>however, although, while, whereas, but</code> (转折让步)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);color:var(--color-text-muted)"><code>in case, lest, or else</code> (以防万一/唯恐)</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>because, since, so that, in that</code> (因果目的)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);color:var(--color-text-muted)"><code>now that, if only, provided that</code> (既然/要是...多好)</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>subject to, tend to, available, lead to</code> (高频谓语)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);color:var(--color-text-muted)"><code>what's more, as well, conversely</code> (很少单独作为答案)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:#1e88e5">
+          <h3 style="color:#1e88e5">🎯 考场选项概率平衡论（4×5 分布定律与极端保底战术）</h3>
+          <p style="font-size:13px">考研英语完形填空 20 道题目，命题中心严格把控 4 个选项的整体平衡性：</p>
+          <ul style="font-size:12.5px;line-height:1.6">
+            <li><strong>选项分布定律</strong>：20 题中通常为 <strong>A:5个, B:5个, C:5个, D:5个</strong>（或偶尔 4:5:5:6 波动），<strong>绝不会连续 4 题出现相同字母</strong>！</li>
+            <li><strong>临场 5 分钟救命战术</strong>：若时间严重不足，先花 3 分钟把 4~5 道含有 <code>however / although</code> 的红花词连词题圈定。剩余完全不会的题目，数一数已选字母中最少的那个（如只选了 1 个 C），将剩余未做题目全部单选涂 C，保底稳拿 3.5~4.5 分！</li>
+          </ul>
+        </div>
+
+        <!-- 现场互动微测 3: 完形红花词秒杀 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 3 · 完形红花词与正反语义反差秒杀</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【真题真句】</strong> <em>"Artificial intelligence models exhibit extraordinary computational power in data synthesis; ____, their lack of emotional empathy restricts broad clinical adoption."</em></p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>A.</span> <span>Furthermore (递进顺承)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>B.</span> <span>However (转折对立 · 经典红花词)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>Therefore (因果顺承)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>In case (绿叶词 · 以防万一)</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 名师深度解析：</strong><br>
+            • <strong>✓ 正确答案 B (However)</strong>：前半句“展现非凡算力 (extraordinary computational power)”为正向优势 (+)，后半句“缺乏同理心限制临床应用 (lack of empathy restricts adoption)”为负向瓶颈 (-)，正负对立必然选择转折副词 <code>However</code>！<br>
+            • <strong>❌ A & C 干扰项</strong>：<code>Furthermore</code> 与 <code>Therefore</code> 均为正向顺承逻辑，无法连接正反冲突；<br>
+            • <strong>❌ D 干扰项</strong>：<code>In case</code> 为从属连词且为万年绿叶词，语法和语意均不符。
+          </div>
+        </div>
+
+        <!-- 现场互动微测 10: 完形高频动介固定搭配与近义辨析 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 10 · 完形填空“动介固定搭配与学术词义辨析”</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【真题句境】</strong> <em>"Sociologists predominantly ____ the dramatic rise in youth anxiety to the pervasive prevalence of digital devices."</em></p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>A.</span> <span>attribute (把...归因于 · attribute A to B 经典考点)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>B.</span> <span>contribute (搭配 contribute to 表示促成/贡献，但句中宾语结构不符)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>subscribe (搭配 subscribe to 表示赞同/订阅，不接双重宾语)</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>conform (搭配 conform to 表示遵守/符合，为不及物动词)</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 命题人考点剖析：</strong><br>
+            • <strong>✓ 正确答案 A (attribute)</strong>：考查考研完形超高频固定动词词组 <code>attribute [结果] to [原因]</code>（把...归因于...）！句子主干为：社会学家主要将青年焦虑的激增归因于数字设备的广泛普及。<br>
+            • <strong>❌ B 干扰项</strong>：<code>contribute to</code> 为不及物动词短语，后接结果（如 digital devices contribute to youth anxiety），不能像 attribute 一样在中间夹入直接宾语；<br>
+            • <strong>❌ C 干扰项</strong>：<code>subscribe to</code> 意为“赞同/订阅”，语义与结构均不符合；<br>
+            • <strong>❌ D 干扰项</strong>：<code>conform to</code> 意为“遵从规范”，无法搭配双重宾语。
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:#2e7d32">
+          <h3 style="color:#2e7d32">📋 完形填空做题通关自查诊断表</h3>
+          <div class="diag-list">
+            <label class="diag-item"><input type="checkbox" data-diag="cl1"> <span>我是否精读了文章第一句，确立了文章核心主题与情感褒贬？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="cl2"> <span>遇到逻辑连词题，我是否先判断了设空前后两句话是“顺承”还是“转折”？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="cl3"> <span>做动词/名词搭配题时，我是否观察了主谓搭配与介词固定搭配？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="cl4"> <span>我是否在文章后文寻找到了对应词汇的同义复现线索？</span></label>
+          </div>
+        </div>
+
+        <!-- 完形填空真题互动工坊 -->
+        <div id="cloze-workshop-root" style="margin-top:14px"></div>
+
+        <div class="sec-nav-footer">
+          <button class="sec-nav-btn" data-switch-type="trans" type="button">← 上一题型：英译汉长难句</button>
+          <button class="sec-nav-btn primary" data-switch-type="newtype" type="button" style="background:var(--color-primary);color:#fff">下一题型：阅读新题型 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 板块 4：新题型 (Part B 10分) ===== -->
+    <section class="exam-section" id="sec-newtype" hidden>
+      <div class="exam-card">
+        <div class="exam-card-head">
+          <h2>🎯 Section II Part B · 阅读新题型（10分）</h2>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="exam-badge">5 题 · 每题 2.0 分 · 技巧性最强</span>
+            <button class="filter-chip" onclick="document.getElementById('newtype-workshop-root').scrollIntoView({behavior:'smooth'})" type="button" style="font-size:11.5px;padding:3px 8px">🚀 直达新题型工坊 ↓</button>
+            <button class="exam-mastery-btn" data-sec-id="newtype" type="button">🔘 标记为已掌握</button>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>🎯 英语一三大备选题型剖析</h3>
+          <p>文章长约 500~600 词，考查对文章整体结构、段落逻辑衔接与主旨概括的把握。建议用时：<strong>15~20 分钟</strong>。</p>
+          <ul>
+            <li><strong>题型 A：七选五段落填空（常考）</strong>：在一篇文章中挖出 5 处空白，从 7 个备选段落/句子中选出最佳项。重点考查段落首尾过渡。</li>
+            <li><strong>题型 B：排序题（难度最高，波动大）</strong>：将打乱顺序的 7 个段落按正确逻辑重新排列，通常已给出 2 个定位段。</li>
+            <li><strong>题型 C：小标题匹配（最简单，送分题）</strong>：为 5 个段落从 7 个小标题选项中挑选出最佳段落大意。</li>
+          </ul>
+        </div>
+
+        <div class="method-box">
+          <h3>💡 解题四大核心逻辑链与“捆绑排除法”</h3>
+          <ol>
+            <li><strong>代词指代链（最强解题突破口）</strong>：紧盯 <code>this</code>, <code>that</code>, <code>these</code>, <code>such + n.</code>, <code>he/she/they</code>，上文必有对应先行词！</li>
+            <li><strong>逻辑关联词</strong>：段首出现 <code>However</code>, <code>Therefore</code>, <code>In addition</code>, <code>Consequently</code> 表明与上一段存在明确逻辑。</li>
+            <li><strong>专有名词与同义复现</strong>：人名（初次全称 ➔ 再次简称）、机构名、数字、核心学术词在相邻段落间必然存在原词或同义转述。</li>
+            <li><strong>时间与流程发展链</strong>：排序题重点寻找年代数字（<code>In the 19th century... Later in 1980...</code>）或科学实验步骤（提出假设 ➔ 实验论证 ➔ 结果发布）。</li>
+          </ol>
+        </div>
+
+        <div class="method-box" style="border-left-color:#8e24aa">
+          <h3 style="color:#8e24aa">🏆 排序题“首段判定四大排除法则”与“连体婴儿段落对绑定”</h3>
+          <ul style="font-size:12.5px;line-height:1.6">
+            <li><strong>绝对不能作为首段的 4 种段落</strong>：
+              <br>① 开头有代词指代不明（<code>this, these, such, they</code> 开头且无指代对象）；
+              <br>② 开头有强转折连词（<code>However, But, In contrast, Instead</code>）；
+              <br>③ 开头为总结或承上启下句（<code>In summary, In conclusion, As mentioned above</code>）；
+              <br>④ 开头为具体事例或论据细节（未先下定义就直接讲具体实验）。
+            </li>
+            <li style="margin-top:6px"><strong>绝对首段的 3 大特征</strong>：
+              <br>① 给出核心概念的学术定义（<code>X is generally defined as...</code>）；
+              <br>② 交代宏观历史背景或社会普遍现状（<code>In recent decades, ... has emerged as...</code>）；
+              <br>③ 提出全文核心设问或引出主题现象。
+            </li>
+            <li style="margin-top:6px"><strong>连体婴儿段落对（Binding Pairs）绑定法</strong>：
+              <br>不要试图一次排好 5 个空！先找出 2 对必定前后咬合的段落（如段 A 末尾提出某种新算法，段 B 首句详细解释其运行逻辑，则 A+B 必定绑定），大幅降低排列组合维度！
+            </li>
+          </ul>
+        </div>
+
+        <div class="method-box" style="border-left-color:var(--color-accent);background:color-mix(in oklab, var(--color-accent) 8%, var(--color-surface))">
+          <h3 style="color:var(--color-accent)">🔥 新题型排序/填空实战精析（代词指代链秒杀实操）</h3>
+          <div style="font-size:13px;line-height:1.6">
+            <p><strong>【前置段落末句】</strong> <em>Cognitive neuroscientists conducted extensive laboratory experiments on memory consolidation.</em></p>
+            <p><strong>【后置段落首句】</strong> <em><strong><u>Such pioneering researchers</u></strong> discovered that neural synaptic pruning plays a decisive role.</em></p>
+            <p style="font-size:12.5px;color:var(--color-text);margin-top:6px">💡 <strong>【秒杀密码】</strong> 看到 <code>Such pioneering researchers</code>（这些开创性研究人员），立刻回溯寻找上文出现的科学家复数名词 <code>neuroscientists</code>，形成铁锁般的<strong>代词指代链 (Pronoun Binding Chain)</strong>，直接锁定段落衔接！</p>
+          </div>
+        </div>
+
+        <!-- 现场互动微测 4: 排序题代词指代链与连体段秒杀 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 4 · 排序题“首段排除与连体段锁定”</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【题目情境】</strong> 下列四个段落中，哪一段<strong>绝对不可以</strong>作为全篇文章的起始段（首段）？</p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>A.</span> <span>Throughout the history of Western philosophy, the concept of justice has been subject to continuous debate.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>B.</span> <span>Such controversial conclusions, however, triggered fierce resistance among contemporary economists.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>A dramatic demographic shift is reshaping the modern labor market across developing nations.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>In recent years, artificial intelligence has emerged as a revolutionary force in diagnostic medicine.</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 名师深度解析：</strong><br>
+            • <strong>✓ 正确答案 B (绝不可做首段)</strong>：首句赫然出现 <code>Such controversial conclusions</code>（这些争议性结论）与 <code>however</code>（转折词）！在没有任何前文交代结论是什么的情况下，出现 <code>Such + 复数名词</code> 和转折词，必定是承接上文的段落，绝不可作为首段！<br>
+            • <strong>❌ A, C, D 选项</strong>：均为宏观交代历史背景（Throughout the history...）、社会现状（A dramatic shift...）或引出新现象（In recent years...），均为典型标准首段句型！
+          </div>
+        </div>
+
+        <!-- 现场互动微测 7: 新题型小标题匹配概括 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 7 · 新题型小标题匹配“高频复现词与主旨概括”</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【段落精读】</strong> <em>"Organizations should encourage flexible working hours and remote collaboration. By decentralizing strict physical presence, companies can significantly reduce commuting stress, thereby boosting employee morale and overall productivity."</em></p>
+            <p><strong>【任务】</strong> 为上述段落匹配最精准、最契合考研命题标准的小标题：</p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>A.</span> <span>Adopting flexible workplace policies to enhance organizational performance</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>B.</span> <span>Completely eliminating physical office spaces across modern industries</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>The historical evolution of commuting challenges in metropolitan cities</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>Strictly monitoring remote workers through digital surveillance tools</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 命题人逻辑剖析：</strong><br>
+            • <strong>✓ 正确答案 A</strong>：精准高度概括！段落首句 <code>flexible working hours and remote collaboration</code> 对应 <code>Adopting flexible workplace policies</code>；尾句 <code>boosting employee morale and productivity</code> 对应 <code>enhance organizational performance</code>，主题词与核心逻辑完美闭环！<br>
+            • <strong>❌ B 干扰项</strong>：【过于绝对】原文是 <code>decentralizing strict presence</code>（减少苛刻现场打卡），而非“彻底取消实体办公室”；<br>
+            • <strong>❌ C 干扰项</strong>：【以偏概全】通勤压力只是其中一个论据，并非全文历史演变；<br>
+            • <strong>❌ D 干扰项</strong>：【无中生有】原文完全未提及“数字监控员工”。
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:#2e7d32">
+          <h3 style="color:#2e7d32">📋 新题型做题通关自查诊断表</h3>
+          <div class="diag-list">
+            <label class="diag-item"><input type="checkbox" data-diag="nt1"> <span>排序题中，我是否先锁定了不可能作为首段的句子（代词/转折开头必非首段）？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="nt2"> <span>我是否使用了“捆绑法”，找到了 2~3 个必然相邻的段落组合？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="nt3"> <span>七选五中，段首设空我是否重点看了上一段段尾和本段段首的呼应？</span></label>
+            <label class="diag-item"><input type="checkbox" data-diag="nt4"> <span>小标题匹配中，我是否抓住了段落首句观点，排除了细节干扰项？</span></label>
+          </div>
+        </div>
+
+        <!-- 阅读新题型真题实战工坊 -->
+        <div id="newtype-workshop-root" style="margin-top:14px"></div>
+
+        <div class="sec-nav-footer">
+          <button class="sec-nav-btn" data-switch-type="cloze" type="button">← 上一题型：完形填空</button>
+          <button class="sec-nav-btn primary" data-switch-type="writing_a" type="button" style="background:var(--color-primary);color:#fff">下一题型：应用文小作文 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 板块 5：应用文小作文 (Part A 10分) ===== -->
+    <section class="exam-section" id="sec-writing-a" hidden>
+      <div class="exam-card">
+        <div class="exam-card-head">
+          <h2>✉️ Section III Part A · 应用文小作文（10分）</h2>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="exam-badge">约 100 词 · 格式与要点至上</span>
+            <button class="filter-chip" onclick="document.getElementById('writing-a-workshop-root').scrollIntoView({behavior:'smooth'})" type="button" style="font-size:11.5px;padding:3px 8px">🚀 直达小作文工坊 ↓</button>
+            <button class="exam-mastery-btn" data-sec-id="writing_a" type="button">🔘 标记为已掌握</button>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>🎯 大纲题型与官方格式规范（格式扣分最严）</h3>
+          <p>考查书信（建议信、投诉信、道歉信、感谢信、邀请信、求职信、辞职信、推荐信）及告示 (Notice)、备忘录 (Memo)。建议用时：<strong>15~18 分钟</strong>。</p>
+          <p><strong>格式三大黄金红线</strong>：</p>
+          <ul>
+            <li><strong>称呼 (Salutation)</strong>：顶格写，结尾必须加逗号（如 <code>Dear Sir or Madam,</code> 或 <code>Dear Professor Smith,</code>）。</li>
+            <li><strong>正文 (Body)</strong>：黄金三段论，段首缩进 4 个字符或顶格空行。</li>
+            <li><strong>落款 (Sign-off)</strong>：礼貌结束语 + 署名统一写 <code>Li Ming</code>（切勿写真名！）。</li>
+          </ul>
+        </div>
+
+        <div class="method-box">
+          <h3>📚 考研英语（一）十全小作文书信与告示全景功能句速查表</h3>
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.5">
+              <thead>
+                <tr style="background:var(--color-surface-offset);text-align:left">
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:20%">书信与应用文</th>
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:80%">首段写信目的与尾段呼应黄金句型</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">1. 建议信 (Advice)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> I am writing this letter to put forward several constructive suggestions concerning [主题，如 campus library services].<br><strong>[尾段]</strong> I would be most grateful if you could take my suggestions into favorable consideration.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">2. 推荐信 (Recommendation)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> I am writing this letter to enthusiastically recommend [人名/书名] as an ideal candidate / excellent masterpiece for [推荐目的].<br><strong>[尾段]</strong> I am confident that [被推荐对象] will live up to your highest expectations.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">3. 投诉信 (Complaint)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> I am writing this letter to lodge a formal complaint regarding the substandard service and defective goods I encountered recently.<br><strong>[尾段]</strong> I trust you will look into this matter promptly and grant me a reasonable remedy / full refund.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">4. 邀请信 (Invitation)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> On behalf of the Students' Union, I am writing this letter to cordially invite you to deliver a keynote speech at our upcoming symposium.<br><strong>[尾段]</strong> We would be deeply honored by your presence. Please confirm your availability at your earliest convenience.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">5. 道歉信 (Apology)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> I am writing this letter to convey my deepest and most sincere apologies for my unavoidable absence from [原定活动].<br><strong>[尾段]</strong> Once again, I am truly sorry for any inconvenience caused and hope you could accept my heartfelt apology.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">6. 感谢信 (Gratitude)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> I am writing this letter to express my heartfelt gratitude for the generous hospitality and invaluable guidance you extended to me.<br><strong>[尾段]</strong> Words fail to convey my sincere appreciation. I wish you all the best and look forward to meeting you again.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">7. 申请/求职信 (Application)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> Having learned about the opening for [职位，如 volunteer coordinator], I am writing to formally apply for this prestigious position.<br><strong>[尾段]</strong> Thank you for reviewing my application. I would welcome the opportunity for a personal interview.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">8. 辞职信 (Resignation)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> I am writing to regretfully inform you of my decision to resign from my current post as [职位名称], effective from [离职日期].<br><strong>[尾段]</strong> I sincerely appreciate the valuable experience gained here and wish the organization continued prosperity.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">9. 询问/求助信 (Inquiry)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[首段]</strong> I am writing to inquire about specific details and enrollment requirements regarding the upcoming [项目/课程名称].<br><strong>[尾段]</strong> I would be extremely grateful if you could furnish me with the relevant brochures and information.</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600;color:var(--color-primary)">10. 告示/通知 (Notice)</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><strong>[标题与首段]</strong> <strong>Notice:</strong> An upcoming [活动名称] is scheduled to be held in [地点] from [开始时间] to [结束时间].<br><strong>[呼吁]</strong> Everyone is warmly welcome to participate. Please register at [邮箱/网址] before [截止日期].</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>💎 高分书信万能三段论框架与核心功能句</h3>
+          <div class="tpl-box">
+            <div style="position:absolute;top:10px;right:10px;display:flex;gap:6px">
+              <button class="audio-btn" data-speak="Dear Sir or Madam, I am writing this letter to express my sincere appreciation for your hospitality. First and foremost, the primary purpose is clear. In addition, further details are explained. Last but not least, I look forward to your favorable response. Thank you for your time. Yours sincerely, Li Ming." type="button" aria-label="朗读书信范文" title="朗读全篇书信" style="width:28px;height:28px;font-size:12px">🔊</button>
+              <button class="copy-btn" style="position:static" data-copy="Dear Sir or Madam,&#10;&#10;I am writing this letter to [写信目的，如：express my sincere appreciation for your hospitality / lodge a formal complaint regarding the poor service].&#10;&#10;First and foremost, [核心要点一及具体原因]. In addition, [核心要点二及深入建议]. Last but not least, [核心要点三及期望措施].&#10;&#10;Thank you for your time and favorable consideration. I would greatly appreciate it if you could take my suggestions into account. I look forward to your prompt reply.&#10;&#10;Yours sincerely,&#10;Li Ming">📋 复制通用书信母版</button>
+            </div>
+            <p><strong>Dear Sir or Madam,</strong></p>
+            <p>I am writing this letter to <em>[表明写信目的：如 express my heartfelt gratitude for your generous support / express my dissatisfaction regarding...]</em>.</p>
+            <p>First and foremost, <em>[核心要点一及具体细节]</em>. In addition, <em>[核心要点二及深入说明]</em>. Last but not least, <em>[核心要点三及具体要求]</em>.</p>
+            <p>Thank you for your time and favorable consideration. I would greatly appreciate it if you could take my suggestions into account. I look forward to your prompt reply.</p>
+            <p><strong>Yours sincerely,<br>Li Ming</strong></p>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>📢 告示 (Notice) 满分母版</h3>
+          <div class="tpl-box">
+            <div style="position:absolute;top:10px;right:10px;display:flex;gap:6px">
+              <button class="audio-btn" data-speak="Notice. August 15, 2026. An upcoming International Cultural Exchange Camp is scheduled to be held in the University Auditorium from September 1st to 3rd. The primary purpose of this activity is to broaden students' global horizons and enrich campus culture. Everyone is warmly welcome to join us. Students' Union." type="button" aria-label="朗读告示范文" title="朗读告示母版" style="width:28px;height:28px;font-size:12px">🔊</button>
+              <button class="copy-btn" style="position:static" data-copy="Notice&#10;&#10;August 15, 2026&#10;&#10;An upcoming [活动名称，如：International Cultural Exchange Camp] is scheduled to be held in [地点，如：the University Auditorium] from [时间开始] to [时间结束].&#10;&#10;The primary purpose of this activity is to [活动宗旨，如：broaden students' global horizons and enrich campus culture]. Detailed arrangements are as follows: First, [安排一]. Second, [安排二]. Those who are interested in participating are required to register at [报名方式/网址] before [截止日期].&#10;&#10;Everyone is warmly welcome to join us. For further information, please feel free to contact us at [联系邮箱].&#10;&#10;Students' Union">📋 复制告示母版</button>
+            </div>
+            <p style="text-align:center"><strong>Notice</strong></p>
+            <p style="text-align:right">August 15, 2026</p>
+            <p>An upcoming <em>[活动名称]</em> is scheduled to be held in <em>[地点]</em> from <em>[时间]</em>.</p>
+            <p>The primary purpose of this activity is to <em>[活动宗旨]</em>. Detailed arrangements are as follows: First, <em>[安排一]</em>. Second, <em>[安排二]</em>. Those who are interested are required to register before <em>[截止日期]</em>.</p>
+            <p>Everyone is warmly welcome to join us. For further information, please contact us at 12345@univ.edu.</p>
+            <p><strong>Students' Union</strong></p>
+          </div>
+        </div>
+
+        <!-- 现场互动微测 9: 应用文小作文得体性与礼貌语气辨析 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 9 · 应用文小作文“语言得体性与学术礼貌原则”</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【写作情境】</strong> 给外籍教授写一封关于论文修改与指导的<strong>求助咨询信 (Inquiry Letter)</strong>，下列哪一句尾段期盼回复表达最得体、最符合考研 9~10 分满分书信礼貌交际标准？</p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>A.</span> <span>I would be extremely grateful if you could spare some time from your busy schedule to review my draft at your earliest convenience.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>B.</span> <span>You must check my paper as soon as possible and give me feedback tomorrow morning.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>I want to know your answer right now, so please reply to my email immediately.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>If you don't help me revise this draft, my graduation thesis will definitely fail.</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 考研阅卷专家点评：</strong><br>
+            • <strong>✓ 正确答案 A (满分档表达)</strong>：运用虚拟语气委婉句型 <code>I would be extremely grateful if you could...</code>（若您能...我将不胜感激）；礼貌体谅对方 <code>spare some time from your busy schedule</code>（百忙之中抽出时间），用词得体高雅，满分！<br>
+            • <strong>❌ B 祈使命令错误 (扣3分)</strong>：使用 <code>You must...</code> 强硬祈使句对教授下达命令，严重违反书信交际得体性；<br>
+            • <strong>❌ C 粗鲁口语错误 (扣2分)</strong>：<code>I want... reply immediately</code> 语气粗暴直接，缺乏基本礼貌；<br>
+            • <strong>❌ D 道德绑架与口语化 (扣2分)</strong>：逻辑荒唐，情绪化表述严重违背学术书信规范。
+          </div>
+        </div>
+
+        <!-- 2010~2024 应用小作文历年真题互动工坊 -->
+        <div id="writing-a-workshop-root" style="margin-top:14px"></div>
+
+        <div class="sec-nav-footer">
+          <button class="sec-nav-btn" data-switch-type="newtype" type="button">← 上一题型：阅读新题型</button>
+          <button class="sec-nav-btn primary" data-switch-type="writing_b" type="button" style="background:var(--color-primary);color:#fff">下一题型：图画大作文 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 板块 6：图画大作文 (Part B 20分) ===== -->
+    <section class="exam-section" id="sec-writing-b" hidden>
+      <div class="exam-card">
+        <div class="exam-card-head">
+          <h2>🎨 Section III Part B · 图画大作文（20分）</h2>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="exam-badge">160~200 词 · 潘赟九宫格高分架构</span>
+            <button class="filter-chip" onclick="document.getElementById('writing-b-workshop-root').scrollIntoView({behavior:'smooth'})" type="button" style="font-size:11.5px;padding:3px 8px">🚀 直达大作文工坊 ↓</button>
+            <button class="exam-mastery-btn" data-sec-id="writing_b" type="button">🔘 标记为已掌握</button>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>🎯 英语一专属图画作文三大命题方向</h3>
+          <p>英语一大作文固定为<strong>图画作文</strong>，主要围绕：① 青年成长与坚韧品质；② 科技创新与社会变迁；③ 传统文化传承与环境保护。建议用时：<strong>35~40 分钟</strong>。</p>
+        </div>
+
+        <div class="method-box">
+          <h3>🏆 潘赟老师九宫格三段论黄金矩阵</h3>
+          <div class="tpl-box">
+            <div style="position:absolute;top:10px;right:10px;display:flex;gap:6px">
+              <button class="audio-btn" data-speak="As is vividly portrayed in the cartoon, the drawing conveys a profound implication that is both thought-provoking and soul-stirring. A multitude of driving forces contribute to this prevalent phenomenon. First and foremost, personal perspective plays a vital role. In addition, from a societal standpoint, collective efforts are essential. In view of the arguments mentioned above, it is imperative that we adopt effective countermeasures. Only through concerted efforts can we usher in a promising future." type="button" aria-label="朗读大作文九宫格范文" title="朗读大作文母版" style="width:28px;height:28px;font-size:12px">🔊</button>
+              <button class="copy-btn" style="position:static" data-copy="As is vividly portrayed in the cartoon, [图画主体描述]. Simple as the drawing seems, the profound implication conveyed by it is thought-provoking: [一句话提炼主题寓意].&#10;&#10;A multitude of driving forces contribute to this prevalent phenomenon. First and foremost, [原因一，主观层面]. In addition, [原因二，社会客观层面]. A compelling case in point is that [举例论证]. If left unchecked, this trend will inevitably lead to adverse consequences.&#10;&#10;In view of the arguments mentioned above, it is imperative that we adopt effective countermeasures. On the one hand, the relevant authorities should establish stringent regulations. On the other hand, we individuals ought to foster a sensible awareness. Only through concerted efforts can we usher in a promising future.">📋 复制大作文九宫格母版</button>
+            </div>
+            <p><strong>第一段：图画精细描写 + 提炼象征寓意（3 句，约 40 词）</strong></p>
+            <p><em>As is vividly portrayed in the cartoon, [生动描述图画主体人物与动作]. Simple as the drawing seems, the profound implication conveyed by it is indeed thought-provoking: [提炼象征意义].</em></p>
+            <p><strong>第二段：深挖根源 + 实证举例 + 影响论证（4~5 句，约 100 词）</strong></p>
+            <p><em>A multitude of driving forces contribute to this prevalent phenomenon. First and foremost, [主观/意识层面原因]. In addition, from a societal perspective, [客观/社会环境层面原因]. A compelling case in point is that [经典实证例子]. If left unguided, this trend might result in undesirable impacts.</em></p>
+            <p><strong>第三段：对策举措 + 呼吁展望（3 句，约 40 词）</strong></p>
+            <p><em>In view of the arguments mentioned above, it is imperative that we adopt effective countermeasures. On the one hand, relevant authorities should enhance regulations. On the other hand, the public should cultivate sound awareness. Only by doing so can we build a harmonious and promising society.</em></p>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>📚 考研大作文五大高频主题学术词汇库</h3>
+          <ul>
+            <li><strong>① 科技与智能生活</strong>：<code>artificial intelligence</code> (人工智能), <code>digital transformation</code> (数字化转型), <code>information overload</code> (信息过载), <code>technological innovation</code> (科技创新)。</li>
+            <li><strong>② 青年成长与坚韧</strong>：<code>perseverance</code> (坚持不懈), <code>resilience</code> (韧性), <code>self-discipline</code> (自律), <code>overcome adversities</code> (战胜逆境), <code>broaden one's horizons</code> (开阔眼界)。</li>
+            <li><strong>③ 文化自信与传承</strong>：<code>cultural heritage</code> (文化遗产), <code>traditional craftsmanship</code> (传统手艺), <code>cultural confidence</code> (文化自信), <code>foster cross-cultural communication</code> (促进跨文化交流)。</li>
+            <li><strong>④ 绿色环保与生态</strong>：<code>sustainable development</code> (可持续发展), <code>carbon neutrality</code> (碳中和), <code>ecological balance</code> (生态平衡), <code>environmental degradation</code> (环境恶化)。</li>
+            <li><strong>⑤ 社会公德与人际</strong>：<code>filial piety</code> (孝道), <code>mutual trust</code> (互信), <code>social responsibility</code> (社会责任), <code>altruism</code> (利他精神)。</li>
+          </ul>
+        </div>
+
+        <div class="method-box" style="border-left-color:var(--color-primary)">
+          <h3>💎 考研图画大作文 10 大黄金论证功能句型库（高分闪光句式）</h3>
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:12.5px;line-height:1.5">
+              <thead>
+                <tr style="background:var(--color-surface-offset);text-align:left">
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:22%">写作功能模块</th>
+                  <th style="padding:6px 10px;border:1px solid var(--color-border);width:78%">高阶学术闪光句型</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">1. 图画动态描写</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>As is vividly depicted in the cartoon, [主语] is actively [分词动作], with a confident expression on his face.</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">2. 提炼象征寓意</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>Simple as the drawing seems, the profound implication conveyed by it is thought-provoking: [象征寓意].</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">3. 原因引出总述</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>A multitude of intertwined factors account for the emergence of this noteworthy phenomenon.</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">4. 主观原因剖析</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>First and foremost, from the perspective of individual mindset, [主观意识] plays an indispensable role.</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">5. 社会客观原因</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>In addition, from a socio-economic standpoint, the rapid pace of modern life accelerates this prevailing trend.</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">6. 实证举例论证</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>A compelling and convincing case in point is that [经典实证例子，如历史伟人或现代楷模].</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">7. 负面后果警示</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>If left unguided, this alarming tendency will inevitably exert adverse effects on personal well-being and social harmony.</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">8. 政府与制度对策</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>On the one hand, competent authorities should establish robust institutional frameworks and enforce strict regulations.</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">9. 公众个人对策</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>On the other hand, the general public, particularly the younger generation, ought to cultivate rational discernment and self-discipline.</code></td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border);font-weight:600">10. 终极呼吁展望</td>
+                  <td style="padding:6px 10px;border:1px solid var(--color-border)"><code>Only through concerted and collaborative endeavors can we embrace a brighter and more promising prospect.</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 现场互动微测 6: 大作文第二段论据拓展学术范式 -->
+        <div class="drill-box">
+          <div class="drill-head">
+            <strong>🎯 真题实战演练 6 · 图画大作文第二段「学术论据拓展」金句秒杀</strong>
+            <span style="font-size:11px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px">点击选项立即检验</span>
+          </div>
+          <div class="drill-stem">
+            <p><strong>【写作任务】</strong> 针对考研图画大作文“面对逆境与挫折时的韧性与坚持（Resilience & Perseverance）”，哪一句第二段论据拓展具备<strong>最高水准的考研学术句式（强调句+复合动词搭配）与 18+ 分高分档范式</strong>？</p>
+          </div>
+          <div class="drill-options">
+            <button class="drill-opt" data-is-correct="true" type="button">
+              <span>A.</span> <span>It is unwavering perseverance that empowers individuals to navigate through daunting adversities and eventually turn crises into stepping stones for ultimate triumph.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>B.</span> <span>Perseverance is very good and useful because people can always do things well when they have hard problems in life.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>C.</span> <span>Although we may encounter difficult times in daily life, but we should always remember to keep on going and never give up.</span>
+            </button>
+            <button class="drill-opt" data-is-correct="false" type="button">
+              <span>D.</span> <span>Facing adversity make people strong, so everyone need to cultivate this spirit as much as possible.</span>
+            </button>
+          </div>
+          <div class="drill-feedback" hidden>
+            <strong>💡 考研写作专家点评：</strong><br>
+            • <strong>✓ 正确答案 A (18~20分满分档)</strong>：运用 <code>It is ... that ...</code> 经典强调句；搭配高阶学术动词短语 <code>navigate through daunting adversities</code>（横渡艰难逆境）与 <code>turn crises into stepping stones for ultimate triumph</code>（化危机为终极胜利的踏脚石），词汇地道、句式铿锵！<br>
+            • <strong>❌ B 低分档 (10~12分)</strong>：【初中口语化表达】连用 <code>very good</code>, <code>do things well</code>, <code>hard problems</code>，词汇严重贫乏；<br>
+            • <strong>❌ C 语法硬伤档 (扣2分)</strong>：【典型中式语法病句】<code>Although</code> 与 <code>but</code> 连用属于考研写作致命硬伤！<br>
+            • <strong>❌ D 基础语病档</strong>：【主谓单复数不一致】<code>Facing adversity make</code> (应为 <code>makes</code>)，<code>everyone need</code> (应为 <code>needs</code>)，考研写作阅卷主谓一致错误一次扣 1 分。
+          </div>
+        </div>
+
+        <!-- 2010~2024 图画大作文历年真题互动工坊 -->
+        <div id="writing-b-workshop-root" style="margin-top:14px"></div>
+
+        <div class="sec-nav-footer">
+          <button class="sec-nav-btn" data-switch-type="writing_a" type="button">← 上一题型：应用文小作文</button>
+          <button class="sec-nav-btn primary" data-switch-type="strategy" type="button" style="background:var(--color-primary);color:#fff">下一板块：考场 180 分钟全盘战略 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 板块 7：考场 180 分钟全盘战略与做题顺序规划 (100分总揽) ===== -->
+    <section class="exam-section" id="sec-strategy" hidden>
+      <div class="exam-card">
+        <div class="exam-card-head">
+          <h2>⏱️ Section VII · 考场 180 分钟全盘战略与时间管理</h2>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span class="exam-badge" style="background:color-mix(in oklab, #f57f17 15%, transparent);color:#f57f17">考场致胜关键 · 绝地提分</span>
+            <button class="exam-mastery-btn" data-sec-id="strategy" type="button">🔘 标记为已掌握</button>
+          </div>
+        </div>
+
+        <!-- ⏱️ 全真 180 分钟考场时间节奏模拟器 & 场景实训中心 -->
+        <div class="exam-timer-card" style="background:var(--color-surface);border:1.5px solid var(--color-primary);border-radius:10px;padding:16px;margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <div>
+              <strong style="font-size:15px;color:var(--color-primary)">⏱️ 考场 180 分钟全真节奏模考计时器</strong>
+              <div style="font-size:12px;color:var(--color-text-muted);margin-top:2px">模拟考场实战做题节奏（14:00 - 17:00 共 180 分钟），支持分段提示与考场警钟</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <div id="exam-timer-display" style="font-size:24px;font-weight:900;color:var(--color-primary);font-family:monospace;letter-spacing:1px">180:00</div>
+              <button class="nav-btn primary" id="exam-timer-start-btn" type="button" style="background:var(--color-primary);color:#fff">▶ 开始模考</button>
+              <button class="nav-btn" id="exam-timer-reset-btn" type="button">🔄 重置</button>
+            </div>
+          </div>
+
+          <!-- 考场沉浸声效 & 官方考场广播模拟 -->
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:10px;border-top:1px dashed var(--color-border)">
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px">
+              <span style="color:var(--color-text-muted)">🎧 考场环境声：</span>
+              <button class="filter-chip active" id="ambience-mute-btn" type="button" style="font-size:11px;padding:2px 8px">🔇 静音</button>
+              <button class="filter-chip" id="ambience-tick-btn" type="button" style="font-size:11px;padding:2px 8px">⏱️ 钟表滴答</button>
+              <button class="filter-chip" id="ambience-noise-btn" type="button" style="font-size:11px;padding:2px 8px">🍃 专注白噪</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12px">
+              <span style="color:var(--color-text-muted)">📢 模拟监考播报：</span>
+              <button class="nav-btn" id="broadcast-start-btn" type="button" style="font-size:11px;padding:2px 7px" title="播报考前开考指令">🏁 开考播报</button>
+              <button class="nav-btn" id="broadcast-warn-btn" type="button" style="font-size:11px;padding:2px 7px" title="播报最后15分钟提醒">⚠️ 15m警报</button>
+              <button class="nav-btn" id="broadcast-end-btn" type="button" style="font-size:11px;padding:2px 7px" title="播报停笔收卷指令">🛑 停笔收卷</button>
+            </div>
+          </div>
+
+          <div id="exam-timer-stage-tip" style="margin-top:10px;padding:8px 12px;background:var(--color-surface-offset);border-radius:6px;font-size:13px;border-left:3px solid var(--color-primary)">
+            <strong>当前阶段：</strong> 准备阶段 · 点击“开始模考”进入第 1 阶段（大小作文 45 min）
+          </div>
+
+          <!-- 📱 2B 铅笔答题卡填涂模拟器 (折叠式) -->
+          <div style="margin-top:10px">
+            <button class="filter-chip" id="toggle-answer-sheet-btn" type="button" style="font-size:12px;padding:4px 10px;width:100%;text-align:center">
+              📱 展开/收起 考场客观题 2B 铅笔填涂答题卡模拟器 🔽
+            </button>
+            <div id="answer-sheet-drawer" style="display:none;margin-top:10px;background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:8px;padding:12px">
+              <div style="font-weight:700;font-size:13px;color:var(--color-primary);margin-bottom:8px">
+                📝 考研英语（一）客观选择题 1~45 题 2B 填涂卡模拟
+              </div>
+              <div id="answer-sheet-grid" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(135px, 1fr));gap:8px;font-size:12px;max-height:260px;overflow-y:auto;padding:4px">
+                <!-- 由 JS 动态生成 1~45 题涂卡按钮 -->
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:6px;border-top:1px dashed var(--color-border)">
+                <span id="sheet-filled-count" style="font-size:12px;color:var(--color-text-muted)">已填涂：0 / 45 题</span>
+                <button class="nav-btn" id="sheet-reset-btn" type="button" style="font-size:11px;padding:3px 8px">🧹 清空答题卡</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="method-box">
+          <h3>🎯 科学做题顺序黄金原则：“作文先导，阅读核心，完形扫尾”</h3>
+          <p>考研英语下午 14:00 - 17:00 共 180 分钟。<strong>千万不要按试卷 1 到 56 题顺序死板做题！</strong>先做作文激活词汇语感，在脑力最充沛时攻克 4 篇传统阅读，最后利用红花词技巧快速攻下完形填空。</p>
+          
+          <div class="flow-steps" style="grid-template-columns:repeat(auto-fit, minmax(200px, 1fr))">
+            <div class="flow-step-card" style="border-top:3px solid #1e88e5">
+              <strong style="color:#1e88e5">第 1 阶段：大小作文 (45 min)</strong>
+              <p><strong>14:00 - 14:45</strong><br>• 小作文 (15 min)：默写格式称谓与三段功能句。<br>• 图画大作文 (30 min)：套用九宫格万能框架快速定稿卷面 30 分！</p>
+            </div>
+            <div class="flow-step-card" style="border-top:3px solid #2e7d32">
+              <strong style="color:#2e7d32">第 2 阶段：传统阅读 (70 min)</strong>
+              <p><strong>14:45 - 15:55</strong><br>• 4 篇精读 (每篇 17~18 min)。<br>• 绝不在单道难题上死磕超过 3 分钟，圈定定位句同义替换即走。</p>
+            </div>
+            <div class="flow-step-card" style="border-top:3px solid #8e24aa">
+              <strong style="color:#8e24aa">第 3 阶段：新题型 (20 min)</strong>
+              <p><strong>15:55 - 16:15</strong><br>• 7选5 / 排序题 / 小标题。<br>• 抓代词指代链与逻辑连词快速匹配 10 分！</p>
+            </div>
+            <div class="flow-step-card" style="border-top:3px solid #d81b60">
+              <strong style="color:#d81b60">第 4 阶段：翻译 (20 min)</strong>
+              <p><strong>16:15 - 16:35</strong><br>• 5 个长难句 (每句 4 min)。<br>• 拆分意群划主干，保证主谓宾正确先拿 1.0 分基础分！</p>
+            </div>
+            <div class="flow-step-card" style="border-top:3px solid #f57f17">
+              <strong style="color:#f57f17">第 5 阶段：完形填空 (15 min)</strong>
+              <p><strong>16:35 - 16:50</strong><br>• 20 道选择题。<br>• 紧抓首句中心，优先选红花词，连词题看前后正反。</p>
+            </div>
+            <div class="flow-step-card" style="border-top:3px solid #c62828">
+              <strong style="color:#c62828">第 6 阶段：涂卡与检查 (10 min)</strong>
+              <p><strong>16:50 - 17:00</strong><br>• 答题卡终极填涂与核对准考证号/姓名/条形码。<br>• 杜绝答题卡错位！</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:#c62828;background:color-mix(in oklab, #c62828 6%, var(--color-surface))">
+          <h3 style="color:#c62828">🚨 考场三大突发极端危机急救包（临场保命指南）</h3>
+          <div class="trap-grid">
+            <div class="trap-card" style="border-color:color-mix(in oklab, #c62828 40%, transparent)">
+              <strong style="color:#c62828">危机 1：长难句单词认识但全句读不懂怎么办？</strong>
+              <p style="font-size:12.5px;margin:4px 0 0;color:var(--color-text)"><strong>【急救招数】主谓宾骨架剥离法</strong><br>立即拿铅笔圈出所有关系词（<code>that/which/who/where/when</code>）和介词短语（<code>in/of/with/by</code>），将修饰成分暂时打括号排除，只翻译剩下的主干核心（S+V+O）。哪怕定语从句翻译不流畅，主干正确也能稳稳拿到 1.0~1.2 分！</p>
+            </div>
+            <div class="trap-card" style="border-color:color-mix(in oklab, #c62828 40%, transparent)">
+              <strong style="color:#c62828">危机 2：大作文看图毫无思路、不知如何立意？</strong>
+              <p style="font-size:12.5px;margin:4px 0 0;color:var(--color-text)"><strong>【急救招数】九宫格万能五大主题归流法</strong><br>考研图画大作文 99% 逃不出五大母题：① <strong>个人品质</strong>（坚持/独立/创新）、② <strong>科技两面性</strong>（AI/手机依赖/信息茧房）、③ <strong>社会道德</strong>（诚信/孝道/互助）、④ <strong>文化传承</strong>（传统文化/中西交流）、⑤ <strong>生态环境</strong>（绿色低碳）。强行联系其中一个，套用第二段原因阐述即可成文！</p>
+            </div>
+            <div class="trap-card" style="border-color:color-mix(in oklab, #c62828 40%, transparent)">
+              <strong style="color:#c62828">危机 3：离交卷只剩最后 10 分钟，完形填空还没做？</strong>
+              <p style="font-size:12.5px;margin:4px 0 0;color:var(--color-text)"><strong>【急救招数】红花词与逻辑连词快速扫射</strong><br>不要通读全文！直接找题干选项中含有 <code>however / although / while / tend to / available / subject to</code> 的题目，查看空格前后一句的正反感情倾向秒选（正反相反选 however/although；同向递进选 moreover/furthermore）。5 分钟能迅速挽回 5~7 分！</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="method-box" style="border-left-color:var(--color-primary)">
+          <h3>✍️ 考研英语（一）写作高分闪光句式升华矩阵</h3>
+          <div style="overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:13px;line-height:1.6">
+              <thead>
+                <tr style="background:var(--color-surface-offset);text-align:left">
+                  <th style="padding:8px 10px;border:1px solid var(--color-border);width:30%">平凡低分表达</th>
+                  <th style="padding:8px 10px;border:1px solid var(--color-border);width:70%">考研学术高分升级句式</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:8px 10px;border:1px solid var(--color-border);color:var(--color-text-muted)">I think / People believe that...</td>
+                  <td style="padding:8px 10px;border:1px solid var(--color-border);color:var(--color-primary);font-weight:600">A burgeoning consensus among scholars contends that... / It is widely harbored that...</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 10px;border:1px solid var(--color-border);color:var(--color-text-muted)">This is very important.</td>
+                  <td style="padding:8px 10px;border:1px solid var(--color-border);color:var(--color-primary);font-weight:600">This phenomenon is of paramount significance in shaping modern socio-economic landscape.</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 10px;border:1px solid var(--color-border);color:var(--color-text-muted)">More and more people use phones.</td>
+                  <td style="padding:8px 10px;border:1px solid var(--color-border);color:var(--color-primary);font-weight:600">An increasing multitude of individuals find themselves deeply immersed in digital devices.</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 10px;border:1px solid var(--color-border);color:var(--color-text-muted)">We should take action to solve it.</td>
+                  <td style="padding:8px 10px;border:1px solid var(--color-border);color:var(--color-primary);font-weight:600">It is imperative for both governmental authorities and the general public to enact concrete measures to address this dilemma.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sec-nav-footer">
+          <button class="sec-nav-btn" data-switch-type="writing_b" type="button">← 上一题型：图画大作文</button>
+          <button class="sec-nav-btn primary" data-switch-type="reading" type="button" style="background:var(--color-primary);color:#fff">回到第一题型：传统阅读 →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 移动端底部主导航 -->
+  <nav class="bottom-nav" aria-label="移动端主导航">
+    <a class="bottom-nav-item" href="study.html">
+      <span class="icon">📖</span>
+      <span>背单词</span>
+    </a>
+    <a class="bottom-nav-item active" href="exam.html">
+      <span class="icon">📝</span>
+      <span>英一题型</span>
+    </a>
+    <a class="bottom-nav-item" href="words.html">
+      <span class="icon">📚</span>
+      <span>考研词库</span>
+    </a>
+    <a class="bottom-nav-item" href="memory.html">
+      <span class="icon">👤</span>
+      <span>我的</span>
+    </a>
+  </nav>
+
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
+  <script>
+    var ALL_SECS = ['reading', 'trans', 'cloze', 'newtype', 'writing_a', 'writing_b', 'strategy'];
+
+    function switchSection(targetType) {
+      var hub = document.getElementById('exam-hub-container');
+      var studyBar = document.getElementById('exam-study-header-bar');
+      var typeTabs = document.getElementById('exam-type-tabs');
+
+      if (!targetType || targetType === 'hub') {
+        localStorage.removeItem('kao_exam_active_sec');
+        if (hub) hub.style.display = 'block';
+        if (studyBar) studyBar.style.display = 'none';
+        if (typeTabs) typeTabs.style.display = 'none';
+        document.querySelectorAll('.exam-section').forEach(function(sec) { sec.hidden = true; });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      var norm = targetType.replace('_', '-');
+      var under = targetType.replace('-', '_');
+      localStorage.setItem('kao_exam_active_sec', targetType);
+
+      if (hub) hub.style.display = 'none';
+      if (studyBar) studyBar.style.display = 'flex';
+      if (typeTabs) typeTabs.style.display = 'grid';
+
+      document.querySelectorAll('.type-tab-btn').forEach(function (b) {
+        var dt = b.getAttribute('data-type');
+        b.classList.toggle('active', dt === targetType || dt === norm || dt === under);
+      });
+      document.querySelectorAll('.exam-section').forEach(function (sec) {
+        var secId = sec.id.replace('sec-', '');
+        var match = (secId === targetType || secId === norm || secId === under);
+        sec.hidden = !match;
+      });
+
+      initExamPagination();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (window.refreshExamWorkshops) {
+        try { window.refreshExamWorkshops(); } catch(e){}
+      }
+    }
+
+    // ===== 题型翻页式分页与小标题收纳框系统 (Paginated Exam Study Deck & Subtopic Box) =====
+    function initExamPagination() {
+      document.querySelectorAll('.exam-section').forEach(function (sec) {
+        var card = sec.querySelector('.exam-card');
+        if (!card || card.getAttribute('data-paginated') === 'true') return;
+        card.setAttribute('data-paginated', 'true');
+
+        var head = card.querySelector('.exam-card-head');
+
+        // Extract direct major blocks
+        var directChildren = Array.from(card.children).filter(function (child) {
+          return child !== head && !child.classList.contains('sec-nav-btn') && !child.classList.contains('exam-card-head') && !child.classList.contains('sec-nav-footer');
+        });
+
+        if (directChildren.length <= 1) return;
+
+        // Subtopic Collapsible Box (小标题收纳框)
+        var subtopicBox = document.createElement('div');
+        subtopicBox.className = 'exam-subtopic-box';
+
+        var toggleBtn = document.createElement('button');
+        toggleBtn.type = 'button';
+        toggleBtn.className = 'subtopic-toggle-btn';
+
+        var drawerContent = document.createElement('div');
+        drawerContent.className = 'subtopic-drawer-content';
+        drawerContent.hidden = true;
+
+        var pillsGrid = document.createElement('div');
+        pillsGrid.className = 'subtopic-pills-list';
+        drawerContent.appendChild(pillsGrid);
+
+        // Slide Deck Container
+        var deck = document.createElement('div');
+        deck.className = 'exam-subpage-deck';
+
+        var slides = [];
+        var cleanTitles = [];
+
+        directChildren.forEach(function (block, idx) {
+          var slide = document.createElement('div');
+          slide.className = 'exam-subpage-slide' + (idx === 0 ? ' active' : '');
+          slide.appendChild(block);
+          deck.appendChild(slide);
+          slides.push(slide);
+
+          // Get clean heading
+          var heading = block.querySelector('h3, h4, strong, .drill-head strong');
+          var rawTitle = heading ? heading.textContent.trim() : ('第 ' + (idx + 1) + ' 部分');
+          var cleanTitle = rawTitle.replace(/^[🎯💡📚💎📢📊🛡️🚀⚡✍️①②③④⑤⑥\s\d·.【】]+/, '').trim();
+          if (!cleanTitle) cleanTitle = '核心要点 ' + (idx + 1);
+          if (cleanTitle.length > 14) cleanTitle = cleanTitle.substring(0, 13) + '…';
+          cleanTitles.push(cleanTitle);
+
+          var emoji = ['🎯', '💡', '📚', '💎', '📢', '✍️', '🚀', '📊', '🛡️'][idx % 9];
+          var pillText = emoji + ' ' + (idx + 1) + '. ' + cleanTitle;
+
+          var pill = document.createElement('button');
+          pill.type = 'button';
+          pill.className = 'subpage-pill' + (idx === 0 ? ' active' : '');
+          pill.textContent = pillText;
+          pill.addEventListener('click', function () {
+            goToPage(idx);
+            drawerContent.hidden = true;
+            toggleBtn.querySelector('.st-arrow').textContent = '▼ 展开目录 (共 ' + slides.length + ' 节)';
+          });
+          pillsGrid.appendChild(pill);
+        });
+
+        toggleBtn.innerHTML = `
+          <div class="st-left">
+            <span class="st-tag">📑 章节目录</span>
+            <span class="st-cur-title">1. ${cleanTitles[0] || '核心要点'}</span>
+          </div>
+          <span class="st-arrow">▼ 展开目录 (共 ${slides.length} 节)</span>
+        `;
+
+        toggleBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var isExpanded = !drawerContent.hidden;
+          drawerContent.hidden = isExpanded;
+          toggleBtn.querySelector('.st-arrow').textContent = isExpanded ? ('▼ 展开目录 (共 ' + slides.length + ' 节)') : '▲ 收起目录';
+        });
+
+        subtopicBox.appendChild(toggleBtn);
+        subtopicBox.appendChild(drawerContent);
+
+        // Bottom Page-Flip Footer
+        var footer = document.createElement('div');
+        footer.className = 'exam-page-flip-footer';
+
+        var prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.className = 'exam-flip-btn prev-subpage-btn';
+        prevBtn.innerHTML = '◀ 上一页 (A)';
+
+        var indicator = document.createElement('div');
+        indicator.className = 'subpage-indicator';
+        var dotsWrap = document.createElement('div');
+        dotsWrap.className = 'subpage-dots';
+        for (var i = 0; i < slides.length; i++) {
+          var dot = document.createElement('i');
+          dot.className = 'dot' + (i === 0 ? ' active' : '');
+          dotsWrap.appendChild(dot);
+        }
+        var counterText = document.createElement('span');
+        counterText.className = 'subpage-counter';
+        counterText.textContent = '第 1 / ' + slides.length + ' 节 · 左右滑动可翻页';
+
+        indicator.appendChild(dotsWrap);
+        indicator.appendChild(counterText);
+
+        var nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.className = 'exam-flip-btn next-subpage-btn';
+        nextBtn.innerHTML = '下一页 (D) ▶';
+
+        footer.appendChild(prevBtn);
+        footer.appendChild(indicator);
+        footer.appendChild(nextBtn);
+
+        var curPage = 0;
+
+        function goToPage(targetIdx) {
+          if (targetIdx < 0 || targetIdx >= slides.length) return;
+          curPage = targetIdx;
+          slides.forEach(function (s, i) {
+            s.classList.toggle('active', i === curPage);
+          });
+          pillsGrid.querySelectorAll('.subpage-pill').forEach(function (p, i) {
+            p.classList.toggle('active', i === curPage);
+          });
+          dotsWrap.querySelectorAll('.dot').forEach(function (d, i) {
+            d.classList.toggle('active', i === curPage);
+          });
+          counterText.textContent = '第 ' + (curPage + 1) + ' / ' + slides.length + ' 节 · 左右滑动可翻页';
+          var titleEl = toggleBtn.querySelector('.st-cur-title');
+          if (titleEl && cleanTitles[curPage]) {
+            titleEl.textContent = (curPage + 1) + '. ' + cleanTitles[curPage];
+          }
+          prevBtn.disabled = (curPage === 0);
+          nextBtn.disabled = (curPage === slides.length - 1);
+
+          if (window.KaoyanAudio) window.KaoyanAudio.playClick();
+          if (navigator.vibrate) try { navigator.vibrate(10); } catch(e){}
+        }
+
+        prevBtn.addEventListener('click', function () { goToPage(curPage - 1); });
+        nextBtn.addEventListener('click', function () { goToPage(curPage + 1); });
+        prevBtn.disabled = true;
+
+        if (head && head.nextSibling) {
+          card.insertBefore(subtopicBox, head.nextSibling);
+        } else {
+          card.appendChild(subtopicBox);
+        }
+        card.appendChild(deck);
+        card.appendChild(footer);
+
+        // Touch Swipe Event Listeners
+        var touchStartX = 0, touchStartY = 0;
+        card.addEventListener('touchstart', function (e) {
+          if (e.touches && e.touches.length === 1) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+          }
+        }, { passive: true });
+
+        card.addEventListener('touchend', function (e) {
+          if (e.changedTouches && e.changedTouches.length === 1) {
+            var diffX = e.changedTouches[0].clientX - touchStartX;
+            var diffY = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY) * 1.2) {
+              if (diffX < 0) {
+                goToPage(curPage + 1);
+              } else {
+                goToPage(curPage - 1);
+              }
+            }
+          }
+        }, { passive: true });
+
+        sec._subpageCtrl = { goToPage: goToPage, getCurPage: function() { return curPage; }, getTotalPages: function() { return slides.length; } };
+      });
+    }
+
+    // Global Key listener for A/D or Left/Right arrow page turning
+    document.addEventListener('keydown', function (e) {
+      if (['INPUT', 'TEXTAREA', 'SELECT'].indexOf(e.target.tagName) > -1) return;
+      var activeSec = document.querySelector('.exam-section:not([hidden])');
+      if (activeSec && activeSec._subpageCtrl) {
+        var ctrl = activeSec._subpageCtrl;
+        if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+          ctrl.goToPage(ctrl.getCurPage() - 1);
+        } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+          ctrl.goToPage(ctrl.getCurPage() + 1);
+        }
+      }
+    });
+
+    // Toggle Collapsible Overview Drawer
+    var toggleOverviewBtn = document.getElementById('toggle-exam-overview-btn');
+    var overviewDrawer = document.getElementById('exam-overview-drawer');
+    if (toggleOverviewBtn && overviewDrawer) {
+      var isOverviewOpen = localStorage.getItem('kao_exam_overview_open') === 'true';
+      overviewDrawer.hidden = !isOverviewOpen;
+      toggleOverviewBtn.innerHTML = isOverviewOpen ? '⚙️ 收起大纲与提分看板 🔼' : '⚙️ 展开考纲与提分概览 🔽';
+      toggleOverviewBtn.addEventListener('click', function () {
+        var open = overviewDrawer.hidden;
+        overviewDrawer.hidden = !open;
+        localStorage.setItem('kao_exam_overview_open', open ? 'true' : 'false');
+        toggleOverviewBtn.innerHTML = open ? '⚙️ 收起大纲与提分看板 🔼' : '⚙️ 展开考纲与提分概览 🔽';
+      });
+    }
+
+    // Toggle Mobile Immersive Fullscreen View
+    var toggleImmersiveBtn = document.getElementById('toggle-immersive-btn');
+    if (toggleImmersiveBtn) {
+      toggleImmersiveBtn.addEventListener('click', function () {
+        var isImmersive = document.body.classList.toggle('exam-immersive-active');
+        toggleImmersiveBtn.textContent = isImmersive ? '📱 退出考场全屏沉浸' : '📱 开启考场全屏沉浸';
+        toggleImmersiveBtn.classList.toggle('active', isImmersive);
+        if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
+      });
+    }
+
+    // Open project card from hub
+    document.querySelectorAll('[data-open-project]').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var project = card.getAttribute('data-open-project');
+        switchSection(project);
+      });
+    });
+
+    // Back to hub button
+    var backToHubBtn = document.getElementById('back-to-hub-btn');
+    if (backToHubBtn) {
+      backToHubBtn.addEventListener('click', function () {
+        switchSection('hub');
+      });
+    }
+
+    // Restore last active section or URL param
+    try {
+      var q = new URLSearchParams(location.search);
+      var initType = q.get('type') || q.get('sec') || localStorage.getItem('kao_exam_active_sec');
+      if (initType && ALL_SECS.indexOf(initType) > -1) {
+        switchSection(initType);
+      } else {
+        switchSection('hub');
+      }
+    } catch(e){
+      switchSection('hub');
+    }
+
+    // Tab switching logic for exam types
+    document.querySelectorAll('.type-tab-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var targetType = btn.getAttribute('data-type');
+        switchSection(targetType);
+      });
+    });
+
+    // Bottom Section Switch Buttons
+    document.querySelectorAll('[data-switch-type]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var targetType = btn.getAttribute('data-switch-type');
+        switchSection(targetType);
+      });
+    });
+
+    // Copy template logic
+    document.querySelectorAll('.copy-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy');
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(function () {
+          var orig = btn.textContent;
+          btn.textContent = '✓ 已复制到剪贴板！';
+          btn.style.color = '#2e7d32';
+          if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
+          if (navigator.vibrate) try { navigator.vibrate(15); } catch(e){}
+          setTimeout(function () {
+            btn.textContent = orig;
+            btn.style.color = '';
+          }, 2000);
+        });
+      });
+    });
+
+    // Diagnostic Checkboxes Audio & Haptics
+    document.querySelectorAll('.diag-item input').forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        var wrap = cb.closest('.diag-item');
+        if (wrap) wrap.classList.toggle('checked', cb.checked);
+        if (cb.checked) {
+          if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
+          if (navigator.vibrate) try { navigator.vibrate(12); } catch(e){}
+        }
+      });
+    });
+
+    // Mastery Tracking Logic
+    function getMasteredSet() {
+      try { return new Set(JSON.parse(localStorage.getItem('kao_exam_mastered') || '[]')); }
+      catch(e) { return new Set(); }
+    }
+    function saveMasteredSet(set) {
+      localStorage.setItem('kao_exam_mastered', JSON.stringify(Array.from(set)));
+    }
+    function updateMasteryUI() {
+      var set = getMasteredSet();
+      document.querySelectorAll('.exam-mastery-btn').forEach(function (btn) {
+        var id = btn.getAttribute('data-sec-id');
+        var isDone = set.has(id);
+        btn.classList.toggle('done', isDone);
+        btn.innerHTML = isDone ? '✅ 已掌握' : '🔘 标记为已掌握';
+      });
+      var count = set.size;
+      var total = ALL_SECS.length;
+      var pct = Math.round(count / total * 100);
+      var progFill = document.getElementById('exam-prog-fill');
+      var progText = document.getElementById('exam-prog-text');
+      if (progFill) progFill.style.width = pct + '%';
+      if (progText) progText.textContent = '题型掌握进度：' + count + '/' + total + ' 已掌握 (' + pct + '%)';
+    }
+
+    document.querySelectorAll('.exam-mastery-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-sec-id');
+        var set = getMasteredSet();
+        if (set.has(id)) set.delete(id);
+        else {
+          set.add(id);
+          if (window.KaoyanAudio) {
+            if (set.size === ALL_SECS.length) window.KaoyanAudio.playComplete();
+            else window.KaoyanAudio.playSuccess();
+          }
+          if (navigator.vibrate) try { navigator.vibrate([12, 30, 20]); } catch(e){}
+        }
+        saveMasteredSet(set);
+        updateMasteryUI();
+      });
+    });
+    updateMasteryUI();
+
+    // Swipe left/right gesture to switch between exam sections
+    var mainEl = document.getElementById('main');
+    if (mainEl) {
+      var tStartX = 0, tStartY = 0, tStartTime = 0;
+      mainEl.addEventListener('touchstart', function (e) {
+        if (e.touches && e.touches.length === 1) {
+          tStartX = e.touches[0].clientX;
+          tStartY = e.touches[0].clientY;
+          tStartTime = Date.now();
+        }
+      }, { passive: true });
+
+      mainEl.addEventListener('touchend', function (e) {
+        if (e.changedTouches && e.changedTouches.length === 1) {
+          var dx = e.changedTouches[0].clientX - tStartX;
+          var dy = e.changedTouches[0].clientY - tStartY;
+          var dt = Date.now() - tStartTime;
+          if (Math.abs(dx) > 60 && Math.abs(dy) < 70 && dt < 400) {
+            var activeBtn = document.querySelector('.type-tab-btn.active');
+            var curType = activeBtn ? activeBtn.getAttribute('data-type') : 'reading';
+            var curIdx = ALL_SECS.indexOf(curType);
+            if (curIdx >= 0) {
+              if (dx < -60) {
+                // Swipe Left -> Next Section
+                var nextIdx = (curIdx + 1) % ALL_SECS.length;
+                switchSection(ALL_SECS[nextIdx]);
+                if (navigator.vibrate) try { navigator.vibrate(10); } catch(err){}
+              } else if (dx > 60) {
+                // Swipe Right -> Prev Section
+                var prevIdx = (curIdx - 1 + ALL_SECS.length) % ALL_SECS.length;
+                switchSection(ALL_SECS[prevIdx]);
+                if (navigator.vibrate) try { navigator.vibrate(10); } catch(err){}
+              }
+            }
+          }
+        }
+      }, { passive: true });
+    }
+
+    // Methodology Keyword Search Logic
+    var searchInput = document.getElementById('exam-search');
+    if (searchInput) {
+      searchInput.addEventListener('input', function () {
+        var q = searchInput.value.trim().toLowerCase();
+        if (!q) {
+          document.querySelectorAll('.method-box, .trap-card').forEach(function (el) { el.style.display = ''; });
+          return;
+        }
+        var matchFound = false;
+        document.querySelectorAll('.exam-section').forEach(function (sec) {
+          var secText = sec.textContent.toLowerCase();
+          if (secText.indexOf(q) > -1) {
+            if (!matchFound) {
+              document.querySelectorAll('.type-tab-btn').forEach(function (b) {
+                b.classList.toggle('active', 'sec-' + b.getAttribute('data-type') === sec.id);
+              });
+              document.querySelectorAll('.exam-section').forEach(function (s) { s.hidden = true; });
+              sec.hidden = false;
+              matchFound = true;
+            }
+          }
+        });
+        document.querySelectorAll('.method-box, .trap-card').forEach(function (el) {
+          var text = el.textContent.toLowerCase();
+          el.style.display = (text.indexOf(q) > -1) ? '' : 'none';
+        });
+      });
+    }
+
+    // Interactive Drill Click Handler
+    document.addEventListener('click', function (e) {
+      var opt = e.target.closest('.drill-opt');
+      if (!opt) return;
+      var parent = opt.closest('.drill-box');
+      if (!parent) return;
+      var isCorrect = opt.getAttribute('data-is-correct') === 'true';
+      parent.querySelectorAll('.drill-opt').forEach(function (b) {
+        b.classList.remove('correct', 'wrong');
+      });
+      opt.classList.add(isCorrect ? 'correct' : 'wrong');
+      var fb = parent.querySelector('.drill-feedback');
+      if (fb) {
+        fb.hidden = false;
+      }
+      if (isCorrect) {
+        if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
+        if (navigator.vibrate) try { navigator.vibrate(15); } catch(err){}
+      } else {
+        if (window.KaoyanAudio) window.KaoyanAudio.playWarn();
+        if (navigator.vibrate) try { navigator.vibrate(25); } catch(err){}
+      }
+    });
+
+    // Exam 180-Minute Pacing Simulator Timer & Exam Simulation Engine
+    (function () {
+      var timerInterval = null;
+      var totalSec = 180 * 60;
+      var remaining = totalSec;
+      var isRunning = false;
+      var audioCtx = null;
+      var noiseNode = null;
+      var tickInterval = null;
+      var ambienceMode = 'mute'; // 'mute' | 'tick' | 'noise'
+
+      var displayEl = document.getElementById('exam-timer-display');
+      var startBtn = document.getElementById('exam-timer-start-btn');
+      var resetBtn = document.getElementById('exam-timer-reset-btn');
+      var stageTipEl = document.getElementById('exam-timer-stage-tip');
+
+      if (!displayEl || !startBtn || !resetBtn) return;
+
+      var STAGES = [
+        { name: '第 1 阶段：大小作文 (45 min)', duration: 45 * 60, desc: '建议 14:00 - 14:45 先做小作文 (15m) + 图画大作文 (30m)' },
+        { name: '第 2 阶段：传统阅读 (70 min)', duration: 70 * 60, desc: '建议 14:45 - 15:55 精读 4 篇传统阅读 (每篇 17~18m)' },
+        { name: '第 3 阶段：新题型 (20 min)', duration: 20 * 60, desc: '建议 15:55 - 16:15 攻克 7选5 / 排序题 / 小标题' },
+        { name: '第 4 阶段：长难句翻译 (20 min)', duration: 20 * 60, desc: '建议 16:15 - 16:35 攻克 5 个长难句 (每句 4m)' },
+        { name: '第 5 阶段：完形填空 (15 min)', duration: 15 * 60, desc: '建议 16:35 - 16:50 快速秒杀完形 20 空' },
+        { name: '第 6 阶段：涂卡与全面核对 (10 min)', duration: 10 * 60, desc: '建议 16:50 - 17:00 终极填涂答题卡与核对' }
+      ];
+
+      function getAudioCtx() {
+        if (!audioCtx) {
+          var AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) audioCtx = new AudioContext();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        return audioCtx;
+      }
+
+      function playTickSound() {
+        var ctx = getAudioCtx();
+        if (!ctx) return;
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(800, ctx.currentTime);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.03);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.035);
+      }
+
+      function startWhiteNoise() {
+        stopAmbience();
+        var ctx = getAudioCtx();
+        if (!ctx) return;
+        var bufferSize = 2 * ctx.sampleRate;
+        var noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        var output = noiseBuffer.getChannelData(0);
+        for (var i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+        var whiteNoise = ctx.createBufferSource();
+        whiteNoise.buffer = noiseBuffer;
+        whiteNoise.loop = true;
+        var filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 600;
+        var gain = ctx.createGain();
+        gain.gain.value = 0.05;
+        whiteNoise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        whiteNoise.start();
+        noiseNode = { source: whiteNoise, gain: gain };
+      }
+
+      function stopAmbience() {
+        if (noiseNode) {
+          try { noiseNode.source.stop(); } catch(e){}
+          noiseNode = null;
+        }
+        if (tickInterval) {
+          clearInterval(tickInterval);
+          tickInterval = null;
+        }
+      }
+
+      function setAmbience(mode) {
+        ambienceMode = mode;
+        stopAmbience();
+        document.getElementById('ambience-mute-btn').classList.toggle('active', mode === 'mute');
+        document.getElementById('ambience-tick-btn').classList.toggle('active', mode === 'tick');
+        document.getElementById('ambience-noise-btn').classList.toggle('active', mode === 'noise');
+
+        if (mode === 'tick') {
+          playTickSound();
+          tickInterval = setInterval(playTickSound, 1000);
+        } else if (mode === 'noise') {
+          startWhiteNoise();
+        }
+      }
+
+      document.getElementById('ambience-mute-btn').addEventListener('click', function () { setAmbience('mute'); });
+      document.getElementById('ambience-tick-btn').addEventListener('click', function () { setAmbience('tick'); });
+      document.getElementById('ambience-noise-btn').addEventListener('click', function () { setAmbience('noise'); });
+
+      // Proctor Speech Synthesis Broadcast
+      function speakBroadcast(text) {
+        if (!text) return;
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = 'zh-CN';
+          u.rate = 0.92;
+          u.pitch = 1.0;
+          window.speechSynthesis.speak(u);
+        }
+      }
+
+      document.getElementById('broadcast-start-btn').addEventListener('click', function () {
+        speakBroadcast('请各位考生就座，认真核对准考证号、姓名与条形码。核对无误后开始答卷。现在开考！');
+      });
+      document.getElementById('broadcast-warn-btn').addEventListener('click', function () {
+        speakBroadcast('考生请注意，离考试结束还有15分钟，请抓紧时间填涂答题卡并核对个人信息！');
+      });
+      document.getElementById('broadcast-end-btn').addEventListener('click', function () {
+        speakBroadcast('考试结束，请全体考生立即停笔，将试卷和答题卡整理好放在桌面上，坐在原位等待监考老师清点！');
+      });
+
+      function getCurrentStage(rem) {
+        var elapsed = totalSec - rem;
+        var acc = 0;
+        for (var i = 0; i < STAGES.length; i++) {
+          acc += STAGES[i].duration;
+          if (elapsed < acc) {
+            return STAGES[i];
+          }
+        }
+        return STAGES[STAGES.length - 1];
+      }
+
+      function updateTimerUI() {
+        var m = Math.floor(remaining / 60);
+        var s = remaining % 60;
+        displayEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        if (remaining > 0 && remaining <= 300) {
+          displayEl.style.color = '#d32f2f';
+        } else {
+          displayEl.style.color = 'var(--color-primary)';
+        }
+
+        if (stageTipEl) {
+          if (!isRunning && remaining === totalSec) {
+            stageTipEl.innerHTML = '<strong>当前阶段：</strong> 准备阶段 · 点击“开始模考”进入第 1 阶段（大小作文 45 min）';
+          } else if (remaining <= 0) {
+            stageTipEl.innerHTML = '<strong>🎉 考试结束！</strong> 180 分钟已到，请立即停笔！';
+          } else {
+            var st = getCurrentStage(remaining);
+            stageTipEl.innerHTML = '<strong>当前阶段：</strong> <span style="color:var(--color-primary);font-weight:700">' + st.name + '</span> · ' + st.desc;
+          }
+        }
+      }
+
+      startBtn.addEventListener('click', function () {
+        if (!isRunning) {
+          isRunning = true;
+          startBtn.textContent = '⏸ 暂停计时';
+          startBtn.style.background = '#f57f17';
+          if (ambienceMode === 'tick' && !tickInterval) {
+            tickInterval = setInterval(playTickSound, 1000);
+          } else if (ambienceMode === 'noise' && !noiseNode) {
+            startWhiteNoise();
+          }
+          timerInterval = setInterval(function () {
+            if (remaining > 0) {
+              remaining--;
+              updateTimerUI();
+              // 15-minute proctor alert trigger
+              if (remaining === 15 * 60) {
+                speakBroadcast('考生请注意，离考试结束还有15分钟，请抓紧填涂答题卡！');
+              }
+            } else {
+              clearInterval(timerInterval);
+              isRunning = false;
+              stopAmbience();
+              startBtn.textContent = '▶ 开始模考';
+              startBtn.style.background = 'var(--color-primary)';
+              speakBroadcast('考试结束，请全体考生立即停笔！');
+              if (window.KaoyanAudio) window.KaoyanAudio.playComplete();
+            }
+          }, 1000);
+        } else {
+          isRunning = false;
+          clearInterval(timerInterval);
+          stopAmbience();
+          startBtn.textContent = '▶ 继续计时';
+          startBtn.style.background = 'var(--color-primary)';
+        }
+      });
+
+      resetBtn.addEventListener('click', function () {
+        if (confirm('确认重置 180 分钟模考倒计时？')) {
+          clearInterval(timerInterval);
+          isRunning = false;
+          stopAmbience();
+          remaining = totalSec;
+          startBtn.textContent = '▶ 开始模考';
+          startBtn.style.background = 'var(--color-primary)';
+          updateTimerUI();
+        }
+      });
+
+      updateTimerUI();
+
+      // --- 📱 2B 铅笔答题卡填涂模拟器逻辑 ---
+      (function initAnswerSheet() {
+        var drawer = document.getElementById('answer-sheet-drawer');
+        var toggleBtn = document.getElementById('toggle-answer-sheet-btn');
+        var grid = document.getElementById('answer-sheet-grid');
+        var countEl = document.getElementById('sheet-filled-count');
+        var resetSheetBtn = document.getElementById('sheet-reset-btn');
+        if (!drawer || !toggleBtn || !grid) return;
+
+        var sheetData = {};
+        try { sheetData = JSON.parse(localStorage.getItem('kao_answer_sheet_data') || '{}'); } catch(e){}
+
+        toggleBtn.addEventListener('click', function () {
+          var open = drawer.style.display !== 'none';
+          drawer.style.display = open ? 'none' : 'block';
+          toggleBtn.textContent = open ? '📱 展开 考场客观题 2B 铅笔填涂答题卡模拟器 🔽' : '📱 收起 考场客观题 2B 铅笔填涂答题卡模拟器 🔼';
+        });
+
+        function renderSheetGrid() {
+          var html = '';
+          for (var q = 1; q <= 45; q++) {
+            var options = (q <= 40) ? ['A', 'B', 'C', 'D'] : ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+            var curAns = sheetData[q] || '';
+            var typeTag = (q <= 20) ? '完形' : (q <= 40 ? '阅读' : '新题型');
+            html += `
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:6px;padding:6px 8px">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                  <strong style="font-size:12px;color:var(--color-primary)">${q}.</strong>
+                  <span style="font-size:10px;color:var(--color-text-muted)">${typeTag}</span>
+                </div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap">
+                  ${options.map(function (opt) {
+                    var isSelected = curAns === opt;
+                    return `
+                      <button class="sheet-bubble-btn ${isSelected ? 'selected' : ''}" data-sheet-q="${q}" data-sheet-opt="${opt}" type="button" style="width:22px;height:18px;border-radius:3px;border:1px solid ${isSelected ? '#211f1a' : 'var(--color-border)'};background:${isSelected ? '#2c2518' : 'var(--color-surface-2)'};color:${isSelected ? '#fff' : 'var(--color-text)'};font-size:11px;font-weight:700;cursor:pointer;padding:0">
+                        ${opt}
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            `;
+          }
+          grid.innerHTML = html;
+          updateSheetCount();
+        }
+
+        var sheetStartTime = null;
+        var sheetDurationSec = 0;
+        var sheetTimer = null;
+
+        function updateSheetCount() {
+          var filled = Object.keys(sheetData).filter(function(k){ return !!sheetData[k]; }).length;
+          var timeStr = '';
+          if (sheetDurationSec > 0) {
+            var m = Math.floor(sheetDurationSec / 60);
+            var s = sheetDurationSec % 60;
+            timeStr = ' · 涂卡用时 ' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+          }
+          if (countEl) {
+            var speedTip = filled === 45 ? ' 🎉 45 题全部涂完！' : (filled > 0 ? ' (建议控制在 5~8 分钟内)' : '');
+            countEl.textContent = '已填涂：' + filled + ' / 45 题' + timeStr + speedTip;
+          }
+          try { localStorage.setItem('kao_answer_sheet_data', JSON.stringify(sheetData)); } catch(e){}
+        }
+
+        grid.addEventListener('click', function (e) {
+          var b = e.target.closest('.sheet-bubble-btn');
+          if (!b) return;
+          if (!sheetStartTime) {
+            sheetStartTime = Date.now();
+            if (!sheetTimer) {
+              sheetTimer = setInterval(function () {
+                sheetDurationSec = Math.floor((Date.now() - sheetStartTime) / 1000);
+                updateSheetCount();
+              }, 1000);
+            }
+          }
+          var q = b.getAttribute('data-sheet-q');
+          var opt = b.getAttribute('data-sheet-opt');
+          if (sheetData[q] === opt) {
+            delete sheetData[q];
+          } else {
+            sheetData[q] = opt;
+          }
+          if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
+          if (navigator.vibrate) try { navigator.vibrate(12); } catch(e){}
+          renderSheetGrid();
+
+          var filled = Object.keys(sheetData).filter(function(k){ return !!sheetData[k]; }).length;
+          if (filled === 45 && sheetTimer) {
+            clearInterval(sheetTimer);
+            sheetTimer = null;
+            if (window.KaoyanAudio) window.KaoyanAudio.playComplete();
+          }
+        });
+
+        if (resetSheetBtn) {
+          resetSheetBtn.addEventListener('click', function () {
+            if (confirm('确认清空所有答题卡填涂记录？')) {
+              sheetData = {};
+              sheetStartTime = null;
+              sheetDurationSec = 0;
+              if (sheetTimer) { clearInterval(sheetTimer); sheetTimer = null; }
+              renderSheetGrid();
+            }
+          });
+        }
+
+        renderSheetGrid();
+      })();
+    })();
+
+    // Theme Toggle
+    var SUN='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',MOON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',OLED='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>';
+    function paintTheme(){var b=document.documentElement,t=document.querySelector('[data-theme-toggle]'),cur=b.dataset.theme||'light';if(t){t.innerHTML=cur==='light'?MOON:(cur==='dark'?OLED:SUN);t.setAttribute('aria-label',cur==='light'?'切换到暗色模式':(cur==='dark'?'切换到OLED纯黑模式':'切换到浅色模式'));}}
+    document.querySelector('[data-theme-toggle]')?.addEventListener('click',function(){var b=document.documentElement,cur=b.dataset.theme||'light',next=cur==='light'?'dark':(cur==='dark'?'oled':'light');b.dataset.theme=next;localStorage.setItem('theme',next);paintTheme();});
+    (function(){var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;paintTheme();})();
+  </script>
+</body>
+</html>

@@ -1,14 +1,166 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <meta http-equiv="refresh" content="0;url=study.html" />
-  <title>考研词汇</title>
-  <script>location.replace('study.html');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>考研英语词汇速查 | 5619 词大纲真题全收录 · 词根同义改写与学术例句</title>
+  <meta name="description" content="全量 5619 个考研英语精纯大纲词汇，提供音标、词性、核心考义与学术级真题双语例句，支持中英文双向实时搜索、随机抽词学习与离线使用。" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="icon" href="icon-192.png" type="image/png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#1d5a63" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
 </head>
-<body style="background:#f7f8f9;margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#6b7280">
-  正在进入背单词…
+<body>
+  <a class="skip-link" href="#main">跳到主内容</a>
+  <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border)">
+    <div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px">
+      <span style="font-size:16px;font-weight:800;color:var(--color-text)">🔍 字典查词</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="theme-toggle" data-theme-toggle aria-label="切换到深色模式" type="button"></button>
+        <button class="settings-btn" data-settings-open="true" type="button" title="⚙️ 系统偏好设置" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface-offset);cursor:pointer;font-size:14px">⚙️</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <span class="hero-eyebrow"><span class="dot"></span>考研英语（一）大纲 5619 词 · 学术级双语例句全覆盖 · 离线可用</span>
+      <h1 class="hero-title">查找一个单词，读懂一个例句</h1>
+      <p class="hero-sub">5619 个考研精纯大纲词，含音标、核心考义与学术级真题双语例句，全量离线可用。</p>
+    </section>
+
+    <form class="search" role="search" autocomplete="off" onsubmit="return false;">
+      <div class="search-field">
+        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="search-input" class="search-input" type="search" inputmode="search" placeholder="输入英文单词，如 abandon（按 / 快速聚焦）" aria-label="查询单词" aria-autocomplete="list" aria-controls="suggest-list" />
+        <button class="clear-btn" id="clear-btn" type="button" aria-label="清空" hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <ul id="suggest-list" class="suggest-list" role="listbox" hidden></ul>
+      </div>
+      <button class="random-btn" id="random-btn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 3h5v5M21 3l-7 7M8 21H3v-5M3 21l7-7M16 21h5v-5M21 21l-7-7M8 3H3v5M3 3l7 7"/></svg>
+        随机一词
+      </button>
+    </form>
+    <div id="recent-search-chips" class="recent-search-box" style="display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin:8px 0 12px" hidden></div>
+
+    <div class="desktop-kbd-tips">
+      <span>按 <kbd class="kbd">/</kbd> 聚焦搜索</span>
+      <span>按 <kbd class="kbd">R</kbd> 随机学一词</span>
+      <span>按 <kbd class="kbd">Esc</kbd> 清空</span>
+    </div>
+
+    <!-- 考研英语（一）四维进阶备考航标 (Coherent 4-Dimension Learning Workbench) -->
+    <div class="coherent-learning-hub" style="margin:20px 0 16px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:16px;box-shadow:var(--shadow-sm)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px">
+        <h2 style="font-size:15px;margin:0;font-weight:700;color:var(--color-text);display:flex;align-items:center;gap:6px">
+          <span>🎯</span> 考研英语（一）· 科学备考四维闭环学习链路
+        </h2>
+        <span style="font-size:11.5px;color:var(--color-primary);background:var(--color-primary-soft);padding:2px 8px;border-radius:999px;font-weight:600">
+          词汇 ➔ 长难句 ➔ 题型实战 ➔ 抗遗忘
+        </span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px">
+        <a href="study.html" style="text-decoration:none;color:inherit;background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:8px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;transition:transform 0.15s ease, border-color 0.15s ease">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--color-primary);margin-bottom:4px">
+              <span>📖</span> 1. 核心词汇背诵
+            </div>
+            <p style="font-size:12px;color:var(--color-text-muted);margin:0;line-height:1.5">5619 考研大纲词、音标发音、双语考研学术例句</p>
+          </div>
+          <span style="font-size:11.5px;color:var(--color-primary);margin-top:8px;font-weight:600">进入背诵 →</span>
+        </a>
+
+        <a href="translate.html" style="text-decoration:none;color:inherit;background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:8px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;transition:transform 0.15s ease, border-color 0.15s ease">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#2e7d32;margin-bottom:4px">
+              <span>🌐</span> 2. 105 篇翻译工坊
+            </div>
+            <p style="font-size:12px;color:var(--color-text-muted);margin:0;line-height:1.5">四步认知法、意群切分、自评打分、长难句结构透视</p>
+          </div>
+          <span style="font-size:11.5px;color:#2e7d32;margin-top:8px;font-weight:600">拆解长难句 →</span>
+        </a>
+
+        <a href="exam.html" style="text-decoration:none;color:inherit;background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:8px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;transition:transform 0.15s ease, border-color 0.15s ease">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#8e24aa;margin-bottom:4px">
+              <span>📑</span> 3. 六大题型实战
+            </div>
+            <p style="font-size:12px;color:var(--color-text-muted);margin:0;line-height:1.5">历年真题实战工坊、九宫格作文、新题型满分逻辑</p>
+          </div>
+          <span style="font-size:11.5px;color:#8e24aa;margin-top:8px;font-weight:600">突破优势题型 →</span>
+        </a>
+
+        <a href="memory.html" style="text-decoration:none;color:inherit;background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:8px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;transition:transform 0.15s ease, border-color 0.15s ease">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:700;color:#f57f17;margin-bottom:4px">
+              <span>🧠</span> 4. 艾宾浩斯复习
+            </div>
+            <p style="font-size:12px;color:var(--color-text-muted);margin:0;line-height:1.5">动态遗忘曲线追踪、生词本深度巩固、记忆闭环</p>
+          </div>
+          <span style="font-size:11.5px;color:#f57f17;margin-top:8px;font-weight:600">巩固记忆 →</span>
+        </a>
+      </div>
+    </div>
+
+    <section class="result-section" aria-live="polite">
+      <div id="word-card" class="word-card empty" aria-busy="false">
+        <div class="empty-state">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M4 4v16M4 4h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H4M20 4v16M20 4h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6"/></svg>
+          <p class="empty-title">词库加载中…</p>
+          <p class="empty-hint">加载完成后将展示今日一词。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-section" id="recent-section" hidden>
+      <div class="recent-head">
+        <h2 class="recent-title">最近查询</h2>
+        <button class="link-btn" id="clear-recent" type="button">清空</button>
+      </div>
+      <div class="chip-row" id="recent-chips"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>释义数据源自 ECDICT / Free Dictionary API · AI 例句仅供学习参考</p>
+  </footer>
+
+  <nav class="bottom-nav" aria-label="移动端导航">
+    <a class="bottom-nav-item" href="study.html">
+      <span class="icon">📖</span>
+      <span>背单词</span>
+    </a>
+    <a class="bottom-nav-item" href="exam.html">
+      <span class="icon">📝</span>
+      <span>英一题型</span>
+    </a>
+    <a class="bottom-nav-item" href="words.html">
+      <span class="icon">📚</span>
+      <span>考研词库</span>
+    </a>
+    <a class="bottom-nav-item" href="memory.html">
+      <span class="icon">👤</span>
+      <span>我的</span>
+    </a>
+  </nav>
+
+  <script src="data/words_bundle.js"></script>
+  <script src="data/ai_examples_bundle.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

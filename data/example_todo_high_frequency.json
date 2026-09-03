@@ -1,0 +1,2118 @@
+{
+  "note": "待补真实可核验例句；不将词典例句或自拟句标记为真题。",
+  "count": 352,
+  "words": [
+    {
+      "word": "anonymous",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "匿名的；无名的"
+    },
+    {
+      "word": "arrogant",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "傲慢的；自大的"
+    },
+    {
+      "word": "barren",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "贫瘠的；不结果实的；无成效的"
+    },
+    {
+      "word": "bewilder",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使迷惑；使慌乱"
+    },
+    {
+      "word": "bleak",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "荒凉的；黯淡的"
+    },
+    {
+      "word": "blunder",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "大错；失误"
+    },
+    {
+      "word": "boycott",
+      "tier": "高频重点",
+      "pos": "v./n.",
+      "translation": "（联合）抵制"
+    },
+    {
+      "word": "breach",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "违反；破坏；缺口"
+    },
+    {
+      "word": "brisk",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "轻快的；兴隆的；凉爽的"
+    },
+    {
+      "word": "brutal",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "野蛮的；残忍的"
+    },
+    {
+      "word": "catastrophe",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "大灾难；惨败"
+    },
+    {
+      "word": "cater",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "迎合；提供饮食"
+    },
+    {
+      "word": "census",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "人口普查"
+    },
+    {
+      "word": "chaos",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "混乱；无秩序"
+    },
+    {
+      "word": "cherish",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "珍惜；怀有（希望、记忆）"
+    },
+    {
+      "word": "cling",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "紧抓；坚持；依恋"
+    },
+    {
+      "word": "clumsy",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "笨拙的；不得体的"
+    },
+    {
+      "word": "collide",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "碰撞；冲突"
+    },
+    {
+      "word": "commence",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "开始"
+    },
+    {
+      "word": "commute",
+      "tier": "高频重点",
+      "pos": "v./n.",
+      "translation": "通勤；上下班路程"
+    },
+    {
+      "word": "compact",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "紧凑的；简洁的 n."
+    },
+    {
+      "word": "competent",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "有能力的；胜任的"
+    },
+    {
+      "word": "compliment",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "称赞；恭维"
+    },
+    {
+      "word": "compress",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "压缩；浓缩"
+    },
+    {
+      "word": "compulsory",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "强制的；义务的"
+    },
+    {
+      "word": "condense",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "浓缩；压缩；精简"
+    },
+    {
+      "word": "confidential",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "机密的；保密的"
+    },
+    {
+      "word": "conspicuous",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "显眼的；惹人注目的"
+    },
+    {
+      "word": "contempt",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "轻蔑；蔑视"
+    },
+    {
+      "word": "converge",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "汇聚；趋同"
+    },
+    {
+      "word": "corrupt",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "腐败的 v."
+    },
+    {
+      "word": "counterpart",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "对应的人（物）"
+    },
+    {
+      "word": "cram",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "塞满；临时抱佛脚"
+    },
+    {
+      "word": "crumble",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "崩溃；瓦解；碎裂"
+    },
+    {
+      "word": "cushion",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "缓冲；减轻 n."
+    },
+    {
+      "word": "dazzle",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使眼花缭乱；使赞叹"
+    },
+    {
+      "word": "decent",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "体面的；正派的；像样的"
+    },
+    {
+      "word": "decisive",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "决定性的；果断的"
+    },
+    {
+      "word": "degrade",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "降低；使退化；使丢脸"
+    },
+    {
+      "word": "denote",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "表示；标志"
+    },
+    {
+      "word": "deprive",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "剥夺"
+    },
+    {
+      "word": "descend",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "下降；是……的后代"
+    },
+    {
+      "word": "designate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "指定；命名；任命"
+    },
+    {
+      "word": "destiny",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "命运；天数"
+    },
+    {
+      "word": "deteriorate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "恶化"
+    },
+    {
+      "word": "devise",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "设计；想出"
+    },
+    {
+      "word": "diffuse",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "扩散；传播 adj."
+    },
+    {
+      "word": "diligent",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "勤奋的；勤勉的"
+    },
+    {
+      "word": "discard",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "丢弃；抛弃"
+    },
+    {
+      "word": "discern",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "辨别；察觉"
+    },
+    {
+      "word": "discrepancy",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "差异；不一致"
+    },
+    {
+      "word": "disguise",
+      "tier": "高频重点",
+      "pos": "v./n.",
+      "translation": "伪装；掩饰"
+    },
+    {
+      "word": "disperse",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "分散；驱散"
+    },
+    {
+      "word": "displace",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "取代；使流离失所"
+    },
+    {
+      "word": "divert",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "转移；使转向"
+    },
+    {
+      "word": "doom",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "厄运 v."
+    },
+    {
+      "word": "drastic",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "激烈的；严厉的"
+    },
+    {
+      "word": "dwell",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "居住；老是想着"
+    },
+    {
+      "word": "eccentric",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "古怪的 n."
+    },
+    {
+      "word": "elevate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "提升；举起"
+    },
+    {
+      "word": "elicit",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "引出；诱出"
+    },
+    {
+      "word": "eligible",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "有资格的；合适的"
+    },
+    {
+      "word": "embark",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "着手；上船"
+    },
+    {
+      "word": "endeavor",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "努力；尽力"
+    },
+    {
+      "word": "enrich",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使丰富；充实"
+    },
+    {
+      "word": "enroll",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "注册； enrol 招收"
+    },
+    {
+      "word": "entitle",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使有权；给……题名"
+    },
+    {
+      "word": "equip",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "装备；使有能力"
+    },
+    {
+      "word": "erode",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "侵蚀；逐渐削弱"
+    },
+    {
+      "word": "eternal",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "永恒的；无休止的"
+    },
+    {
+      "word": "evoke",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "唤起（记忆、情感）"
+    },
+    {
+      "word": "exemplify",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "是……的典型；例证"
+    },
+    {
+      "word": "exempt",
+      "tier": "高频重点",
+      "pos": "v./adj.",
+      "translation": "免除；被豁免的"
+    },
+    {
+      "word": "exquisite",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "精美的；精致的"
+    },
+    {
+      "word": "extinct",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "灭绝的；不再存在的"
+    },
+    {
+      "word": "extinguish",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "熄灭；扑灭"
+    },
+    {
+      "word": "extract",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "提取；抽取 n."
+    },
+    {
+      "word": "fabricate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "捏造；编造"
+    },
+    {
+      "word": "fancy",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "喜欢；想要 adj."
+    },
+    {
+      "word": "forbid",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "禁止"
+    },
+    {
+      "word": "fragile",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "易碎的；脆弱的"
+    },
+    {
+      "word": "fraud",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "欺诈；骗局"
+    },
+    {
+      "word": "frustrate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使沮丧；挫败"
+    },
+    {
+      "word": "furnish",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "提供；配备家具"
+    },
+    {
+      "word": "fuse",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "保险丝；导火线 v."
+    },
+    {
+      "word": "gloomy",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "阴暗的；令人沮丧的"
+    },
+    {
+      "word": "grief",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "悲伤；悲痛"
+    },
+    {
+      "word": "harmony",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "和谐；融洽"
+    },
+    {
+      "word": "hazard",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "危险；危害"
+    },
+    {
+      "word": "hinder",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "阻碍；妨碍"
+    },
+    {
+      "word": "humidity",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "湿度；潮湿"
+    },
+    {
+      "word": "identical",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "完全相同的"
+    },
+    {
+      "word": "illuminate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "照亮；阐明"
+    },
+    {
+      "word": "impair",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "损害；削弱"
+    },
+    {
+      "word": "imperative",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "极其重要的；必要的"
+    },
+    {
+      "word": "impulse",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "冲动；驱动力"
+    },
+    {
+      "word": "incidence",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "发生率"
+    },
+    {
+      "word": "incline",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "（使）倾向 n."
+    },
+    {
+      "word": "indignant",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "愤慨的"
+    },
+    {
+      "word": "infect",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "感染；影响"
+    },
+    {
+      "word": "inferior",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "较差的；下级的"
+    },
+    {
+      "word": "inflate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使膨胀；使（通货）膨胀"
+    },
+    {
+      "word": "influential",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "有影响力的"
+    },
+    {
+      "word": "inherit",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "继承；经遗传获得"
+    },
+    {
+      "word": "inject",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "注射；注入"
+    },
+    {
+      "word": "intact",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "完整无缺的"
+    },
+    {
+      "word": "integral",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "不可或缺的"
+    },
+    {
+      "word": "invalid",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "无效的；作废的"
+    },
+    {
+      "word": "juvenile",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "青少年的 n."
+    },
+    {
+      "word": "lag",
+      "tier": "高频重点",
+      "pos": "v./n.",
+      "translation": "落后；滞后"
+    },
+    {
+      "word": "landscape",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "风景；形势；格局"
+    },
+    {
+      "word": "latent",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "潜在的；潜伏的"
+    },
+    {
+      "word": "limp",
+      "tier": "高频重点",
+      "pos": "v./n.",
+      "translation": "跛行 adj."
+    },
+    {
+      "word": "linger",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "逗留；萦绕"
+    },
+    {
+      "word": "lodge",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "暂住；提出（投诉）"
+    },
+    {
+      "word": "magnify",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "放大；夸大"
+    },
+    {
+      "word": "mandate",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "授权；委任"
+    },
+    {
+      "word": "manifest",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "显现 adj."
+    },
+    {
+      "word": "merge",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "合并；融合"
+    },
+    {
+      "word": "minimize",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使减到最少；贬低"
+    },
+    {
+      "word": "mobilize",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "动员"
+    },
+    {
+      "word": "molecule",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "分子"
+    },
+    {
+      "word": "momentum",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "势头；动力"
+    },
+    {
+      "word": "motivate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "激励；激发"
+    },
+    {
+      "word": "multitude",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "大量；民众"
+    },
+    {
+      "word": "naive",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "天真的；幼稚的"
+    },
+    {
+      "word": "notify",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "正式通知"
+    },
+    {
+      "word": "nourish",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "滋养；培育"
+    },
+    {
+      "word": "obscure",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "晦涩的；不出名的 v."
+    },
+    {
+      "word": "obsess",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使痴迷；使心神不宁"
+    },
+    {
+      "word": "offset",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "抵消；弥补"
+    },
+    {
+      "word": "originate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "起源；发端"
+    },
+    {
+      "word": "outweigh",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "（在价值上）超过"
+    },
+    {
+      "word": "overwhelm",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "压倒；使不知所措"
+    },
+    {
+      "word": "partial",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "部分的；偏袒的"
+    },
+    {
+      "word": "patriot",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "爱国者"
+    },
+    {
+      "word": "peculiar",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "奇怪的；特有的"
+    },
+    {
+      "word": "pedestrian",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "行人 adj."
+    },
+    {
+      "word": "pending",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "未决的；待定的"
+    },
+    {
+      "word": "persevere",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "坚持不懈"
+    },
+    {
+      "word": "petition",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "请愿；请愿书"
+    },
+    {
+      "word": "plague",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "瘟疫；灾害 v."
+    },
+    {
+      "word": "plunge",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "骤降；跳入；使陷入"
+    },
+    {
+      "word": "pollute",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "污染"
+    },
+    {
+      "word": "ponder",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "思索；考虑"
+    },
+    {
+      "word": "postpone",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "推迟；延期"
+    },
+    {
+      "word": "potent",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "有效的；强有力的"
+    },
+    {
+      "word": "precise",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "精确的；确切的"
+    },
+    {
+      "word": "predecessor",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "前任；前身"
+    },
+    {
+      "word": "prestige",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "威望；声望"
+    },
+    {
+      "word": "presume",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "推测；擅自行事"
+    },
+    {
+      "word": "probe",
+      "tier": "高频重点",
+      "pos": "v./n.",
+      "translation": "探查；调查 n."
+    },
+    {
+      "word": "proclaim",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "宣告；声明"
+    },
+    {
+      "word": "prolong",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "延长；拖延"
+    },
+    {
+      "word": "punctual",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "准时的"
+    },
+    {
+      "word": "rally",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "集会；恢复；反弹"
+    },
+    {
+      "word": "random",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "随机的；任意的"
+    },
+    {
+      "word": "rebel",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "反叛；反抗"
+    },
+    {
+      "word": "recede",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "后退；逐渐减弱"
+    },
+    {
+      "word": "refrain",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "克制；避免"
+    },
+    {
+      "word": "refute",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "驳斥；反驳"
+    },
+    {
+      "word": "remedy",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "补救办法；纠正"
+    },
+    {
+      "word": "repel",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "击退；排斥"
+    },
+    {
+      "word": "resent",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "怨恨；不满"
+    },
+    {
+      "word": "reside",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "居住；存在于"
+    },
+    {
+      "word": "revive",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "复苏；复兴"
+    },
+    {
+      "word": "skeptical",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "怀疑的"
+    },
+    {
+      "word": "sober",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "清醒的；冷静的"
+    },
+    {
+      "word": "sole",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "唯一的；仅有的"
+    },
+    {
+      "word": "solitary",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "独居的；孤独的"
+    },
+    {
+      "word": "spectacle",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "景象；奇观； spectacle (pl.) 眼镜"
+    },
+    {
+      "word": "spectrum",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "光谱；范围；系列"
+    },
+    {
+      "word": "sphere",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "球体；领域"
+    },
+    {
+      "word": "spontaneous",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "自发的；自然的"
+    },
+    {
+      "word": "stagger",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "蹒跚；使震惊；错开"
+    },
+    {
+      "word": "stationary",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "静止的；不动的"
+    },
+    {
+      "word": "strain",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "拉紧；压力； strains 菌株"
+    },
+    {
+      "word": "stubborn",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "顽固的；执拗的"
+    },
+    {
+      "word": "subsidize",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "补贴；资助"
+    },
+    {
+      "word": "subtle",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "微妙的；细微的"
+    },
+    {
+      "word": "summon",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "召唤；传唤"
+    },
+    {
+      "word": "superficial",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "肤浅的；表面的"
+    },
+    {
+      "word": "supervise",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "监督；管理"
+    },
+    {
+      "word": "surge",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "激增；汹涌"
+    },
+    {
+      "word": "surpass",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "超过；胜过"
+    },
+    {
+      "word": "surrender",
+      "tier": "高频重点",
+      "pos": "v./n.",
+      "translation": "投降；交出；放弃"
+    },
+    {
+      "word": "susceptible",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "易受影响的；过敏的"
+    },
+    {
+      "word": "suspend",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "暂停；中止；悬挂"
+    },
+    {
+      "word": "synthesis",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "综合；合成"
+    },
+    {
+      "word": "tangible",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "有形的；切实的"
+    },
+    {
+      "word": "tempt",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "引诱；诱惑"
+    },
+    {
+      "word": "terrify",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使恐惧；使惊吓"
+    },
+    {
+      "word": "texture",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "质地；口感"
+    },
+    {
+      "word": "tolerate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "容忍；耐受"
+    },
+    {
+      "word": "trait",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "特征；特性"
+    },
+    {
+      "word": "triumphant",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "胜利的；得意洋洋的"
+    },
+    {
+      "word": "turbulent",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "动荡的；混乱的"
+    },
+    {
+      "word": "unanimous",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "全体一致的"
+    },
+    {
+      "word": "uphold",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "支持；维持（原判）"
+    },
+    {
+      "word": "vague",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "模糊的；不明确的"
+    },
+    {
+      "word": "verge",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "边缘"
+    },
+    {
+      "word": "versatile",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "多才多艺的；多用途的"
+    },
+    {
+      "word": "vibration",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "振动；颤动"
+    },
+    {
+      "word": "vice",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "恶习；副的； vice versa 反之亦然"
+    },
+    {
+      "word": "vigorous",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "有力的；精力充沛的"
+    },
+    {
+      "word": "weary",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "疲惫的 v."
+    },
+    {
+      "word": "wreck",
+      "tier": "高频重点",
+      "pos": "n./v.",
+      "translation": "失事；破坏；残骸"
+    },
+    {
+      "word": "appellate",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "上诉的"
+    },
+    {
+      "word": "arbitration",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "仲裁；公断"
+    },
+    {
+      "word": "bail",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "保释；保释金"
+    },
+    {
+      "word": "bailout",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "紧急救助； bailout 救援"
+    },
+    {
+      "word": "blacklist",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "黑名单；列入黑名单"
+    },
+    {
+      "word": "blockade",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "封锁"
+    },
+    {
+      "word": "bureaucrat",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "官僚；官僚主义者"
+    },
+    {
+      "word": "caregiver",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "照料者；护理人员"
+    },
+    {
+      "word": "censorship",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "审查制度"
+    },
+    {
+      "word": "citizenry",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "公民；全体公民"
+    },
+    {
+      "word": "crackdown",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "镇压；制裁"
+    },
+    {
+      "word": "curfew",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "宵禁"
+    },
+    {
+      "word": "defamation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "诽谤；中伤"
+    },
+    {
+      "word": "defendant",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "被告"
+    },
+    {
+      "word": "defector",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "叛逃者；背叛者"
+    },
+    {
+      "word": "delineate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "描述；勾画"
+    },
+    {
+      "word": "demography",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "人口统计学"
+    },
+    {
+      "word": "deterrent",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "威慑物 adj."
+    },
+    {
+      "word": "devolution",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "移交；下放；退化"
+    },
+    {
+      "word": "donor",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "捐赠者；供血者"
+    },
+    {
+      "word": "dossier",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "档案；卷宗"
+    },
+    {
+      "word": "duress",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "胁迫；监禁"
+    },
+    {
+      "word": "emissary",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "使者；特使"
+    },
+    {
+      "word": "entrapment",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "诱捕；圈套"
+    },
+    {
+      "word": "extradition",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "引渡"
+    },
+    {
+      "word": "forfeit",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "没收；丧失"
+    },
+    {
+      "word": "hegemony",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "霸权；领导权"
+    },
+    {
+      "word": "homeland",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "祖国；家乡"
+    },
+    {
+      "word": "impeachment",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "弹劾；控告"
+    },
+    {
+      "word": "indictment",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "起诉书；控告"
+    },
+    {
+      "word": "judiciary",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "司法部门；司法的"
+    },
+    {
+      "word": "juror",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "陪审员"
+    },
+    {
+      "word": "kickback",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "回扣；佣金"
+    },
+    {
+      "word": "legislator",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "立法者；议员"
+    },
+    {
+      "word": "litigation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "诉讼；起诉"
+    },
+    {
+      "word": "manslaughter",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "过失杀人"
+    },
+    {
+      "word": "mediator",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "调停者；中介"
+    },
+    {
+      "word": "ministry",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "（政府）部门；牧师"
+    },
+    {
+      "word": "misdemeanor",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "轻罪；品行不端"
+    },
+    {
+      "word": "ordinance",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "法令；条例"
+    },
+    {
+      "word": "parliament",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "议会；国会"
+    },
+    {
+      "word": "pardon",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "原谅；赦免"
+    },
+    {
+      "word": "parole",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "假释；有条件释放"
+    },
+    {
+      "word": "perpetrator",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "犯罪者；作恶者"
+    },
+    {
+      "word": "plaintiff",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "原告"
+    },
+    {
+      "word": "plea",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "恳求；答辩"
+    },
+    {
+      "word": "plebiscite",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "公民投票"
+    },
+    {
+      "word": "probation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "缓刑；试用期"
+    },
+    {
+      "word": "provisional",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "临时的；暂定的"
+    },
+    {
+      "word": "quota",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "配额；限额"
+    },
+    {
+      "word": "referendum",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "公民投票；请示书"
+    },
+    {
+      "word": "registrar",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "登记员；注册主任"
+    },
+    {
+      "word": "subpoena",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "传票；传唤"
+    },
+    {
+      "word": "suffrage",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "选举权；投票"
+    },
+    {
+      "word": "tycoon",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "大亨；巨头"
+    },
+    {
+      "word": "unconstitutional",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "违宪的"
+    },
+    {
+      "word": "uprising",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "起义；暴动"
+    },
+    {
+      "word": "verdict",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "裁决；判决"
+    },
+    {
+      "word": "vigilante",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "义警；治安维持会成员"
+    },
+    {
+      "word": "writ",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "书面命令；令状"
+    },
+    {
+      "word": "amortize",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "分期偿还"
+    },
+    {
+      "word": "brokerage",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "经纪业；佣金"
+    },
+    {
+      "word": "cartel",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "卡特尔；企业联合"
+    },
+    {
+      "word": "collateral",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "抵押品；附属的"
+    },
+    {
+      "word": "commercialize",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "使商业化"
+    },
+    {
+      "word": "consumerism",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "消费主义；用户至上主义"
+    },
+    {
+      "word": "contraction",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "收缩；缩略式"
+    },
+    {
+      "word": "corridor",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "走廊；通道"
+    },
+    {
+      "word": "cutoff",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "切断；截止"
+    },
+    {
+      "word": "debtor",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "债务人；借方"
+    },
+    {
+      "word": "deflate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "放气；紧缩通货"
+    },
+    {
+      "word": "devaluation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "货币贬值"
+    },
+    {
+      "word": "downturn",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "衰退；下降趋势"
+    },
+    {
+      "word": "dues",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "会费；税款"
+    },
+    {
+      "word": "foreclose",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "取消抵押品赎回权"
+    },
+    {
+      "word": "insolvent",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "破产的；无力偿还的"
+    },
+    {
+      "word": "invoice",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "发票；开发票"
+    },
+    {
+      "word": "lobbyist",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "说客；游说者"
+    },
+    {
+      "word": "macroeconomic",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "宏观经济的"
+    },
+    {
+      "word": "markup",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "涨价；markup 标记"
+    },
+    {
+      "word": "multiplier",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "乘数；乘法器"
+    },
+    {
+      "word": "overhead",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "日常开支；头顶上的"
+    },
+    {
+      "word": "payroll",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "工资单；受薪员工名单"
+    },
+    {
+      "word": "procurement",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "采购；获得"
+    },
+    {
+      "word": "rebate",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "退款；折扣"
+    },
+    {
+      "word": "remittance",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "汇款；汇款额"
+    },
+    {
+      "word": "rental",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "租赁；出租的"
+    },
+    {
+      "word": "restructuring",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "重组；调整"
+    },
+    {
+      "word": "undertaking",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "事业；企业；保证"
+    },
+    {
+      "word": "valuation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "估价；评价"
+    },
+    {
+      "word": "voucher",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "代金券；凭证"
+    },
+    {
+      "word": "windfall",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "意外之财；横财"
+    },
+    {
+      "word": "attentive",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "专注的；周到的"
+    },
+    {
+      "word": "cognition",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "认知；认识"
+    },
+    {
+      "word": "cohort",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "同龄群体；支持者"
+    },
+    {
+      "word": "comprehension",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "理解；理解力"
+    },
+    {
+      "word": "conscientious",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "认真负责的；尽责的"
+    },
+    {
+      "word": "contemplation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "沉思；意图"
+    },
+    {
+      "word": "delusion",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "错觉；妄想"
+    },
+    {
+      "word": "dissonance",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "不和谐；不一致"
+    },
+    {
+      "word": "empathy",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "同情；共感"
+    },
+    {
+      "word": "enthrall",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "迷住；使着迷"
+    },
+    {
+      "word": "esteem",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "尊重；敬重"
+    },
+    {
+      "word": "formative",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "形成的；发展的"
+    },
+    {
+      "word": "gifted",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "有天赋的； gifted 有才华的"
+    },
+    {
+      "word": "kinship",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "亲属关系；亲密关系"
+    },
+    {
+      "word": "mentorship",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "指导关系；师徒关系"
+    },
+    {
+      "word": "prerequisite",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "先决条件；必要的"
+    },
+    {
+      "word": "prowess",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "英勇；非凡技能"
+    },
+    {
+      "word": "reinforcement",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "加强；增援"
+    },
+    {
+      "word": "tutoring",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "辅导；家教"
+    },
+    {
+      "word": "upbringing",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "养育；教养"
+    },
+    {
+      "word": "virtuosity",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "精湛技艺；艺术鉴别力"
+    },
+    {
+      "word": "arid",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "干旱的；枯燥的"
+    },
+    {
+      "word": "biofuel",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "生物燃料"
+    },
+    {
+      "word": "biomass",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "生物质；生物量"
+    },
+    {
+      "word": "biosphere",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "生物圈"
+    },
+    {
+      "word": "contamination",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "污染；玷污"
+    },
+    {
+      "word": "cyclone",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "旋风；气旋"
+    },
+    {
+      "word": "degradation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "退化；降级；恶化"
+    },
+    {
+      "word": "depletion",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "耗尽；枯竭"
+    },
+    {
+      "word": "desertification",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "荒漠化；沙漠化"
+    },
+    {
+      "word": "effluent",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "污水；流出的"
+    },
+    {
+      "word": "geothermal",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "地热的；地温的"
+    },
+    {
+      "word": "methane",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "甲烷；沼气"
+    },
+    {
+      "word": "monsoon",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "季风；雨季"
+    },
+    {
+      "word": "particulate",
+      "tier": "高频重点",
+      "pos": "adj.",
+      "translation": "微粒的；微粒"
+    },
+    {
+      "word": "permafrost",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "永久冻土"
+    },
+    {
+      "word": "precipitation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "降水；沉淀"
+    },
+    {
+      "word": "purification",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "净化；提纯"
+    },
+    {
+      "word": "quench",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "解渴；扑灭；抑制"
+    },
+    {
+      "word": "radiation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "辐射；放射"
+    },
+    {
+      "word": "reclamation",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "开垦；收回；改造"
+    },
+    {
+      "word": "runoff",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "径流；决选投票"
+    },
+    {
+      "word": "sewage",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "污水；下水道"
+    },
+    {
+      "word": "stratosphere",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "平流层；最上层"
+    },
+    {
+      "word": "tsunami",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "海啸"
+    },
+    {
+      "word": "tundra",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "苔原；冻原"
+    },
+    {
+      "word": "typhoon",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "台风"
+    },
+    {
+      "word": "vapor",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "蒸汽；蒸发"
+    },
+    {
+      "word": "wastewater",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "废水；污水"
+    },
+    {
+      "word": "wetland",
+      "tier": "高频重点",
+      "pos": "n.",
+      "translation": "湿地；沼泽地"
+    },
+    {
+      "word": "preclude",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "排除；阻止"
+    },
+    {
+      "word": "prohibit",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "禁止；阻止"
+    },
+    {
+      "word": "substantiate",
+      "tier": "高频重点",
+      "pos": "v.",
+      "translation": "证实；使实体化"
+    }
+  ]
+}

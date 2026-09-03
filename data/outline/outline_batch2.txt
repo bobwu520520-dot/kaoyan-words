@@ -1,0 +1,366 @@
+idiot|n.|白痴；傻瓜
+idle|adj.|闲置的；懒散的 v.|空转
+ignorance|n.|无知；愚昧
+illiterate|adj.|文盲的 n.|文盲
+illuminate|v.|照亮；阐明
+imaginary|adj.|想象中的；虚构的
+imitation|n.|模仿；仿制品
+immense|adj.|巨大的；广大的
+immense|adj.|极大的
+immune|adj.|免疫的
+impact|n.|影响；冲击
+impair|v.|损害
+impartial|adj.|公正的
+impede|v.|妨碍；阻碍
+imperative|adj.|必要的
+implement|v.|实施 n.|工具
+implication|n.|含义
+implicit|adj.|含蓄的
+impose|v.|强加；征税
+imprison|v.|监禁；关押
+impulse|n.|冲动
+inadequate|adj.|不足的
+inaugurate|v.|使就职；开创
+incentive|n.|刺激；动机
+incidence|n.|发生率
+inclination|n.|倾向；意愿
+inclusive|adj.|包含的
+incorporate|v.|合并；纳入
+incur|v.|招致；承担
+independence|n.|独立；自主
+indicative|adj.|指示的；预示的
+indifferent|adj.|漠不关心的
+indignation|n.|愤慨
+induce|v.|引诱；导致
+indulge|v.|放纵；沉溺
+industrialize|v.|工业化
+inertia|n.|惯性；惰性
+inevitable|adj.|不可避免的
+infant|n.|婴儿 adj.|婴儿的
+inference|n.|推断；推论
+infinite|adj.|无限的；无穷的
+infrared|adj.|红外线的
+infrastructure|n.|基础设施
+initial|adj.|最初的 n.|首字母
+initiative|n.|主动性；倡议
+inject|v.|注射；注入
+inland|adj.|内陆的
+innovation|n.|创新；革新
+input|n.|输入；投入
+inquire|v.|询问；查究
+inscription|n.|铭文；题词
+instalment|n.|分期付款
+instantaneous|adj.|瞬间的
+instrument|n.|仪器；乐器
+instrumental|adj.|有帮助的；乐器的
+insulate|v.|使绝缘；隔离
+intake|n.|摄入量；吸入
+integrate|v.|使整合；使融合
+integrity|n.|正直；完整
+intellect|n.|智力；理解力
+intelligible|adj.|可理解的
+intend|v.|打算；想要
+intense|adj.|强烈的；紧张的
+intensify|v.|加强；加剧
+intent|n.|意图 adj.|专注的
+interact|v.|相互作用
+intercept|v.|拦截；截断
+intercourse|n.|交流；交际
+interference|n.|干涉；干扰
+interim|adj.|临时的 n.|间歇
+interior|adj./n.|内部的；内部
+intermediate|adj.|中间的
+intermittent|adj.|间歇的
+interrupt|v.|打断；中止
+intimidate|v.|恐吓；威胁
+intricate|adj.|复杂的
+intuition|n.|直觉
+invade|v.|侵入；侵扰
+invaluable|adj.|无价的
+invariably|adv.|不变地；总是
+irritate|v.|激怒；使不适
+isle|n.|小岛
+ivory|n.|象牙
+jaw|n.|颌；下巴
+jealous|adj.|嫉妒的；猜疑的
+jet|n.|喷气式飞机；喷射
+jewel|n.|宝石；珠宝
+jolly|adj.|愉快的；快活的
+judicial|adj.|司法的；法庭的
+jumbo|adj.|巨大的 n.|庞然大物
+junction|n.|联结点；交叉路口
+junk|n.|废旧物品 v.|丢弃
+kidney|n.|肾；肾脏
+knit|v.|编织；紧密结合
+knob|n.|球形把手；旋钮
+lace|n.|网眼织物；鞋带
+lame|adj.|跛的；无说服力的
+lantern|n.|灯笼；提灯
+lapse|n.|失误；流逝 v.|终止
+lavish|adj.|奢华的 v.|滥用
+lawsuit|n.|诉讼案件
+layman|n.|门外汉
+leaflet|n.|传单；宣传单
+leakage|n.|泄漏；渗漏
+lease|n.|租约 v.|出租
+legacy|n.|遗产；遗赠
+legislation|n.|立法；法律
+legitimate|adj.|合法的；正当的
+leisure|n.|闲暇；悠闲
+lens|n.|透镜；镜片
+leverage|n.|杠杆力量；影响力
+liable|adj.|易于……的；有义务的
+liberal|adj.|自由的；慷慨的
+lick|v.|舔
+lid|n.|盖子；眼睑
+lightning|n.|闪电
+likelihood|n.|可能性
+lime|n.|石灰；酸橙
+linear|adj.|线性的
+linen|n.|亚麻布
+liner|n.|邮轮；衬里
+literacy|n.|识字；读写能力
+literal|adj.|字面的；逐字的
+litter|n.|废弃物 v.|乱扔
+lobby|n.|大厅；游说团体
+locality|n.|地区；地点
+locomotive|n.|机车；火车头
+lofty|adj.|高耸的；崇高的
+longitude|n.|经度
+loom|v.|隐约出现 n.|织布机
+lottery|n.|彩票；碰运气的事
+lounge|n.|休息室 v.|懒洋洋地靠
+lubricate|v.|润滑；加油
+luminous|adj.|发光的；明亮的
+lunar|adj.|月的；阴历的
+lure|v.|引诱 n.|诱惑力
+magistrate|n.|地方法官；文职官员
+maiden|n.|少女 adj.|首次的
+majesty|n.|雄伟；威严；陛下
+malfunction|n.|故障 v.|失灵
+manuscript|n.|手稿；底稿
+marble|n.|大理石；弹珠
+marsh|n.|沼泽；湿地
+marshal|n.|元帅；警官 v.|排列
+masculine|adj.|男性的；阳刚的
+massacre|n.|大屠杀 v.|屠杀
+medieval|adj.|中世纪的
+meditation|n.|沉思；冥想
+melody|n.|旋律；悦耳的音乐
+memo|n.|备忘录
+memorial|adj.|纪念的 n.|纪念碑
+menace|n.|威胁 v.|威胁
+merchandise|n.|商品；货物
+mercury|n.|水银；汞
+mesh|n.|网状物 v.|啮合
+metaphor|n.|隐喻；暗喻
+methodology|n.|方法论；教学法
+metric|adj.|米制的 n.|度量标准
+midst|n.|中部；中间
+migrant|n.|移民；候鸟
+militant|adj.|好战的 n.|激进分子
+millionaire|n.|百万富翁
+miniature|adj.|微型的 n.|微型画
+minibus|n.|小型公共汽车
+minimal|adj.|最小的；最低的
+mint|n.|薄荷；造币厂
+mischief|n.|淘气；伤害
+misery|n.|痛苦；悲惨
+misfortune|n.|不幸；灾祸
+mislead|v.|使误入歧途
+missile|n.|导弹；飞弹
+missionary|n.|传教士
+mist|n.|薄雾 v.|使模糊
+moan|v.|呻吟；悲叹
+mob|n.|暴徒 v.|聚众袭击
+mock|v.|嘲笑 adj.|模拟的
+module|n.|模块；组件
+monarchy|n.|君主政体
+monastery|n.|修道院；寺院
+monetary|adj.|货币的；金钱的
+monopoly|n.|垄断；专卖
+monster|n.|怪物；恶魔
+morale|n.|士气；民心
+mortgage|n.|抵押借款 v.|抵押
+motel|n.|汽车旅馆
+mould|n.|模子；霉 v.|塑造
+mount|v.|登上；增加 n.|山峰
+mourn|v.|哀悼；忧伤
+muddy|adj.|泥泞的 v.|使沾泥
+muddle|n.|混乱 v.|使糊涂
+mumble|v.|喃喃而语
+municipal|adj.|市的；市政的
+murmur|v.|低声说 n.|低语声
+muscular|adj.|肌肉发达的
+mute|adj.|沉默的 n.|弱音器
+napkin|n.|餐巾；尿布
+narrate|v.|叙述；讲述
+nasty|adj.|污秽的；讨厌的
+naval|adj.|海军的
+navigation|n.|航行；航海术
+necessitate|v.|使成为必需
+necklace|n.|项链
+nickel|n.|镍；镍币
+nimble|adj.|敏捷的；机智的
+nominal|adj.|名义上的
+nominate|v.|提名；推荐
+nonetheless|adv.|然而；不过
+norm|n.|标准；规范
+notable|adj.|显著的 n.|名人
+notation|n.|符号；记号
+notorious|adj.|臭名昭著的
+novelty|n.|新颖；新奇事物
+numerical|adj.|数字的
+nurture|v.|养育；培育
+nutrient|n.|营养物
+oak|n.|橡树；橡木
+oath|n.|誓言；咒骂
+obedient|adj.|服从的；孝顺的
+objection|n.|反对；异议
+obligation|n.|义务；职责
+obscene|adj.|淫秽的；下流的
+obsession|n.|着迷；困扰
+obstruct|v.|阻塞；妨碍
+occupancy|n.|占有；占用
+occurrence|n.|发生；出现
+odds|n.|机会；可能性
+odor|n.|气味；名声
+offspring|n.|子孙；后代
+olive|n.|橄榄；橄榄树
+ominous|adj.|预兆的；不祥的
+omission|n.|省略；遗漏
+ongoing|adj.|进行中的
+onset|n.|攻击；开始
+opaque|adj.|不透明的
+operational|adj.|操作的；运转的
+oppress|v.|压迫；压抑
+optimism|n.|乐观主义
+optimum|adj.|最适宜的
+orchard|n.|果园
+orchestra|n.|管弦乐队
+originality|n.|创造性；独创性
+ornament|n.|装饰品 v.|装饰
+orphan|n.|孤儿
+outbreak|n.|爆发；发作
+outfit|n.| outfit 全套装备；团体
+outrage|n.|暴行；愤慨
+outset|n.|开始；开端
+outskirts|n.|郊区；边界
+outward|adj.|外面的 adv.|向外
+overflow|v.|溢出；充盈
+overhear|v.|偶然听到
+overpass|n.|天桥；立交桥
+override|v.|不顾；推翻
+overt|adj.|明显的；公然的
+overthrow|v.|推翻；打倒
+oxide|n.|氧化物
+ozone|n.|臭氧
+pact|n.|契约；协定
+pamphlet|n.|小册子
+panorama|n.|全景；全景画
+paradise|n.|乐园；天堂
+paradox|n.|悖论；反论
+parallel|adj.|平行的 n.|平行线
+paralyze|v.|使瘫痪；使麻痹
+parameter|n.|参数；参量
+parasite|n.|寄生虫；食客
+parlor|n.|客厅；营业室
+parrot|n.|鹦鹉 v.|盲目重复
+partisan|adj.|党派的 n.|党徒
+passionate|adj.|热情的；激昂的
+passive|adj.|被动的；顺从的
+pastime|n.|消遣；娱乐
+pastry|n.|糕点；面团
+pasture|n.|牧场；草场
+patent|n.|专利 adj.|明显的
+pathetic|adj.|可怜的；悲哀的
+patriotic|adj.|爱国的
+patrol|v.|巡逻 n.|巡逻队
+patron|n.|保护人；赞助人
+pave|v.|铺；筑
+peak|n.|山顶；最高点
+pearl|n.|珍珠；珍品
+pebble|n.|卵石；小圆石
+peg|n.|木钉；衣夹
+pending|adj.|未决的；待定的
+pendulum|n.|摆；钟摆
+peninsula|n.|半岛
+pension|n.|退休金；津贴
+perceive|v.|察觉；感知
+perfume|n.|香水；香味
+peril|n.|危险；冒险
+periodical|n.|期刊；杂志
+perish|v.|丧生；凋谢
+permanent|adj.|永久的；持久的
+permeate|v.|弥漫；渗透
+perpetual|adj.|永久的；四季开花的
+perplex|v.|使困惑；使复杂化
+persecute|v.|迫害；烦扰
+petty|adj.|小的；琐碎的
+pharmacy|n.|药房；制药业
+physiological|adj.|生理的；生理学的
+pier|n.|码头；支柱
+pilgrim|n.|朝圣者；漫游者
+pillar|n.|柱；支柱；栋梁
+pinch|v.|捏；掐 n.| pinch 一撮
+pistol|n.|手枪
+plateau|n.|高原；稳定水平
+plausible|adj.|似是而非的；可信的
+plead|v.|辩护；恳求
+pledge|n.|誓言 v.|发誓
+plight|n.|境况；困境
+pluck|v.|摘；拔 n.|勇气
+plumber|n.|管道工人
+plural|adj.|复数的 n.|复数
+poise|n.|平衡；姿态
+poke|v.|戳；插进
+polar|adj.|两极的；南极的
+pope|n.|罗马教皇
+porch|n.|门廊；走廊
+porridge|n.|粥；麦片粥
+portable|adj.|手提式的
+portfolio|n.|公事包；证券组合
+portray|v.|描绘；扮演
+posture|n.|姿势；心境
+potent|adj.|有力的；有效的
+pottery|n.|陶器；陶器制造
+poultry|n.|家禽
+practitioner|n.|开业者；实践者
+prairie|n.|大草原；牧场
+preach|v.|传教；劝诫
+precarious|adj.|不稳定的
+predicament|n.|困境；苦境
+predominant|adj.|主要的；占优势的
+preliminary|adj.|预备的 n.|预考
+premise|n.|前提；(pl.)房屋
+premium|n.|奖金；保险费
+prescribe|v.|开药方；规定
+preside|v.|主持；主管
+presumably|adv.|推测起来；大概
+pretext|n.|借口；托辞
+prevail|v.|胜过；盛行
+prey|n.|被捕食的动物 v.|捕食
+prick|v.|刺伤 n.|刺孔
+priest|n.|神父；教士
+profile|n.|侧面；轮廓；传略
+profound|adj.|深刻的；意义深远的
+prone|adj.|俯卧的；易于……的
+propaganda|n.|宣传；宣传机构
+propel|v.|推进；驱使
+prophet|n.|先知；预言者
+proposition|n.|提议；主张；命题
+prose|n.|散文；平淡无味
+prosecute|v.|对……提起公诉
+prospective|adj.|预期的；未来的
+prosper|v.|繁荣；昌盛
+proverb|n.|谚语；格言
+provision|n.|供应；(pl.)准备
+provocative|adj.|挑衅的；刺激的
+proximity|n.|接近；亲近
+publicity|n.|公开；宣传；广告
+pudding|n.|布丁；甜点心
+pulse|n.|脉搏；节拍
+pumpkin|n.|南瓜
+purify|v.|使纯净；提纯
+pursuit|n.|追赶；从事
+pyramid|n.|金字塔；锥体

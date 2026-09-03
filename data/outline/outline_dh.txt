@@ -1,0 +1,281 @@
+dart|v.|飞奔 n.|飞镖
+dash|v.|猛冲 n.|破折号；少量
+dazzle|v.|使眼花缭乱
+dean|n.|院长；教长
+debris|n.|碎片；残骸
+decent|adj.|体面的；正派的
+decisive|adj.|决定性的；果断的
+dedicate|v.|献身于；奉献
+deduce|v.|推断；演绎
+deem|v.|认为；视为
+default|n.|违约；默认 v.|不履行
+defect|n.|缺点；瑕疵 v.|叛变
+defiance|n.|违抗；挑衅
+deficiency|n.|缺乏；缺陷
+deficit|n.|赤字；亏损
+degenerate|v.|退化 adj.|堕落的
+degrade|v.|降级；使退化
+delegate|n.|代表 v.|委派
+deliberate|adj.|故意的 v.|深思
+delicate|adj.|精致的；微妙的
+democracy|n.|民主
+demonstrate|v.|证明；演示
+denote|v.|表示；标志
+denounce|v.|谴责；告发
+dentist|n.|牙医
+deport|v.|驱逐出境
+deprive|v.|剥夺
+descendant|n.|后代；后裔
+descend|v.|下降；遗传
+designate|v.|指定；命名
+despise|v.|轻视；鄙视
+destined|adj.|注定的
+destiny|n.|命运
+destructive|adj.|破坏性的
+detach|v.|分离；拆开
+detain|v.|拘留；留住
+deteriorate|v.|恶化
+deviate|v.|偏离；背离
+device|n.|设备；装置
+devise|v.|设计；想出
+devote|v.|奉献；致力于
+diagnose|v.|诊断
+differentiate|v.|区分；区别
+diffuse|v.|扩散 adj.|弥漫的
+dilemma|n.|困境；进退两难
+diligent|adj.|勤奋的
+dilute|v.|稀释；削弱
+diminish|v.|减少；缩小
+diploma|n.|文凭；证书
+diplomat|n.|外交官
+directory|n.|名录；目录
+discard|v.|丢弃；抛弃
+discern|v.|辨别；察觉
+disciple|n.|门徒；信徒
+discipline|n.|纪律；学科 v.|训练
+disclose|v.|披露；揭露
+discord|n.|不和；分歧
+discourse|n.|话语；论述
+discrepancy|n.|差异；不一致
+discrete|adj.|分离的；不连续的
+disdain|n./v.|蔑视
+disgrace|n.|耻辱 v.|使丢脸
+disguise|v./n.|伪装
+disillusion|v.|使幻灭
+dismay|n./v.|沮丧；惊愕
+dismiss|v.|解雇；解散；驳回
+disorder|n.|混乱；失调
+dispatch|v./n.|派遣；发送
+disperse|v.|分散；驱散
+displace|v.|取代；使流离失所
+disposition|n.|性情；安排
+disrupt|v.|扰乱；打断
+dissolve|v.|溶解；解散
+distill|v.|蒸馏；提炼
+distinct|adj.|明显的；独特的
+distinction|n.|区别；荣誉
+distinguish|v.|区分；辨别
+distort|v.|歪曲；扭曲
+distract|v.|分散注意力
+distress|n./v.|痛苦；使悲伤
+distribute|v.|分配；分发
+disturbance|n.|干扰；骚乱
+diverge|v.|分歧；分叉
+divert|v.|转移；使转向
+dividend|n.|股息；红利
+divine|adj.|神的；神圣的
+dizzy|adj.|头晕的
+dock|n.|码头 v.|对接
+doctrine|n.|主义；学说
+dolphin|n.|海豚
+domain|n.|领域；域名
+donate|v.|捐赠
+doom|n.|厄运 v.|注定
+dose|n.|剂量
+doubtless|adj.|无疑的
+drainage|n.|排水；排水系统
+drastic|adj.|激烈的；严厉的
+drawback|n.|缺点；不利条件
+dread|v./n.|恐惧
+drought|n.|干旱
+dual|adj.|双的；双重的
+dubious|adj.|可疑的；半信半疑的
+duplicate|v.|复制 n.|复制品
+dwell|v.|居住；详述
+eccentric|adj.|古怪的
+eclipse|n.|日食；黯然失色
+ecology|n.|生态学
+edible|adj.|可食用的
+elevate|v.|提升；举起
+elicit|v.|引出；诱出
+eligible|adj.|有资格的
+elite|n.|精英
+eloquent|adj.|雄辩的；有说服力的
+embark|v.|着手；上船
+embassy|n.|大使馆
+embed|v.|嵌入；植入
+embody|v.|体现；包含
+emigrate|v.|移居国外
+eminent|adj.|杰出的；著名的
+emission|n.|排放；排放物
+empirical|adj.|经验主义的；实证的
+enact|v.|颁布；制定法律
+encompass|v.|包含；围绕
+endeavor|n./v.|努力；尽力
+endow|v.|捐赠；赋予
+endurance|n.|忍耐力；持久力
+energetic|adj.|精力充沛的
+engagement|n.|订婚；约定；交战
+enhance|v.|提高；增强
+enlighten|v.|启发；启蒙
+enrich|v.|使丰富
+enroll|v.|注册；登记
+entail|v.|牵涉；必然伴有
+enthusiastic|adj.|热情的
+entitle|v.|使有权；命名
+entity|n.|实体
+entrepreneur|n.|企业家
+envision|v.|展望；想象
+epidemic|n.|流行病 adj.|流行性的
+epoch|n.|时代；纪元
+equator|n.|赤道
+equilibrium|n.|平衡；均衡
+equip|v.|装备；使有能力
+erosion|n.|侵蚀；腐蚀
+erroneous|adj.|错误的
+erupt|v.|爆发；喷发
+escalate|v.|升级；加剧
+escort|v./n.|护卫；陪同
+essence|n.|本质；精髓
+eternal|adj.|永恒的
+ethic|n.|伦理；道德规范
+ethnic|adj.|民族的；种族的
+evacuate|v.|疏散；撤离
+evaporate|v.|蒸发；消失
+evoke|v.|唤起
+exaggerate|v.|夸大；夸张
+excel|v.|擅长；胜过
+exceptional|adj.|例外的；杰出的
+excerpt|n.|摘录；节选
+exemplify|v.|例证；是……的典范
+exempt|v./adj.|免除；豁免
+exert|v.|施加；发挥
+exile|n./v.|流放；流亡
+exotic|adj.|异国情调的；奇异的
+expedition|n.|远征；探险
+expertise|n.|专业知识；专长
+explicit|adj.|明确的；清楚的
+exquisite|adj.|精美的
+extinguish|v.|熄灭；扑灭
+extract|v.|提取 n.|摘录
+extravagant|adj.|奢侈的；过度的
+eyebrow|n.|眉毛
+fable|n.|寓言
+fabricate|v.|捏造；制造
+facet|n.|方面；小平面
+facilitate|v.|促进；使便利
+faction|n.|派别；小集团
+famine|n.|饥荒
+fanatic|n.|狂热者
+fascinate|v.|使着迷
+fatigue|n.|疲劳
+feasible|adj.|可行的
+feast|n./v.|盛宴；尽情吃
+feat|n.|功绩；壮举
+federation|n.|联邦；联盟
+feeble|adj.|虚弱的；无力的
+fellowship|n.|团体；友谊；奖学金
+feminine|adj.|女性的；阴性的
+ferry|n.|渡船 v.|渡运
+fiber|n.|纤维
+fiction|n.|小说；虚构
+fidelity|n.|忠诚；保真度
+fierce|adj.|凶猛的；激烈的
+figure|n.|数字；人物；身材 v.|认为；计算
+fin|n.|鳍
+finite|adj.|有限的
+fireplace|n.|壁炉
+fiscal|adj.|财政的
+fixture|n.|固定装置；（体育）赛事
+flap|v./n.|拍打；飘动
+flare|v./n.|闪光；爆发
+flatter|v.|奉承；使高兴
+flaw|n.|缺陷；瑕疵
+flexible|adj.|灵活的；柔韧的
+fling|v.|投掷 n.|一时的放纵
+flip|v.|翻转；轻弹
+fluctuate|v.|波动；起伏
+flu|n.|流感
+flush|v./n.|冲洗；脸红
+foam|n.|泡沫 v.|起泡沫
+foil|v.|挫败 n.|箔；陪衬
+forbid|v.|禁止
+forecast|v./n.|预测；预报
+foremost|adj.|最重要的
+foresee|v.|预见；预知
+formidable|adj.|可怕的；强大的
+formulate|v.|制定；系统地阐述
+fossil|n.|化石
+foster|v.|培养；促进 adj.|收养的
+foul|adj.|肮脏的；犯规的 v.|弄脏
+foundation|n.|基础；基金会
+fraction|n.|分数；小部分
+fracture|n./v.|骨折；破裂
+fragile|adj.|易碎的；脆弱的
+fragrance|n.|香气
+framework|n.|框架；结构
+franchise|n.|特许经营权；加盟店
+fraud|n.|欺诈
+freight|n.|货物；货运
+friction|n.|摩擦；冲突
+fringe|n.|边缘；刘海
+frustrate|v.|使沮丧；挫败
+furious|adj.|狂怒的；激烈的
+furnish|v.|提供；配备家具
+fuse|n.|保险丝 v.|融合
+fuss|n./v.|大惊小怪
+gale|n.|大风
+gamble|v./n.|赌博；冒险
+garment|n.|衣服
+gasp|v./n.|喘气；倒吸一口气
+gauge|n.|计量器 v.|测量；估计
+gaze|v./n.|凝视
+gear|n.|齿轮；装备 v.|调整
+generalize|v.|概括；推广
+genetic|adj.|遗传的；基因的
+geology|n.|地质学
+gigantic|adj.|巨大的
+giggle|v./n.|咯咯笑
+glamour|n.|魅力；魔力
+glare|v./n.|怒视；强光
+gleam|v./n.|闪烁；微光
+glide|v./n.|滑行；滑翔
+glimpse|n./v.|一瞥；瞥见
+gloom|n.|阴暗；忧郁
+gloomy|adj.|阴暗的；令人沮丧的
+gorgeous|adj.|绚丽的；极好的
+gossip|n./v.|流言蜚语；说闲话
+gown|n.|长袍；礼服
+gracious|adj.|亲切的；仁慈的
+granite|n.|花岗岩
+graphic|adj.|图解的；生动的
+gravity|n.|重力；严重性
+graze|v.|吃草；擦过
+grease|n.|油脂 v.|涂油
+greenhouse|n.|温室
+grieve|v.|悲伤；哀悼
+grim|adj.|冷酷的；糟糕的
+grind|v.|磨；碾
+groan|v./n.|呻吟；叹息
+grocer|n.|食品杂货商
+grope|v.|摸索；探索
+grove|n.|小树林
+growl|v./n.|咆哮
+grudge|n.|怨恨 v.|怀恨
+grumble|v./n.|抱怨；嘟囔
+guardian|n.|监护人；守护者
+guerrilla|n.|游击队员
+guild|n.|行会；协会
+gulf|n.|海湾；鸿沟
+gut|n.|肠子；内心 adj.|本能的
+gymnasium|n.|健身房；体育馆

@@ -1,0 +1,141 @@
+{
+  "title": "考研英语（一）完形填空真题实战库",
+  "total_count": 2,
+  "passages": [
+    {
+      "id": "cloze-2022",
+      "year": 2022,
+      "theme": "认知心理与环境行为",
+      "title": "自然环境接触对心理压力恢复的积极效应",
+      "text": "Immersion in natural environments has long been recognized as a potent remedy for mental fatigue. Recent neurobiological experiments demonstrate that urban dwellers who regularly stroll in parks show significantly lower cortisol levels. (1)____, prolonged exposure to bustling city streets tends to deplete attentional reserves. Environmental psychologists attribute this disparity (2)____ the restorative power of natural stimuli. Natural landscapes offer 'soft fascination' that gently engages involuntary attention (3)____ demanding active cognitive exertion. Consequently, individuals emerge from wilderness walks with rejuvenated willpower and (4)____ emotional stability.",
+      "blanks": [
+        {
+          "blank_num": 1,
+          "options": [
+            {
+              "label": "A",
+              "text": "In contrast (经典转折对立 · 红花词)",
+              "correct": true
+            },
+            {
+              "label": "B",
+              "text": "In addition (顺承递进)",
+              "correct": false
+            },
+            {
+              "label": "C",
+              "text": "For instance (举例说明)",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "Therefore (因果总结)",
+              "correct": false
+            }
+          ],
+          "analysis": "空前一句为'公园散步降低皮质醇压力(+)'，空后一句为'繁华城市街道消耗注意力储备(-)'，前后正反鲜明对立，必选'In contrast'。"
+        },
+        {
+          "blank_num": 2,
+          "options": [
+            {
+              "label": "A",
+              "text": "to (attribute A to B 经典固定搭配)",
+              "correct": true
+            },
+            {
+              "label": "B",
+              "text": "with (介词错误)",
+              "correct": false
+            },
+            {
+              "label": "C",
+              "text": "from (介词错误)",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "for (介词错误)",
+              "correct": false
+            }
+          ],
+          "analysis": "固定动词短语 'attribute [结果] to [原因]' 表示'把...归因于...'，正确答案为 to。"
+        },
+        {
+          "blank_num": 3,
+          "options": [
+            {
+              "label": "A",
+              "text": "without (否定介词 · 无需消耗)",
+              "correct": true
+            },
+            {
+              "label": "B",
+              "text": "through (通过消耗)",
+              "correct": false
+            },
+            {
+              "label": "C",
+              "text": "besides (除...之外)",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "despite (尽管)",
+              "correct": false
+            }
+          ],
+          "analysis": "根据'soft fascination'（柔和吸引）的定义，自然刺激吸引不随意注意，而'无需(without)'主动消耗认知努力。"
+        },
+        {
+          "blank_num": 4,
+          "options": [
+            {
+              "label": "A",
+              "text": "enhanced (提高的、增强的)",
+              "correct": true
+            },
+            {
+              "label": "B",
+              "text": "diminished (削弱的)",
+              "correct": false
+            },
+            {
+              "label": "C",
+              "text": "compromised (受损的)",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "vulnerable (脆弱的)",
+              "correct": false
+            }
+          ],
+          "analysis": "与前面'rejuvenated willpower'（重焕活力的意志力）构成并列同向关系，故选正面积极词'enhanced'（增强的情绪稳定性）。"
+        }
+      ],
+      "key_vocab": [
+        {
+          "word": "deplete",
+          "pos": "v.",
+          "zh": "消耗、耗尽"
+        },
+        {
+          "word": "stimuli",
+          "pos": "n.",
+          "zh": "刺激、兴奋剂(stimulus复数)"
+        },
+        {
+          "word": "rejuvenate",
+          "pos": "v.",
+          "zh": "使年轻、使恢复生机活力"
+        },
+        {
+          "word": "involuntary",
+          "pos": "adj.",
+          "zh": "无意识的、不随意的"
+        }
+      ]
+    }
+  ]
+}

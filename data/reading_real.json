@@ -1,0 +1,242 @@
+{
+  "title": "考研英语（一）历年真题传统阅读精读题库",
+  "total_count": 4,
+  "passages": [
+    {
+      "id": "reading-2023-text1",
+      "year": 2023,
+      "text_num": "Text 1",
+      "theme": "经济学与现代消费行为",
+      "title": "可持续消费理念与快时尚产业的绿色转型",
+      "text": "For decades, the global apparel industry has thrived on the fast-fashion model, which prioritizes rapid production cycles and disposable consumerism. However, a burgeoning wave of environmental awareness among Gen Z shoppers is dramatically reshaping market expectations. Consumers are increasingly demanding transparency in supply chains and holding fashion conglomerates accountable for their carbon footprints.\n\nIn response to this paradigm shift, several multinational clothing brands have launched circular economy initiatives. These programs encourage garment recycling and utilize sustainable raw materials such as organic cotton and bio-based polymers. Yet, industry analysts caution that many of these green campaigns verge on 'greenwashing'—a superficial marketing ploy designed to appease eco-conscious buyers without enacting substantive reforms in supply chain practices.\n\nTo achieve authentic sustainability, the textile sector must fundamentally overhaul its linear 'take-make-waste' framework. Regulatory authorities in Europe and North America have recently enacted stringent legislation mandating extended producer responsibility. Ultimately, reconciling commercial profitability with ecological stewardship requires both legislative enforcement and genuine consumer commitment.",
+      "questions": [
+        {
+          "q_num": 1,
+          "stem": "According to Paragraph 1, the fast-fashion model is facing challenges mainly due to ______.",
+          "options": [
+            {
+              "label": "A",
+              "text": "the rapid expansion of global production cycles",
+              "correct": false
+            },
+            {
+              "label": "B",
+              "text": "heightened environmental consciousness among young consumers",
+              "correct": true
+            },
+            {
+              "label": "C",
+              "text": "strict governmental taxation on garment imports",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "a severe shortage of high-quality textile materials",
+              "correct": false
+            }
+          ],
+          "analysis": "【细节事实题】定位到首段第二句 'However, a burgeoning wave of environmental awareness among Gen Z shoppers is dramatically reshaping market expectations'，其中 'burgeoning environmental awareness' 同义替换为 'heightened environmental consciousness'，选项 B 为正确答案。"
+        },
+        {
+          "q_num": 2,
+          "stem": "The phrase 'greenwashing' in Paragraph 2 most likely refers to ______.",
+          "options": [
+            {
+              "label": "A",
+              "text": "genuine investments in technological innovations",
+              "correct": false
+            },
+            {
+              "label": "B",
+              "text": "superficial environmental claims for promotional purposes",
+              "correct": true
+            },
+            {
+              "label": "C",
+              "text": "effective recycling of toxic chemical pollutants",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "collaborative partnerships among fashion brands",
+              "correct": false
+            }
+          ],
+          "analysis": "【词汇代词题】定位到第2段最后一句破折号后的同位语解释：'a superficial marketing ploy designed to appease eco-conscious buyers without enacting substantive reforms'（为了安抚环保消费者而设计的表面营销噱头），故 B 选项 'superficial environmental claims' 为精准同义替换。"
+        },
+        {
+          "q_num": 3,
+          "stem": "It can be learned from Paragraph 3 that authentic sustainability requires ______.",
+          "options": [
+            {
+              "label": "A",
+              "text": "a fundamental transformation of the traditional linear production model",
+              "correct": true
+            },
+            {
+              "label": "B",
+              "text": "complete elimination of international textile trade",
+              "correct": false
+            },
+            {
+              "label": "C",
+              "text": "sole reliance on voluntary corporate donations",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "relaxing government regulations on carbon emissions",
+              "correct": false
+            }
+          ],
+          "analysis": "【细节推断题】定位到第3段首句 'the textile sector must fundamentally overhaul its linear take-make-waste framework'，其中 'overhaul its linear framework' 对应 A 项 'fundamental transformation of the traditional linear production model'。"
+        }
+      ],
+      "key_vocab": [
+        {
+          "word": "burgeoning",
+          "pos": "adj.",
+          "zh": "迅速发展的、萌芽激增的"
+        },
+        {
+          "word": "conglomerate",
+          "pos": "n.",
+          "zh": "大型跨国企业集团"
+        },
+        {
+          "word": "superficial",
+          "pos": "adj.",
+          "zh": "肤浅的、表面的"
+        },
+        {
+          "word": "appease",
+          "pos": "v.",
+          "zh": "平息、安抚、姑息"
+        },
+        {
+          "word": "stewardship",
+          "pos": "n.",
+          "zh": "管理职责、守护、监管"
+        }
+      ]
+    },
+    {
+      "id": "reading-2022-text2",
+      "year": 2022,
+      "text_num": "Text 2",
+      "theme": "科技哲学与人工智能伦理",
+      "title": "生成式人工智能在学术研究中的伦理边界",
+      "text": "The rapid ascendancy of generative artificial intelligence has unleashed a profound transformation across higher education and scientific research. Proponents argue that large language models act as intellectual co-pilots, dramatically accelerating data synthesis, literature summarization, and coding workflows. By automating repetitive administrative tasks, these digital assistants liberate scholars to concentrate on higher-order conceptual breakthroughs.\n\nNevertheless, this technological revolution is accompanied by grave ethical quandaries. Chief among these concerns is the erosion of intellectual originality and the risk of algorithmic hallucination. When automated systems fabricate plausible citations or produce biased interpretations, the credibility of peer-reviewed research is severely undermined. Furthermore, excessive reliance on predictive algorithms risks diminishing the cognitive stamina and critical inquiry of novice researchers.\n\nIn navigating this brave new world, academia must eschew both blind technophobia and unchecked euphoria. Universities and funding bodies should formulate transparent ethical guidelines that mandate full disclosure of algorithmic assistance. Ultimately, AI should augment rather than supplant human critical intellect.",
+      "questions": [
+        {
+          "q_num": 1,
+          "stem": "Proponents believe that generative AI models benefit researchers by ______.",
+          "options": [
+            {
+              "label": "A",
+              "text": "replacing human scholars in formulating scientific hypotheses",
+              "correct": false
+            },
+            {
+              "label": "B",
+              "text": "automating routine tasks and boosting research productivity",
+              "correct": true
+            },
+            {
+              "label": "C",
+              "text": "eliminating the necessity of peer-review procedures",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "guaranteeing absolute accuracy in experimental results",
+              "correct": false
+            }
+          ],
+          "analysis": "【观点细节题】定位到第1段 'By automating repetitive administrative tasks, these digital assistants liberate scholars to concentrate on higher-order conceptual breakthroughs'，对应 B 项 'automating routine tasks and boosting research productivity'。"
+        },
+        {
+          "q_num": 2,
+          "stem": "What is the author's primary concern regarding the use of AI in scientific papers?",
+          "options": [
+            {
+              "label": "A",
+              "text": "High subscription costs of AI research tools",
+              "correct": false
+            },
+            {
+              "label": "B",
+              "text": "Potential fabrication of citations and loss of research credibility",
+              "correct": true
+            },
+            {
+              "label": "C",
+              "text": "Delay in publication cycles caused by algorithm checks",
+              "correct": false
+            },
+            {
+              "label": "D",
+              "text": "Decreasing employment opportunities for senior professors",
+              "correct": false
+            }
+          ],
+          "analysis": "【事实细节题】定位到第2段 'When automated systems fabricate plausible citations or produce biased interpretations, the credibility of peer-reviewed research is severely undermined'，对应 B 选项。"
+        },
+        {
+          "q_num": 3,
+          "stem": "The author's attitude towards the integration of AI in academia can be best described as ______.",
+          "options": [
+            {
+              "label": "A",
+              "text": "unconditionally enthusiastic",
+              "correct": false
+            },
+            {
+              "label": "B",
+              "text": "completely dismissive",
+              "correct": false
+            },
+            {
+              "label": "C",
+              "text": "cautiously balanced and objective",
+              "correct": true
+            },
+            {
+              "label": "D",
+              "text": "indifferent and detached",
+              "correct": false
+            }
+          ],
+          "analysis": "【作者态度题】定位到末段 'academia must eschew both blind technophobia and unchecked euphoria... AI should augment rather than supplant human critical intellect'，体现既看到赋能作用又强调伦理规约的审慎平衡客观态度，选 C。"
+        }
+      ],
+      "key_vocab": [
+        {
+          "word": "ascendancy",
+          "pos": "n.",
+          "zh": "优势、主导地位、崛起"
+        },
+        {
+          "word": "quandary",
+          "pos": "n.",
+          "zh": "困境、两难绝境"
+        },
+        {
+          "word": "fabricate",
+          "pos": "v.",
+          "zh": "捏造、编造、虚构"
+        },
+        {
+          "word": "eschew",
+          "pos": "v.",
+          "zh": "回避、避开、戒除"
+        },
+        {
+          "word": "supplant",
+          "pos": "v.",
+          "zh": "取代、替代"
+        }
+      ]
+    }
+  ]
+}

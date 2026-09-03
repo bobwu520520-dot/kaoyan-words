@@ -1,0 +1,331 @@
+abbreviate|v.|缩写；缩略
+abide|v.|遵守；忍受；居住
+abolish|v.|废除；取消
+abound|v.|富于；充满
+abrupt|adj.|突然的；生硬的
+absurd|adj.|荒谬的；荒唐的
+abundance|n.|丰富；充裕
+accessory|n.|附件；配饰；同谋
+accordance|n.|一致；符合
+acknowledge|v.|承认；答谢；告知收到
+acquaint|v.|使熟悉；使认识
+acquaintance|n.|熟人；相识
+acquisition|n.|获得；收购；习得
+activate|v.|激活；使活动
+addict|n.|上瘾者 v.|使上瘾
+adhere|v.|粘附；坚持；遵循
+adjacent|adj.|邻近的；毗连的
+adjoin|v.|毗邻；邻接
+administer|v.|管理；执行；给药
+adolescent|n.|青少年 adj.|青春期的
+advocate|v.|提倡；拥护 n.|提倡者
+aerial|adj.|空中的 n.|天线
+aesthetic|adj.|审美的；美学的
+affiliate|v.|使隶属于 n.|分支机构
+affirm|v.|断言；肯定
+afflict|v.|使苦恼；折磨
+aggravate|v.|加重；使恶化
+agitate|v.|搅动；煽动；使焦虑
+agony|n.|极度痛苦
+agreeable|adj.|令人愉快的；宜人的
+alert|adj.|警觉的 v.|警告 n.|警报
+align|v.|对齐；使一致
+allege|v.|断言；指控
+alleviate|v.|减轻；缓解
+allocate|v.|分配；拨给
+alloy|n.|合金
+alternate|v./adj.|交替的；使交替
+amateur|n.|业余爱好者 adj.|业余的
+ambassador|n.|大使
+ambiguous|adj.|模糊不清的；模棱两可的
+ample|adj.|充足的；宽敞的
+analogy|n.|类比；类推
+ancestor|n.|祖先；先驱
+anecdote|n.|轶事；趣闻
+anonymous|adj.|匿名的
+anticipate|v.|预期；预料
+apology|n.|道歉
+applaud|v.|鼓掌；称赞
+appraisal|n.|评价；估价
+appreciable|adj.|可观的；可察觉的
+apprehend|v.|理解；逮捕
+apt|adj.|恰当的；易于……的
+arbitrary|adj.|任意的；武断的
+arch|n.|拱门 v.|成拱形
+architect|n.|建筑师
+aristocrat|n.|贵族
+arithmetic|n.|算术
+armor|n.|盔甲；装甲
+array|n.|排列；大量 v.|排列
+arrogant|adj.|傲慢的
+artery|n.|动脉；干线
+articulate|adj.|发音清晰的 v.|清晰表达
+artillery|n.|火炮；炮兵
+ascend|v.|上升；攀登
+ascertain|v.|查明；确定
+ashamed|adj.|羞愧的
+aspiration|n.|渴望；抱负
+assassinate|v.|暗杀
+assault|n./v.|攻击；袭击
+assemble|v.|集合；装配
+assert|v.|断言；主张
+assess|v.|评估；评定
+asset|n.|资产；有利条件
+assimilate|v.|吸收；同化
+assumption|n.|假设；假定
+assurance|n.|保证；确信
+astronomy|n.|天文学
+asylum|n.|庇护所；避难
+athlete|n.|运动员
+atom|n.|原子
+attorney|n.|律师
+auction|n./v.|拍卖
+audit|v./n.|审计；查账
+auditorium|n.|礼堂
+authentic|adj.|真正的；可信的
+authorize|v.|授权；批准
+automation|n.|自动化
+autonomous|adj.|自治的；自主的
+avail|v.|有用 n.|效用
+avert|v.|避免；转移
+aviation|n.|航空
+axis|n.|轴；轴线
+bachelor|n.|单身汉；学士
+badge|n.|徽章；象征
+baffle|v.|使困惑
+bald|adj.|秃头的；单调的
+ballet|n.|芭蕾舞
+ballot|n.|选票；投票
+bandage|n.|绷带
+bankrupt|adj.|破产的
+banquet|n.|宴会
+barren|adj.|贫瘠的；不孕的
+basement|n.|地下室
+batch|n.|一批
+beam|n.|梁；光束 v.|微笑；发射
+beforehand|adv.|预先
+belly|n.|腹部
+betray|v.|背叛；泄露
+bewilder|v.|使迷惑
+bias|n./v.|偏见
+bibliography|n.|参考书目
+bid|v./n.|出价；投标
+bishop|n.|主教
+bizarre|adj.|奇怪的；异乎寻常的
+blaze|n./v.|火焰；燃烧
+bleak|adj.|荒凉的；黯淡的
+bless|v.|祝福
+blunder|n.|大错 v.|犯大错
+blunt|adj.|钝的；直率的
+blur|v.|使模糊 n.|模糊
+blush|v./n.|脸红
+boast|v./n.|自夸；以……自豪
+bold|adj.|大胆的；粗体的
+bolt|n.|螺栓；闪电 v.|闩住
+bonus|n.|奖金；红利
+booklet|n.|小册子
+booth|n.|摊位；亭子
+bore|v.|使厌烦 n.|孔
+botany|n.|植物学
+bounce|v./n.|弹跳
+boycott|v./n.|抵制
+brace|v.|支撑 n.|支架
+bracket|n.|括号；等级 v.|归为一类
+breach|n./v.|违反；破裂
+breakdown|n.|故障；分解；崩溃
+brink|n.|边缘
+brisk|adj.|轻快的；兴隆的
+brittle|adj.|易碎的；脆弱的
+brochure|n.|小册子
+bronze|n.|青铜
+brood|v.|沉思；孵蛋 n.|一窝
+browse|v.|浏览；吃草
+bruise|n./v.|瘀伤；碰伤
+brutal|adj.|残忍的
+bubble|n.|气泡 v.|冒泡
+buckle|v./n.|扣住；皮带扣
+bud|n.|芽 v.|发芽
+budget|n.|预算
+buffer|n.|缓冲器
+bug|n.|虫子；故障 v.|窃听
+bull|n.|公牛
+bulletin|n.|公报；公告
+bully|v./n.|欺负；恶霸
+bunch|n.|一束；一群
+bundle|n.|捆；包裹
+burden|n.|负担 v.|使负重
+bureau|n.|局；办事处
+bureaucracy|n.|官僚主义；官僚机构
+burglar|n.|窃贼
+burst|v./n.|爆发；爆裂
+buzz|v./n.|嗡嗡声；议论
+bypass|v./n.|绕过；旁路
+cabbage|n.|卷心菜
+cabin|n.|小屋；机舱
+cabinet|n.|内阁；橱柜
+cafe|n.|咖啡馆
+calcium|n.|钙
+caliber|n.|口径；才能
+camouflage|v./n.|伪装
+campaign|n.|运动；战役
+campus|n.|校园
+cancer|n.|癌
+candidate|n.|候选人
+cannon|n.|大炮
+canvas|n.|帆布；画布
+canyon|n.|峡谷
+capitalism|n.|资本主义
+capsule|n.|胶囊；太空舱
+captive|n.|俘虏 adj.|被俘的
+cardinal|adj.|主要的 n.|红衣主教
+cargo|n.|货物
+cartoon|n.|卡通；漫画
+carve|v.|雕刻；切开
+cashier|n.|出纳员
+casualty|n.|伤亡人员
+catastrophe|n.|大灾难
+cater|v.|迎合；提供饮食
+cathedral|n.|大教堂
+catholic|adj.|天主教的；普遍的
+caution|n./v.|谨慎；警告
+cavity|n.|洞；腔
+cement|n.|水泥 v.|巩固
+cemetery|n.|墓地
+census|n.|人口普查
+ceramic|adj.|陶瓷的 n.|陶瓷
+certify|v.|证明；颁发证书
+chaos|n.|混乱
+characterize|v.|描绘特征；以……为特征
+charity|n.|慈善；施舍
+charm|n.|魅力 v.|使着迷
+charter|n.|宪章 v.|特许
+cherish|v.|珍惜；怀有
+chip|n.|芯片；碎片
+cholesterol|n.|胆固醇
+chord|n.|和弦；弦
+chorus|n.|合唱队；合唱
+chronic|adj.|慢性的；长期的
+circulate|v.|流通；传播
+circumstance|n.|情况；环境
+circus|n.|马戏团
+cite|v.|引用；举例
+civilian|n.|平民 adj.|平民的
+civilization|n.|文明
+clarify|v.|澄清；阐明
+clarity|n.|清晰；明确
+clash|v./n.|冲突；撞击
+clasp|n./v.|扣子；紧握
+classification|n.|分类
+clench|v.|握紧；咬紧
+clergy|n.|神职人员
+cliche|n.|陈词滥调
+cling|v.|紧抓；坚持
+clinical|adj.|临床的
+clone|v./n.|克隆
+closet|n.|壁橱
+clue|n.|线索
+cluster|n.|簇；群 v.|聚集
+clutch|v./n.|抓住；离合器
+cocktail|n.|鸡尾酒
+cognitive|adj.|认知的
+coherent|adj.|连贯的；一致的
+coincide|v.|巧合；一致
+collaborate|v.|合作；勾结
+collide|v.|碰撞；冲突
+colonial|adj.|殖民的
+comet|n.|彗星
+comic|adj.|喜剧的 n.|连环画
+commence|v.|开始
+commemorate|v.|纪念
+commend|v.|称赞；推荐
+commentary|n.|评论；解说
+commodity|n.|商品
+commonplace|adj.|平凡的 n.|平常事
+commute|v./n.|通勤
+compact|adj.|紧凑的 n.|协议
+compartment|n.|隔间
+compass|n.|指南针；罗盘
+compassion|n.|同情；怜悯
+compatible|adj.|兼容的；相容的
+compensate|v.|补偿；弥补
+competence|n.|能力；胜任
+compile|v.|编译；汇编
+complement|v./n.|补充；补足
+complexion|n.|肤色；局面
+complication|n.|并发症；复杂化
+compliment|n./v.|称赞
+comply|v.|遵从；服从
+compress|v.|压缩
+compulsory|adj.|强制的；义务的
+conceal|v.|隐藏；隐瞒
+concede|v.|承认；让步
+conceive|v.|构想；怀孕
+condemn|v.|谴责；判刑
+condense|v.|浓缩；压缩
+condolence|n.|吊唁
+confer|v.|商讨；授予
+confidential|adj.|机密的
+conform|v.|符合；遵照
+confront|v.|面对；对抗
+confusion|n.|混乱；困惑
+congress|n.|国会；代表大会
+conjunction|n.|结合；连词
+conquer|v.|征服；战胜
+conscience|n.|良心
+consecutive|adj.|连续的
+consensus|n.|共识
+conserve|v.|保存；节约
+console|v.|安慰 n.|控制台
+consolidate|v.|巩固；合并
+conspicuous|adj.|显眼的
+conspiracy|n.|阴谋；密谋
+constituent|n.|成分；选民 adj.|构成的
+constrain|v.|限制；约束
+contemplate|v.|沉思；考虑
+contempt|n.|轻蔑
+contend|v.|竞争；主张
+contradict|v.|反驳；矛盾
+contrast|n./v.|对比；对照
+converge|v.|汇聚；趋同
+cordial|adj.|热诚的
+corporate|adj.|公司的；团体的
+corps|n.|军团；团队
+corpse|n.|尸体
+correlate|v.|相关联
+correspond|v.|符合；通信
+corrode|v.|腐蚀
+corrupt|adj.|腐败的 v.|腐蚀
+cosmic|adj.|宇宙的
+costume|n.|服装；戏服
+cosy|adj.|温暖舒适的
+couch|n.|沙发 v.|表达
+counsel|v./n.|劝告；法律顾问
+counterpart|n.|对应的人（物）
+coupon|n.|优惠券
+courteous|adj.|有礼貌的
+coverage|n.|覆盖范围；新闻报道
+coward|n.|懦夫
+cradle|n.|摇篮；发源地
+creation|n.|创造；作品
+credible|adj.|可信的
+cripple|n.|瘸子 v.|使瘫痪
+criterion|n.|标准；准则
+crucial|adj.|决定性的
+crude|adj.|天然的；粗糙的
+cruelty|n.|残忍
+cruise|v./n.|巡航；航游
+crumble|v.|崩溃；碎裂
+crush|v./n.|压碎；迷恋
+crutch|n.|拐杖
+cubic|adj.|立方的
+cucumber|n.|黄瓜
+cue|n.|暗示；提示
+culminate|v.|达到顶点；告终
+culprit|n.|罪犯；肇事者
+cultivate|v.|培养；耕作
+cumulative|adj.|累积的
+cupboard|n.|橱柜
+curb|v./n.|控制；路缘
+curriculum|n.|课程
+curse|n./v.|诅咒
+cynical|adj.|愤世嫉俗的

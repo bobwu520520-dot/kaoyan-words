@@ -1,17 +1,13 @@
-# 考研词汇 · 英语一分层词库（6013 词）
+# 考研词汇通 · 英语一旗舰分层词库（v9.50 · 5,619 词）
 
-纯静态网站：分层词库 + 间隔重复背诵 + 查词 + AI 例句（内置 DeepSeek Key，开箱即用）。无需构建，无需后端。
+纯静态 / 原生 Android 离线应用：5,619 大纲分层词库 + 艾宾浩斯间隔复习 + 查词 + 记忆统计 + 100% 考研学术例句 + 105 篇翻译长难句 + 六大真题工坊。无需任何 API Key，离线可用，AI 学术例句全词覆盖。
 
-## 访问说明
-
-网站为私享版，访问需输入密码（向分享者获取，输入一次后本机浏览器记住，无需重复输入）。AI 服务已内置（Worker 代理 + 自动回退），开箱即用。
-
-## 两种使用方式
+## 使用方式
 
 | 方式 | 说明 |
 |---|---|
-| **桌面版 App**（推荐） | Windows 64 位，解压双击 `考研词汇.exe` 即用，零依赖、离线可用、数据自动保存 |
-| **网页版** | 部署到服务器或本地 HTTP 使用，支持 PWA 添加到主屏幕、离线缓存 |
+| **📱 Android 原生 APK**（推荐） | 安装 `考研词汇通_金毛背单词_v9.50.apk`，100% 离线运行，零网络依赖，数据本地持久保存 |
+| **🌐 网页版 / PWA** | 部署到静态托管或本地 HTTP 使用，支持 PWA 离线缓存 |
 
 ## 如何运行（网页版）
 
@@ -21,53 +17,52 @@ Chrome / Firefox 会拦截 `file://` 协议下对本地 JSON 的请求，直接�
 任选一种方式：
 
 ```bash
-# 方式一：Python 自带服务器（在解压目录下运行）
-python -m http.server 8000
+# 方式一（推荐）：自带 no-cache 服务器，词库更新后刷新即见最新内容（在本目录下运行）
+python scripts/dev_server.py 8000
 # 浏览器访问 http://localhost:8000
 
-# 方式二：VS Code 安装 Live Server 插件，右键 index.html → Open with Live Server
+# 方式二：Python 自带服务器
+python -m http.server 8000
 
-# 方式三：Node.js
-npx serve .
+# 方式三：VS Code 安装 Live Server 插件，右键 index.html → Open with Live Server
 ```
 
-推荐方式一，无需安装任何额外依赖。
-
-## 三个页面
+## 核心页面与功能
 
 | 页面 | 说明 |
 |---|---|
-| `study.html` | 背单词：分层（核心高频 → 高频重点 → 重点扩展 → 普通扩展），3 键评分（陌生 30 分钟 / 模糊 1 天 / 认识 3 天，连续掌握自动升级 7/15/30/60 天），评分后自动显示释义例句；手机端墨墨风底部 Tab（背单词 / 考研词汇 / 词书 / 菜单），菜单含设置（背景切换 / 夜间模式 / 字号 / 发音 / 例句显示 / 每日目标）；进度保存在浏览器 localStorage，可导出/导入；页内可直接配置 AI |
-| `index.html` | 查词：本地词库优先，缺释义/例句时回退 Free Dictionary API（Wiktionary，CC-BY-SA），支持 AI 造句 |
-| `words.html` | 词库目录：字母索引、分层筛选、**数据完整度组合筛选**（有音标/词性/核心义/僻义/搭配/例句/词族/词形）、搜索，可多选 2-8 个词让 AI 生成一个包含全部目标词的考研英语句子 |
+| `study.html` | 背单词：分层（核心高频 → 高频重点 → 重点扩展），艾宾浩斯间隔复习，进度本地保存；手势滑动翻卡；例句区展示真题学术例句 |
+| `exam.html` | 题型工坊：阅读理解六大题型破题逻辑、翻译拆译法、完形填空红花绿叶词、新题型线索链、大小作文高分框架 |
+| `words.html` | 考研词库：5,619 词 A-Z 索引、四大词性（动词/名词/形容词/副词）筛选、星级考频、导出词单、真题例句抽屉展开 |
+| `memory.html` | 个人中心与设置：金毛伴学学员档案、考研初试倒计时、8 维学习与发音偏好、艾宾浩斯遗忘曲线、学习档案 Markdown 导出 |
 
-## 词库分层（6013 词）
+## 词库分层（5,619 词全收录）
 
 | 层级 | 数量 | 说明 |
 |---|---|---|
-| 核心高频 | 1000 | 真题高优先级，必须熟练 |
-| 高频重点 | 1567 | 阅读、完形、翻译重点（含 108 个补录基础高频词） |
-| 重点扩展 | 2641 | 学术、社会、科技等主题词，全部含本地释义 |
-| 普通扩展 | 805 | 低频与补全词，全部含本地释义，后期查漏补缺 |
+| 核心高频 | 993 | 真题高优先级，必须熟练，全部含考研核心义 |
+| 高频重点 | 1,651 | 阅读、完形、翻译重点，全部含考研核心义 |
+| 重点扩展 | 2,975 | 学术、社会、科技等大纲词汇，全部含本地释义 |
 
-**6013 词全部含本地中文释义**。每个词条包含：音标、词性、中文释义、**考研核心义（exam_meaning）**、**熟词僻义（secondary_meanings）**、例句、**高频搭配（collocation_hint）**、**词族/词形/同反义词/易混词（精选词）**、**数据完整度等级（quality_score）**等字段（完整字段规范见 DATA_QUALITY.md）。考研核心义与熟词僻义均为人工精选、词典可查实的义项；无法可靠判断的词不填，绝不伪造。查词详情页显示数据完整度徽章（如 `████████░░ 80% · B级`，与考频无关）。
+**5,619 个大纲词全部含本地中文释义与真题学术例句**。
 
-## AI 功能（可选）
+## 学术例句（5,619 词 100% 覆盖）
 
-单词 AI 造句、AI 长难句 + 搭配、AI 多词造句需要 DeepSeek API Key：
+全部 5,619 词均配有考研学术语境例句（英文 + 中文翻译），随离线 bundle 内置发布：
 
-1. 打开 `index.html`，点击右上角「AI 设置」；
-2. 填入 API 地址（默认 `https://api.deepseek.com/v1`）、模型（默认 `deepseek-chat`）和 API Key；
-3. 设置保存在浏览器本地（localStorage），AI 结果本地缓存，减少重复调用。
+- 查词页、背单词页、词库目录均直接读取内置数据，**100% 离线可用、无需联网**；
+- 例句为教学示范（AI 生成后经脚本校验目标词出现），仅供学习参考；
+- 重新生成/补齐例句：将分块文件放入 `data/ai_examples/ai_chunk_*.json` 后运行 `python scripts/merge_ai_examples.py`，脚本会校验覆盖率并输出缺失清单（`data/ai_examples/missing.json`）。
 
-**安全提示**：Key 保存在浏览器中，仅供个人使用；不要将网站公开发布（别人可查看并盗用该 Key）。如需公开发布，建议通过 Cloudflare Worker 代理转发请求（见 `worker.js` 与下方「部署 AI 代理」）。
+## v9 更新亮点
 
-### 部署 AI 代理（推荐公开部署时使用）
-
-1. 在 [Cloudflare Dashboard](https://dash.cloudflare.com) → Workers & Pages → Create → 粘贴 `worker.js` 内容；
-2. 在 Worker 设置中添加变量 `DEEPSEEK_API_KEY`（值为你的 DeepSeek Key）；
-3. 前端「AI 设置」→ API 地址填 `https://你的worker名.workers.dev/v1`（或自定义域），**API Key 留空**；
-4. 密钥只存在服务端，前端不再暴露 Key。
+- **内置 AI 例句**：全部词条配考研语境 AI 例句（英 + 中），`data/ai_examples.json` 随包发布，离线可用
+- **查词页**：首页「今日一词」（按日期轮换核心高频词）；词条卡超大词头 + 考研核心义优先 + AI 例句紧跟；一键复制单词笔记；词库外单词在线词典兜底
+- **背单词页**：评分前必须先显示释义（防盲评）；四色评分按钮；卡片带朗读按钮；顶部今日进度条；深色模式全适配
+- **显示**：全站字号四档可调（小/标准/大/特大）；深浅色主题；手机/桌面全适配
+- **词库目录**：多选 2-8 词对照查看内置例句；数据完整度组合筛选
+- **移动端**：三页统一底部导航，评分按钮不折行
+- **词库清洗**：剔除基础词与低频扩展词（备份可恢复），补充 200+ 考研高频缺失词
 
 ## 学习功能
 
@@ -90,52 +85,57 @@ npx serve .
 
 ## 目录结构
 
+根目录只保留运行必需文件（打开即用）；构建与维护脚本全部在 `scripts/`。
+
 ```
 ├── index.html          # 查词页
 ├── study.html          # 背单词页
+├── memory.html         # 记忆板块（遗忘曲线 + 记忆统计）
 ├── words.html          # 词库目录页
 ├── manifest.webmanifest # PWA 清单（添加到主屏幕）
 ├── sw.js               # Service Worker（离线缓存）
-├── worker.js           # Cloudflare Worker 代理（AI Key 服务端化，可选部署）
-├── icon-192.png        # PWA 图标
-├── icon-512.png        # PWA 图标
-├── css/style.css
+├── icon-192.png / icon-512.png  # PWA 图标
+├── DATA_QUALITY.md     # 数据质量说明
+├── css/style.css       # 全站样式（主题变量，深浅色共用）
 ├── js/
-│   ├── app.js          # 查词页 + AI 配置 + 多词造句
+│   ├── memory.js       # 记忆板块逻辑（遗忘曲线 SVG + 统计）
+│   ├── app.js          # 查词页（今日一词 + 词条卡 + 联想 + 主题）
 │   ├── study.js        # 背单词逻辑
-│   ├── catalog.js      # 词库目录逻辑
+│   ├── catalog.js      # 词库目录逻辑（含多词例句对照）
 │   └── pwa.js          # Service Worker 注册
 ├── data/
-│   ├── words.json      # 6013 词主词库（页面运行时唯一使用的数据）
+│   ├── words.json      # 词库（v9 精选 3538 词，页面运行时唯一使用的词库数据）
+│   ├── words.backup-4003.json # 清洗前完整备份（4003 词，可随时恢复）
+│   ├── ai_examples.json# 内置 AI 例句（{word:[英文,中文]}，离线可用）
 │   ├── bank2000.json   # 构建输入：ECDICT 筛选的 2000 词
 │   └── manual.json     # 构建输入：220 条人工核验词条
-├── build_words.py      # 构建脚本：合并各数据源生成 words.json
-├── build_bank.py       # 构建脚本：从 ecdict.csv 筛选 bank2000.json
-├── merge_words.py      # 构建脚本（旧版 2000 词，供参考）
-├── fetch_api.py        # 构建脚本：限速预取 Free Dictionary API
-├── fetch_examples.py   # 例句批量抓取（Free Dictionary API，断点续跑）
-├── clean_data.py       # 数据清洗：例句过滤、音标/释义修正、紧凑输出
-├── junk_words.py       # 数据清洗：已删除垃圾词清单（人名/地名/公司名等，人工核验）
-├── enrich_exam.py      # 数据增强：考研核心义 + 熟词僻义精选数据
-├── enrich_ext.py       # 数据增强：重点扩展中文释义 + 补录基础高频词
-├── ext_trans2.py       # 数据增强：重点扩展 624 词中文释义
-├── ext_trans3.py       # 数据增强：普通扩展 633 词中文释义
-├── test_study.js       # 背单词逻辑回归测试（node test_study.js，34 项）
-└── DATA_QUALITY.md     # 数据质量说明
+└── scripts/            # 维护工具（不影响运行，可整目录删除）
+    ├── pack_v9.py              # 一键打包发布 zip 到 D:\Google
+    ├── merge_ai_examples.py    # 合并校验 AI 例句分块 → data/ai_examples.json
+    ├── clean_words_v9.py       # v9 词库清洗（停用基础词/低频词 + 高频补充）
+    ├── fill_phonetics_v9.py    # 新增词音标补全（Free Dictionary API，限速断点）
+    ├── gen_meaning_todo.py     # 生成重点扩展词核心义精选任务清单
+    ├── test_study.js           # 背单词逻辑回归测试（node scripts/test_study.js）
+    ├── validate-words.js / word-stats.js  # 数据校验与统计
+    └── archive/worker.js       # 旧版 DeepSeek 代理（已弃用）
 ```
 
-## 构建（可选，一般不需要）
+## 数据维护（可选，一般不需要）
 
-数据已随包提供，直接使用即可。如需重新生成 `data/words.json`：
+数据已随包提供，直接使用即可。常用维护命令：
 
-1. 准备 `ecdict.csv`（ECDICT 开源词库，https://github.com/skywind3000/ECDICT）；
-2. `python build_bank.py` → 生成 `data/bank2000.json`；
-3. `python fetch_api.py` → 预取音标与例句（限速 5 req/s，可反复运行续跑）；
-4. `python merge_words.py`（旧 2000 词流程）或参考 `build_words.py` 的分层逻辑；
-5. 最后 `python clean_data.py` 清洗并压缩。
+```bash
+python scripts/merge_ai_examples.py    # 合并校验 AI 例句 → data/ai_examples.json（输出缺失清单）
+python scripts/clean_words_v9.py       # 词库清洗与高频补充（含备份恢复说明）
+python scripts/fill_phonetics_v9.py    # 补全新增词音标（联网，限速断点续跑）
+python scripts/pack_v9.py              # 一键打包发布 zip 到 D:\Google
+node scripts/test_study.js             # 背单词逻辑回归测试（46 项）
+```
+
+如需从零重建 `data/words.json`：准备 [ECDICT](https://github.com/skywind3000/ECDICT) 开源词库（`ecdict.csv`）作为构建输入，再参考 `scripts/` 中的清洗脚本组合处理。
 
 ## 数据与版权
 
 - 音标与中文释义来自开源 [ECDICT](https://github.com/skywind3000/ECDICT)（MIT 协议）；
 - 词库外单词及部分例句来自 [Free Dictionary API](https://dictionaryapi.dev)（Wiktionary，CC-BY-SA）；
-- AI 内容按需生成，仅供学习参考。
+- AI 例句为内置本地数据，仅供学习参考。

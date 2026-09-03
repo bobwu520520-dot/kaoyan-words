@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>考研英语一 · 翻译通关工坊 | 考研词汇</title>
+  <meta name="description" content="考研英语一学术长难句深度拆解与翻译思维工坊。独创意群切分、难词引申、实战草稿、满分精析四步递进教学法，全面提升英译汉实战得分能力。" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="icon" href="icon-192.png" type="image/png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#1d5a63" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border)">
+    <div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px">
+      <span style="font-size:16px;font-weight:800;color:var(--color-text)">🌐 英译汉长难句翻译工坊</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="theme-toggle" data-theme-toggle aria-label="切换深浅色模式" type="button"></button>
+        <button class="settings-btn" data-settings-open="true" type="button" title="⚙️ 系统偏好设置" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface-offset);cursor:pointer;font-size:14px">⚙️</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="trans-layout" id="main">
+    <!-- 顶部紧凑控制栏 (Compact Header Bar) -->
+    <div class="trans-compact-header">
+      <div class="trans-compact-title">
+        <h1 style="font-size:15px;margin:0;font-weight:700;color:var(--color-text)">考研英一 · 翻译工坊</h1>
+        <button class="multi-clear-btn" id="toggle-filter-box-btn" type="button" title="点击展开/收起 题材筛选与教学设置">⚙️ 题材与设置 <span id="toggle-filter-arrow">🔽</span></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <button class="multi-clear-btn" id="drawer-toggle-btn" type="button" title="查看 105 篇考研长难句全景目录与掌握进度">📑 题库目录 <span class="badge" id="mastery-badge" style="margin-left:2px;font-size:11px">0/105</span></button>
+        <button class="multi-clear-btn" id="view-mode-toggle" type="button" title="切换分步闯关 / 全景精读模式">🚀 分步模式</button>
+        <button class="multi-clear-btn" id="print-booklet-btn" type="button" title="导出 / 打印当前长难句精读手册 (PDF)">🖨️ 打印</button>
+        <button class="audio-btn" id="font-decrease-btn" type="button" title="缩小字号" style="font-size:11px;font-weight:bold">A-</button>
+        <button class="audio-btn" id="font-increase-btn" type="button" title="放大字号" style="font-size:13px;font-weight:bold">A+</button>
+      </div>
+    </div>
+
+    <!-- 上下收纳框 (Collapsible Filter & Setting Box) 默认收起 -->
+    <div class="trans-collapsible-box" id="trans-collapsible-box" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div style="font-size:13px;color:var(--color-text-muted)">
+          🎯 <b>四步认知递进教学法</b>：① 意群切分 ➔ ② 难词引申 ➔ ③ 动手实战初译 ➔ ④ 满分精析与阅卷评分
+        </div>
+        <button class="multi-clear-btn" id="close-filter-box-btn" type="button" style="font-size:11px;padding:2px 8px">🔼 收起设置</button>
+      </div>
+      <div class="filter-chips" id="theme-chips" role="group" aria-label="学术题材筛选" style="justify-content:flex-start;margin:0">
+        <button class="filter-chip active" data-filter="all" type="button">全部题材 (105)</button>
+        <button class="filter-chip" data-filter="starred" type="button">⭐ 我的重难句本</button>
+        <button class="filter-chip" data-filter="unmastered" type="button">📌 待攻克</button>
+        <button class="filter-chip" data-filter="mastered" type="button">✓ 已掌握</button>
+        <button class="filter-chip" data-filter="媒体传播与公共舆论" type="button">媒体舆论</button>
+        <button class="filter-chip" data-filter="法律法理与知识产权" type="button">法律法理</button>
+        <button class="filter-chip" data-filter="认知心理学与行为科学" type="button">认知心理</button>
+        <button class="filter-chip" data-filter="科学哲学与达尔文演化论" type="button">科学哲学</button>
+        <button class="filter-chip" data-filter="宏观经济与劳动力市场" type="button">宏观经济</button>
+        <button class="filter-chip" data-filter="生态环境与气候治理" type="button">生态环境</button>
+        <button class="filter-chip" data-filter="高等教育与学术创新" type="button">高等教育</button>
+        <button class="filter-chip" data-filter="前沿科技与人工智能" type="button">科技智能</button>
+        <button class="filter-chip" data-filter="历史学与文化人类学" type="button">历史人类学</button>
+        <button class="filter-chip" data-filter="语言学与符号认知" type="button">语言符号</button>
+      </div>
+    </div>
+
+    <!-- 句子控制工具条 -->
+    <div class="trans-toolbar">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <button class="nav-btn" id="prev-trans" type="button" title="快捷键：← 或 A">← 上一句</button>
+        <button class="nav-btn" id="next-trans" type="button" title="快捷键：→ 或 D">下一句 →</button>
+        <button class="multi-clear-btn" id="random-trans" type="button" title="随机抽选一句考研长难句">🎲 随机抽句</button>
+        <button class="multi-clear-btn" id="skeleton-toggle-btn" type="button" title="高亮主句核心主谓宾骨架">✨ 主干透视</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="catalog-count-pill" id="trans-count-pill">加载中…</span>
+        <button class="fav-btn" id="star-trans" type="button" title="收藏至重难句本" aria-label="收藏至重难句本">★</button>
+        <button class="audio-btn" id="speak-sentence" type="button" title="朗读全句 (快捷键：S)" aria-label="朗读英文全句">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19 5a10 10 0 0 1 0 14M16 8a5 5 0 0 1 0 8"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 交互式长难句卡片容器 -->
+    <div class="trans-card" id="trans-card">
+      <div style="text-align:center;padding:40px 0;color:var(--color-text-muted)">
+        <span class="spinner" style="width:20px;height:20px;display:inline-block;vertical-align:middle"></span> 正在载入考研英语一翻译精析题库…
+      </div>
+    </div>
+
+    <!-- 桌面快捷键提示 -->
+    <div class="desktop-kbd-tips">
+      <span><kbd class="kbd">0</kbd>-<kbd class="kbd">4</kbd> 切换步骤</span>
+      <span><kbd class="kbd">←</kbd>/<kbd class="kbd">→</kbd> 或 <kbd class="kbd">A</kbd>/<kbd class="kbd">D</kbd> 切换句子</span>
+      <span><kbd class="kbd">S</kbd> 原声朗读</span>
+      <span><kbd class="kbd">M</kbd> 标记已掌握</span>
+    </div>
+  </main>
+
+  <!-- 题库全景目录抽屉 (Catalog Drawer) -->
+  <div class="drawer-backdrop" id="catalog-drawer-backdrop" hidden></div>
+  <aside class="catalog-drawer" id="catalog-drawer" aria-hidden="true" inert>
+    <div class="drawer-head">
+      <div>
+        <h2 style="font-size:16px;margin:0">📑 考研长难句真题库目录</h2>
+        <span style="font-size:12px;color:var(--color-text-muted)" id="drawer-stat-text">共 105 篇学术真题精析</span>
+      </div>
+      <button class="audio-btn" id="close-drawer-btn" type="button" aria-label="关闭目录">✕</button>
+    </div>
+    <div class="drawer-search-box">
+      <input type="search" id="drawer-search" placeholder="在题库中搜索题目/词汇/题材…" />
+    </div>
+    <div class="drawer-list" id="drawer-list"></div>
+  </aside>
+
+  <footer class="site-footer">
+    <p>考研英语一真题学术长难句精析 · 严守官方英译汉阅卷踩分标准</p>
+  </footer>
+
+  <nav class="bottom-nav" aria-label="移动端导航">
+    <a class="bottom-nav-item" href="study.html">
+      <span class="icon">📖</span>
+      <span>背单词</span>
+    </a>
+    <a class="bottom-nav-item" href="exam.html">
+      <span class="icon">📝</span>
+      <span>英一题型</span>
+    </a>
+    <a class="bottom-nav-item" href="words.html">
+      <span class="icon">📚</span>
+      <span>考研词库</span>
+    </a>
+    <a class="bottom-nav-item" href="memory.html">
+      <span class="icon">👤</span>
+      <span>我的</span>
+    </a>
+  </nav>
+
+  <script src="data/words_bundle.js"></script>
+  <script src="data/translations_bundle.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/translate.js"></script>
+  <script src="js/pwa.js"></script>
+  <script>
+    const SUN='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',MOON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',OLED='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>';
+    function paintTheme(){const b=document.documentElement,t=document.querySelector('[data-theme-toggle]'),cur=b.dataset.theme||'light';if(t){t.innerHTML=cur==='light'?MOON:(cur==='dark'?OLED:SUN);t.setAttribute('aria-label',cur==='light'?'切换到暗色模式':(cur==='dark'?'切换到OLED纯黑模式':'切换到浅色模式'));}}
+    document.querySelector('[data-theme-toggle]')?.addEventListener('click',()=>{let b=document.documentElement,cur=b.dataset.theme||'light',next=cur==='light'?'dark':(cur==='dark'?'oled':'light');b.dataset.theme=next;localStorage.setItem('theme',next);paintTheme();});
+    paintTheme();
+  </script>
+</body>
+</html>

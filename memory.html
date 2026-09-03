@@ -1,0 +1,315 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1d5a63"><title>我的 · 考研词汇</title><link rel="stylesheet" href="css/style.css"><style>
+.memory{max-width:1080px;margin:0 auto;padding:26px 20px 90px}
+.hero{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.hero h1{margin:0;font-size:17px}
+.hero p{color:var(--color-text-muted);margin:4px 0 0}
+.grid-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:14px 0}
+.stat{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:14px;padding:13px 15px;box-shadow:var(--shadow-sm)}
+.stat b{font-size:18px;display:block;line-height:1.25;color:var(--color-text)}
+.stat b.em{color:var(--color-primary)}
+.stat span{color:var(--color-text-muted);font-size:12px}
+.panel{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:16px;padding:18px 20px;margin:14px 0;box-shadow:var(--shadow-sm)}
+.panel h2{margin:0 0 4px;font-size:15px}
+.panel .sub{color:var(--color-text-muted);font-size:12px;margin:0 0 12px}
+.two-col{display:grid;grid-template-columns:3fr 2fr;gap:14px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--color-text-muted)}
+.legend i{display:inline-block;width:18px;height:4px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.legend .l1 i{background:var(--color-accent)}
+.legend .l2 i{background:var(--color-primary)}
+.legend .l3 i{background:var(--color-text-faint)}
+svg text{font-family:var(--font-body)}
+.due-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center}
+.due-cell{background:var(--color-surface-offset);border-radius:12px;padding:10px 4px}
+.due-cell b{display:block;font-size:16px;color:var(--color-text)}
+.due-cell.hot b{color:var(--color-primary)}
+.due-cell span{font-size:11px;color:var(--color-text-muted)}
+.dist{display:flex;align-items:flex-end;gap:10px;height:150px;padding:0 4px}
+.dist .bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
+.dist .bar i{display:block;width:100%;max-width:56px;background:var(--color-core-soft);border-radius:6px 6px 0 0;position:relative;transition:height .3s}
+.dist .bar.cur i{background:var(--color-primary)}
+.dist .bar em{font-style:normal;font-size:11px;color:var(--color-text-muted)}
+.dist .bar u{text-decoration:none;font-size:12px;color:var(--color-text);font-weight:600}
+.weak-list{display:flex;flex-direction:column}
+.weak-item{display:flex;align-items:center;gap:10px;padding:8px 6px;border-bottom:1px solid var(--color-divider);text-decoration:none;color:var(--color-text)}
+.weak-item:last-child{border-bottom:0}
+.weak-item:hover{background:var(--color-primary-soft)}
+.weak-item .w{font-family:var(--font-display);font-weight:600;min-width:110px}
+.weak-item .t{flex:1;font-size:12px;color:var(--color-text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.weak-item .c{flex:none;font-size:11px;color:var(--color-accent);background:var(--color-accent-soft);border-radius:999px;padding:2px 9px}
+.empty-tip{color:var(--color-text-faint);text-align:center;padding:26px 0;font-size:14px}
+.recent{display:flex;flex-wrap:wrap;gap:8px}
+.recent a{padding:5px 12px;border:1px solid var(--color-border);border-radius:999px;font-size:13px;color:var(--color-text-muted);text-decoration:none}
+.recent a:hover{color:var(--color-primary);border-color:var(--color-primary)}
+.tips{font-size:12px;color:var(--color-text-muted);line-height:1.7;margin:8px 0 0}
+@media(max-width:800px){.grid-stats{grid-template-columns:repeat(3,1fr)}.two-col{grid-template-columns:1fr}.due-row{grid-template-columns:repeat(5,1fr)}.stat b{font-size:18px}}
+@media(max-width:480px){.grid-stats{grid-template-columns:repeat(2,1fr)}}
+</style></head><body>
+<header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border)"><div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px"><span style="font-size:16px;font-weight:800;color:var(--color-text)">👤 我的</span><div style="display:flex;align-items:center;gap:8px"><button class="theme-toggle" data-theme-toggle type="button" aria-label="切换深浅色"></button><button class="settings-btn" data-settings-open="true" type="button" title="⚙️ 系统偏好设置" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface-offset);cursor:pointer;font-size:14px">⚙️</button></div></div></header>
+<main class="memory">
+<section class="profile-hero-card" style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow-sm);flex-wrap:wrap">
+  <div style="display:flex;align-items:center;gap:12px">
+    <img src="icon-192.png" alt="金毛背单词" style="width:50px;height:50px;border-radius:14px;object-fit:cover;border:2px solid var(--color-primary);box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+    <div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <strong style="font-size:16px;color:var(--color-text)">考研上岸 · 金毛伴学</strong>
+        <span style="font-size:10.5px;font-weight:700;background:color-mix(in oklab, var(--color-primary) 15%, transparent);color:var(--color-primary);padding:2px 6px;border-radius:999px">PRO 云端版</span>
+      </div>
+      <p style="margin:3px 0 0;font-size:12px;color:var(--color-text-muted)">考研英语（一）5,619 词大纲 · 艾宾浩斯智能记忆调度</p>
+    </div>
+  </div>
+  <div class="countdown-badge" style="background:var(--color-surface-offset);border:1px solid var(--color-border);padding:8px 14px;border-radius:12px;display:inline-flex;align-items:center;gap:6px">
+    <span style="font-size:12px;color:var(--color-text-muted)">🎯 距统考初试</span>
+    <b style="font-size:19px;color:var(--color-primary)" id="kaoyan-days">--</b>
+    <span style="font-size:11px;color:var(--color-text-muted)">天</span>
+  </div>
+</section>
+
+<!-- 快速快捷设置与操作面板 (Settings & Quick Actions) -->
+<section class="panel" style="margin-top:12px;border-radius:14px;padding:16px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <h2 style="font-size:15px;margin:0;color:var(--color-primary);font-weight:700">⚙️ 个性化系统与学习设置</h2>
+    <span style="font-size:12px;color:var(--color-text-muted)">离线可用 · 支持免费云端漫游</span>
+  </div>
+
+  <div class="settings-grid-embedded" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:12px">
+    <!-- 1. 目标与计划 -->
+    <div style="background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:12px;padding:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--color-text);margin-bottom:8px">🎯 学习目标与计划</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>每日背词计划</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn" data-set-daily="30" type="button" style="padding:3px 8px;font-size:11.5px">30</button>
+          <button class="nav-btn" data-set-daily="50" type="button" style="padding:3px 8px;font-size:11.5px">50</button>
+          <button class="nav-btn" data-set-daily="100" type="button" style="padding:3px 8px;font-size:11.5px">100</button>
+          <button class="nav-btn" data-set-daily="150" type="button" style="padding:3px 8px;font-size:11.5px">150</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px">
+        <span>目标考研年份</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn primary" data-set-examyear="2026" type="button" style="padding:3px 8px;font-size:11.5px">2026 统考</button>
+          <button class="nav-btn" data-set-examyear="2027" type="button" style="padding:3px 8px;font-size:11.5px">2027 统考</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12.5px">
+        <span>错题自动入生词本</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn primary" data-set-autofav="1" type="button" style="padding:3px 8px;font-size:11px">开启</button>
+          <button class="nav-btn" data-set-autofav="0" type="button" style="padding:3px 8px;font-size:11px">关闭</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12.5px">
+        <span>背词评分档位</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn primary" data-set-ratingmode="4" type="button" style="padding:3px 8px;font-size:11px">4档标准</button>
+          <button class="nav-btn" data-set-ratingmode="2" type="button" style="padding:3px 8px;font-size:11px">2档极速</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12.5px">
+        <span>背词出词顺序</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn primary" data-set-studyorder="random" type="button" style="padding:3px 6px;font-size:11px">🎲 智能乱序</button>
+          <button class="nav-btn" data-set-studyorder="freq" type="button" style="padding:3px 6px;font-size:11px">🔥 考频优先</button>
+          <button class="nav-btn" data-set-studyorder="alpha" type="button" style="padding:3px 6px;font-size:11px">🔤 字母序</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12.5px">
+        <span>艾宾浩斯节奏</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn primary" data-set-ebbpaces="standard" type="button" style="padding:3px 8px;font-size:11px">标准 (1-2-4-7-15天)</button>
+          <button class="nav-btn" data-set-ebbpaces="sprint" type="button" style="padding:3px 8px;font-size:11px">冲刺 (1-2-3-5-7天)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 发音与语速 -->
+    <div style="background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:12px;padding:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--color-text);margin-bottom:8px">🔊 发音口音与语速</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>朗读口音</span>
+        <div style="display:flex;gap:6px">
+          <button class="nav-btn" data-set-lang="en-US" type="button" style="padding:3px 8px;font-size:11.5px">🇺🇸 美音</button>
+          <button class="nav-btn" data-set-lang="en-GB" type="button" style="padding:3px 8px;font-size:11.5px">🇬🇧 英音</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>朗读语速</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn" data-set-rate="0.8" type="button" style="padding:3px 6px;font-size:11px">0.8x</button>
+          <button class="nav-btn" data-set-rate="0.92" type="button" style="padding:3px 6px;font-size:11px">0.92x</button>
+          <button class="nav-btn" data-set-rate="1.0" type="button" style="padding:3px 6px;font-size:11px">1.0x</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>背词自动发音</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn primary" data-set-autopronounce="1" type="button" style="padding:3px 8px;font-size:11px">开启</button>
+          <button class="nav-btn" data-set-autopronounce="0" type="button" style="padding:3px 8px;font-size:11px">关闭</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>卡片双击发音</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn primary" data-set-doubletap="1" type="button" style="padding:3px 8px;font-size:11px">开启</button>
+          <button class="nav-btn" data-set-doubletap="0" type="button" style="padding:3px 8px;font-size:11px">关闭</button>
+        </div>
+      </div>
+      <button class="nav-btn" id="mem-audition-btn" type="button" style="width:100%;margin-top:6px;padding:4px;font-size:11.5px;color:var(--color-primary)">▶️ 试听考研真题发音</button>
+    </div>
+
+    <!-- 3. 主题外观与字号 -->
+    <div style="background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:12px;padding:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--color-text);margin-bottom:8px">🎨 主题外观与排版</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>视觉主题</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn" data-set-theme="light" type="button" style="padding:3px 6px;font-size:11px">☀️ 浅白</button>
+          <button class="nav-btn" data-set-theme="dark" type="button" style="padding:3px 6px;font-size:11px">🌙 夜间</button>
+          <button class="nav-btn" data-set-theme="oled" type="button" style="padding:3px 6px;font-size:11px">🖤 纯黑</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>正文字号</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn" data-set-fs="normal" type="button" style="padding:3px 8px;font-size:11.5px">标准 13px</button>
+          <button class="nav-btn" data-set-fs="large" type="button" style="padding:3px 8px;font-size:11.5px">中号 14.5px</button>
+          <button class="nav-btn" data-set-fs="xl" type="button" style="padding:3px 8px;font-size:11.5px">大号 16px</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>答题交互音效</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn primary" data-set-sound="1" type="button" style="padding:3px 8px;font-size:11px">开</button>
+          <button class="nav-btn" data-set-sound="0" type="button" style="padding:3px 8px;font-size:11px">关</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12.5px">
+        <span>背词专注极简模式</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn" data-set-zenfocus="1" type="button" style="padding:3px 8px;font-size:11px">开启 🧘</button>
+          <button class="nav-btn primary" data-set-zenfocus="0" type="button" style="padding:3px 8px;font-size:11px">标准</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px">
+        <span>交互触感微震</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-btn" data-set-haptic="1" type="button" style="padding:3px 8px;font-size:11px">开</button>
+          <button class="nav-btn" data-set-haptic="0" type="button" style="padding:3px 8px;font-size:11px">关</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 免费云端同步中心 (Cloud Sync & Backup) -->
+    <div style="background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:12px;padding:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:700;color:var(--color-text)">☁️ 免费云端同步中心</div>
+        <span id="mem-cloud-status-badge" style="font-size:11px;font-weight:700;color:var(--color-primary);background:color-mix(in oklab, var(--color-primary) 12%, transparent);padding:2px 6px;border-radius:6px">🟢 云端就绪</span>
+      </div>
+      <div style="font-size:12px;color:var(--color-text-muted);line-height:1.5;margin-bottom:8px">
+        免注册免登录 · 专属 6 位同步码 · 多设备随时无缝漫游
+      </div>
+      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:8px;padding:8px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;color:var(--color-text-muted)">当前同步码</div>
+          <div id="mem-cloud-code-display" style="font-size:14px;font-weight:800;color:var(--color-primary);letter-spacing:1px">未生成</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--color-text-muted)">最后云同步时间</div>
+          <div id="mem-cloud-time-display" style="font-size:11px;font-weight:600;color:var(--color-text)">从未同步</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="nav-btn primary" id="mem-cloud-backup-btn" type="button" style="flex:1;padding:6px;font-size:12px;font-weight:600">☁️ 备份到云端</button>
+        <button class="nav-btn" id="mem-cloud-restore-btn" type="button" style="flex:1;padding:6px;font-size:12px">📥 同步码恢复</button>
+      </div>
+    </div>
+
+    <!-- 5. 数据备份与恢复 -->
+    <div style="background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:12px;padding:12px">
+      <div style="font-size:13px;font-weight:700;color:var(--color-text);margin-bottom:8px">💾 进度数据备份与报告</div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button class="nav-btn" id="mem-export-backup-btn" type="button" style="flex:1;padding:6px;font-size:12px">📤 导出备份</button>
+        <button class="nav-btn" id="mem-import-backup-btn" type="button" style="flex:1;padding:6px;font-size:12px">📥 导入恢复</button>
+        <input type="file" id="mem-backup-file-input" accept=".json" style="display:none">
+      </div>
+      <button class="nav-btn" id="mem-export-report-btn" type="button" style="width:100%;margin-top:6px;padding:5px;font-size:11.5px;color:var(--color-primary)">📊 导出考研词汇学习档案 (Markdown)</button>
+      <button class="nav-btn" id="mem-reset-progress-btn" type="button" style="width:100%;margin-top:6px;padding:4px;font-size:11.5px;color:var(--color-accent);border-color:color-mix(in oklab, var(--color-accent) 30%, transparent)">🗑️ 清空重置学习进度</button>
+    </div>
+
+    <!-- 6. 关于与离线就绪 -->
+    <div style="background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:12px;padding:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:700;color:var(--color-text)">ℹ️ 关于版本与离线</div>
+        <span style="font-size:11px;font-weight:700;color:var(--color-primary);background:color-mix(in oklab, var(--color-primary) 12%, transparent);padding:2px 6px;border-radius:6px">v9.52 旗舰版</span>
+      </div>
+      <div style="font-size:12px;color:var(--color-text-muted);line-height:1.5;margin-bottom:8px">
+        考研英语（一）5,619 大纲词 · 105 篇翻译长难句 · 六大真题工坊 · 免注册免费云端同步
+      </div>
+      <button class="nav-btn" id="mem-check-update-btn" type="button" style="width:100%;padding:5px;font-size:11.5px;color:var(--color-primary)">🔄 检查离线词库状态</button>
+    </div>
+  </div>
+</section>
+
+<section class="memory-actions" style="display:flex;gap:8px;margin:12px 0 16px;flex-wrap:wrap">
+  <a class="btn primary" href="study.html?mode=review" style="flex:1;min-width:130px;text-align:center;text-decoration:none;padding:10px 12px;font-weight:600;font-size:13px">⚡ 优先复习到期词</a>
+  <a class="btn" href="study.html?mode=weak" style="flex:1;min-width:130px;text-align:center;text-decoration:none;border-color:var(--color-border);background:var(--color-surface-2);padding:10px 12px;font-weight:600;font-size:13px">🎯 专攻薄弱词</a>
+  <a class="btn" href="words.html?filter=fav" style="flex:1;min-width:130px;text-align:center;text-decoration:none;border-color:var(--color-border);background:var(--color-surface-2);padding:10px 12px;font-weight:600;font-size:13px">⭐ 生词本专练</a>
+  <a class="btn" href="exam.html" style="flex:1;min-width:130px;text-align:center;text-decoration:none;border-color:var(--color-border);background:var(--color-surface-2);padding:10px 12px;font-weight:600;font-size:13px">📝 题型通关工坊</a>
+</section>
+
+<section class="grid-stats">
+<div class="stat"><b class="em" id="s-total">—</b><span>已学习词数</span></div>
+<div class="stat"><b id="s-mastered">—</b><span>已掌握</span></div>
+<div class="stat"><b id="s-streak">—</b><span>连续打卡</span></div>
+<div class="stat"><b id="s-retention">—</b><span>复习完成率</span></div>
+<div class="stat"><b id="s-weak">—</b><span>薄弱词</span></div>
+</section>
+<section class="panel"><h2>艾宾浩斯遗忘曲线</h2><p class="sub">不复习时记忆快速衰减；本应用按 1 → 3 → 7 → 15 → 30 → 60 天安排复习，每次复习都会把记忆拉回高位、且衰减越来越慢</p>
+<div id="curve-box"></div>
+<div class="legend"><span class="l1"><i></i>不复习的自然遗忘</span><span class="l2"><i></i>按应用节奏复习的记忆保持</span><span class="l3"><i></i>复习时间点</span></div></section>
+<section class="two-col">
+<section class="panel"><h2>记忆等级分布</h2><p class="sub">按你对每个词的评分累计（很熟 × 多次 → 掌握）</p><div class="dist" id="dist"></div></section>
+<section class="panel"><h2>复习日程</h2><p class="sub">按每词的下次复习时间统计</p><div class="due-row" id="due-row"></div><p class="tips">到期词会在「背单词」页自动优先进入队列，无需手动安排。</p></section>
+</section>
+<section class="panel"><h2>近 30 天学习量</h2><p class="sub">每日完成词数；主题色为今日</p><div class="bars" id="bars" style="display:flex;align-items:flex-end;gap:4px;height:90px"></div></section>
+<section class="two-col">
+<section class="panel"><h2>薄弱词榜</h2><p class="sub">多次评「不认识」的词；点击查看词条</p><div class="weak-list" id="weak-list"></div></section>
+<section class="panel"><h2>最近学习</h2><p class="sub">最近评过分的词</p><div class="recent" id="recent"></div></section>
+</section>
+</main>
+
+<!-- 云端同步码输入弹窗 -->
+<div id="cloud-restore-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)">
+  <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;max-width:360px;width:100%;padding:18px;box-shadow:var(--shadow-lg)">
+    <div style="font-size:16px;font-weight:700;color:var(--color-text);margin-bottom:6px">📥 从云端同步码恢复学习进度</div>
+    <div style="font-size:12.5px;color:var(--color-text-muted);line-height:1.5;margin-bottom:12px">
+      请输入您在其他设备上备份时生成的 6 位专属云端同步码（例如 <code style="color:var(--color-primary);font-weight:700">KY-7E9B2</code>）：
+    </div>
+    <input type="text" id="cloud-restore-input" placeholder="输入同步码，如 KY-XXXXX" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--color-border);border-radius:8px;font-size:15px;font-weight:700;text-align:center;text-transform:uppercase;background:var(--color-surface-offset);color:var(--color-text);outline:none;margin-bottom:14px">
+    <div style="display:flex;gap:8px">
+      <button class="nav-btn" id="cloud-cancel-restore-btn" type="button" style="flex:1;padding:8px;font-size:13px">取消</button>
+      <button class="nav-btn primary" id="cloud-confirm-restore-btn" type="button" style="flex:1;padding:8px;font-size:13px;font-weight:700">立即恢复</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer"><p>数据保存在本地浏览器 · 可在设置中导出/导入</p></footer>
+<nav class="bottom-nav" aria-label="移动端导航">
+  <a class="bottom-nav-item" href="study.html">
+    <span class="icon">📖</span>
+    <span>背单词</span>
+  </a>
+  <a class="bottom-nav-item" href="exam.html">
+    <span class="icon">📝</span>
+    <span>英一题型</span>
+  </a>
+  <a class="bottom-nav-item" href="words.html">
+    <span class="icon">📚</span>
+    <span>考研词库</span>
+  </a>
+  <a class="bottom-nav-item active" href="memory.html">
+    <span class="icon">👤</span>
+    <span>我的</span>
+  </a>
+</nav>
+<script defer src="data/words_bundle.js"></script><script defer src="data/ai_examples_bundle.js"></script><script defer src="js/quiz.js"></script><script defer src="js/cloud_sync.js"></script><script defer src="js/memory.js"></script><script defer src="js/pwa.js"></script><script>const SUN='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',MOON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',OLED='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>';function paintTheme(){const b=document.documentElement,t=document.querySelector('[data-theme-toggle]'),cur=b.dataset.theme||'light';if(t){t.innerHTML=cur==='light'?MOON:(cur==='dark'?OLED:SUN);t.setAttribute('aria-label',cur==='light'?'切换到暗色模式':(cur==='dark'?'切换到OLED纯黑模式':'切换到浅色模式'));}}document.querySelector('[data-theme-toggle]')?.addEventListener('click',()=>{let b=document.documentElement,cur=b.dataset.theme||'light',next=cur==='light'?'dark':(cur==='dark'?'oled':'light');b.dataset.theme=next;localStorage.setItem('theme',next);paintTheme();});(()=>{let t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;paintTheme();})();</script></body></html>
