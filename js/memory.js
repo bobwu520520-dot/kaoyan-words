@@ -415,7 +415,7 @@
     }
     // 检查更新
     if (target.closest('#mem-check-update-btn')) {
-      if (window.KaoyanToast) window.KaoyanToast('✓ 离线词库与云端同步已处于最新状态 (v9.52)');
+      if (window.KaoyanToast) window.KaoyanToast('✓ 离线词库与云端同步已处于最新状态 (v9.53)');
       if (window.KaoyanAudio) window.KaoyanAudio.playSuccess();
       return;
     }
