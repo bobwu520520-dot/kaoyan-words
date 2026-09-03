@@ -287,7 +287,7 @@
       try { const u = new SpeechSynthesisUtterance(w0.word); u.lang = 'en-US'; u.rate = .92; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (err) {}
     }
   }
-  // 📱 手机端原生级左右滑动手势：左滑=忘记/模糊，右滑=记住 (Swipe Left = 忘记/需重背, Swipe Right = 记住/熟记)
+  // 📱 手机端原生级左右滑动手势：点完空白出释义后再滑动评分，动态界面丝滑不生硬
   const cardBox = document.querySelector('.s-card');
   let touchStartX = 0, touchStartY = 0, touchStartTime = 0, isDragging = false, lastTapTime = 0;
   if (cardBox) {
@@ -306,22 +306,53 @@
       if (!isDragging || !e.touches || e.touches.length !== 1) return;
       const dx = e.touches[0].clientX - touchStartX;
       const dy = e.touches[0].clientY - touchStartY;
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+
+      // 水平滑动判断
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
         const box = cardBox.querySelector('.bb-container');
-        if (box) {
-          const rot = dx * 0.035;
-          box.style.transform = `translateX(${dx * 0.85}px) rotate(${rot}deg)`;
-          box.style.opacity = Math.max(0.35, 1 - Math.abs(dx) / 360);
-          if (dx < -25) {
-            box.style.borderColor = 'rgba(220, 38, 38, 0.65)';
-            box.style.boxShadow = '0 8px 24px rgba(220, 38, 38, 0.18)';
-          } else if (dx > 25) {
-            box.style.borderColor = 'rgba(13, 148, 136, 0.65)';
-            box.style.boxShadow = '0 8px 24px rgba(13, 148, 136, 0.18)';
-          } else {
-            box.style.borderColor = '';
-            box.style.boxShadow = '';
+        if (!box) return;
+
+        // 【关键逻辑】：如果尚未展开释义（!shown），采用弹性阻尼微动，并提示点击空白查看释义
+        if (!shown) {
+          const rubberDx = dx * 0.22;
+          box.style.transform = `translate3d(${rubberDx}px, 0, 0) rotate(${rubberDx * 0.02}deg)`;
+          return;
+        }
+
+        // 【关键逻辑】：展开释义后（shown === true），展现丝滑的动态物理拖拽与动态印章
+        const rot = (dx / 300) * 14;
+        const dipY = Math.abs(dx) * 0.08;
+        box.style.transform = `translate3d(${dx * 0.95}px, ${dipY}px, 0) rotate(${rot}deg)`;
+        box.style.opacity = Math.max(0.4, 1 - Math.abs(dx) / 450);
+
+        const stampRight = box.querySelector('.stamp-right');
+        const stampLeft = box.querySelector('.stamp-left');
+
+        if (dx > 15) {
+          // 向右滑：显示【熟记掌握】印章
+          const progress = Math.min(1, Math.max(0, (dx - 15) / 80));
+          if (stampRight) {
+            stampRight.style.opacity = String(progress);
+            stampRight.style.transform = `rotate(-12deg) scale(${0.85 + progress * 0.2})`;
           }
+          if (stampLeft) stampLeft.style.opacity = '0';
+          box.style.borderColor = `color-mix(in oklab, #0d9488 ${Math.round(progress * 70)}%, var(--color-border))`;
+          box.style.boxShadow = `0 10px 28px rgba(13, 148, 136, ${0.12 * progress})`;
+        } else if (dx < -15) {
+          // 向左滑：显示【需重背】印章
+          const progress = Math.min(1, Math.max(0, (-dx - 15) / 80));
+          if (stampLeft) {
+            stampLeft.style.opacity = String(progress);
+            stampLeft.style.transform = `rotate(12deg) scale(${0.85 + progress * 0.2})`;
+          }
+          if (stampRight) stampRight.style.opacity = '0';
+          box.style.borderColor = `color-mix(in oklab, #ef4444 ${Math.round(progress * 70)}%, var(--color-border))`;
+          box.style.boxShadow = `0 10px 28px rgba(239, 68, 68, ${0.12 * progress})`;
+        } else {
+          if (stampRight) stampRight.style.opacity = '0';
+          if (stampLeft) stampLeft.style.opacity = '0';
+          box.style.borderColor = '';
+          box.style.boxShadow = '';
         }
       }
     }, { passive: true });
@@ -345,45 +376,72 @@
           lastTapTime = now;
         }
 
-        // 横向滑动手势判定 (阈值 55px)
-        if (Math.abs(dx) > 55 && Math.abs(dy) < 100 && dt < 450) {
+        // 判定单击空白处（位移极小）
+        if (Math.abs(dx) < 12 && Math.abs(dy) < 12 && dt < 320) {
+          if (!shown) {
+            reveal();
+            return;
+          }
+        }
+
+        // 【如果未展开释义时尝试滑动】：优雅翻开释义，不盲目跳词
+        if (!shown && Math.abs(dx) > 30) {
+          if (box) {
+            box.style.transition = 'transform 0.25s ease-out';
+            box.style.transform = 'none';
+          }
+          reveal();
+          if (window.KaoyanToast) window.KaoyanToast('📖 已为你翻开释义！请核对回忆后左右滑动评分~');
+          return;
+        }
+
+        // 【已展开释义时】：横向滑动手势判定 (阈值 60px)
+        if (shown && Math.abs(dx) > 60 && Math.abs(dy) < 120 && dt < 500) {
           if (dx < 0) {
-            // 👈 左滑 = 忘记 / 模糊 (需重背)
+            // 👈 左滑 = 忘记 / 需重背
             if (box) {
-              box.style.transition = 'transform 0.2s ease-out, opacity 0.2s ease-out';
-              box.style.transform = 'translateX(-120%) rotate(-12deg)';
+              const stampLeft = box.querySelector('.stamp-left');
+              if (stampLeft) stampLeft.style.opacity = '1';
+              box.style.transition = 'transform 0.32s cubic-bezier(0.18, 0.89, 0.32, 1.15), opacity 0.28s ease-out';
+              box.style.transform = 'translate3d(-125vw, 40px, 0) rotate(-22deg)';
               box.style.opacity = '0';
             }
-            if (window.KaoyanToast) window.KaoyanToast('👈 左滑：忘记 / 模糊（已加入强化循环）');
+            if (window.KaoyanToast) window.KaoyanToast('🐾 边牧汪汪: 需重背（已加入强化循环，小金毛陪你再背一遍）');
             triggerHaptic([20, 30, 20]);
             setTimeout(() => {
               rate(0, true);
-            }, 160);
+            }, 180);
             return;
           } else {
-            // 👉 右滑 = 记住 (熟记掌握)
+            // 👉 右滑 = 记住 / 熟记掌握
             if (box) {
-              box.style.transition = 'transform 0.2s ease-out, opacity 0.2s ease-out';
-              box.style.transform = 'translateX(120%) rotate(12deg)';
+              const stampRight = box.querySelector('.stamp-right');
+              if (stampRight) stampRight.style.opacity = '1';
+              box.style.transition = 'transform 0.32s cubic-bezier(0.18, 0.89, 0.32, 1.15), opacity 0.28s ease-out';
+              box.style.transform = 'translate3d(125vw, 40px, 0) rotate(22deg)';
               box.style.opacity = '0';
             }
-            if (window.KaoyanToast) window.KaoyanToast('👉 右滑：记住 · 熟记掌握 ✓');
+            if (window.KaoyanToast) window.KaoyanToast('🦮 小金毛开心摇尾: 熟记掌握 ✓ 进阶成功！太棒啦！');
             triggerHaptic([10, 20, 25]);
             setTimeout(() => {
               rate(3, true);
-            }, 160);
+            }, 180);
             return;
           }
         }
       }
 
-      // 未达滑动阈值，平滑复位
+      // 未达滑动阈值或未识别，弹性丝滑复位
       if (box) {
-        box.style.transition = 'transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease';
-        box.style.transform = 'none';
+        box.style.transition = 'transform 0.36s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease, border-color 0.2s ease, box-shadow 0.2s ease';
+        box.style.transform = 'translate3d(0, 0, 0) rotate(0deg)';
         box.style.opacity = '1';
         box.style.borderColor = '';
         box.style.boxShadow = '';
+        const stampRight = box.querySelector('.stamp-right');
+        const stampLeft = box.querySelector('.stamp-left');
+        if (stampRight) stampRight.style.opacity = '0';
+        if (stampLeft) stampLeft.style.opacity = '0';
       }
     }, { passive: true });
 
@@ -396,7 +454,7 @@
     }, { passive: true });
     cardBox.addEventListener('click', function (e) {
       if (e.target.closest('button, a, input, label, select')) return;
-      reveal();
+      if (!shown) reveal();
     });
   }
 
@@ -465,6 +523,10 @@
       // 考研极简闪卡 State 1：未展开回忆页面
       $('card').innerHTML = `
         <div class="bb-container unrevealed" id="show">
+          <!-- 左右滑动动态半透明指示印章 -->
+          <div class="swipe-feedback-stamp stamp-right" id="stamp-right">👉 熟记掌握 🦮</div>
+          <div class="swipe-feedback-stamp stamp-left" id="stamp-left">🐾 需重背 👈</div>
+
           <!-- 顶部状态栏 -->
           <div class="bb-top-bar">
             <span class="bb-timer" id="bb-timer-display">${getStudyTimeStr()}</span>
@@ -493,11 +555,11 @@
                 <div style="font-size:12px;font-weight:800;color:var(--color-primary);display:flex;align-items:center;gap:4px">
                   金毛学伴打气 <span style="font-size:10px;background:color-mix(in oklab, var(--color-primary) 15%, transparent);padding:1px 6px;border-radius:999px">摇尾中</span>
                 </div>
-                <div style="font-size:11.5px;color:var(--color-text-muted)">“想起来了吗？👈左滑忘记 · 👉右滑记住”</div>
+                <div style="font-size:11.5px;color:var(--color-text-muted)">“想起来了吗？👆点空白看释义 · 展开后滑动评分”</div>
               </div>
             </div>
             <div class="bb-recall-title">请回忆单词发音和释义</div>
-            <div class="bb-recall-sub">👈 左滑忘记 · 👉 右滑记住 · 单击看释义</div>
+            <div class="bb-recall-sub">👆 轻触卡片空白处查看释义 · 展开后左右滑动评分</div>
           </div>
 
           <!-- 悬浮播放按钮 -->
@@ -518,7 +580,11 @@
     const nextIntervalDays = pInfo.level >= 4 ? '81 天后' : pInfo.level >= 2 ? '15 天后' : (pInfo.level >= 1 ? '5 天后' : '3 天后');
 
     $('card').innerHTML = `
-      <div class="bb-container">
+      <div class="bb-container revealed">
+        <!-- 左右滑动动态半透明指示印章 -->
+        <div class="swipe-feedback-stamp stamp-right" id="stamp-right">👉 熟记掌握 🦮</div>
+        <div class="swipe-feedback-stamp stamp-left" id="stamp-left">🐾 需重背 👈</div>
+
         <!-- 顶部状态栏 -->
         <div class="bb-top-bar">
           <span class="bb-timer" id="bb-timer-display">${getStudyTimeStr()}</span>
@@ -809,7 +875,6 @@
     if(loading)return;loading=true;const btn=$('lookup');if(btn)btn.textContent='在线获取中…';
     try{const r=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(w.word));if(!r.ok)throw new Error('notfound');const d=await r.json();const e=d&&d[0];if(!e)throw new Error('empty');const meanings=[];(e.meanings||[]).slice(0,3).forEach(m=>(m.definitions||[]).slice(0,2).forEach(x=>meanings.push((m.partOfSpeech?m.partOfSpeech+'. ':'')+(x.definition||''))));w.pos=w.pos||((e.meanings||[])[0]?.partOfSpeech||'');w.phonetic=w.phonetic||e.phonetic||'';w.defs=meanings.map(x=>({pos:'',text:x}));w.translation=w.translation||'';w.exam_meaning=w.exam_meaning||meanings.slice(0,2).join('；');const ex=(e.meanings||[]).flatMap(m=>m.definitions||[]).find(x=>x.example);if(ex&&!w.example_en)w.example_en=ex.example;w._runtimeFetched=Date.now();mergeRt(w.word,{pos:w.pos,phonetic:w.phonetic,defs:w.defs,translation:w.translation,exam_meaning:w.exam_meaning,example_en:w.example_en,example_zh:w.example_zh});renderCard();}catch(e){alert('在线词典暂时无法获取该词。');}finally{loading=false;}
   }
-  function reveal(){shown=true;renderCard();}
   function rate(grade, forceAdvance){
     const w=queue[idx];if(!w)return;
     if(!shown && !forceAdvance){shown=true;renderCard();return;}
@@ -998,53 +1063,7 @@
     if (el) el.textContent = mins + ':' + secs;
   }, 1000);
 
-  // ---- 移动端触屏滑动手势支持 (Mobile Touch Swipe Ergonomics) ----
-  (function initTouchGestures() {
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchStartTime = 0;
 
-    document.addEventListener('touchstart', function(e) {
-      if (!e.touches || e.touches.length !== 1) return;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      touchStartTime = Date.now();
-    }, { passive: true });
-
-    document.addEventListener('touchend', function(e) {
-      if (!e.changedTouches || e.changedTouches.length !== 1) return;
-      const target = e.target;
-      // 忽略输入框或弹窗
-      if (target.closest('button, input, select, a, textarea, .nav-grid, .modal-backdrop, .drawer')) return;
-
-      const diffX = e.changedTouches[0].clientX - touchStartX;
-      const diffY = e.changedTouches[0].clientY - touchStartY;
-      const duration = Date.now() - touchStartTime;
-
-      // 仅在 400ms 内的轻扫手势且水平位移明显
-      if (duration < 400 && Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY) * 1.3) {
-        if (diffX < 0) {
-          // 向左滑 -> 认识并进入下一词
-          if (!shown) {
-            shown = true;
-            renderCard();
-          } else {
-            rate(2);
-          }
-          triggerHaptic(15);
-        } else {
-          // 向右滑 -> 标为不认识
-          if (!shown) {
-            shown = true;
-            renderCard();
-          } else {
-            rate(0);
-          }
-          triggerHaptic([15, 20]);
-        }
-      }
-    }, { passive: true });
-  })();
 
   // 启动词库初始化
   initStudyWords();
