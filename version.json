@@ -1,10 +1,10 @@
 {
-  "version": "9.55",
-  "version_code": 955,
+  "version": "9.56",
+  "version_code": 956,
   "app_name": "考研词汇通_金毛背单词",
-  "apk_name": "考研词汇通_金毛背单词_v9.55.apk",
-  "zip_name": "考研词汇v9.55.zip",
-  "changelog": "1. 手机端全自动更新机制与后台静默预缓存\n2. 修复桌面端背词卡片样式丢失与全端响应式居中\n3. 5,619 考研大纲词 100% 国际标准 IPA 音标全覆盖\n4. 专属全天候公网网站上线 (https://bobwu520520-dot.github.io/kaoyan-words/)",
+  "apk_name": "考研词汇通_金毛背单词_v9.56.apk",
+  "zip_name": "考研词汇v9.56.zip",
+  "changelog": "1. 接入 KyleBing 开源词库：注入 13,800+ 条高频考点搭配短语 (Phrases)\n2. 上线 5.4 万词典全网秒查引擎：支持全考种外刊超纲词一键秒搜\n3. 单词卡片新增考点搭配短语与真人发音朗读\n4. 手机端全自动静默检测更新引擎",
   "web_url": "https://bobwu520520-dot.github.io/kaoyan-words/",
   "updated_at": "2026-09-03"
 }

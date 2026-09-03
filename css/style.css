@@ -2760,6 +2760,53 @@ main, .exam-section:not([hidden]), .s-card-inner {
   margin-top: 2px;
 }
 
+/* 考点短语搭配样式 (KyleBing Phrases Integration) */
+.bb-phrases-box {
+  border-left: 3px solid #0284c7 !important;
+}
+.bb-phrase-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.bb-phrase-item {
+  background: var(--color-surface-offset);
+  border: 1px solid color-mix(in oklab, var(--color-border) 80%, transparent);
+  border-radius: 8px;
+  padding: 6px 10px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.bb-phrase-item:hover {
+  border-color: #0284c7;
+}
+.bb-phrase-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bb-phrase-text {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.bb-phrase-text:hover {
+  color: #0284c7;
+}
+.bb-phrase-speaker {
+  font-size: 11px;
+  opacity: 0.7;
+}
+.bb-phrase-cn {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
 /* 助记内容 */
 .bb-mnemonic-content {
   font-size: 12px;

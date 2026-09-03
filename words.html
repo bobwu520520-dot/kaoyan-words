@@ -42,6 +42,12 @@
     </div>
 
     <div class="catalog-toolbar" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+      <!-- 词库范围切换：考研大纲词库 vs 全网 5.4 万大词典 (KyleBing 赋能) -->
+      <div class="dict-scope-tabs" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="filter-chip active" id="dict-scope-kaoyan" type="button" style="font-weight:700">🎓 考研核心词库 (5,619 词)</button>
+        <button class="filter-chip" id="dict-scope-global" type="button" style="font-weight:700">🌐 全网大字典 (5.4万 词条 & 考点短语)</button>
+      </div>
+
       <!-- 搜索栏 -->
       <div class="filter-search" style="position:relative;display:flex;align-items:center;background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:6px 12px;box-shadow:var(--shadow-sm)">
         <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -165,6 +171,7 @@
 
   <script defer src="data/words_bundle.js"></script>
   <script defer src="data/ai_examples_bundle.js"></script>
+  <script defer src="data/dict_54k_bundle.js"></script>
   <script defer src="js/quiz.js"></script>
   <script defer src="js/app.js"></script>
   <script defer src="js/catalog.js"></script>

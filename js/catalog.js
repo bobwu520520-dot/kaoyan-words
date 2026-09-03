@@ -159,6 +159,10 @@
       searchQ = '';
       filterClearBtn.style.display = 'none';
       filterInput.focus();
+      if (dictScope === 'global') {
+        searchGlobalDict('');
+        return;
+      }
       applyFilters();
     });
   }
@@ -169,6 +173,10 @@
       filterClearBtn.style.display = filterInput.value ? 'inline-block' : 'none';
     }
     debounce = setTimeout(function() {
+      if (dictScope === 'global') {
+        searchGlobalDict(filterInput.value.trim());
+        return;
+      }
       searchQ = filterInput.value.trim().toLowerCase();
       applyFilters();
     }, 120);
@@ -328,6 +336,7 @@
       var aiHtml = AI[w.word] ? '<span class="cat-chip ai" title="内置 AI 真题例句">AI</span>' : '';
       var tierHtml = w.tier ? '<span class="cat-chip tier">'+esc(w.tier)+'</span>' : '';
       var starHtml = w.true_priority ? '<span class="cat-chip stars">'+esc(w.true_priority)+'</span>' : '';
+      var phraseCountHtml = (w.phrases && w.phrases.length) ? '<span class="cat-chip" style="background:color-mix(in oklab, #0284c7 12%, transparent);color:#0284c7;border-color:color-mix(in oklab, #0284c7 25%, transparent)" title="考点搭配短语">📎 '+w.phrases.length+'搭配</span>' : '';
 
       wrap.innerHTML =
         '<div class="cat-card-header">' +
@@ -346,7 +355,7 @@
           '</div>' +
         '</div>' +
         '<div class="cat-card-badges">' +
-          lvlHtml + tierHtml + starHtml + synHtml + examHtml + aiHtml +
+          lvlHtml + tierHtml + starHtml + phraseCountHtml + synHtml + examHtml + aiHtml +
         '</div>' +
         '<a class="cat-card-meaning" href="index.html?w='+encodeURIComponent(w.word)+'" title="点击查看深度真题解析">' +
           hlMatch(def, searchQ) +
@@ -404,6 +413,19 @@
     var secHtml = w.secondary_meanings ? '<div style="margin-top:4px;color:var(--color-accent);font-size:12px"><strong>⚡ 熟词僻义：</strong> ' + esc(w.secondary_meanings) + '</div>' : '';
     var rootHtml = w.root ? '<div style="margin-top:4px;color:var(--color-text-muted);font-size:12px"><strong>🌱 词根助记：</strong> ' + esc(w.root) + '</div>' : '';
 
+    var phraseHtml = (w.phrases && w.phrases.length) ? 
+      '<div style="margin-top:6px;padding:6px 10px;background:var(--color-surface);border-left:3px solid #0284c7;border-radius:6px">' +
+        '<strong style="font-size:11.5px;color:#0284c7">📎 考点搭配短语 (' + w.phrases.length + ')：</strong>' +
+        '<div style="display:flex;flex-direction:column;gap:4px;margin-top:4px">' +
+          w.phrases.map(function(p) {
+            return '<div style="font-size:12px;display:flex;justify-content:space-between;align-items:center;background:var(--color-surface-offset);padding:3px 8px;border-radius:4px">' +
+              '<span><strong style="color:var(--color-text)">' + esc(p.p) + '</strong> <span style="color:var(--color-text-muted);font-size:11.5px">(' + esc(p.c) + ')</span></span>' +
+              '<button class="icon-btn-mini audio-speak-btn" data-speak="' + esc(p.p) + '" type="button" style="width:20px;height:20px;font-size:10px" title="朗读短语">🔊</button>' +
+            '</div>';
+          }).join('') +
+        '</div>' +
+      '</div>' : '';
+
     var exHtml = ex ? '<div class="sentence" style="margin-top:6px;padding:8px 12px;background:var(--color-surface);border-left:3px solid var(--color-primary);border-radius:8px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><strong style="font-size:11px;color:var(--color-primary)">📖 考研真题长难句语境</strong><button class="audio-btn" data-speak="' + esc(ex) + '" type="button" aria-label="朗读例句" title="朗读考研例句" style="width:22px;height:22px;font-size:11px">🔊</button></div><div style="font-size:13px;line-height:1.5">' + highlight(ex, [w.word]) + '</div><div class="zh" style="font-size:12px;color:var(--color-text-muted);margin-top:3px">' + esc(exZh) + '</div></div>' : '';
 
     detailEl.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">' +
@@ -413,7 +435,7 @@
         '<button class="multi-clear-btn" data-inline-quiz="' + esc(w.word) + '" type="button" style="font-size:11px;padding:3px 8px;color:var(--color-primary);border-color:var(--color-primary)">🎯 考点速测</button>' +
       '</div>' +
     '</div>' +
-    synHtml + secHtml + rootHtml + exHtml;
+    synHtml + secHtml + rootHtml + phraseHtml + exHtml;
 
     rowWrap.after(detailEl);
   });
@@ -649,4 +671,158 @@
       }
     }
   }, { passive: true });
+
+  // ---- 全网 5.4 万大字典搜索模块 (KyleBing Global Dictionary) ----
+  var dictScope = 'kaoyan'; // 'kaoyan' | 'global'
+  var dict54kData = window.__DICT_54K__ || null;
+  var dictScopeKaoyanBtn = document.getElementById('dict-scope-kaoyan');
+  var dictScopeGlobalBtn = document.getElementById('dict-scope-global');
+  var filterChipsContainer = document.getElementById('filter-chips');
+  var dataFilterChipsContainer = document.getElementById('data-filter-chips');
+  var sortChipsContainer = document.getElementById('sort-chips');
+  var letterIndexNav = document.getElementById('letter-index');
+  var progressBanner = document.getElementById('catalog-progress-banner');
+
+  function initDictScope() {
+    if (!dictScopeKaoyanBtn || !dictScopeGlobalBtn) return;
+
+    dictScopeKaoyanBtn.addEventListener('click', function () {
+      if (dictScope === 'kaoyan') return;
+      dictScope = 'kaoyan';
+      dictScopeKaoyanBtn.classList.add('active');
+      dictScopeGlobalBtn.classList.remove('active');
+      if (filterChipsContainer) filterChipsContainer.style.display = 'flex';
+      if (dataFilterChipsContainer) dataFilterChipsContainer.style.display = 'flex';
+      if (sortChipsContainer && sortChipsContainer.parentElement) sortChipsContainer.parentElement.style.display = 'flex';
+      if (letterIndexNav) letterIndexNav.style.display = 'flex';
+      if (progressBanner) progressBanner.style.display = 'flex';
+      filterInput.placeholder = '在 5,619 考研词库中瞬时搜索…（按 / 键聚焦）';
+      applyFilters();
+    });
+
+    dictScopeGlobalBtn.addEventListener('click', function () {
+      if (dictScope === 'global') return;
+      dictScope = 'global';
+      dictScopeGlobalBtn.classList.add('active');
+      dictScopeKaoyanBtn.classList.remove('active');
+      if (filterChipsContainer) filterChipsContainer.style.display = 'none';
+      if (dataFilterChipsContainer) dataFilterChipsContainer.style.display = 'none';
+      if (sortChipsContainer && sortChipsContainer.parentElement) sortChipsContainer.parentElement.style.display = 'none';
+      if (letterIndexNav) letterIndexNav.style.display = 'none';
+      if (progressBanner) progressBanner.style.display = 'none';
+      filterInput.placeholder = '在 54,000+ 初高中/四六级/考研/托福词典中秒查…';
+      ensureDict54kLoaded(function () {
+        searchGlobalDict(filterInput.value.trim());
+      });
+    });
+  }
+
+  function ensureDict54kLoaded(callback) {
+    if (dict54kData) {
+      if (callback) callback();
+      return;
+    }
+    if (window.__DICT_54K__) {
+      dict54kData = window.__DICT_54K__;
+      if (callback) callback();
+      return;
+    }
+    listEl.innerHTML = '<div class="catalog-empty">⏳ 正在加载 5.4 万全网大字典数据，请稍候...</div>';
+    fetch('data/dict_54k.json')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        dict54kData = data;
+        if (callback) callback();
+      })
+      .catch(function () {
+        listEl.innerHTML = '<div class="catalog-empty">加载大字典失败，请刷新重试</div>';
+      });
+  }
+
+  function searchGlobalDict(query) {
+    if (!dict54kData) return;
+    var q = (query || '').toLowerCase().trim();
+    var results = [];
+    if (!q) {
+      results = dict54kData.slice(0, 48);
+    } else {
+      var prefixMatches = [];
+      var containsMatches = [];
+      for (var i = 0; i < dict54kData.length; i++) {
+        var item = dict54kData[i];
+        var w = item.w.toLowerCase();
+        if (w === q) {
+          prefixMatches.unshift(item);
+        } else if (w.startsWith(q)) {
+          prefixMatches.push(item);
+        } else if (w.indexOf(q) > -1 || (item.t && item.t.indexOf(q) > -1)) {
+          containsMatches.push(item);
+        }
+        if (prefixMatches.length >= 60) break;
+      }
+      results = prefixMatches.concat(containsMatches).slice(0, 60);
+    }
+
+    renderGlobalDictResults(results, q);
+  }
+
+  function renderGlobalDictResults(results, query) {
+    listEl.innerHTML = '';
+    countPill.textContent = '全网大字典找到 ' + results.length + ' 词';
+    if (pageIndicator) pageIndicator.textContent = '全网大字典快速检索模式 · 共 ' + results.length + ' 条匹配结果';
+    if (prevPageBtn) prevPageBtn.disabled = true;
+    if (nextPageBtn) nextPageBtn.disabled = true;
+
+    if (!results.length) {
+      listEl.innerHTML = '<div class="catalog-empty">🔍 在 54,000+ 词典中未找到包含 "' + esc(query) + '" 的单词</div>';
+      return;
+    }
+
+    var frag = document.createDocumentFragment();
+    results.forEach(function (it) {
+      var wrap = document.createElement('div');
+      wrap.className = 'cat-row-wrap';
+      
+      var tagChips = (it.g || '').split(',').map(function (tg) {
+        if (!tg) return '';
+        var color = tg === '考研' ? '#0d9488' : tg === '六级' ? '#2563eb' : tg === '四级' ? '#4f46e5' : tg === '托福' ? '#d97706' : '#6b7280';
+        return '<span class="cat-chip" style="background:color-mix(in oklab, ' + color + ' 12%, transparent);color:' + color + '">' + esc(tg) + '</span>';
+      }).join('');
+
+      var phrasesHtml = '';
+      if (it.p && it.p.length > 0) {
+        phrasesHtml = '<div style="margin-top:6px;padding:6px 10px;background:var(--color-surface);border-left:3px solid #0284c7;border-radius:6px">' +
+          '<div style="font-size:11.5px;font-weight:700;color:#0284c7;margin-bottom:4px">📎 常用考点短语：</div>' +
+          '<div style="display:flex;flex-direction:column;gap:4px">' +
+            it.p.map(function (pair) {
+              return '<div style="font-size:12px;display:flex;justify-content:space-between;align-items:center;background:var(--color-surface-offset);padding:3px 8px;border-radius:4px">' +
+                '<span><strong style="color:var(--color-text)">' + esc(pair[0]) + '</strong> <span style="color:var(--color-text-muted);font-size:11.5px">(' + esc(pair[1]) + ')</span></span>' +
+                '<button class="icon-btn-mini audio-speak-btn" data-speak="' + esc(pair[0]) + '" type="button" style="width:20px;height:20px;font-size:10px" title="朗读短语">🔊</button>' +
+              '</div>';
+            }).join('') +
+          '</div>' +
+        '</div>';
+      }
+
+      wrap.innerHTML = 
+        '<div class="cat-card-header">' +
+          '<div class="cat-card-left">' +
+            '<a class="cat-card-word" href="study.html?w=' + encodeURIComponent(it.w) + '" title="在背单词中学习">' + hlMatch(it.w, query) + '</a>' +
+          '</div>' +
+          '<div class="cat-card-right">' +
+            '<button class="icon-btn-mini audio-speak-btn" data-speak="' + esc(it.w) + '" type="button" title="朗读发音" aria-label="朗读">🔊</button>' +
+            '<a class="icon-btn-mini" href="study.html?w=' + encodeURIComponent(it.w) + '" title="在背单词中学习" aria-label="背单词">📖</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="cat-card-badges">' + tagChips + '</div>' +
+        '<div class="cat-card-meaning" style="margin-top:4px">' + hlMatch(it.t || '暂无释义', query) + '</div>' +
+        phrasesHtml;
+
+      frag.appendChild(wrap);
+    });
+
+    listEl.appendChild(frag);
+  }
+
+  initDictScope();
 })();

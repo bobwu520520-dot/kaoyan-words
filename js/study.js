@@ -566,6 +566,28 @@
             </div>
           </div>
 
+          <!-- 考点搭配与短语板块 (KyleBing 词库强力赋能) -->
+          ${w.phrases && w.phrases.length > 0 ? `
+            <div class="bb-section-box bb-phrases-box">
+              <div class="bb-section-head">
+                <span class="bb-section-title">考点搭配 / 常用短语</span>
+                <span class="bb-section-tag" style="background:color-mix(in oklab, #0284c7 12%, transparent);color:#0284c7;border-color:color-mix(in oklab, #0284c7 25%, transparent)">高频搭配</span>
+              </div>
+              <div class="bb-phrase-list">
+                ${w.phrases.map(function (p) {
+                  return `
+                    <div class="bb-phrase-item">
+                      <div class="bb-phrase-row">
+                        <span class="bb-phrase-text" data-speak="${esc(p.p)}" title="点击朗读短语">${esc(p.p)} <span class="bb-phrase-speaker">🔊</span></span>
+                      </div>
+                      <div class="bb-phrase-cn">${esc(p.c)}</div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          ` : ''}
+
           <!-- 助记板块 -->
           <div class="bb-section-box bb-mnemonic-box">
             <div class="bb-section-head">
