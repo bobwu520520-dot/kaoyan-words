@@ -357,17 +357,23 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
   </div>
   <div class="minimal-right">
     <button class="minimal-icon-btn" id="autoplay-btn" type="button" title="自动播放 / 闪卡连读模式">▶</button>
-    <button class="minimal-icon-btn" id="drawer-btn" type="button" title="⚙️ 学习偏好与模式设置">⚙</button>
-    <button class="minimal-icon-btn" id="study-menu-toggle" type="button" title="☰ 考研模块导航">☰</button>
+    <button class="minimal-icon-btn" id="study-menu-toggle" type="button" title="☰ 考研导航与功能菜单" style="display:inline-flex;align-items:center;gap:4px;padding:4px 9px;font-size:12.5px;font-weight:600">☰ 菜单</button>
   </div>
 </div>
 
 <div id="study-top-nav-box" class="study-nav-dropdown-card" hidden>
+  <div style="font-size:11px;font-weight:700;color:var(--color-text-muted);margin-bottom:6px">📌 考研核心模块导航</div>
   <div class="study-nav-grid-pills">
     <a class="nav-grid-pill active" href="study.html">📖 背单词</a>
     <a class="nav-grid-pill" href="exam.html">📝 英一题型</a>
     <a class="nav-grid-pill" href="words.html">📚 考研词库</a>
     <a class="nav-grid-pill" href="memory.html">👤 我的与设置</a>
+  </div>
+  <div style="height:1px;background:var(--color-border);margin:8px 0"></div>
+  <div style="font-size:11px;font-weight:700;color:var(--color-text-muted);margin-bottom:6px">⚡ 快捷操作</div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap">
+    <button class="nav-grid-pill" id="menu-quick-drawer" type="button" style="flex:1;cursor:pointer">⚙️ 词库与模式设置</button>
+    <button class="nav-grid-pill" id="menu-quick-shuffle" type="button" style="flex:1;cursor:pointer">🔀 重新打乱顺序</button>
   </div>
 </div>
 
@@ -515,20 +521,43 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
 const SUN='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',MOON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',OLED='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>';
 function paintTheme(){const b=document.documentElement,cur=b.dataset.theme||'light';document.querySelectorAll('[data-theme-toggle]').forEach(t=>{t.innerHTML=cur==='light'?MOON:(cur==='dark'?OLED:SUN);t.setAttribute('aria-label',cur==='light'?'切换到暗色模式':(cur==='dark'?'切换到OLED纯黑模式':'切换到浅色模式'));});}
 document.querySelectorAll('[data-theme-toggle]').forEach(t=>t.addEventListener('click',()=>{const b=document.documentElement,cur=b.dataset.theme||'light',next=cur==='light'?'dark':(cur==='dark'?'oled':'light');b.dataset.theme=next;localStorage.setItem('theme',next);paintTheme();}));
-document.getElementById('drawer-btn').addEventListener('click',()=>{document.getElementById('drawer').hidden=false;});
+const drawerBtn = document.getElementById('drawer-btn');
+if (drawerBtn) drawerBtn.addEventListener('click',()=>{document.getElementById('drawer').hidden=false;});
 document.getElementById('drawer-mask').addEventListener('click',()=>{document.getElementById('drawer').hidden=true;});
 document.getElementById('drawer-close').addEventListener('click',()=>{document.getElementById('drawer').hidden=true;});
 
 // 顶部考研导航菜单收纳/展开逻辑
 const menuToggle = document.getElementById('study-menu-toggle');
 const topNavBox = document.getElementById('study-top-nav-box');
-const menuArrow = document.getElementById('study-menu-arrow');
 if (menuToggle && topNavBox) {
-  menuToggle.addEventListener('click', () => {
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
     const isHidden = topNavBox.hidden;
     topNavBox.hidden = !isHidden;
-    menuArrow.textContent = isHidden ? '🔼' : '🔽';
     menuToggle.classList.toggle('active', isHidden);
+  });
+  document.addEventListener('click', (e) => {
+    if (!topNavBox.hidden && !topNavBox.contains(e.target) && e.target !== menuToggle) {
+      topNavBox.hidden = true;
+      menuToggle.classList.remove('active');
+    }
+  });
+}
+const menuQuickDrawer = document.getElementById('menu-quick-drawer');
+if (menuQuickDrawer && topNavBox) {
+  menuQuickDrawer.addEventListener('click', () => {
+    topNavBox.hidden = true;
+    if (menuToggle) menuToggle.classList.remove('active');
+    document.getElementById('drawer').hidden = false;
+  });
+}
+const menuQuickShuffle = document.getElementById('menu-quick-shuffle');
+if (menuQuickShuffle && topNavBox) {
+  menuQuickShuffle.addEventListener('click', () => {
+    topNavBox.hidden = true;
+    if (menuToggle) menuToggle.classList.remove('active');
+    const sBtn = document.getElementById('shuffle');
+    if (sBtn) sBtn.click();
   });
 }
 

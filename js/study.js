@@ -474,7 +474,7 @@
             <div class="bb-top-tools">
               ${voicePillsHtml}
               ${window.KaoyanQuiz ? KaoyanQuiz.favBtn(w.word) : ''}
-              <button class="bb-tool-icon" id="drawer-btn-inline" type="button" title="设置">⋮</button>
+              <button class="bb-tool-icon" id="drawer-btn-inline" type="button" title="⚙️ 学习偏好与模式设置">⚙</button>
             </div>
           </div>
 
@@ -519,7 +519,7 @@
           <div class="bb-top-tools">
             ${voicePillsHtml}
             ${window.KaoyanQuiz ? KaoyanQuiz.favBtn(w.word) : ''}
-            <button class="bb-tool-icon" id="drawer-btn-inline" type="button" title="设置">⋮</button>
+            <button class="bb-tool-icon" id="drawer-btn-inline" type="button" title="⚙️ 学习偏好与模式设置">⚙</button>
           </div>
         </div>
 
@@ -656,9 +656,10 @@
         e.stopPropagation();
         const cur = isAutoSpeakOn();
         localStorage.setItem('kao_auto_speak', cur ? 'false' : 'true');
-        autoBtn.textContent = !cur ? '🔊 连读开' : '🔇 连读关';
+        autoBtn.textContent = !cur ? '🔊' : '🔇';
+        autoBtn.title = !cur ? '切词自动朗读已开（点击关闭）' : '切词自动朗读已关（点击开启）';
         autoBtn.classList.toggle('active', !cur);
-        if (window.KaoyanToast) window.KaoyanToast(!cur ? '🔊 已开启切词自动朗读' : '🔇 已关闭自动朗读');
+        if (window.KaoyanToast) window.KaoyanToast(!cur ? '🔊 已开启切词自动发音' : '🔇 已关闭切词自动发音');
         if (!cur && queue[idx] && queue[idx].word) playTts(queue[idx].word);
       };
     }
@@ -886,7 +887,18 @@
       btn.style.color=isAutoplay?'var(--color-accent)':'';
     }
     clearTimeout(autoplayTimer);
-    if(isAutoplay)runAutoplayStep();
+    if(isAutoplay){
+      if(window.KaoyanToast) window.KaoyanToast('▶ 闪卡连读播放已开启');
+      if(shown){
+        idx=Math.min(queue.length-1,idx+1);
+        shown=false;
+        renderQueue();
+        renderCard();
+      }
+      runAutoplayStep();
+    } else {
+      if(window.KaoyanToast) window.KaoyanToast('⏸ 闪卡连读已暂停');
+    }
   }
   function runAutoplayStep(){
     if(!isAutoplay)return;
@@ -921,20 +933,7 @@
     if (d) d.hidden = !d.hidden;
   };
 
-  const navToggle = $('study-menu-toggle');
-  const navBox = $('study-top-nav-box');
-  if (navToggle && navBox) {
-    navToggle.onclick = (e) => {
-      e.stopPropagation();
-      navBox.hidden = !navBox.hidden;
-    };
-    document.addEventListener('click', (e) => {
-      if (!navBox.hidden && !navBox.contains(e.target) && e.target !== navToggle) {
-        navBox.hidden = true;
-      }
-    });
-  }
-
+  // 顶部菜单及快捷操作已在 study.html 中统一受控
   const modeContainer = $('drawer-study-modes');
   const modeLabels = {
     standard: '📘 标准',

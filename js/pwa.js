@@ -3,8 +3,8 @@
   'use strict';
 
   // 1. 全局版本号与手机自动更新引擎 (Universal Auto-Updater)
-  var CURRENT_VERSION_CODE = 957;
-  var CURRENT_VERSION_STR = '9.57';
+  var CURRENT_VERSION_CODE = 958;
+  var CURRENT_VERSION_STR = '9.58';
 
   function showUpdateBanner(remote) {
     if (document.getElementById('kaoyan-update-banner')) return;
