@@ -313,14 +313,23 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
   color: var(--color-primary);
 }
 .study-nav-dropdown-card {
+  max-width: 600px;
+  margin: 6px auto 10px auto;
   background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   animation: fadeIn 0.15s ease;
+}
+@media (max-width: 640px) {
+  .study-nav-dropdown-card {
+    margin: 6px 12px 10px 12px;
+  }
 }
 .study-nav-grid-pills {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 6px;
 }
 .nav-grid-pill {
@@ -357,7 +366,7 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
   </div>
   <div class="minimal-right">
     <button class="minimal-icon-btn" id="autoplay-btn" type="button" title="自动播放 / 闪卡连读模式">▶</button>
-    <button class="minimal-icon-btn" id="study-menu-toggle" type="button" title="☰ 考研导航与功能菜单" style="display:inline-flex;align-items:center;gap:4px;padding:4px 9px;font-size:12.5px;font-weight:600">☰ 菜单</button>
+    <button class="minimal-icon-btn" id="study-menu-toggle" type="button" title="☰ 考研导航与功能菜单">☰</button>
   </div>
 </div>
 
