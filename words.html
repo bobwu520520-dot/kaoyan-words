@@ -15,87 +15,111 @@
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主内容</a>
-  <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border)">
+  <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border);position:sticky;top:0;z-index:90">
     <div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px">
-      <span style="font-size:16px;font-weight:800;color:var(--color-text)">📚 考研词库大纲</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:16px;font-weight:800;color:var(--color-text)">📚 考研词库</span>
+        <span class="cat-chip tier" id="header-scope-badge" style="font-size:11px;padding:2px 8px;font-weight:600">考研 5,619 词</span>
+      </div>
       <div style="display:flex;align-items:center;gap:8px">
         <button class="theme-toggle" data-theme-toggle aria-label="切换到深色模式" type="button"></button>
         <button class="settings-btn" data-settings-open="true" type="button" title="⚙️ 系统偏好设置" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface-offset);cursor:pointer;font-size:14px">⚙️</button>
+        <button class="minimal-icon-btn" id="words-menu-toggle" type="button" title="☰ 考研导航菜单" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface-offset);cursor:pointer;font-size:16px;color:var(--color-text)">☰</button>
       </div>
     </div>
   </header>
 
+  <!-- 顶部考研导航菜单下拉收纳盒 (可折叠收纳) -->
+  <div id="words-top-nav-box" class="study-nav-dropdown-card" hidden style="position:fixed;top:52px;left:50%;transform:translateX(-50%);z-index:99;width:min(94vw, 480px);background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,0.18);padding:14px;box-sizing:border-box">
+    <div style="font-size:11.5px;font-weight:700;color:var(--color-text-muted);margin-bottom:8px">📌 考研核心模块导航</div>
+    <div class="study-nav-grid-pills" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+      <a class="nav-grid-pill" href="study.html" style="text-align:center;padding:8px 4px;font-size:12px;border-radius:8px;border:1px solid var(--color-border);text-decoration:none;color:var(--color-text);background:var(--color-surface-offset);font-weight:600">📖 背单词</a>
+      <a class="nav-grid-pill" href="exam.html" style="text-align:center;padding:8px 4px;font-size:12px;border-radius:8px;border:1px solid var(--color-border);text-decoration:none;color:var(--color-text);background:var(--color-surface-offset);font-weight:600">📝 英一题型</a>
+      <a class="nav-grid-pill active" href="words.html" style="text-align:center;padding:8px 4px;font-size:12px;border-radius:8px;border:1px solid var(--color-primary);text-decoration:none;color:#fff;background:var(--color-primary);font-weight:700">📚 考研词库</a>
+      <a class="nav-grid-pill" href="memory.html" style="text-align:center;padding:8px 4px;font-size:12px;border-radius:8px;border:1px solid var(--color-border);text-decoration:none;color:var(--color-text);background:var(--color-surface-offset);font-weight:600">👤 我的</a>
+    </div>
+  </div>
+
   <main id="main">
-    <div class="catalog-head" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-      <div>
-        <h1>词库目录</h1>
-        <p id="catalog-desc">支持层级、词性、掌握状态筛选；多选单词可对照例句。</p>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="multi-clear-btn" id="export-words-btn" type="button" title="导出当前筛选词单至 Anki / CSV / Markdown">📥 导出当前词单</button>
-      </div>
-    </div>
-
-    <div class="catalog-progress-banner" id="catalog-progress-banner" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 14px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);margin-bottom:12px;font-size:12.5px">
-      <span id="cat-prog-label">📊 词库背诵总览：已掌握 0/5619 词 (0%)</span>
-      <div class="progress" style="flex:1;max-width:200px;height:6px"><i id="cat-prog-bar" style="width:0%"></i></div>
-    </div>
-
-    <div class="catalog-toolbar" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
-      <!-- 词库范围切换：考研大纲词库 vs 全网 5.4 万大词典 (KyleBing 赋能) -->
-      <div class="dict-scope-tabs" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <button class="filter-chip active" id="dict-scope-kaoyan" type="button" style="font-weight:700">🎓 考研核心词库 (5,619 词)</button>
-        <button class="filter-chip" id="dict-scope-global" type="button" style="font-weight:700">🌐 全网大字典 (5.4万 词条 & 考点短语)</button>
-      </div>
-
-      <!-- 搜索栏 -->
-      <div class="filter-search" style="position:relative;display:flex;align-items:center;background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:6px 12px;box-shadow:var(--shadow-sm)">
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-        <input id="filter-input" class="filter-input" type="search" inputmode="search" placeholder="在 5,619 考研词库中瞬时搜索…（按 / 键聚焦）" aria-label="在词库中搜索" style="border:none;background:transparent;flex:1;padding:6px 8px;font-size:13.5px;color:var(--color-text);outline:none" />
-        <button id="filter-clear-btn" type="button" aria-label="清空搜索" style="display:none;background:none;border:none;color:var(--color-text-muted);cursor:pointer;font-size:14px;padding:2px 6px">✕</button>
-      </div>
-
-      <!-- 层级标签筛选 -->
-      <div class="filter-chips" id="filter-chips" role="group" aria-label="大纲层级筛选" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px">
-        <button class="filter-chip active" data-filter="all" type="button">全部词 (5619)</button>
-        <button class="filter-chip" data-filter="核心高频" type="button">⭐ 核心高频</button>
-        <button class="filter-chip" data-filter="高频重点" type="button">📌 高频重点</button>
-        <button class="filter-chip" data-filter="重点扩展" type="button">🎯 重点扩展</button>
-      </div>
-
-      <!-- 细分属性与词性筛选 -->
-      <div class="filter-chips data-filter-chips" id="data-filter-chips" role="group" aria-label="单词类型与掌握状态筛选" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px">
-        <button class="filter-chip active" data-filter="all" type="button">全部属性</button>
-        <button class="filter-chip" data-filter="star5" type="button">★★★★★ 超高频</button>
-        <button class="filter-chip" data-filter="star4" type="button">★★★★ 核心词</button>
-        <button class="filter-chip" data-filter="fav" type="button">⭐ 生词本</button>
-        <button class="filter-chip" data-filter="weak" type="button">⚡ 薄弱词</button>
-        <button class="filter-chip" data-filter="tag_exam" type="button">📌 题型定位词</button>
-        <button class="filter-chip" data-filter="synonyms" type="button">🔄 同义替换</button>
-        <button class="filter-chip" data-filter="secondary" type="button">⚡ 熟词僻义</button>
-        <button class="filter-chip" data-filter="root" type="button">🌱 词根助记</button>
-        <button class="filter-chip" data-filter="pos_v" type="button">动词 (v.)</button>
-        <button class="filter-chip" data-filter="pos_n" type="button">名词 (n.)</button>
-        <button class="filter-chip" data-filter="pos_adj" type="button">形容词 (adj.)</button>
-        <button class="filter-chip" data-filter="pos_adv" type="button">副词 (adv.)</button>
-        <button class="filter-chip" data-filter="unmastered" type="button">未掌握优先</button>
-        <button class="filter-chip" data-filter="mastered" type="button">已熟记掌握</button>
-      </div>
-
-      <!-- 排序与快捷操作栏 -->
+    <!-- 紧凑收纳型词库总控卡片 -->
+    <div class="catalog-control-panel" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:12px 14px;margin-bottom:14px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:10px">
+      
+      <!-- 第一行：词库范围切换 + 快捷收纳按钮 + 导出词单 -->
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <div class="filter-chips" id="sort-chips" role="group" aria-label="排序方式" style="display:flex;gap:6px">
-          <button class="filter-chip active" data-sort="alpha" type="button">🔤 字母序</button>
-          <button class="filter-chip" data-sort="freq" type="button">🔥 考频优先</button>
-          <button class="filter-chip" data-sort="todo" type="button">⏳ 未掌握优先</button>
+        <div class="dict-scope-tabs" style="display:inline-flex;background:var(--color-surface-offset);padding:3px;border-radius:10px;border:1px solid var(--color-border);gap:4px">
+          <button class="filter-chip active" id="dict-scope-kaoyan" type="button" style="border:none;padding:5px 12px;border-radius:8px;font-size:12.5px;font-weight:700">🎓 考研核心词库 (5,619 词)</button>
+          <button class="filter-chip" id="dict-scope-global" type="button" style="border:none;padding:5px 12px;border-radius:8px;font-size:12.5px;font-weight:700">🌐 全网大字典 (5.4万 词条)</button>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-          <span class="catalog-count-pill" id="count-pill" style="font-size:12px;font-weight:700;color:var(--color-primary)"></span>
-          <button class="multi-clear-btn" id="cat-export-words-btn" type="button" style="padding:4px 8px;font-size:12px" title="导出当前筛选单词表">📥 导出词单</button>
-          <button class="multi-clear-btn" id="quiz-btn" type="button" style="font-weight:600;border-color:var(--color-primary);color:var(--color-primary);padding:4px 10px;font-size:12px" title="从当前筛选词库中抽10题进行真题自测">🎯 词库速测</button>
-          <button class="multi-clear-btn" id="random-word" type="button" style="padding:4px 10px;font-size:12px" title="从当前筛选结果中随机抽一个词">🎲 抽一词</button>
-          <button class="multi-clear-btn" id="select-visible" type="button" style="padding:4px 8px;font-size:12px">选择当页</button>
-          <button class="multi-clear-btn" id="clear-selected" type="button" style="padding:4px 8px;font-size:12px">清空选择</button>
+
+        <div style="display:flex;align-items:center;gap:6px">
+          <button class="nav-btn" id="toggle-filter-collapse" type="button" style="padding:5px 10px;font-size:12px;border-radius:8px;display:inline-flex;align-items:center;gap:4px;cursor:pointer;background:var(--color-surface-offset);border:1px solid var(--color-border);color:var(--color-text)">
+            <span id="filter-collapse-icon">🔽</span>
+            <span id="filter-collapse-text">收纳筛选</span>
+          </button>
+          <button class="nav-btn" id="export-words-btn" type="button" style="padding:5px 10px;font-size:12px;border-radius:8px;cursor:pointer;background:var(--color-surface-offset);border:1px solid var(--color-border);color:var(--color-text)" title="导出当前词单">📥 导出</button>
+        </div>
+      </div>
+
+      <!-- 第二行：全宽搜索栏 (彻底根除矮方块问题) -->
+      <div class="filter-search-box" style="position:relative;display:flex;align-items:center;background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:10px;padding:0 12px;height:42px;width:100%;box-sizing:border-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;color:var(--color-text-muted);flex-shrink:0"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="filter-input" type="search" inputmode="search" placeholder="在 5,619 考研词库中瞬时搜索…（按 / 键聚焦）" aria-label="在词库中搜索" style="border:none;background:transparent;flex:1;height:100%;padding:0;font-size:13.5px;color:var(--color-text);outline:none;width:100%" />
+        <button id="filter-clear-btn" type="button" aria-label="清空搜索" style="display:none;background:none;border:none;color:var(--color-text-muted);cursor:pointer;font-size:14px;padding:4px 8px">✕</button>
+      </div>
+
+      <!-- 进度条提示行 -->
+      <div class="catalog-progress-banner" id="catalog-progress-banner" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 2px;font-size:12px">
+        <span id="cat-prog-label" style="color:var(--color-text-muted)">📊 词库总览：已掌握 0/5619 词 (0%)</span>
+        <div class="progress" style="flex:1;max-width:180px;height:5px;background:var(--color-surface-offset);border-radius:4px;overflow:hidden"><i id="cat-prog-bar" style="width:0%;height:100%;background:var(--color-primary);display:block;transition:width .3s"></i></div>
+      </div>
+
+      <!-- 第三部分：可一键收纳的筛选器抽屉/面板 -->
+      <div id="cat-collapsible-filters" style="display:flex;flex-direction:column;gap:8px;padding-top:6px;border-top:1px dashed var(--color-border)">
+        <!-- 大纲层级 -->
+        <div style="display:flex;align-items:center;gap:6px;overflow-x:auto;padding-bottom:2px" class="filter-chips" id="filter-chips" role="group" aria-label="大纲层级筛选">
+          <span style="font-size:11.5px;font-weight:700;color:var(--color-text-muted);white-space:nowrap">层级:</span>
+          <button class="filter-chip active" data-filter="all" type="button">全部词 (5619)</button>
+          <button class="filter-chip" data-filter="核心高频" type="button">⭐ 核心高频</button>
+          <button class="filter-chip" data-filter="高频重点" type="button">📌 高频重点</button>
+          <button class="filter-chip" data-filter="重点扩展" type="button">🎯 重点扩展</button>
+        </div>
+
+        <!-- 细分属性与词性筛选 -->
+        <div style="display:flex;align-items:center;gap:6px;overflow-x:auto;padding-bottom:2px" class="filter-chips data-filter-chips" id="data-filter-chips" role="group" aria-label="单词类型与掌握状态筛选">
+          <span style="font-size:11.5px;font-weight:700;color:var(--color-text-muted);white-space:nowrap">属性:</span>
+          <button class="filter-chip active" data-filter="all" type="button">全部属性</button>
+          <button class="filter-chip" data-filter="star5" type="button">★★★★★ 超高频</button>
+          <button class="filter-chip" data-filter="star4" type="button">★★★★ 核心词</button>
+          <button class="filter-chip" data-filter="fav" type="button">⭐ 生词本</button>
+          <button class="filter-chip" data-filter="weak" type="button">⚡ 薄弱词</button>
+          <button class="filter-chip" data-filter="tag_exam" type="button">📌 题型定位词</button>
+          <button class="filter-chip" data-filter="synonyms" type="button">🔄 同义替换</button>
+          <button class="filter-chip" data-filter="secondary" type="button">⚡ 熟词僻义</button>
+          <button class="filter-chip" data-filter="root" type="button">🌱 词根助记</button>
+          <button class="filter-chip" data-filter="pos_v" type="button">动词 (v.)</button>
+          <button class="filter-chip" data-filter="pos_n" type="button">名词 (n.)</button>
+          <button class="filter-chip" data-filter="pos_adj" type="button">形容词 (adj.)</button>
+          <button class="filter-chip" data-filter="pos_adv" type="button">副词 (adv.)</button>
+          <button class="filter-chip" data-filter="unmastered" type="button">未掌握优先</button>
+          <button class="filter-chip" data-filter="mastered" type="button">已熟记掌握</button>
+        </div>
+
+        <!-- 排序与快捷操作栏 -->
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding-top:4px">
+          <div class="filter-chips" id="sort-chips" role="group" aria-label="排序方式" style="display:flex;align-items:center;gap:6px">
+            <span style="font-size:11.5px;font-weight:700;color:var(--color-text-muted);white-space:nowrap">排序:</span>
+            <button class="filter-chip active" data-sort="alpha" type="button">🔤 字母序</button>
+            <button class="filter-chip" data-sort="freq" type="button">🔥 考频优先</button>
+            <button class="filter-chip" data-sort="todo" type="button">⏳ 未掌握优先</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <span class="catalog-count-pill" id="count-pill" style="font-size:12px;font-weight:700;color:var(--color-primary)"></span>
+            <button class="multi-clear-btn" id="cat-export-words-btn" type="button" style="padding:4px 8px;font-size:12px" title="导出当前筛选单词表">📥 导出词单</button>
+            <button class="multi-clear-btn" id="quiz-btn" type="button" style="font-weight:600;border-color:var(--color-primary);color:var(--color-primary);padding:4px 10px;font-size:12px" title="从当前筛选词库中抽10题进行真题自测">🎯 词库速测</button>
+            <button class="multi-clear-btn" id="random-word" type="button" style="padding:4px 10px;font-size:12px" title="从当前筛选结果中随机抽一个词">🎲 抽一词</button>
+            <button class="multi-clear-btn" id="select-visible" type="button" style="padding:4px 8px;font-size:12px">选择当页</button>
+            <button class="multi-clear-btn" id="clear-selected" type="button" style="padding:4px 8px;font-size:12px">清空选择</button>
+          </div>
         </div>
       </div>
     </div>
@@ -175,5 +199,47 @@
   <script defer src="js/app.js"></script>
   <script defer src="js/catalog.js"></script>
   <script defer src="js/pwa.js"></script>
+  <script>
+    // 顶部考研导航菜单收纳与展开
+    const wordsMenuBtn = document.getElementById('words-menu-toggle');
+    const wordsNavBox = document.getElementById('words-top-nav-box');
+    if (wordsMenuBtn && wordsNavBox) {
+      wordsMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = wordsNavBox.hidden;
+        wordsNavBox.hidden = !isHidden;
+        wordsMenuBtn.classList.toggle('active', isHidden);
+      });
+      document.addEventListener('click', (e) => {
+        if (!wordsNavBox.hidden && !wordsNavBox.contains(e.target) && e.target !== wordsMenuBtn) {
+          wordsNavBox.hidden = true;
+          wordsMenuBtn.classList.remove('active');
+        }
+      });
+    }
+
+    // 词库筛选器一键收纳折叠 / 展开
+    const toggleFilterBtn = document.getElementById('toggle-filter-collapse');
+    const collapsibleFilters = document.getElementById('cat-collapsible-filters');
+    const filterCollapseIcon = document.getElementById('filter-collapse-icon');
+    const filterCollapseText = document.getElementById('filter-collapse-text');
+    if (toggleFilterBtn && collapsibleFilters) {
+      // 默认记住用户偏好
+      const isSavedCollapsed = localStorage.getItem('cat_filters_collapsed') === '1';
+      if (isSavedCollapsed) {
+        collapsibleFilters.hidden = true;
+        if (filterCollapseIcon) filterCollapseIcon.textContent = '▶️';
+        if (filterCollapseText) filterCollapseText.textContent = '展开筛选';
+      }
+      toggleFilterBtn.addEventListener('click', () => {
+        const isHidden = collapsibleFilters.hidden;
+        collapsibleFilters.hidden = !isHidden;
+        if (filterCollapseIcon) filterCollapseIcon.textContent = isHidden ? '🔽' : '▶️';
+        if (filterCollapseText) filterCollapseText.textContent = isHidden ? '收纳筛选' : '展开筛选';
+        localStorage.setItem('cat_filters_collapsed', isHidden ? '0' : '1');
+        if (window.KaoyanToast) window.KaoyanToast(isHidden ? '🔽 筛选面板已展开' : '📦 筛选面板已收纳');
+      });
+    }
+  </script>
 </body>
 </html>
