@@ -287,7 +287,7 @@
       try { const u = new SpeechSynthesisUtterance(w0.word); u.lang = 'en-US'; u.rate = .92; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (err) {}
     }
   }
-  // 点击卡片任意空白处 = 显示释义；支持手机端流畅滑动手势与弹性物理微动效
+  // 📱 手机端原生级左右滑动手势：左滑=忘记/模糊，右滑=记住 (Swipe Left = 忘记/需重背, Swipe Right = 记住/熟记)
   const cardBox = document.querySelector('.s-card');
   let touchStartX = 0, touchStartY = 0, touchStartTime = 0, isDragging = false, lastTapTime = 0;
   if (cardBox) {
@@ -297,6 +297,8 @@
         touchStartY = e.touches[0].clientY;
         touchStartTime = Date.now();
         isDragging = true;
+        const box = cardBox.querySelector('.bb-container');
+        if (box) box.style.transition = 'none';
       }
     }, { passive: true });
 
@@ -304,26 +306,37 @@
       if (!isDragging || !e.touches || e.touches.length !== 1) return;
       const dx = e.touches[0].clientX - touchStartX;
       const dy = e.touches[0].clientY - touchStartY;
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 12) {
-        const inner = cardBox.querySelector('.s-card-inner');
-        if (inner) {
-          inner.style.transition = 'none';
-          inner.style.transform = `translateX(${dx * 0.35}px) rotate(${dx * 0.015}deg)`;
-          inner.style.opacity = Math.max(0.4, 1 - Math.abs(dx) / 450);
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+        const box = cardBox.querySelector('.bb-container');
+        if (box) {
+          const rot = dx * 0.035;
+          box.style.transform = `translateX(${dx * 0.85}px) rotate(${rot}deg)`;
+          box.style.opacity = Math.max(0.35, 1 - Math.abs(dx) / 360);
+          if (dx < -25) {
+            box.style.borderColor = 'rgba(220, 38, 38, 0.65)';
+            box.style.boxShadow = '0 8px 24px rgba(220, 38, 38, 0.18)';
+          } else if (dx > 25) {
+            box.style.borderColor = 'rgba(13, 148, 136, 0.65)';
+            box.style.boxShadow = '0 8px 24px rgba(13, 148, 136, 0.18)';
+          } else {
+            box.style.borderColor = '';
+            box.style.boxShadow = '';
+          }
         }
       }
     }, { passive: true });
 
     cardBox.addEventListener('touchend', function (e) {
+      if (!isDragging) return;
       isDragging = false;
-      const inner = cardBox.querySelector('.s-card-inner');
+      const box = cardBox.querySelector('.bb-container');
       if (e.changedTouches && e.changedTouches.length === 1) {
         const dx = e.changedTouches[0].clientX - touchStartX;
         const dy = e.changedTouches[0].clientY - touchStartY;
         const dt = Date.now() - touchStartTime;
 
-        // Double tap detection on top word area
-        if (e.target.closest('.s-card-fixed-top, .wordtop')) {
+        // 双击快速朗读
+        if (Math.abs(dx) < 15 && Math.abs(dy) < 15 && dt < 280) {
           const now = Date.now();
           if (now - lastTapTime < 320) {
             const w = queue[idx];
@@ -332,47 +345,45 @@
           lastTapTime = now;
         }
 
-        if (Math.abs(dx) > 55 && Math.abs(dy) < 95 && dt < 450) {
-          if (inner) {
-            inner.style.transition = 'transform 0.18s ease-out, opacity 0.18s ease-out';
-            inner.style.transform = `translateX(${dx < 0 ? '-100%' : '100%'})`;
-            inner.style.opacity = '0';
-          }
-          setTimeout(() => {
-            if (dx < -55) {
-              // 左滑: 翻转释义或切换到下一个
-              if (!shown) {
-                reveal();
-              } else {
-                idx = Math.min(queue.length - 1, idx + 1);
-                shown = false;
-                renderQueue();
-                renderCard();
-              }
-            } else if (dx > 55) {
-              // 右滑: 返回上一个
-              idx = Math.max(0, idx - 1);
-              shown = false;
-              renderQueue();
-              renderCard();
+        // 横向滑动手势判定 (阈值 55px)
+        if (Math.abs(dx) > 55 && Math.abs(dy) < 100 && dt < 450) {
+          if (dx < 0) {
+            // 👈 左滑 = 忘记 / 模糊 (需重背)
+            if (box) {
+              box.style.transition = 'transform 0.2s ease-out, opacity 0.2s ease-out';
+              box.style.transform = 'translateX(-120%) rotate(-12deg)';
+              box.style.opacity = '0';
             }
-          }, 120);
-          return;
-        } else if (Math.abs(dy) > 60 && Math.abs(dx) < 80 && dt < 450) {
-          if (dy < -60) {
-            // 上滑: 显示释义
-            if (!shown) reveal();
-          } else if (dy > 60) {
-            // 下滑: 快速评分认识 / 翻转
-            if (shown) rate(2);
-            else reveal();
+            if (window.KaoyanToast) window.KaoyanToast('👈 左滑：忘记 / 模糊（已加入强化循环）');
+            triggerHaptic([20, 30, 20]);
+            setTimeout(() => {
+              rate(0, true);
+            }, 160);
+            return;
+          } else {
+            // 👉 右滑 = 记住 (熟记掌握)
+            if (box) {
+              box.style.transition = 'transform 0.2s ease-out, opacity 0.2s ease-out';
+              box.style.transform = 'translateX(120%) rotate(12deg)';
+              box.style.opacity = '0';
+            }
+            if (window.KaoyanToast) window.KaoyanToast('👉 右滑：记住 · 熟记掌握 ✓');
+            triggerHaptic([10, 20, 25]);
+            setTimeout(() => {
+              rate(3, true);
+            }, 160);
+            return;
           }
         }
       }
-      if (inner) {
-        inner.style.transition = 'transform 0.24s cubic-bezier(0.2, 0.9, 0.3, 1.15), opacity 0.22s ease';
-        inner.style.transform = 'none';
-        inner.style.opacity = '1';
+
+      // 未达滑动阈值，平滑复位
+      if (box) {
+        box.style.transition = 'transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease';
+        box.style.transform = 'none';
+        box.style.opacity = '1';
+        box.style.borderColor = '';
+        box.style.boxShadow = '';
       }
     }, { passive: true });
 
@@ -491,7 +502,7 @@
           <!-- 居中回忆提示区 -->
           <div class="bb-recall-prompt">
             <div class="bb-recall-title">请回忆单词发音和释义</div>
-            <div class="bb-recall-sub">点击屏幕显示答案</div>
+            <div class="bb-recall-sub">👈 左滑忘记 · 👉 右滑记住 · 单击看释义</div>
           </div>
 
           <!-- 悬浮播放按钮 -->
@@ -672,57 +683,7 @@
     if (syn) showSynonymPreview(syn);
   });
 
-  // 📱 手机端左右滑动手势切词与双击朗读 (Swipe Left = 模糊, Swipe Right = 认识, Double-tap = 朗读)
-  (function initCardTouchGestures() {
-    var cardEl = document.getElementById('card');
-    if (!cardEl) return;
-    var startX = 0, startY = 0, startTime = 0, lastTapTime = 0;
-
-    cardEl.addEventListener('touchstart', function (e) {
-      if (e.touches && e.touches.length === 1) {
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        startTime = Date.now();
-      }
-    }, { passive: true });
-
-    cardEl.addEventListener('touchend', function (e) {
-      if (e.changedTouches && e.changedTouches.length === 1) {
-        var dx = e.changedTouches[0].clientX - startX;
-        var dy = e.changedTouches[0].clientY - startY;
-        var dt = Date.now() - startTime;
-
-        // Double tap detection
-        var now = Date.now();
-        if (Math.abs(dx) < 15 && Math.abs(dy) < 15 && dt < 250) {
-          if (now - lastTapTime < 320) {
-            var w = queue[idx];
-            if (w && w.word && window.speechSynthesis) {
-              window.speechSynthesis.cancel();
-              var u = new SpeechSynthesisUtterance(w.word);
-              u.lang = 'en-US';
-              window.speechSynthesis.speak(u);
-            }
-          }
-          lastTapTime = now;
-          return;
-        }
-
-        // Horizontal Swipe
-        if (Math.abs(dx) > 60 && Math.abs(dy) < 70 && dt < 450) {
-          if (dx < 0) {
-            if (window.KaoyanToast) window.KaoyanToast('👈 滑动：需重背 / 待巩固');
-            rate(0);
-          } else {
-            if (window.KaoyanToast) window.KaoyanToast('👉 滑动：熟记掌握 ✓');
-            rate(2);
-          }
-          if (navigator.vibrate) try { navigator.vibrate(15); } catch(err){}
-        }
-      }
-    }, { passive: true });
-
-    // 📱 手机端摇一摇随机抽高频词 (Device Motion Shake)
+  (function initDeviceMotionShake() {
     var lastShake = 0;
     window.addEventListener('devicemotion', function (e) {
       var acc = e.accelerationIncludingGravity;
@@ -846,9 +807,9 @@
     try{const r=await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(w.word));if(!r.ok)throw new Error('notfound');const d=await r.json();const e=d&&d[0];if(!e)throw new Error('empty');const meanings=[];(e.meanings||[]).slice(0,3).forEach(m=>(m.definitions||[]).slice(0,2).forEach(x=>meanings.push((m.partOfSpeech?m.partOfSpeech+'. ':'')+(x.definition||''))));w.pos=w.pos||((e.meanings||[])[0]?.partOfSpeech||'');w.phonetic=w.phonetic||e.phonetic||'';w.defs=meanings.map(x=>({pos:'',text:x}));w.translation=w.translation||'';w.exam_meaning=w.exam_meaning||meanings.slice(0,2).join('；');const ex=(e.meanings||[]).flatMap(m=>m.definitions||[]).find(x=>x.example);if(ex&&!w.example_en)w.example_en=ex.example;w._runtimeFetched=Date.now();mergeRt(w.word,{pos:w.pos,phonetic:w.phonetic,defs:w.defs,translation:w.translation,exam_meaning:w.exam_meaning,example_en:w.example_en,example_zh:w.example_zh});renderCard();}catch(e){alert('在线词典暂时无法获取该词。');}finally{loading=false;}
   }
   function reveal(){shown=true;renderCard();}
-  function rate(grade){
+  function rate(grade, forceAdvance){
     const w=queue[idx];if(!w)return;
-    if(!shown){shown=true;renderCard();return;}
+    if(!shown && !forceAdvance){shown=true;renderCard();return;}
     if(grade===0) { triggerHaptic([20, 30, 20]); if(window.KaoyanAudio) window.KaoyanAudio.playWarn(); }
     else if(grade===1) { triggerHaptic(18); }
     else if(grade===2) { triggerHaptic(12); if(window.KaoyanAudio) window.KaoyanAudio.playSuccess(); }
