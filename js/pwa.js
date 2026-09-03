@@ -3,8 +3,8 @@
   'use strict';
 
   // 1. 全局版本号与手机自动更新引擎 (Universal Auto-Updater)
-  var CURRENT_VERSION_CODE = 962;
-  var CURRENT_VERSION_STR = '9.62';
+  var CURRENT_VERSION_CODE = 963;
+  var CURRENT_VERSION_STR = '9.63';
 
   function showUpdateBanner(remote) {
     if (document.getElementById('kaoyan-update-banner')) return;
@@ -749,4 +749,54 @@
     }
   });
 
+  // 全局通用收纳式快捷导航菜单控制器 (Universal Collapsible Header Navigation)
+  function initUniversalHeaderMenu() {
+    function setupMenu() {
+      var menuBtns = document.querySelectorAll('[data-nav-menu-toggle], #study-menu-toggle, #words-menu-toggle');
+      var navBoxes = document.querySelectorAll('[data-nav-menu-box], #study-top-nav-box, #words-top-nav-box');
+      
+      menuBtns.forEach(function (btn) {
+        if (btn._navBound) return;
+        btn._navBound = true;
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var targetBox = document.querySelector('[data-nav-menu-box]') || document.getElementById('study-top-nav-box') || document.getElementById('words-top-nav-box');
+          if (targetBox) {
+            var isHidden = targetBox.hidden;
+            targetBox.hidden = !isHidden;
+            btn.classList.toggle('active', !isHidden);
+          }
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        navBoxes.forEach(function (box) {
+          if (!box.hidden && !box.contains(e.target)) {
+            var isBtn = false;
+            menuBtns.forEach(function(b) { if (b === e.target || b.contains(e.target)) isBtn = true; });
+            if (!isBtn) {
+              box.hidden = true;
+              menuBtns.forEach(function(b) { b.classList.remove('active'); });
+            }
+          }
+        });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          navBoxes.forEach(function (box) { box.hidden = true; });
+          menuBtns.forEach(function (b) { b.classList.remove('active'); });
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupMenu);
+    } else {
+      setupMenu();
+    }
+  }
+  initUniversalHeaderMenu();
+
 })();
+

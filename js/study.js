@@ -394,25 +394,12 @@
         pinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
       }
     }, { passive: true });
-    cardBox.addEventListener('touchmove', function (e) {
-      if (e.touches && e.touches.length === 2 && pinchDist > 0) {
-        const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
-        const ratio = d / pinchDist;
-        if (Math.abs(ratio - 1) > 0.15) {
-          let fs = parseFloat(localStorage.getItem('kao_fs') || '1');
-          fs = Math.max(0.85, Math.min(1.35, fs * (ratio > 1 ? 1.05 : 0.95)));
-          document.documentElement.style.setProperty('--fs', fs.toFixed(2));
-          localStorage.setItem('kao_fs', fs.toFixed(2));
-          pinchDist = d;
-        }
-      }
-    }, { passive: true });
-
     cardBox.addEventListener('click', function (e) {
       if (e.target.closest('button, a, input, label, select')) return;
       reveal();
     });
   }
+
   // 例句目标词高亮（与查词页同一套规则）
   function hlSentence(en,word){
     const stem=word.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -426,25 +413,24 @@
   }
   function isAutoSpeakOn() { return localStorage.getItem('kao_auto_speak') === 'true'; }
 
-  function renderCard(){
+  function renderCard() {
     const w=queue[idx];
     if(!w){
       if(window.KaoyanAudio) window.KaoyanAudio.playComplete();
       $('card').innerHTML=`
         <div class="empty" style="padding:28px 16px;text-align:center">
-          <div style="font-size:46px;margin-bottom:8px">🎉</div>
-          <h2 style="font-size:20px;font-weight:700;color:var(--color-primary);margin:0 0 6px">本组 100 词学习达成！</h2>
-          <p style="font-size:13.5px;color:var(--color-text-muted);margin:0 0 18px">今日已累计完成 ${state.todayDone || 0} 词 · 研途漫漫，日拱一卒</p>
-          <div style="display:flex;flex-direction:column;gap:10px;max-width:280px;margin:0 auto">
-            <button class="btn primary" id="next-group" type="button" style="padding:12px;font-size:15px;font-weight:600;border-radius:10px">🚀 继续下一组新词 (100 词)</button>
-            <button class="btn" id="replay-group" type="button" style="padding:10px;font-size:14px;border-radius:10px">🔄 重新巩固本组 100 词</button>
-            <button class="btn" id="weak-group" type="button" style="padding:10px;font-size:14px;border-radius:10px;color:var(--color-accent);border-color:var(--color-accent)">⚡ 专项攻克薄弱词</button>
+          <div style="font-size:48px;margin-bottom:8px" class="puppy-bounce-anim">🦮 🐕‍🦺 🐺</div>
+          <h2 style="font-size:20px;font-weight:800;color:var(--color-primary);margin:0 0 6px">汪汪！今日背词大通关 🎉</h2>
+          <p style="font-size:13.5px;color:var(--color-text-muted);margin:0 0 18px">今日已完成 ${state.todayDone || 0} 词 · 小金毛、边牧和阿拉斯加为你欢呼摇尾巴！</p>
+          <div style="display:flex;flex-direction:column;gap:10px;max-width:300px;margin:0 auto">
+            <button class="btn primary" id="next-group" type="button" style="padding:12px;font-size:15px;font-weight:700;border-radius:10px">🐾 携萌犬继续下一组新词</button>
+            <button class="btn" id="replay-group" type="button" style="padding:10px;font-size:14px;border-radius:10px">🔄 重新巩固本组单词</button>
+            <a class="btn" href="memory.html" style="padding:10px;font-size:14px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px">📅 去我的主页签到领今日萌犬</a>
           </div>
         </div>
       `;
       if($('next-group'))$('next-group').onclick=()=>{buildQueue();renderCard();};
       if($('replay-group'))$('replay-group').onclick=()=>{idx=0;shown=false;renderQueue();renderCard();};
-      if($('weak-group'))$('weak-group').onclick=()=>{activeStudyMode='weak';buildQueue();renderCard();};
       return;
     }
     const meaning = w.exam_meaning || w.translation || '';
@@ -499,8 +485,17 @@
             </div>
           </div>
 
-          <!-- 居中回忆提示区 -->
+          <!-- 居中回忆提示区 + 金毛学伴打气 -->
           <div class="bb-recall-prompt">
+            <div class="study-puppy-cheer-card">
+              <span class="puppy-bounce-anim" style="font-size:32px">🦮</span>
+              <div style="text-align:left">
+                <div style="font-size:12px;font-weight:800;color:var(--color-primary);display:flex;align-items:center;gap:4px">
+                  金毛学伴打气 <span style="font-size:10px;background:color-mix(in oklab, var(--color-primary) 15%, transparent);padding:1px 6px;border-radius:999px">摇尾中</span>
+                </div>
+                <div style="font-size:11.5px;color:var(--color-text-muted)">“想起来了吗？👈左滑忘记 · 👉右滑记住”</div>
+              </div>
+            </div>
             <div class="bb-recall-title">请回忆单词发音和释义</div>
             <div class="bb-recall-sub">👈 左滑忘记 · 👉 右滑记住 · 单击看释义</div>
           </div>
@@ -546,6 +541,14 @@
 
         <!-- 答案内容可滑动区 -->
         <div class="bb-answer-content">
+          <!-- 边牧助记提醒条 -->
+          <div class="study-puppy-revealed-bar">
+            <span class="puppy-bounce-anim" style="font-size:24px">🐕‍🦺</span>
+            <div style="font-size:12px;color:var(--color-text-muted);line-height:1.45">
+              <strong style="color:var(--color-text)">边牧学伴考点提示：</strong>结合真题考点短语联想记忆！右滑熟记，左滑重背~
+            </div>
+          </div>
+
           <!-- 释义栏 -->
           <div class="bb-meaning-box">
             <span class="bb-pos-tag">${esc(rawPos)}</span>

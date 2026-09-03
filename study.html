@@ -357,6 +357,7 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
     <button class="minimal-tier-btn" id="tier-switch-btn" type="button" title="点击切换词库 / 学习模式">
       <span class="tier-name" id="tier-name">核心高频</span>
       <span class="minimal-mode-pill" id="current-mode-indicator">📘 标准</span>
+      <span class="puppy-wag-anim" id="study-puppy-wag" style="font-size:14px;margin-left:2px;cursor:pointer" title="小金毛学伴在线陪背中">🦮</span>
     </button>
   </div>
   <div class="minimal-center">
@@ -366,19 +367,19 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
   </div>
   <div class="minimal-right">
     <button class="minimal-icon-btn" id="autoplay-btn" type="button" title="自动播放 / 闪卡连读模式">▶</button>
-    <button class="minimal-icon-btn" id="study-menu-toggle" type="button" title="☰ 考研导航与功能菜单">☰</button>
+    <button class="minimal-icon-btn nav-menu-toggle-btn" id="study-menu-toggle" data-nav-menu-toggle type="button" title="☰ 考研导航与功能菜单">☰</button>
   </div>
 </div>
 
-<div id="study-top-nav-box" class="study-nav-dropdown-card" hidden>
-  <div style="font-size:11px;font-weight:700;color:var(--color-text-muted);margin-bottom:6px">📌 考研核心模块导航</div>
-  <div class="study-nav-grid-pills">
-    <a class="nav-grid-pill active" href="study.html">📖 背单词</a>
-    <a class="nav-grid-pill" href="exam.html">📝 英一题型</a>
-    <a class="nav-grid-pill" href="words.html">📚 考研词库</a>
-    <a class="nav-grid-pill" href="memory.html">👤 我的与设置</a>
+<div id="study-top-nav-box" class="unified-nav-dropdown-card" data-nav-menu-box hidden>
+  <div style="font-size:11.5px;font-weight:700;color:var(--color-text-muted);margin-bottom:8px">🎯 考研核心模块导航</div>
+  <div class="unified-nav-grid-pills">
+    <a class="nav-grid-pill active" href="study.html">📖 智能背单词</a>
+    <a class="nav-grid-pill" href="exam.html">📝 英一题型工坊</a>
+    <a class="nav-grid-pill" href="words.html">📚 考研词库检索</a>
+    <a class="nav-grid-pill" href="memory.html">👤 我的数据中心</a>
   </div>
-  <div style="height:1px;background:var(--color-border);margin:8px 0"></div>
+  <div style="height:1px;background:var(--color-border);margin:10px 0"></div>
   <div style="font-size:11px;font-weight:700;color:var(--color-text-muted);margin-bottom:6px">⚡ 快捷操作</div>
   <div style="display:flex;gap:6px;flex-wrap:wrap">
     <button class="nav-grid-pill" id="menu-quick-drawer" type="button" style="flex:1;cursor:pointer">⚙️ 词库与模式设置</button>

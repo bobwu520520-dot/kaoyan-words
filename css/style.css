@@ -3611,3 +3611,200 @@ body.zen-focus-active .zen-exit-floating-btn {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ==========================================================================
+   全局统一收纳式快捷导航菜单 (Universal Foldable Header Nav)
+   ========================================================================== */
+.nav-menu-toggle-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-offset);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--color-text);
+  transition: var(--transition);
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.nav-menu-toggle-btn:hover,
+.nav-menu-toggle-btn.active {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: color-mix(in oklab, var(--color-primary) 12%, transparent);
+}
+
+.unified-nav-dropdown-card {
+  position: fixed;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: min(94vw, 460px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+  padding: 14px;
+  box-sizing: border-box;
+  backdrop-filter: blur(12px);
+  animation: unifiedNavSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes unifiedNavSlide {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+.unified-nav-grid-pills {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.nav-grid-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: var(--transition);
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.nav-grid-pill:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: color-mix(in oklab, var(--color-primary) 8%, transparent);
+}
+.nav-grid-pill.active {
+  background: color-mix(in oklab, var(--color-primary) 14%, transparent);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ==========================================================================
+   背单词页面萌犬学伴动效 (Cute Puppy Elements for Study Page)
+   ========================================================================== */
+@keyframes puppyBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-5px) scale(1.08); }
+}
+@keyframes puppyWag {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+.puppy-bounce-anim {
+  animation: puppyBounce 2s infinite ease-in-out;
+  display: inline-block;
+}
+.puppy-wag-anim {
+  animation: puppyWag 1.8s infinite ease-in-out;
+  display: inline-block;
+}
+.study-puppy-cheer-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 8px 14px;
+  background: color-mix(in oklab, var(--color-primary) 8%, var(--color-surface));
+  border: 1px dashed color-mix(in oklab, var(--color-primary) 30%, transparent);
+  border-radius: 14px;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.study-puppy-revealed-bar {
+  background: var(--color-surface-offset);
+  border: 1px dashed var(--color-border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   我的页面 每日萌犬签到打卡 (Daily Cute Puppy Check-In System)
+   ========================================================================== */
+.checkin-trail-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+.checkin-day-cell {
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition);
+}
+.checkin-day-cell.today {
+  border-color: var(--color-primary);
+  background: color-mix(in oklab, var(--color-primary) 8%, var(--color-surface));
+}
+.checkin-day-cell.checked {
+  border-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
+}
+.checkin-day-cell .day-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+.checkin-day-cell.today .day-label {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+.checkin-day-cell .puppy-slot {
+  font-size: 20px;
+  line-height: 1.2;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkin-day-cell .puppy-name-sub {
+  font-size: 10px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.puppy-album-card {
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition);
+}
+.puppy-album-card.unlocked {
+  border-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
+  background: color-mix(in oklab, var(--color-primary) 6%, var(--color-surface));
+}
+.puppy-album-card.locked {
+  opacity: 0.55;
+  filter: grayscale(0.8);
+}
+

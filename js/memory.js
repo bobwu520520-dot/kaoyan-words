@@ -617,6 +617,250 @@
   }
   syncSettingsUI();
 
+  // ==========================================================================
+  // 每日萌犬签到打卡系统 (Daily Cute Puppy Check-In System)
+  // ==========================================================================
+  var PUPPY_DATABASE = [
+    { id: 'golden', name: '小金毛', fullName: '元气暖心小金毛', emoji: '🦮', tag: '温暖治愈', quote: '汪！今天又是元气满满背单词的一天！', bg: '#fef3c7', color: '#b45309' },
+    { id: 'collie', name: '边牧', fullName: '超高智商学霸边牧', emoji: '🐕‍🦺', tag: '智力天花板', quote: '超高智商加持！考研难词长难句过目不忘！', bg: '#e0f2fe', color: '#0369a1' },
+    { id: 'malamute', name: '阿拉斯加', fullName: '坚毅无畏阿拉斯加', emoji: '🐺', tag: '坚韧执着', quote: '风雪无阻！向着研究生录取通知书勇往直前！', bg: '#f1f5f9', color: '#475569' },
+    { id: 'samoyed', name: '萨摩耶', fullName: '微笑天使萨摩耶', emoji: '🐶', tag: '微笑治愈', quote: '保持微笑！好心态与从容自信能助你多考20分！', bg: '#fef2f2', color: '#be123c' },
+    { id: 'shiba', name: '柴犬', fullName: '执着上岸柴犬', emoji: '🐕', tag: '永不服输', quote: '永不言弃！再难的长难句也绝不认输！', bg: '#ffedd5', color: '#c2410c' },
+    { id: 'corgi', name: '柯基', fullName: '奋力迈步小柯基', emoji: '🐾', tag: '脚踏实地', quote: '小短腿大能量！一步一个脚印稳稳考研上岸！', bg: '#fef9c3', color: '#a16207' },
+    { id: 'poodle', name: '贵宾泰迪', fullName: '灵动思维小贵宾', emoji: '🐩', tag: '灵动机智', quote: '融会贯通，思维敏捷，英语翻译与作文拿高分！', bg: '#fae8ff', color: '#a21caf' },
+    { id: 'labrador', name: '拉布拉多', fullName: '忠实伴读拉布拉多', emoji: '🐶', tag: '忠诚相伴', quote: '默默守护你的每一个晨曦与深夜，你绝非孤军奋战！', bg: '#ecfdf5', color: '#047857' },
+    { id: 'beagle', name: '比格犬', fullName: '元气永动机比格', emoji: '🐕', tag: '活力无限', quote: '活力无限！精力充沛！考研 5,619 词全部拿下！', bg: '#fff7ed', color: '#ea580c' },
+    { id: 'frenchie', name: '法斗', fullName: '沉着稳重大法斗', emoji: '🐶', tag: '沉稳从容', quote: '踏实沉着，心无旁骛，上岸必定有你一份！', bg: '#f3f4f6', color: '#374151' }
+  ];
+
+  function getCheckinData() {
+    var raw = {};
+    try {
+      raw = JSON.parse(localStorage.getItem('kao_puppy_checkins') || '{}');
+    } catch (e) { raw = {}; }
+    if (!raw.history || typeof raw.history !== 'object') raw.history = {};
+    return raw;
+  }
+
+  function saveCheckinData(data) {
+    try {
+      localStorage.setItem('kao_puppy_checkins', JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function initDailyCheckin() {
+    var todayCard = $('checkin-today-card');
+    var trailGrid = $('checkin-trail-grid');
+    var albumGrid = $('puppy-album-grid');
+    var streakBadge = $('checkin-streak-badge');
+    var collectedBadge = $('checkin-collected-badge');
+    var albumToggleBtn = $('toggle-puppy-album-btn');
+    var albumArrow = $('puppy-album-arrow');
+    if (!todayCard || !trailGrid) return;
+
+    function renderUI() {
+      var data = getCheckinData();
+      var todayStr = localDay(0);
+      var todayRecord = data.history[todayStr];
+
+      // 1. 计算连续打卡天数
+      var streak = 0;
+      var curD = new Date();
+      if (data.history[localDay(0)]) {
+        streak = 1;
+        while (true) {
+          curD.setDate(curD.getDate() - 1);
+          var ds = fmtD(curD);
+          if (data.history[ds]) streak++;
+          else break;
+        }
+      } else if (data.history[localDay(-1)]) {
+        streak = 0; // 今日尚未签到，但昨日有
+        var checkD = new Date();
+        checkD.setDate(checkD.getDate() - 1);
+        while (true) {
+          var dstr = fmtD(checkD);
+          if (data.history[dstr]) {
+            streak++;
+            checkD.setDate(checkD.getDate() - 1);
+          } else break;
+        }
+      }
+      if (streakBadge) {
+        streakBadge.textContent = '已连续打卡 ' + streak + ' 天';
+      }
+
+      // 2. 统计图鉴收集数
+      var collectedIds = new Set();
+      Object.keys(data.history).forEach(function(d) {
+        if (data.history[d] && data.history[d].puppyId) {
+          collectedIds.add(data.history[d].puppyId);
+        }
+      });
+      if (collectedBadge) {
+        collectedBadge.textContent = '萌犬图鉴 ' + collectedIds.size + '/10';
+      }
+
+      // 3. 今日卡片渲染
+      if (!todayRecord) {
+        todayCard.innerHTML = 
+          '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">' +
+            '<div>' +
+              '<div style="font-size:14.5px;font-weight:700;color:var(--color-text);display:flex;align-items:center;gap:6px">' +
+                '<span style="font-size:18px">🐾</span> 今日待签到 · 专属萌犬等你领养' +
+              '</div>' +
+              '<div style="font-size:12px;color:var(--color-text-muted);margin-top:3px">每天打卡可领养一只专属考研学伴小狗（小金毛/边牧/阿拉斯加等）</div>' +
+            '</div>' +
+            '<button id="mem-do-checkin-btn" class="nav-btn primary" type="button" style="padding:9px 18px;font-size:13.5px;font-weight:800;border-radius:10px;box-shadow:0 4px 14px color-mix(in oklab, var(--color-primary) 28%, transparent);cursor:pointer">🐾 立即手动签到</button>' +
+          '</div>';
+
+        var btn = $('mem-do-checkin-btn');
+        if (btn) {
+          btn.onclick = function() {
+            doCheckin();
+          };
+        }
+      } else {
+        var pup = PUPPY_DATABASE.find(function(p){ return p.id === todayRecord.puppyId; }) || PUPPY_DATABASE[0];
+        todayCard.innerHTML = 
+          '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">' +
+            '<div style="font-size:40px;width:58px;height:58px;border-radius:16px;background:' + pup.bg + ';display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.06);flex-shrink:0" class="puppy-bounce-anim">' + pup.emoji + '</div>' +
+            '<div style="flex:1;min-width:200px">' +
+              '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">' +
+                '<span style="font-size:15px;font-weight:800;color:var(--color-text)">今日已打卡 ✓ 专属学伴：【' + esc(pup.fullName) + '】</span>' +
+                '<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:color-mix(in oklab, var(--color-primary) 15%, transparent);color:var(--color-primary)">' + esc(pup.tag) + '</span>' +
+              '</div>' +
+              '<div style="font-size:12.5px;color:var(--color-text);margin-top:4px;line-height:1.5">“' + esc(pup.quote) + '”</div>' +
+              '<div style="font-size:11px;color:var(--color-text-muted);margin-top:3px">打卡时间：今日 ' + esc(todayRecord.time || '已记录') + ' · 明日还会迎来新的萌犬学伴哦！</div>' +
+            '</div>' +
+          '</div>';
+      }
+
+      // 4. 渲染近 7 日打卡足迹（在日期下面展示萌犬小表情）
+      trailGrid.innerHTML = '';
+      var weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+      for (var i = 6; i >= 0; i--) {
+        var dObj = new Date();
+        dObj.setDate(dObj.getDate() - i);
+        var dateKey = fmtD(dObj);
+        var rec = data.history[dateKey];
+        var isToday = i === 0;
+
+        var cell = document.createElement('div');
+        cell.className = 'checkin-day-cell' + (isToday ? ' today' : '') + (rec ? ' checked' : '');
+
+        var monthDayStr = (dObj.getMonth() + 1) + '/' + dObj.getDate();
+        var labelStr = isToday ? '今天' : ('周' + weekDays[dObj.getDay()]);
+
+        var puppyContent = '';
+        var subText = '';
+        if (rec) {
+          puppyContent = '<span class="puppy-wag-anim" title="' + esc(rec.name + ': ' + rec.quote) + '">' + esc(rec.emoji) + '</span>';
+          subText = esc(rec.name);
+        } else if (isToday) {
+          puppyContent = '<span style="font-size:14px;color:var(--color-primary);font-weight:700">待领</span>';
+          subText = '未签';
+        } else {
+          puppyContent = '<span style="font-size:13px;color:var(--color-border);opacity:0.6">⚪</span>';
+          subText = '缺卡';
+        }
+
+        cell.innerHTML = 
+          '<div class="day-label">' + monthDayStr + '</div>' +
+          '<div style="font-size:10px;color:var(--color-text-muted)">' + labelStr + '</div>' +
+          '<div class="puppy-slot">' + puppyContent + '</div>' +
+          '<div class="puppy-name-sub">' + subText + '</div>';
+
+        if (rec) {
+          (function(r) {
+            cell.style.cursor = 'pointer';
+            cell.onclick = function() {
+              if (window.KaoyanToast) window.KaoyanToast(r.emoji + ' ' + r.fullName + ' 打气：“' + r.quote + '”');
+            };
+          })(rec);
+        }
+
+        trailGrid.appendChild(cell);
+      }
+
+      // 5. 渲染萌犬图鉴墙
+      if (albumGrid) {
+        albumGrid.innerHTML = '';
+        PUPPY_DATABASE.forEach(function(p) {
+          var isUnlocked = collectedIds.has(p.id);
+          var card = document.createElement('div');
+          card.className = 'puppy-album-card ' + (isUnlocked ? 'unlocked' : 'locked');
+          card.style.cssText = 'background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer';
+          card.innerHTML = 
+            '<div style="font-size:28px">' + (isUnlocked ? p.emoji : '🔒') + '</div>' +
+            '<div style="font-size:12px;font-weight:700;color:var(--color-text)">' + esc(p.name) + '</div>' +
+            '<div style="font-size:10.5px;color:' + (isUnlocked ? 'var(--color-primary)' : 'var(--color-text-muted)') + '">' + (isUnlocked ? esc(p.tag) : '未解锁') + '</div>';
+          card.onclick = function() {
+            if (isUnlocked) {
+              if (window.KaoyanToast) window.KaoyanToast(p.emoji + ' ' + p.fullName + '：“' + p.quote + '”');
+            } else {
+              if (window.KaoyanToast) window.KaoyanToast('🔒 ' + p.name + ' 暂未解锁，坚持每日签到即可随机邂逅！');
+            }
+          };
+          albumGrid.appendChild(card);
+        });
+      }
+    }
+
+    function doCheckin() {
+      var data = getCheckinData();
+      var todayStr = localDay(0);
+      if (data.history[todayStr]) {
+        if (window.KaoyanToast) window.KaoyanToast('今日已经签过到啦！小狗学伴正陪你背单词呢~');
+        return;
+      }
+
+      // 优先从尚未解锁的小狗中抽取，让用户更快集齐图鉴；若都集齐了则随机轮换
+      var collectedIds = new Set(Object.keys(data.history).map(function(k){ return data.history[k].puppyId; }));
+      var uncollected = PUPPY_DATABASE.filter(function(p){ return !collectedIds.has(p.id); });
+      var pickedPup = uncollected.length 
+        ? uncollected[Math.floor(Math.random() * uncollected.length)] 
+        : PUPPY_DATABASE[Math.floor(Math.random() * PUPPY_DATABASE.length)];
+
+      var nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      data.history[todayStr] = {
+        puppyId: pickedPup.id,
+        name: pickedPup.name,
+        fullName: pickedPup.fullName,
+        emoji: pickedPup.emoji,
+        tag: pickedPup.tag,
+        quote: pickedPup.quote,
+        time: nowTime
+      };
+      saveCheckinData(data);
+
+      // 音频提示 & 触感微震
+      try {
+        if (window.KaoyanSettings && window.KaoyanSettings.playSuccess) window.KaoyanSettings.playSuccess();
+        if (navigator.vibrate) navigator.vibrate([40, 60, 80]);
+      } catch (e) {}
+
+      if (window.KaoyanToast) {
+        window.KaoyanToast('🎉 签到成功！今日学伴【' + pickedPup.emoji + ' ' + pickedPup.fullName + '】已送达！“' + pickedPup.quote + '”');
+      }
+
+      renderUI();
+    }
+
+    // 展开/收起图鉴
+    if (albumToggleBtn && albumGrid && albumArrow) {
+      albumToggleBtn.onclick = function() {
+        var isHidden = albumGrid.hidden;
+        albumGrid.hidden = !isHidden;
+        albumArrow.textContent = isHidden ? '收起图鉴 🔼' : '查看图鉴 🔽';
+      };
+    }
+
+    renderUI();
+  }
+
+  initDailyCheckin();
+
   if (window.__WORDS_DATA__ && window.__WORDS_DATA__.words) {
     window.__ALL_WORDS__ = window.__WORDS_DATA__.words;
   } else {
@@ -625,3 +869,4 @@
     }).catch(function(){});
   }
 })();
+
