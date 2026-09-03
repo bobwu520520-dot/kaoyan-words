@@ -1,11 +1,10 @@
 /* 考研词汇 — Service Worker: 全离线持久缓存 + 离线词库 */
-const CACHE = 'kaoyan-v9.56-offline-cache';
+const CACHE = 'kaoyan-v9.57-offline-cache';
 const ASSETS = [
   './', 'index.html', 'study.html', 'exam.html', 'translate.html', 'words.html', 'memory.html',
   'css/style.css',
   'js/app.js', 'js/study.js', 'js/translate.js', 'js/catalog.js', 'js/memory.js', 'js/pwa.js', 'js/quiz.js', 'js/exam_workshop.js', 'js/cloud_sync.js',
   'data/words.json', 'data/words_bundle.js',
-  'data/dict_54k.json', 'data/dict_54k_bundle.js',
   'data/ai_examples.json', 'data/ai_examples_bundle.js',
   'data/translations.json', 'data/translations_bundle.js',
   'data/exam_data_bundle.js',

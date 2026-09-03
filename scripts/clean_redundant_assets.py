@@ -30,7 +30,9 @@ EXCLUDED_DATA_FILES = {
     'words.backup-4003.json',
     'todo_words.txt',
     'missing.json',
-    'test_study.js'
+    'test_study.js',
+    'dict_54k.json',
+    'dict_54k_bundle.js'
 }
 
 def is_runtime_file(rel_path):

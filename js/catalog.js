@@ -717,25 +717,33 @@
     });
   }
 
+  var CLOUD_DICT_URL = 'https://bobwu520520-dot.github.io/kaoyan-words/data/dict_54k.json';
+
   function ensureDict54kLoaded(callback) {
     if (dict54kData) {
       if (callback) callback();
       return;
     }
-    if (window.__DICT_54K__) {
-      dict54kData = window.__DICT_54K__;
-      if (callback) callback();
-      return;
-    }
-    listEl.innerHTML = '<div class="catalog-empty">⏳ 正在加载 5.4 万全网大字典数据，请稍候...</div>';
-    fetch('data/dict_54k.json')
-      .then(function (r) { return r.json(); })
+    listEl.innerHTML = '<div class="catalog-empty">☁️ 正在动态连接云端大词典 (5.4万词库与短语)，无需占用手机空间...</div>';
+    fetch(CLOUD_DICT_URL, { cache: 'default' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('Cloud HTTP ' + r.status);
+        return r.json();
+      })
       .then(function (data) {
         dict54kData = data;
         if (callback) callback();
       })
       .catch(function () {
-        listEl.innerHTML = '<div class="catalog-empty">加载大字典失败，请刷新重试</div>';
+        fetch('data/dict_54k.json')
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            dict54kData = data;
+            if (callback) callback();
+          })
+          .catch(function () {
+            listEl.innerHTML = '<div class="catalog-empty">⚠️ 5.4万全网大词典部署在云端，请连网后重试</div>';
+          });
       });
   }
 
