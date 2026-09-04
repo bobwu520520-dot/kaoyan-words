@@ -37,14 +37,43 @@
   ];
   const urlParams = new URLSearchParams(window.location ? window.location.search : '');
 
-  // ---- 内置 AI 例句（离线可用，与查词页共用同一份数据） ----
-  const AI_EX={};
-  if (window.__AI_EXAMPLES__ && window.__AI_EXAMPLES__.s) {
-    Object.keys(window.__AI_EXAMPLES__.s).forEach(k => {
-      AI_EX[k] = { en: window.__AI_EXAMPLES__.s[k][0], zh: window.__AI_EXAMPLES__.s[k][1] };
+  // ---- 内置 AI 例句（离线可用，优先读全局 bundle: window.__AI_EXAMPLES__ / window.__AI_EX__，兜底用 XMLHttpRequest） ----
+  const AI_EX = {};
+  function populateStudyAiExamples(source) {
+    if (!source || !source.s) return;
+    Object.keys(source.s).forEach(k => {
+      AI_EX[k] = { en: source.s[k][0], zh: source.s[k][1] };
     });
+  }
+  const aiGlobalStudy = window.__AI_EXAMPLES__ || window.__AI_EX__;
+  if (aiGlobalStudy && aiGlobalStudy.s) {
+    populateStudyAiExamples(aiGlobalStudy);
   } else {
-    fetch('data/ai_examples.json').then(r=>r.ok?r.json():null).then(d=>{if(!d)return;Object.keys(d.s||{}).forEach(k=>{AI_EX[k]={en:d.s[k][0],zh:d.s[k][1]};});if(queue.length)renderCard();}).catch(()=>{});
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'data/ai_examples.json', true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if ((xhr.status === 200 || xhr.status === 0) && xhr.responseText) {
+            try {
+              const d = JSON.parse(xhr.responseText);
+              populateStudyAiExamples(d);
+              if (queue.length && typeof renderCard === 'function') renderCard();
+            } catch (e) {}
+          } else {
+            const late = window.__AI_EXAMPLES__ || window.__AI_EX__;
+            if (late && late.s) {
+              populateStudyAiExamples(late);
+              if (queue.length && typeof renderCard === 'function') renderCard();
+            }
+          }
+        }
+      };
+      xhr.send();
+    } catch (e) {
+      const late = window.__AI_EXAMPLES__ || window.__AI_EX__;
+      if (late && late.s) populateStudyAiExamples(late);
+    }
   }
 
   function initStudyWords() {
@@ -88,12 +117,32 @@
       processWordsData(bundled);
       return;
     }
-    const loader = window.loadKaoyanWords ? window.loadKaoyanWords() : fetch('data/words.json').then(r => {
-      if (!r.ok && r.status !== 0) throw new Error('load failed');
-      return r.text().then(t => {
-        if (!t || t.trim().charAt(0) === '<') throw new Error('not json');
-        return JSON.parse(t);
-      });
+    const loader = window.loadKaoyanWords ? window.loadKaoyanWords() : new Promise(function (resolve, reject) {
+      try {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'data/words.json', true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if ((xhr.status === 200 || xhr.status === 0) && xhr.responseText) {
+              try {
+                const t = xhr.responseText.trim();
+                if (!t || t.charAt(0) === '<') throw new Error('not json');
+                resolve(JSON.parse(t));
+              } catch (e) {
+                reject(e);
+              }
+            } else {
+              reject(new Error('load failed ' + xhr.status));
+            }
+          }
+        };
+        xhr.onerror = function () {
+          reject(new Error('network error'));
+        };
+        xhr.send();
+      } catch (e) {
+        reject(e);
+      }
     });
     loader.then(processWordsData).catch(failWordsLoad);
   }

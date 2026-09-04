@@ -68,7 +68,7 @@
   // Apply initial font size
   applyFontSize();
 
-  // Load Data with dual fallback (window.__TRANSLATIONS_DATA__ / window.__TRANSLATIONS__ / fetch)
+  // Load Data: Prioritize global bundle (window.__TRANSLATIONS_DATA__ / window.__TRANSLATIONS__), fallback to XMLHttpRequest
   function initData() {
     var tData = window.__TRANSLATIONS_DATA__ || window.__TRANSLATIONS__;
     if (tData && tData.sentences && tData.sentences.length) {
@@ -78,17 +78,33 @@
       return;
     }
 
-    fetch('data/translations.json')
-      .then(function (r) {
-        if (!r.ok && r.status !== 0) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
-      .then(function (data) {
-        sentences = data.sentences || [];
-        updateMasteryUI();
-        applyFilter();
-      })
-      .catch(function () {
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'data/translations.json', true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if ((xhr.status === 200 || xhr.status === 0) && xhr.responseText) {
+            try {
+              var data = JSON.parse(xhr.responseText);
+              sentences = data.sentences || [];
+              updateMasteryUI();
+              applyFilter();
+              return;
+            } catch (e) {
+              console.error('Failed to parse translations.json:', e);
+            }
+          }
+          var tData2 = window.__TRANSLATIONS_DATA__ || window.__TRANSLATIONS__;
+          if (tData2 && tData2.sentences && tData2.sentences.length) {
+            sentences = tData2.sentences;
+            updateMasteryUI();
+            applyFilter();
+          } else {
+            showLoadError();
+          }
+        }
+      };
+      xhr.onerror = function () {
         var tData2 = window.__TRANSLATIONS_DATA__ || window.__TRANSLATIONS__;
         if (tData2 && tData2.sentences && tData2.sentences.length) {
           sentences = tData2.sentences;
@@ -97,7 +113,18 @@
         } else {
           showLoadError();
         }
-      });
+      };
+      xhr.send();
+    } catch (e) {
+      var tData3 = window.__TRANSLATIONS_DATA__ || window.__TRANSLATIONS__;
+      if (tData3 && tData3.sentences && tData3.sentences.length) {
+        sentences = tData3.sentences;
+        updateMasteryUI();
+        applyFilter();
+      } else {
+        showLoadError();
+      }
+    }
   }
 
   function showLoadError() {
@@ -1134,13 +1161,21 @@
   } else if (window.loadKaoyanWords) {
     window.loadKaoyanWords().then(function (d) { fillWordMap(d && d.words); }).catch(function () {});
   } else {
-    fetch('data/words.json')
-      .then(function (r) { return (r.ok || r.status === 0) ? r.text() : ''; })
-      .then(function (t) {
-        if (!t || t.trim().charAt(0) === '<') return;
-        var d = JSON.parse(t);
-        if (d && d.words) fillWordMap(d.words);
-      }).catch(function () {});
+    try {
+      var xhrTr = new XMLHttpRequest();
+      xhrTr.open('GET', 'data/words.json', true);
+      xhrTr.onreadystatechange = function () {
+        if (xhrTr.readyState === 4 && (xhrTr.status === 200 || xhrTr.status === 0) && xhrTr.responseText) {
+          try {
+            var t = xhrTr.responseText.trim();
+            if (!t || t.charAt(0) === '<') return;
+            var d = JSON.parse(t);
+            if (d && d.words) fillWordMap(d.words);
+          } catch (e) {}
+        }
+      };
+      xhrTr.send();
+    } catch (e) {}
   }
 
   var popoverEl = null;

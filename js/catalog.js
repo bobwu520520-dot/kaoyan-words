@@ -10,19 +10,39 @@
   var currentPage = 1;
   var PAGE_SIZE = 40;
 
-  // 内置 AI 例句
+  // 内置 AI 例句 (优先读全局 bundle: window.__AI_EXAMPLES__ / window.__AI_EX__，读不到用 XMLHttpRequest 兜底)
   var AI_EX = {};
-  if (window.__AI_EXAMPLES__ && window.__AI_EXAMPLES__.s) {
-    Object.keys(window.__AI_EXAMPLES__.s).forEach(function (k) {
-      AI_EX[k] = { en: window.__AI_EXAMPLES__.s[k][0], zh: window.__AI_EXAMPLES__.s[k][1] };
+  function populateAiExamples(source) {
+    if (!source || !source.s) return;
+    Object.keys(source.s).forEach(function (k) {
+      AI_EX[k] = { en: source.s[k][0], zh: source.s[k][1] };
     });
+  }
+  var aiGlobal = window.__AI_EXAMPLES__ || window.__AI_EX__;
+  if (aiGlobal && aiGlobal.s) {
+    populateAiExamples(aiGlobal);
   } else {
-    fetch('data/ai_examples.json').then(r => r.ok ? r.json() : null).then(d => {
-      if (!d || !d.s) return;
-      Object.keys(d.s).forEach(function (k) {
-        AI_EX[k] = { en: d.s[k][0], zh: d.s[k][1] };
-      });
-    }).catch(function () {});
+    try {
+      var aiXhr = new XMLHttpRequest();
+      aiXhr.open('GET', 'data/ai_examples.json', true);
+      aiXhr.onreadystatechange = function () {
+        if (aiXhr.readyState === 4) {
+          if ((aiXhr.status === 200 || aiXhr.status === 0) && aiXhr.responseText) {
+            try {
+              var d = JSON.parse(aiXhr.responseText);
+              populateAiExamples(d);
+            } catch (e) {}
+          } else {
+            var lateAi = window.__AI_EXAMPLES__ || window.__AI_EX__;
+            if (lateAi && lateAi.s) populateAiExamples(lateAi);
+          }
+        }
+      };
+      aiXhr.send();
+    } catch (e) {
+      var lateAi2 = window.__AI_EXAMPLES__ || window.__AI_EX__;
+      if (lateAi2 && lateAi2.s) populateAiExamples(lateAi2);
+    }
   }
 
   function esc(s) {
@@ -103,7 +123,19 @@
       window.loadKaoyanWords().then(processData).catch(function () {});
       return;
     }
-    fetch('data/words.json').then(r => r.json()).then(processData).catch(function () {});
+    try {
+      var wXhr = new XMLHttpRequest();
+      wXhr.open('GET', 'data/words.json', true);
+      wXhr.onreadystatechange = function () {
+        if (wXhr.readyState === 4 && (wXhr.status === 200 || wXhr.status === 0) && wXhr.responseText) {
+          try {
+            var d = JSON.parse(wXhr.responseText);
+            processData(d);
+          } catch (e) {}
+        }
+      };
+      wXhr.send();
+    } catch (e) {}
   }
 
   // --- 2. 第一级首页统计信息 ---

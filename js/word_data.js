@@ -23,16 +23,41 @@
   }
 
   function fetchJson(url) {
-    return fetch(url).then(function (r) {
-      if (!r.ok && r.status !== 0) throw new Error('http-' + r.status);
-      return r.text().then(function (t) {
-        if (!t) throw new Error('empty');
-        var trimmed = t.replace(/^\uFEFF/, '').trim();
-        if (!trimmed || trimmed.charAt(0) === '<') throw new Error('not-json');
-        var data = JSON.parse(trimmed);
-        if (!data || !data.words || !data.words.length) throw new Error('empty-words');
-        return data;
-      });
+    return new Promise(function (resolve, reject) {
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if ((xhr.status === 200 || xhr.status === 0) && xhr.responseText) {
+              var t = xhr.responseText;
+              var trimmed = t.replace(/^\uFEFF/, '').trim();
+              if (!trimmed || trimmed.charAt(0) === '<') {
+                reject(new Error('not-json'));
+                return;
+              }
+              try {
+                var data = JSON.parse(trimmed);
+                if (!data || !data.words || !data.words.length) {
+                  reject(new Error('empty-words'));
+                  return;
+                }
+                resolve(data);
+              } catch (parseErr) {
+                reject(parseErr);
+              }
+            } else {
+              reject(new Error('http-' + xhr.status));
+            }
+          }
+        };
+        xhr.onerror = function () {
+          reject(new Error('network-error'));
+        };
+        xhr.send();
+      } catch (err) {
+        reject(err);
+      }
     });
   }
 

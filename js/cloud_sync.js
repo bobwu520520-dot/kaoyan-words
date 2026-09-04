@@ -411,7 +411,7 @@
   // ==========================================
   function getBackupPayload() {
     return {
-      version: '9.67',
+      version: '9.68',
       timestamp: Date.now(),
       kaoyan_study_v3: localStorage.getItem('kaoyan_study_v3') || '{}',
       kao_exam_mastered: localStorage.getItem('kao_exam_mastered') || '{}',

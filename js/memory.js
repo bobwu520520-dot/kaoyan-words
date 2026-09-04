@@ -4,7 +4,7 @@
   'use strict';
 
   var $ = function (id) { return document.getElementById(id); };
-  var currentAppVersionStr = '9.67';
+  var currentAppVersionStr = '9.68';
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function localDay(off) { var d = new Date(); if (off) d.setDate(d.getDate() + off); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   function fmtDay(ts) { var d = new Date(ts); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
@@ -1056,11 +1056,21 @@
   } else if (window.loadKaoyanWords) {
     window.loadKaoyanWords().then(function(d){ if (d && d.words) window.__ALL_WORDS__ = d.words; }).catch(function(){});
   } else {
-    fetch('data/words.json').then(function(r){ return (r.ok || r.status === 0) ? r.text() : ''; }).then(function(t){
-      if (!t || t.trim().charAt(0) === '<') return;
-      var d = JSON.parse(t);
-      if (d && d.words) window.__ALL_WORDS__ = d.words;
-    }).catch(function(){});
+    try {
+      var xhrMem = new XMLHttpRequest();
+      xhrMem.open('GET', 'data/words.json', true);
+      xhrMem.onreadystatechange = function () {
+        if (xhrMem.readyState === 4 && (xhrMem.status === 200 || xhrMem.status === 0) && xhrMem.responseText) {
+          try {
+            var t = xhrMem.responseText.trim();
+            if (!t || t.charAt(0) === '<') return;
+            var d = JSON.parse(t);
+            if (d && d.words) window.__ALL_WORDS__ = d.words;
+          } catch (e) {}
+        }
+      };
+      xhrMem.send();
+    } catch (e) {}
   }
 
   // ==========================================================================
@@ -1580,24 +1590,40 @@
   }
 
   function loadDynamicAppVersion() {
-    fetch('version.json')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) {
-        if (!data || !data.version) return;
-        currentAppVersionStr = String(data.version);
-        var vStr = currentAppVersionStr.startsWith('v') ? currentAppVersionStr : ('v' + currentAppVersionStr);
-        var badge = $('mem-version-badge');
-        if (badge) badge.textContent = vStr;
-        var title = $('mem-version-title');
-        if (title) title.textContent = vStr + ' 旗舰离线增强版';
-        var desc = $('mem-version-desc');
-        if (desc) desc.textContent = '版本 ' + vStr + ' · 考研 5,619 词大纲说明 · 30 款萌犬大头照图鉴';
-        var nodes = document.querySelectorAll('[data-bind-version]');
-        for (var i = 0; i < nodes.length; i++) {
-          nodes[i].textContent = vStr;
+    function applyVer(ver) {
+      if (!ver) return;
+      currentAppVersionStr = String(ver);
+      var vStr = currentAppVersionStr.startsWith('v') ? currentAppVersionStr : ('v' + currentAppVersionStr);
+      var badge = $('mem-version-badge');
+      if (badge) badge.textContent = vStr;
+      var title = $('mem-version-title');
+      if (title) title.textContent = vStr + ' 旗舰离线增强版';
+      var desc = $('mem-version-desc');
+      if (desc) desc.textContent = '版本 ' + vStr + ' · 考研 5,619 词大纲说明 · 30 款萌犬大头照图鉴';
+      var nodes = document.querySelectorAll('[data-bind-version]');
+      for (var i = 0; i < nodes.length; i++) {
+        nodes[i].textContent = vStr;
+      }
+    }
+
+    // 1. 优先读取 DOM 属性或预置版本号，零延迟渲染
+    var domVer = (document.body && document.body.getAttribute('data-app-version')) || currentAppVersionStr;
+    applyVer(domVer);
+
+    // 2. XMLHttpRequest 异步兜底同步 version.json (file:// 协议下 status 为 0)
+    try {
+      var vXhr = new XMLHttpRequest();
+      vXhr.open('GET', 'version.json', true);
+      vXhr.onreadystatechange = function () {
+        if (vXhr.readyState === 4 && (vXhr.status === 200 || vXhr.status === 0) && vXhr.responseText) {
+          try {
+            var data = JSON.parse(vXhr.responseText);
+            if (data && data.version) applyVer(data.version);
+          } catch (e) {}
         }
-      })
-      .catch(function () {});
+      };
+      vXhr.send();
+    } catch (e) {}
   }
 
   if (document.readyState === 'loading') {

@@ -1,10 +1,10 @@
 {
-  "version": "9.67",
-  "version_code": 967,
+  "version": "9.68",
+  "version_code": 968,
   "app_name": "考研词汇通_金毛背单词",
-  "apk_name": "考研词汇通_金毛背单词_v9.67.apk",
-  "zip_name": "考研词汇v9.67.zip",
-  "changelog": "1. 【性能优化】30张狗狗学伴图片高清无损压缩，体积由 8.53MB 骤降至 0.47MB，大幅减轻安装包负担\n2. 【发布规范】构建与打包流程严格排除 scratch 测试目录，APK 运行时 assets 纯净整洁\n3. 【安全加固】云端同步切换至新版独立安全存储池，分段防静态扫描加固，升级失效友好引导\n4. 【体验优化】词库检索页全面上线双层智能筛选系统：常用筛选实时可见，高级筛选支持桌面平滑展开与移动端底部抽屉弹窗，支持多选词性、首字母、词长、来源与便携标签（Chips）一键清除\n5. 【BUG修复】彻底修复英一题型在 Android WebView file:// 协议下 Failed to fetch 无法加载问题，内嵌题库瞬时零秒直出，XMLHttpRequest 离线兼容双兜底",
+  "apk_name": "考研词汇通_金毛背单词_v9.68.apk",
+  "zip_name": "考研词汇v9.68.zip",
+  "changelog": "1. 【底层加固】统一消除全站所有本地 JSON 文件的 fetch() 读取，彻底根除 Android WebView 在 file:// 协议下的 'Failed to fetch' 顽疾\n2. 【极速秒开】翻译长难句、真题大纲题型、AI学术例句、词库检索全面优先直读内置 Bundle 全局变量（零秒瞬开），同步配备 XMLHttpRequest 离线兜底\n3. 【体验优化】我的页面版本号即时展示，去除异步网络请求延迟\n4. 【架构规范】严格统一本地离线协议判别逻辑（xhr.status === 0 || xhr.status === 200），仅保留外部 HTTPS 在线词典与版本检查的 fetch 调用",
   "web_url": "https://bobwu520520-dot.github.io/kaoyan-words/",
   "updated_at": "2026-09-04"
 }
