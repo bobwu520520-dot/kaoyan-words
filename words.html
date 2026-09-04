@@ -68,16 +68,21 @@
 
       <!-- 常规首页内容 (无搜索时展示) -->
       <div id="words-home-main-content" style="padding: 6px 14px 20px">
-        <!-- 词库掌握总览卡片 -->
-        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:12px 16px;margin-bottom:14px;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;gap:12px">
-          <div>
-            <div style="font-size:14px;font-weight:800;color:var(--color-text)" id="cat-prog-label">📊 考研大纲词库总览</div>
-            <div style="font-size:11.5px;color:var(--color-text-muted);margin-top:2px" id="cat-prog-sub">已掌握 0 / 5,619 词 (0%)</div>
+        <!-- 词库掌握总览卡片 (点击直达全量词库并激活多维筛选) -->
+        <a href="#list/all" style="text-decoration:none;display:block;background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:12px 16px;margin-bottom:14px;box-shadow:var(--shadow-sm);transition:all 0.15s ease" class="settings-nav-item-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <div>
+              <div style="font-size:14px;font-weight:800;color:var(--color-text);display:flex;align-items:center;gap:6px" id="cat-prog-label">
+                📊 考研大纲词库总览
+                <span style="font-size:11px;font-weight:700;color:var(--color-primary);background:color-mix(in oklab, var(--color-primary) 12%, transparent);padding:2px 6px;border-radius:6px">浏览全部 ›</span>
+              </div>
+              <div style="font-size:11.5px;color:var(--color-text-muted);margin-top:2px" id="cat-prog-sub">已掌握 0 / 5,619 词 (0%) · 点击查看全量词库与高级筛选</div>
+            </div>
+            <div class="progress" style="width:110px;height:7px;background:var(--color-surface-offset);border-radius:4px;overflow:hidden;border:1px solid var(--color-border)">
+              <i id="cat-prog-bar" style="width:0%;height:100%;background:var(--color-primary);display:block;transition:width .3s"></i>
+            </div>
           </div>
-          <div class="progress" style="width:110px;height:7px;background:var(--color-surface-offset);border-radius:4px;overflow:hidden;border:1px solid var(--color-border)">
-            <i id="cat-prog-bar" style="width:0%;height:100%;background:var(--color-primary);display:block;transition:width .3s"></i>
-          </div>
-        </div>
+        </a>
 
         <div style="font-size:12px;font-weight:700;color:var(--color-text-muted);margin:0 0 8px 4px">🎯 考研大纲层级分类</div>
 
@@ -215,6 +220,124 @@
         <button class="tier-back-btn" id="words-list-back-btn" type="button">‹ 返回</button>
         <span class="tier-header-title" id="words-list-header-title">单词列表</span>
         <span class="tier-header-action" style="font-size:11.5px;color:var(--color-text-muted);font-weight:600" id="words-list-total-count">0词</span>
+      </div>
+
+      <!-- 词库多维双层智能筛选器 (2-Tier Smart Filter) -->
+      <div class="words-filter-card" id="words-filter-card">
+        <!-- 第一行：常用筛选 (默认展开，直接可见) -->
+        <div class="words-common-filters">
+          <div class="filter-pills-scroll-row">
+            <!-- 词频等级 -->
+            <div class="filter-pill-select" title="词频等级">
+              <span class="fps-label">词频:</span>
+              <select id="cf-tier" aria-label="词频等级">
+                <option value="all">全部</option>
+                <option value="high">高频</option>
+                <option value="mid">中频</option>
+                <option value="low">低频</option>
+              </select>
+            </div>
+
+            <!-- 掌握状态 -->
+            <div class="filter-pill-select" title="掌握状态">
+              <span class="fps-label">状态:</span>
+              <select id="cf-status" aria-label="掌握状态">
+                <option value="all">全部</option>
+                <option value="unlearned">未学</option>
+                <option value="learning">学习中</option>
+                <option value="mastered">已掌握</option>
+              </select>
+            </div>
+
+            <!-- 排序方式 -->
+            <div class="filter-pill-select" title="排序方式">
+              <span class="fps-label">排序:</span>
+              <select id="cf-sort" aria-label="排序方式">
+                <option value="freq">按词频</option>
+                <option value="alpha">按字母</option>
+                <option value="time">按添加时间</option>
+              </select>
+            </div>
+
+            <!-- 更多筛选按钮 -->
+            <button type="button" class="btn-more-filters" id="btn-toggle-advanced" aria-label="展开高级筛选">
+              <span>更多筛选</span>
+              <span class="bmf-arrow">▾</span>
+              <span class="bmf-badge" id="adv-filter-badge" style="display:none">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 选中的筛选条件标签区 (Chips)，可点×单独移除 -->
+        <div class="filter-active-chips" id="filter-active-chips" style="display:none">
+          <div class="fac-list" id="fac-list"></div>
+          <button type="button" class="fac-clear-btn" id="fac-clear-btn">清空所有筛选</button>
+        </div>
+
+        <!-- 移动端高级筛选蒙层 -->
+        <div class="advanced-filter-backdrop" id="adv-filter-backdrop"></div>
+
+        <!-- 第二行：高级筛选面板 (桌面下拉展开 0.2s / 移动端底部弹窗 Bottom Sheet) -->
+        <div class="advanced-filter-panel" id="adv-filter-panel" aria-hidden="true">
+          <div class="afp-header">
+            <div class="afp-handle"></div>
+            <div class="afp-title-row">
+              <span class="afp-title">🎯 考研词库高级筛选</span>
+              <button type="button" class="afp-close-btn" id="afp-close-btn" aria-label="关闭高级筛选">✕</button>
+            </div>
+          </div>
+
+          <div class="afp-content">
+            <!-- 1. 词性筛选 (多选) -->
+            <div class="afp-section">
+              <div class="afp-sec-label">词性筛选 <small>(可多选)</small></div>
+              <div class="afp-chips-group" id="afp-pos-group">
+                <button type="button" class="afp-chip" data-pos="n">名词 (n.)</button>
+                <button type="button" class="afp-chip" data-pos="v">动词 (v.)</button>
+                <button type="button" class="afp-chip" data-pos="adj">形容词 (adj.)</button>
+                <button type="button" class="afp-chip" data-pos="adv">副词 (adv.)</button>
+                <button type="button" class="afp-chip" data-pos="other">其他虚词</button>
+              </div>
+            </div>
+
+            <!-- 2. 字母范围 (A-Z 首字母) -->
+            <div class="afp-section">
+              <div class="afp-sec-label">首字母范围 (A-Z)</div>
+              <div class="afp-letter-scroll" id="afp-letter-group">
+                <button type="button" class="afp-chip active" data-letter="all">全部</button>
+              </div>
+            </div>
+
+            <!-- 3. 词长范围 -->
+            <div class="afp-section">
+              <div class="afp-sec-label">词长范围 (字母数)</div>
+              <div class="afp-chips-group" id="afp-length-group">
+                <button type="button" class="afp-chip active" data-len="all">不限</button>
+                <button type="button" class="afp-chip" data-len="short">短词 (≤4字)</button>
+                <button type="button" class="afp-chip" data-len="mid">中词 (5-7字)</button>
+                <button type="button" class="afp-chip" data-len="long">长词 (≥8字)</button>
+              </div>
+            </div>
+
+            <!-- 4. 来源筛选 -->
+            <div class="afp-section">
+              <div class="afp-sec-label">来源分类</div>
+              <div class="afp-chips-group" id="afp-source-group">
+                <button type="button" class="afp-chip active" data-source="all">全部来源</button>
+                <button type="button" class="afp-chip" data-source="outline">大纲核心词</button>
+                <button type="button" class="afp-chip" data-source="real">真题高频词</button>
+                <button type="button" class="afp-chip" data-source="expand">考研扩展词</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="afp-footer">
+            <button type="button" class="afp-btn-reset" id="afp-btn-reset">重置筛选</button>
+            <button type="button" class="afp-btn-confirm" id="afp-btn-confirm">
+              <span id="afp-confirm-count">查看结果 (5,619 词)</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- A-Z 首字母横向滑动条 (按首字母浏览时激活) -->

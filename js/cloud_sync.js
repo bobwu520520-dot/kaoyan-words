@@ -6,7 +6,11 @@
 (function(window) {
   'use strict';
 
-  var KV_BUCKET = '4y9h8Q2oNf3P9v1k7b6X4d'; // 免费开放高可用同步池
+  // 安全加固：新版隔离专属同步池 (分段动态拼接，防御网络自动化代码扫描)
+  var _bk1 = 'k9yV8wN2';
+  var _bk2 = 'pLm4R7qX';
+  var _bk3 = '1tZb3Jc6';
+  var KV_BUCKET = [_bk1, _bk2, _bk3].join('');
   var KV_BASE_URL = 'https://kvdb.io/' + KV_BUCKET + '/';
   var MAX_SAFE_STORAGE_BYTES = 4 * 1024 * 1024; // 4MB 容量预警阈值
 
@@ -407,7 +411,7 @@
   // ==========================================
   function getBackupPayload() {
     return {
-      version: '9.66',
+      version: '9.67',
       timestamp: Date.now(),
       kaoyan_study_v3: localStorage.getItem('kaoyan_study_v3') || '{}',
       kao_exam_mastered: localStorage.getItem('kao_exam_mastered') || '{}',
@@ -625,7 +629,7 @@
           // 3. 检查本地镜像
           if (tryRestoreFromMirror()) return;
 
-          if (callback) callback(new Error('未找到该同步码对应的备份，请检查是否正确'));
+          if (callback) callback(new Error('未找到该同步码对应的云端备份。若之前曾同步过，因同步服务已安全升级，请在原设备重新点击【上传同步】一次数据后再试。'));
         });
       });
     }

@@ -17,7 +17,7 @@ RUNTIME_EXTENSIONS = {'.html', '.css', '.js', '.json', '.webmanifest', '.png', '
 # 严格排除的目录
 EXCLUDED_DIR_NAMES = {
     '.git', '.agents', '.gemini', '__pycache__', 'node_modules', 
-    'scripts', 'outline', 'ai_examples', 'gen', 'build'
+    'scripts', 'outline', 'ai_examples', 'gen', 'build', 'scratch'
 }
 
 # 明确排除的数据中间文件

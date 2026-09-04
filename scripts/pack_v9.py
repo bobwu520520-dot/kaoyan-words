@@ -11,7 +11,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 name = '考研词汇v9_' + datetime.datetime.now().strftime('%m%d') + '.zip'
 out = os.path.join(OUT_DIR, name)
 
-EXCLUDE_DIRS = {'.git', 'node_modules', 'gen'}
+EXCLUDE_DIRS = {'.git', 'node_modules', 'gen', 'scratch'}
 EXCLUDE_FILES = {
     'words.backup-4003.json',      # 本地备份
     'todo_words.txt',              # 例句生成中间清单

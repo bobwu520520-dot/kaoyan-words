@@ -1,5 +1,5 @@
 /* 考研词汇 — Service Worker: 全离线持久缓存 + 离线词库 */
-const CACHE = 'kaoyan-v9.66-offline-cache';
+const CACHE = 'kaoyan-v9.67-offline-cache';
 const SHELL = [
   './', 'index.html', 'study.html', 'exam.html', 'translate.html', 'words.html', 'memory.html',
   'css/style.css',

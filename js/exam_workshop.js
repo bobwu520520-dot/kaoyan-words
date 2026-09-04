@@ -107,7 +107,65 @@
   };
 
   /**
-   * 按需加载题型 JSON 数据并缓存到内存
+   * 从全局内嵌数据变量中获取题型数据 (零延迟、零网络、全离线支持)
+   */
+  function getCategoryDataFromGlobals(cat) {
+    // 1. 翻译长难句
+    if (cat === 'trans') {
+      var tData = window.__TRANSLATIONS__ || window.__TRANSLATIONS_DATA__;
+      if (tData && Array.isArray(tData.sentences) && tData.sentences.length) {
+        return tData.sentences;
+      }
+    }
+
+    var eData = window.__EXAM_DATA__;
+    if (!eData) return null;
+
+    // 2. 完形填空
+    if (cat === 'cloze') {
+      if (eData.cloze_real && Array.isArray(eData.cloze_real.passages) && eData.cloze_real.passages.length) {
+        return eData.cloze_real.passages;
+      }
+      if (Array.isArray(eData.cloze) && eData.cloze.length) return eData.cloze;
+    }
+
+    // 3. 传统阅读理解
+    if (cat === 'reading') {
+      if (eData.reading_real && Array.isArray(eData.reading_real.passages) && eData.reading_real.passages.length) {
+        return eData.reading_real.passages;
+      }
+      if (Array.isArray(eData.reading) && eData.reading.length) return eData.reading;
+    }
+
+    // 4. 阅读新题型
+    if (cat === 'newtype') {
+      if (eData.newtype_real && Array.isArray(eData.newtype_real.tasks) && eData.newtype_real.tasks.length) {
+        return eData.newtype_real.tasks;
+      }
+      if (Array.isArray(eData.newtype) && eData.newtype.length) return eData.newtype;
+    }
+
+    // 5. 写作 (小作文 + 大作文)
+    if (cat === 'writing') {
+      if (Array.isArray(eData.writing) && eData.writing.length) return eData.writing;
+      if (Array.isArray(eData.items) && eData.items.length) return eData.items;
+      var wa = (eData.writings_a && Array.isArray(eData.writings_a.letters)) ? eData.writings_a.letters : [];
+      var wb = (eData.writings_b && Array.isArray(eData.writings_b.essays)) ? eData.writings_b.essays : [];
+      if (wa.length || wb.length) {
+        return wa.concat(wb);
+      }
+    }
+
+    // 6. 历年真题套卷
+    if (cat === 'suite') {
+      if (Array.isArray(eData.suite) && eData.suite.length) return eData.suite;
+    }
+
+    return null;
+  }
+
+  /**
+   * 按需加载题型数据并缓存到内存 (优先全局变量，兜底用 XMLHttpRequest)
    * @param {string} cat 题型标识 (cloze / reading / newtype / trans / writing / suite)
    * @param {Function} callback 加载完成回调 (err, items)
    */
@@ -121,74 +179,112 @@
       return;
     }
 
+    // 2. 优先从全局内嵌变量读取 (window.__EXAM_DATA__ / window.__TRANSLATIONS__)
+    var globalItems = getCategoryDataFromGlobals(cat);
+    if (globalItems && globalItems.length) {
+      EXAM_CACHE[cat] = globalItems;
+      examData[cat] = globalItems;
+      renderHomeStats();
+      if (callback) callback(null, globalItems);
+      return;
+    }
+
     var meta = CATEGORY_META[cat];
     var container = document.getElementById('exam-problem-items-container');
     var isListActive = document.getElementById('exam-view-list') && document.getElementById('exam-view-list').classList.contains('active');
 
-    // 2. 渲染正在加载 Loading 动画状态
+    // 3. 渲染正在加载 Loading 动画状态
     if (container && isListActive) {
       container.innerHTML = `
         <div class="exam-loading-box" style="text-align:center;padding:50px 16px;color:var(--color-text-muted)">
           <div class="exam-spinner" style="font-size:32px;display:inline-block;animation:kySpin 1s linear infinite">🔄</div>
           <div style="font-size:14px;font-weight:700;color:var(--color-text);margin-top:14px">正在加载【${esc(meta.name)}】真题题库...</div>
-          <div style="font-size:12px;margin-top:4px;opacity:0.8">按需加载 · 极速离线缓存</div>
+          <div style="font-size:12px;margin-top:4px;opacity:0.8">本地加载 · 极速离线缓存</div>
         </div>
       `;
     }
 
-    // 3. 发起 Fetch 请求按需加载对应 JSON 文件
+    // 4. 全局变量没有时，使用 XMLHttpRequest 兜底加载本地 JSON 文件 (file:// 协议下 status 为 0)
     var jsonUrl = 'data/exam_' + cat + '.json';
-    fetch(jsonUrl)
-      .then(function (res) {
-        if (!res.ok) throw new Error('HTTP status ' + res.status);
-        return res.json();
-      })
-      .then(function (data) {
-        var items = [];
-        if (Array.isArray(data)) {
-          items = data;
-        } else if (data && Array.isArray(data.items)) {
-          items = data.items;
-        } else if (data && Array.isArray(data.passages)) {
-          items = data.passages;
-        } else if (data && Array.isArray(data.tasks)) {
-          items = data.tasks;
-        } else if (data && Array.isArray(data.sentences)) {
-          items = data.sentences;
-        } else if (data && Array.isArray(data.essays)) {
-          items = data.essays;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', jsonUrl, true);
+
+    function handleError(err) {
+      console.error('加载题型数据失败 [' + cat + ']:', err);
+      if (container && isListActive) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:40px 16px">
+            <div style="font-size:30px;margin-bottom:8px">⚠️</div>
+            <div style="font-size:14px;font-weight:700;color:var(--color-text)">【${esc(meta.name)}】数据加载遇到问题</div>
+            <p style="font-size:12px;color:var(--color-text-muted);margin:6px 0 16px">${esc(err.message || '网络连接超时或文件未找到')}</p>
+            <button class="nav-btn primary" id="exam-retry-btn" type="button" style="padding:8px 20px;border-radius:999px">重新加载</button>
+          </div>
+        `;
+        var retryBtn = document.getElementById('exam-retry-btn');
+        if (retryBtn) {
+          retryBtn.onclick = function () {
+            loadCategoryData(cat, callback);
+          };
         }
+      }
+      if (callback) callback(err, []);
+    }
 
-        // 写入内存缓存
-        EXAM_CACHE[cat] = items;
-        examData[cat] = items;
-        renderHomeStats();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        // file:// 协议下 status 通常为 0，HTTP 下通常为 200
+        if ((xhr.status === 200 || xhr.status === 0) && xhr.responseText) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            var items = [];
+            if (Array.isArray(data)) {
+              items = data;
+            } else if (data && Array.isArray(data.items)) {
+              items = data.items;
+            } else if (data && Array.isArray(data.passages)) {
+              items = data.passages;
+            } else if (data && Array.isArray(data.tasks)) {
+              items = data.tasks;
+            } else if (data && Array.isArray(data.sentences)) {
+              items = data.sentences;
+            } else if (data && Array.isArray(data.essays)) {
+              items = data.essays;
+            }
 
-        if (callback) callback(null, items);
-      })
-      .catch(function (err) {
-        console.error('加载题型数据失败 [' + cat + ']:', err);
-        if (container && isListActive) {
-          container.innerHTML = `
-            <div style="text-align:center;padding:40px 16px">
-              <div style="font-size:30px;margin-bottom:8px">⚠️</div>
-              <div style="font-size:14px;font-weight:700;color:var(--color-text)">【${esc(meta.name)}】数据加载遇到问题</div>
-              <p style="font-size:12px;color:var(--color-text-muted);margin:6px 0 16px">${esc(err.message || '网络连接超时或文件未找到')}</p>
-              <button class="nav-btn primary" id="exam-retry-btn" type="button" style="padding:8px 20px;border-radius:999px">重新加载</button>
-            </div>
-          `;
-          var retryBtn = document.getElementById('exam-retry-btn');
-          if (retryBtn) {
-            retryBtn.onclick = function () {
-              loadCategoryData(cat, callback);
-            };
+            // 写入内存缓存
+            EXAM_CACHE[cat] = items;
+            examData[cat] = items;
+            renderHomeStats();
+
+            if (callback) callback(null, items);
+          } catch (parseErr) {
+            handleError(parseErr);
           }
+        } else {
+          handleError(new Error('请求失败 (status ' + xhr.status + ')'));
         }
-        if (callback) callback(err, []);
-      });
+      }
+    };
+
+    xhr.onerror = function () {
+      handleError(new Error('本地文件读取失败'));
+    };
+
+    try {
+      xhr.send();
+    } catch (sendErr) {
+      handleError(sendErr);
+    }
   }
 
   function initData() {
+    ['cloze', 'reading', 'newtype', 'trans', 'writing', 'suite'].forEach(function(cat) {
+      var items = getCategoryDataFromGlobals(cat);
+      if (items && items.length) {
+        EXAM_CACHE[cat] = items;
+        examData[cat] = items;
+      }
+    });
     renderHomeStats();
   }
 

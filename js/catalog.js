@@ -256,7 +256,9 @@
   }
 
   // --- 5. 第二级单词列表渲染 ---
+  // --- 5. 第二级单词列表渲染与双层智能筛选系统 ---
   var filterTitles = {
+    all: '📚 全部考研词库',
     core: '⭐ 核心高频词',
     high: '📌 高频重点词',
     expand: '🎯 重点扩展词',
@@ -267,10 +269,412 @@
     weak: '🔥 薄弱词专项强化'
   };
 
+  // 筛选器状态
+  var filterState = {
+    tier: 'all',          // 'all' | 'high' | 'mid' | 'low'
+    status: 'all',        // 'all' | 'unlearned' | 'learning' | 'mastered'
+    sort: 'freq',         // 'freq' | 'alpha' | 'time'
+    pos: [],              // ['n', 'v', 'adj', 'adv', 'other'] (多选)
+    letter: 'all',        // 'all' | 'A'..'Z'
+    len: 'all',           // 'all' | 'short' | 'mid' | 'long'
+    source: 'all'         // 'all' | 'outline' | 'real' | 'expand'
+  };
+
+  var rawCategoryWords = []; // 当前分类的基础原始词汇
+
+  function applyWordFilters() {
+    studyState = getStudyProgress();
+    var list = rawCategoryWords.slice();
+
+    // 1. 常用筛选：词频等级 (全部 / 高频 / 中频 / 低频)
+    if (filterState.tier === 'high') {
+      list = list.filter(function (w) { return w.tier === '核心高频' || w.tier === '高频重点'; });
+    } else if (filterState.tier === 'mid') {
+      list = list.filter(function (w) { return w.tier === '重点扩展'; });
+    } else if (filterState.tier === 'low') {
+      list = list.filter(function (w) { return w.tier === '普通扩展'; });
+    }
+
+    // 2. 常用筛选：掌握状态 (全部 / 未学 / 学习中 / 已掌握)
+    if (filterState.status === 'unlearned') {
+      list = list.filter(function (w) {
+        var prog = studyState[w.word];
+        return !prog || !prog.level;
+      });
+    } else if (filterState.status === 'learning') {
+      list = list.filter(function (w) {
+        var prog = studyState[w.word];
+        return prog && prog.level > 0 && prog.level < 4;
+      });
+    } else if (filterState.status === 'mastered') {
+      list = list.filter(function (w) {
+        var prog = studyState[w.word];
+        return prog && prog.level >= 4;
+      });
+    }
+
+    // 3. 高级筛选：词性筛选 (多选)
+    if (filterState.pos && filterState.pos.length > 0) {
+      list = list.filter(function (w) {
+        var p = ((w.pos || '') + ' ' + (w.translation || '') + ' ' + (w.exam_meaning || '')).toLowerCase();
+        for (var i = 0; i < filterState.pos.length; i++) {
+          var pk = filterState.pos[i];
+          if (pk === 'n' && (p.includes('n.') || p.includes('noun'))) return true;
+          if (pk === 'v' && (p.includes('v.') || p.includes('verb'))) return true;
+          if (pk === 'adj' && (p.includes('adj') || p.includes('adje'))) return true;
+          if (pk === 'adv' && (p.includes('adv') || p.includes('adverb'))) return true;
+          if (pk === 'other' && (p.includes('prep.') || p.includes('conj.') || p.includes('pron.') || p.includes('num.') || p.includes('art.'))) return true;
+        }
+        return false;
+      });
+    }
+
+    // 4. 高级筛选：首字母范围 (A-Z)
+    if (filterState.letter && filterState.letter !== 'all') {
+      var targetL = filterState.letter.toUpperCase();
+      list = list.filter(function (w) {
+        return w.word.toUpperCase().startsWith(targetL);
+      });
+    }
+
+    // 5. 高级筛选：词长范围
+    if (filterState.len === 'short') {
+      list = list.filter(function (w) { return w.word.length <= 4; });
+    } else if (filterState.len === 'mid') {
+      list = list.filter(function (w) { return w.word.length >= 5 && w.word.length <= 7; });
+    } else if (filterState.len === 'long') {
+      list = list.filter(function (w) { return w.word.length >= 8; });
+    }
+
+    // 6. 高级筛选：来源筛选 (大纲词 / 真题词 / 超纲词)
+    if (filterState.source === 'outline') {
+      list = list.filter(function (w) {
+        return (w.tag && (w.tag.includes('大纲') || w.tag.includes('基础'))) || (w.source && w.source.includes('outline'));
+      });
+    } else if (filterState.source === 'real') {
+      list = list.filter(function (w) {
+        return (w.tag && (w.tag.includes('核心') || w.tag.includes('高频') || w.tag.includes('真题') || w.tag.includes('英一'))) || w.exam_tag || w.tier === '核心高频';
+      });
+    } else if (filterState.source === 'expand') {
+      list = list.filter(function (w) {
+        return (w.tag && w.tag.includes('扩展')) || w.tier === '重点扩展' || w.tier === '普通扩展';
+      });
+    }
+
+    // 7. 排序方式 (按词频 / 按字母 / 按添加时间)
+    if (filterState.sort === 'alpha') {
+      list.sort(function (a, b) {
+        return a.word.localeCompare(b.word);
+      });
+    } else if (filterState.sort === 'time') {
+      // 保持原始字典索引顺序
+    } else {
+      // 默认按词频优先级 (核心高频 > 高频重点 > 重点扩展 > 普通扩展)
+      var tierWeight = { '核心高频': 4, '高频重点': 3, '重点扩展': 2, '普通扩展': 1 };
+      list.sort(function (a, b) {
+        var wa = tierWeight[a.tier] || 0;
+        var wb = tierWeight[b.tier] || 0;
+        if (wb !== wa) return wb - wa;
+        var sa = (a.true_priority || '').length || 0;
+        var sb = (b.true_priority || '').length || 0;
+        return sb - sa;
+      });
+    }
+
+    currentFilteredWords = list;
+    currentPage = 1;
+
+    // 更新各处结果数量显示
+    var countEl = document.getElementById('words-list-total-count');
+    if (countEl) countEl.textContent = '共 ' + list.length.toLocaleString() + ' 词';
+
+    var confirmCount = document.getElementById('afp-confirm-count');
+    if (confirmCount) confirmCount.textContent = '查看结果 (' + list.length.toLocaleString() + ' 词)';
+
+    renderActiveChipsBar();
+    updateFilterBadge();
+    renderTier2Page();
+  }
+
+  function renderActiveChipsBar() {
+    var chipsBar = document.getElementById('filter-active-chips');
+    var chipsList = document.getElementById('fac-list');
+    if (!chipsBar || !chipsList) return;
+
+    var chips = [];
+    var tierMap = { high: '高频', mid: '中频', low: '低频' };
+    if (filterState.tier !== 'all' && tierMap[filterState.tier]) {
+      chips.push({ key: 'tier', text: '词频: ' + tierMap[filterState.tier] });
+    }
+
+    var statusMap = { unlearned: '未学', learning: '学习中', mastered: '已掌握' };
+    if (filterState.status !== 'all' && statusMap[filterState.status]) {
+      chips.push({ key: 'status', text: '状态: ' + statusMap[filterState.status] });
+    }
+
+    var sortMap = { alpha: '按字母', time: '按时间' };
+    if (filterState.sort !== 'freq' && sortMap[filterState.sort]) {
+      chips.push({ key: 'sort', text: '排序: ' + sortMap[filterState.sort] });
+    }
+
+    if (filterState.pos && filterState.pos.length > 0) {
+      var posNames = { n: '名词', v: '动词', adj: '形容词', adv: '副词', other: '虚词' };
+      var pTexts = filterState.pos.map(function(k) { return posNames[k] || k; }).join('/');
+      chips.push({ key: 'pos', text: '词性: ' + pTexts });
+    }
+
+    if (filterState.letter && filterState.letter !== 'all') {
+      chips.push({ key: 'letter', text: '首字母: ' + filterState.letter });
+    }
+
+    var lenMap = { short: '短词(≤4)', mid: '中词(5-7)', long: '长词(≥8)' };
+    if (filterState.len !== 'all' && lenMap[filterState.len]) {
+      chips.push({ key: 'len', text: '词长: ' + lenMap[filterState.len] });
+    }
+
+    var srcMap = { outline: '大纲词', real: '真题词', expand: '扩展词' };
+    if (filterState.source !== 'all' && srcMap[filterState.source]) {
+      chips.push({ key: 'source', text: '来源: ' + srcMap[filterState.source] });
+    }
+
+    if (chips.length > 0) {
+      chipsBar.style.display = 'flex';
+      chipsList.innerHTML = chips.map(function (c) {
+        return `<span class="active-chip" data-chip-key="${c.key}">${esc(c.text)} <b class="chip-remove" data-remove-key="${c.key}" title="移除此项筛选">✕</b></span>`;
+      }).join('');
+
+      chipsList.querySelectorAll('.chip-remove').forEach(function (btn) {
+        btn.onclick = function (e) {
+          e.stopPropagation();
+          var k = btn.getAttribute('data-remove-key');
+          removeSingleFilter(k);
+        };
+      });
+    } else {
+      chipsBar.style.display = 'none';
+      chipsList.innerHTML = '';
+    }
+  }
+
+  function removeSingleFilter(key) {
+    if (key === 'tier') {
+      filterState.tier = 'all';
+      var el = document.getElementById('cf-tier');
+      if (el) el.value = 'all';
+    } else if (key === 'status') {
+      filterState.status = 'all';
+      var el = document.getElementById('cf-status');
+      if (el) el.value = 'all';
+    } else if (key === 'sort') {
+      filterState.sort = 'freq';
+      var el = document.getElementById('cf-sort');
+      if (el) el.value = 'freq';
+    } else if (key === 'pos') {
+      filterState.pos = [];
+      document.querySelectorAll('#afp-pos-group .afp-chip').forEach(function(c) { c.classList.remove('active'); });
+    } else if (key === 'letter') {
+      filterState.letter = 'all';
+      document.querySelectorAll('#afp-letter-group .afp-chip').forEach(function(c) {
+        c.classList.toggle('active', c.getAttribute('data-letter') === 'all');
+      });
+    } else if (key === 'len') {
+      filterState.len = 'all';
+      document.querySelectorAll('#afp-length-group .afp-chip').forEach(function(c) {
+        c.classList.toggle('active', c.getAttribute('data-len') === 'all');
+      });
+    } else if (key === 'source') {
+      filterState.source = 'all';
+      document.querySelectorAll('#afp-source-group .afp-chip').forEach(function(c) {
+        c.classList.toggle('active', c.getAttribute('data-source') === 'all');
+      });
+    }
+    applyWordFilters();
+  }
+
+  function resetAllFilters() {
+    filterState.tier = 'all';
+    filterState.status = 'all';
+    filterState.sort = 'freq';
+    filterState.pos = [];
+    filterState.letter = 'all';
+    filterState.len = 'all';
+    filterState.source = 'all';
+
+    var cfTier = document.getElementById('cf-tier');
+    if (cfTier) cfTier.value = 'all';
+    var cfStatus = document.getElementById('cf-status');
+    if (cfStatus) cfStatus.value = 'all';
+    var cfSort = document.getElementById('cf-sort');
+    if (cfSort) cfSort.value = 'freq';
+
+    document.querySelectorAll('#afp-pos-group .afp-chip').forEach(function(c) { c.classList.remove('active'); });
+    document.querySelectorAll('#afp-letter-group .afp-chip').forEach(function(c) {
+      c.classList.toggle('active', c.getAttribute('data-letter') === 'all');
+    });
+    document.querySelectorAll('#afp-length-group .afp-chip').forEach(function(c) {
+      c.classList.toggle('active', c.getAttribute('data-len') === 'all');
+    });
+    document.querySelectorAll('#afp-source-group .afp-chip').forEach(function(c) {
+      c.classList.toggle('active', c.getAttribute('data-source') === 'all');
+    });
+
+    applyWordFilters();
+  }
+
+  function updateFilterBadge() {
+    var advCount = (filterState.pos.length > 0 ? 1 : 0) +
+                   (filterState.letter !== 'all' ? 1 : 0) +
+                   (filterState.len !== 'all' ? 1 : 0) +
+                   (filterState.source !== 'all' ? 1 : 0);
+    var badge = document.getElementById('adv-filter-badge');
+    if (badge) {
+      if (advCount > 0) {
+        badge.textContent = advCount;
+        badge.style.display = 'inline-flex';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+  }
+
+  var filterSystemInited = false;
+  function initFilterSystem() {
+    if (filterSystemInited) return;
+    filterSystemInited = true;
+
+    // 1. 常用筛选绑定
+    var cfTier = document.getElementById('cf-tier');
+    if (cfTier) {
+      cfTier.onchange = function () {
+        filterState.tier = cfTier.value;
+        applyWordFilters();
+      };
+    }
+    var cfStatus = document.getElementById('cf-status');
+    if (cfStatus) {
+      cfStatus.onchange = function () {
+        filterState.status = cfStatus.value;
+        applyWordFilters();
+      };
+    }
+    var cfSort = document.getElementById('cf-sort');
+    if (cfSort) {
+      cfSort.onchange = function () {
+        filterState.sort = cfSort.value;
+        applyWordFilters();
+      };
+    }
+
+    // 2. 更多筛选展开收起
+    var btnAdv = document.getElementById('btn-toggle-advanced');
+    var panelAdv = document.getElementById('adv-filter-panel');
+    var backdropAdv = document.getElementById('adv-filter-backdrop');
+    var closeAdv = document.getElementById('afp-close-btn');
+
+    function toggleAdvPanel(open) {
+      var shouldOpen = open !== undefined ? open : (panelAdv && !panelAdv.classList.contains('open'));
+      if (panelAdv) panelAdv.classList.toggle('open', shouldOpen);
+      if (backdropAdv) backdropAdv.classList.toggle('open', shouldOpen);
+      if (btnAdv) {
+        btnAdv.classList.toggle('active', shouldOpen);
+        btnAdv.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+      }
+    }
+
+    if (btnAdv) btnAdv.onclick = function () { toggleAdvPanel(); };
+    if (backdropAdv) backdropAdv.onclick = function () { toggleAdvPanel(false); };
+    if (closeAdv) closeAdv.onclick = function () { toggleAdvPanel(false); };
+
+    // 3. 生成 A-Z 首字母横滑按钮
+    var letterGroup = document.getElementById('afp-letter-group');
+    if (letterGroup) {
+      var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      var lHtml = `<button type="button" class="afp-chip active" data-letter="all">全部</button>`;
+      alphabet.forEach(function (ch) {
+        lHtml += `<button type="button" class="afp-chip" data-letter="${ch}">${ch}</button>`;
+      });
+      letterGroup.innerHTML = lHtml;
+
+      letterGroup.querySelectorAll('.afp-chip').forEach(function (btn) {
+        btn.onclick = function () {
+          var l = btn.getAttribute('data-letter');
+          filterState.letter = l;
+          letterGroup.querySelectorAll('.afp-chip').forEach(function (b) {
+            b.classList.toggle('active', b.getAttribute('data-letter') === l);
+          });
+          applyWordFilters();
+        };
+      });
+    }
+
+    // 4. 词性筛选 (多选)
+    var posGroup = document.getElementById('afp-pos-group');
+    if (posGroup) {
+      posGroup.querySelectorAll('.afp-chip').forEach(function (btn) {
+        btn.onclick = function () {
+          var posVal = btn.getAttribute('data-pos');
+          var idx = filterState.pos.indexOf(posVal);
+          if (idx >= 0) {
+            filterState.pos.splice(idx, 1);
+            btn.classList.remove('active');
+          } else {
+            filterState.pos.push(posVal);
+            btn.classList.add('active');
+          }
+          applyWordFilters();
+        };
+      });
+    }
+
+    // 5. 词长筛选 (单选)
+    var lenGroup = document.getElementById('afp-length-group');
+    if (lenGroup) {
+      lenGroup.querySelectorAll('.afp-chip').forEach(function (btn) {
+        btn.onclick = function () {
+          var lenVal = btn.getAttribute('data-len');
+          filterState.len = lenVal;
+          lenGroup.querySelectorAll('.afp-chip').forEach(function (b) {
+            b.classList.toggle('active', b.getAttribute('data-len') === lenVal);
+          });
+          applyWordFilters();
+        };
+      });
+    }
+
+    // 6. 来源筛选 (单选)
+    var srcGroup = document.getElementById('afp-source-group');
+    if (srcGroup) {
+      srcGroup.querySelectorAll('.afp-chip').forEach(function (btn) {
+        btn.onclick = function () {
+          var srcVal = btn.getAttribute('data-source');
+          filterState.source = srcVal;
+          srcGroup.querySelectorAll('.afp-chip').forEach(function (b) {
+            b.classList.toggle('active', b.getAttribute('data-source') === srcVal);
+          });
+          applyWordFilters();
+        };
+      });
+    }
+
+    // 7. 重置按钮
+    var btnReset = document.getElementById('afp-btn-reset');
+    if (btnReset) btnReset.onclick = resetAllFilters;
+
+    var btnClearAll = document.getElementById('fac-clear-btn');
+    if (btnClearAll) btnClearAll.onclick = resetAllFilters;
+
+    // 8. 确认关闭按钮
+    var btnConfirm = document.getElementById('afp-btn-confirm');
+    if (btnConfirm) {
+      btnConfirm.onclick = function () {
+        toggleAdvPanel(false);
+      };
+    }
+  }
+
   function renderTier2List(filterKey) {
     studyState = getStudyProgress();
     var titleEl = document.getElementById('words-list-header-title');
-    var countEl = document.getElementById('words-list-total-count');
     var letterBar = document.getElementById('words-letter-bar');
 
     // 是否展示 A-Z 首字母横滑条
@@ -309,14 +713,13 @@
       list = WORDS;
     }
 
-    currentFilteredWords = list;
-    currentPage = 1;
+    rawCategoryWords = list;
 
     var displayTitle = filterTitles[filterKey] || (isLettersMode ? `首字母 ${currentLetter} 检索` : '单词列表');
     if (titleEl) titleEl.textContent = displayTitle;
-    if (countEl) countEl.textContent = list.length + ' 词';
 
-    renderTier2Page();
+    initFilterSystem();
+    applyWordFilters();
   }
 
   function renderLetterChips(activeL) {
@@ -341,17 +744,20 @@
     var pageInfo = document.getElementById('words-tier2-page-info');
     var prevBtn = document.getElementById('words-tier2-prev');
     var nextBtn = document.getElementById('words-tier2-next');
+    var pag = document.getElementById('words-tier2-pagination');
     if (!container) return;
 
     if (!currentFilteredWords.length) {
       container.innerHTML = `
         <div style="padding:40px 20px;text-align:center;color:var(--color-text-muted)">
-          <div style="font-size:36px;margin-bottom:8px">🍃</div>
-          <div style="font-size:14px;font-weight:700">该分类下暂无收录单词</div>
-          <div style="font-size:12px;margin-top:4px">可前往背词页面开启今日打卡</div>
+          <div style="font-size:36px;margin-bottom:8px">🔍</div>
+          <div style="font-size:14px;font-weight:700;color:var(--color-text)">没有找到符合当前筛选条件的单词</div>
+          <div style="font-size:12px;margin:6px 0 16px">可尝试放宽或清空筛选条件，探索更多真题考点</div>
+          <button type="button" class="nav-btn primary" id="empty-clear-filters-btn" style="padding:8px 20px;border-radius:999px;cursor:pointer">一键清空筛选</button>
         </div>
       `;
-      var pag = document.getElementById('words-tier2-pagination');
+      var clrBtn = document.getElementById('empty-clear-filters-btn');
+      if (clrBtn) clrBtn.onclick = resetAllFilters;
       if (pag) pag.style.display = 'none';
       return;
     }
@@ -391,7 +797,6 @@
       };
     });
 
-    var pag = document.getElementById('words-tier2-pagination');
     if (pag) {
       pag.style.display = totalPages > 1 ? 'flex' : 'none';
       if (pageInfo) pageInfo.textContent = `第 ${currentPage} / ${totalPages} 页 (共 ${currentFilteredWords.length} 词)`;
