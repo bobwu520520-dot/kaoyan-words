@@ -1,0 +1,166 @@
+[
+  {
+    "id": "reading-2023-text1",
+    "year": 2023,
+    "text_id": "Text 1",
+    "title": "可持续消费理念与快时尚产业的绿色转型",
+    "topic": "经济学与现代消费行为",
+    "content": "For decades, the global apparel industry has thrived on the fast-fashion model, which prioritizes rapid production cycles and disposable consumerism. However, a burgeoning wave of environmental awareness among Gen Z shoppers is dramatically reshaping market expectations. Consumers are increasingly demanding transparency in supply chains and holding fashion conglomerates accountable for their carbon footprints.\n\nIn response to this paradigm shift, several multinational clothing brands have launched circular economy initiatives. These programs encourage garment recycling and utilize sustainable raw materials such as organic cotton and bio-based polymers. Yet, industry analysts caution that many of these green campaigns verge on 'greenwashing'—a superficial marketing ploy designed to appease eco-conscious buyers without enacting substantive reforms in supply chain practices.\n\nTo achieve authentic sustainability, the textile sector must fundamentally overhaul its linear 'take-make-waste' framework. Regulatory authorities in Europe and North America have recently enacted stringent legislation mandating extended producer responsibility. Ultimately, reconciling commercial profitability with ecological stewardship requires both legislative enforcement and genuine consumer commitment.",
+    "text": "For decades, the global apparel industry has thrived on the fast-fashion model, which prioritizes rapid production cycles and disposable consumerism. However, a burgeoning wave of environmental awareness among Gen Z shoppers is dramatically reshaping market expectations. Consumers are increasingly demanding transparency in supply chains and holding fashion conglomerates accountable for their carbon footprints.\n\nIn response to this paradigm shift, several multinational clothing brands have launched circular economy initiatives. These programs encourage garment recycling and utilize sustainable raw materials such as organic cotton and bio-based polymers. Yet, industry analysts caution that many of these green campaigns verge on 'greenwashing'—a superficial marketing ploy designed to appease eco-conscious buyers without enacting substantive reforms in supply chain practices.\n\nTo achieve authentic sustainability, the textile sector must fundamentally overhaul its linear 'take-make-waste' framework. Regulatory authorities in Europe and North America have recently enacted stringent legislation mandating extended producer responsibility. Ultimately, reconciling commercial profitability with ecological stewardship requires both legislative enforcement and genuine consumer commitment.",
+    "questions": [
+      {
+        "num": 1,
+        "stem": "According to Paragraph 1, the fast-fashion model is facing challenges mainly due to ______.",
+        "options": [
+          "A. the rapid expansion of global production cycles",
+          "B. heightened environmental consciousness among young consumers",
+          "C. strict governmental taxation on garment imports",
+          "D. a severe shortage of high-quality textile materials"
+        ],
+        "answer": "B",
+        "analysis": "【细节事实题】定位到首段第二句 'However, a burgeoning wave of environmental awareness among Gen Z shoppers is dramatically reshaping market expectations'，其中 'burgeoning environmental awareness' 同义替换为 'heightened environmental consciousness'，选项 B 为正确答案。"
+      },
+      {
+        "num": 2,
+        "stem": "The phrase 'greenwashing' in Paragraph 2 most likely refers to ______.",
+        "options": [
+          "A. genuine investments in technological innovations",
+          "B. superficial environmental claims for promotional purposes",
+          "C. effective recycling of toxic chemical pollutants",
+          "D. collaborative partnerships among fashion brands"
+        ],
+        "answer": "B",
+        "analysis": "【词汇代词题】定位到第2段最后一句破折号后的同位语解释：'a superficial marketing ploy designed to appease eco-conscious buyers without enacting substantive reforms'（为了安抚环保消费者而设计的表面营销噱头），故 B 选项 'superficial environmental claims' 为精准同义替换。"
+      },
+      {
+        "num": 3,
+        "stem": "It can be learned from Paragraph 3 that authentic sustainability requires ______.",
+        "options": [
+          "A. a fundamental transformation of the traditional linear production model",
+          "B. complete elimination of international textile trade",
+          "C. sole reliance on voluntary corporate donations",
+          "D. relaxing government regulations on carbon emissions"
+        ],
+        "answer": "A",
+        "analysis": "【细节推断题】定位到第3段首句 'the textile sector must fundamentally overhaul its linear take-make-waste framework'，其中 'overhaul its linear framework' 对应 A 项 'fundamental transformation of the traditional linear production model'。"
+      }
+    ]
+  },
+  {
+    "id": "reading-2022-text2",
+    "year": 2022,
+    "text_id": "Text 2",
+    "title": "生成式人工智能在学术研究中的伦理边界",
+    "topic": "科技哲学与人工智能伦理",
+    "content": "The rapid ascendancy of generative artificial intelligence has unleashed a profound transformation across higher education and scientific research. Proponents argue that large language models act as intellectual co-pilots, dramatically accelerating data synthesis, literature summarization, and coding workflows. By automating repetitive administrative tasks, these digital assistants liberate scholars to concentrate on higher-order conceptual breakthroughs.\n\nNevertheless, this technological revolution is accompanied by grave ethical quandaries. Chief among these concerns is the erosion of intellectual originality and the risk of algorithmic hallucination. When automated systems fabricate plausible citations or produce biased interpretations, the credibility of peer-reviewed research is severely undermined. Furthermore, excessive reliance on predictive algorithms risks diminishing the cognitive stamina and critical inquiry of novice researchers.\n\nIn navigating this brave new world, academia must eschew both blind technophobia and unchecked euphoria. Universities and funding bodies should formulate transparent ethical guidelines that mandate full disclosure of algorithmic assistance. Ultimately, AI should augment rather than supplant human critical intellect.",
+    "text": "The rapid ascendancy of generative artificial intelligence has unleashed a profound transformation across higher education and scientific research. Proponents argue that large language models act as intellectual co-pilots, dramatically accelerating data synthesis, literature summarization, and coding workflows. By automating repetitive administrative tasks, these digital assistants liberate scholars to concentrate on higher-order conceptual breakthroughs.\n\nNevertheless, this technological revolution is accompanied by grave ethical quandaries. Chief among these concerns is the erosion of intellectual originality and the risk of algorithmic hallucination. When automated systems fabricate plausible citations or produce biased interpretations, the credibility of peer-reviewed research is severely undermined. Furthermore, excessive reliance on predictive algorithms risks diminishing the cognitive stamina and critical inquiry of novice researchers.\n\nIn navigating this brave new world, academia must eschew both blind technophobia and unchecked euphoria. Universities and funding bodies should formulate transparent ethical guidelines that mandate full disclosure of algorithmic assistance. Ultimately, AI should augment rather than supplant human critical intellect.",
+    "questions": [
+      {
+        "num": 1,
+        "stem": "Proponents believe that generative AI models benefit researchers by ______.",
+        "options": [
+          "A. replacing human scholars in formulating scientific hypotheses",
+          "B. automating routine tasks and boosting research productivity",
+          "C. eliminating the necessity of peer-review procedures",
+          "D. guaranteeing absolute accuracy in experimental results"
+        ],
+        "answer": "B",
+        "analysis": "【观点细节题】定位到第1段 'By automating repetitive administrative tasks, these digital assistants liberate scholars to concentrate on higher-order conceptual breakthroughs'，对应 B 项 'automating routine tasks and boosting research productivity'。"
+      },
+      {
+        "num": 2,
+        "stem": "What is the author's primary concern regarding the use of AI in scientific papers?",
+        "options": [
+          "A. High subscription costs of AI research tools",
+          "B. Potential fabrication of citations and loss of research credibility",
+          "C. Delay in publication cycles caused by algorithm checks",
+          "D. Decreasing employment opportunities for senior professors"
+        ],
+        "answer": "B",
+        "analysis": "【事实细节题】定位到第2段 'When automated systems fabricate plausible citations or produce biased interpretations, the credibility of peer-reviewed research is severely undermined'，对应 B 选项。"
+      },
+      {
+        "num": 3,
+        "stem": "The author's attitude towards the integration of AI in academia can be best described as ______.",
+        "options": [
+          "A. unconditionally enthusiastic",
+          "B. completely dismissive",
+          "C. cautiously balanced and objective",
+          "D. indifferent and detached"
+        ],
+        "answer": "C",
+        "analysis": "【作者态度题】定位到末段 'academia must eschew both blind technophobia and unchecked euphoria... AI should augment rather than supplant human critical intellect'，体现既看到赋能作用又强调伦理规约的审慎平衡客观态度，选 C。"
+      }
+    ]
+  },
+  {
+    "id": "reading_3",
+    "year": 2024,
+    "text_id": "Text 3",
+    "title": "自动化技术对就业与社会阶层流动的深远影响",
+    "topic": "AI, automation, and labor market dynamics",
+    "content": "The rapid deployment of generative artificial intelligence and robotics has reignited debates over technological unemployment. Economists widely agree that while automation displaces certain routine tasks, it simultaneously generates complementary occupations. However, the transitional friction experienced by mid-skilled labor remains a critical policy challenge.\n\nHistorical precedents suggest that technological disruptions eventually expand aggregate employment, yet the interim adjustment period can inflict severe socio-economic disparities. Modern workers face increasing pressure to upskill, particularly in non-repetitive cognitive domains where human intuition and emotional intelligence retain competitive advantages.",
+    "text": "The rapid deployment of generative artificial intelligence and robotics has reignited debates over technological unemployment. Economists widely agree that while automation displaces certain routine tasks, it simultaneously generates complementary occupations. However, the transitional friction experienced by mid-skilled labor remains a critical policy challenge.\n\nHistorical precedents suggest that technological disruptions eventually expand aggregate employment, yet the interim adjustment period can inflict severe socio-economic disparities. Modern workers face increasing pressure to upskill, particularly in non-repetitive cognitive domains where human intuition and emotional intelligence retain competitive advantages.",
+    "questions": [
+      {
+        "num": 31,
+        "stem": "According to Paragraph 1, economists generally believe that automation ______.",
+        "options": [
+          "A. inevitably causes permanent mass unemployment",
+          "B. creates new job roles while eliminating routine tasks",
+          "C. primarily harms high-skilled innovators",
+          "D. accelerates income equality across all sectors"
+        ],
+        "answer": "B",
+        "analysis": "【唐迟逻辑解析·细节题】根据第一段定位句“while automation displaces certain routine tasks, it simultaneously generates complementary occupations”，B项为原文“displaces... generates...”的同义替换。"
+      },
+      {
+        "num": 32,
+        "stem": "The author mentions \"transitional friction\" to highlight ______.",
+        "options": [
+          "A. the smooth adoption of new technologies",
+          "B. the urgent challenges faced by mid-skilled workers",
+          "C. the complete failure of labor policies",
+          "D. the decline of manufacturing productivity"
+        ],
+        "answer": "B",
+        "analysis": "【唐迟逻辑解析·例证态度题】定位句明确指出中等技能劳动力所面临的过渡摩擦与阵痛（severe disparities），故选B。"
+      }
+    ]
+  },
+  {
+    "id": "reading_4",
+    "year": 2024,
+    "text_id": "Text 4",
+    "title": "英国数字出版物版权法律与开放获取之争",
+    "topic": "Academic publishing, open access and copyright law",
+    "content": "For decades, academic publishing has functioned under a model where universities fund research, peer reviewers validate it for free, and commercial publishers lock the findings behind exorbitant paywalls. Now, global open-access mandates are upending this lucrative structure, sparking fierce legal battles over intellectual property rights.\n\nPublishing conglomerates argue that substantial subscription revenues are essential to maintain rigorous editorial standards and reliable digital archiving. Conversely, public research agencies insist that publicly funded knowledge should be freely accessible to accelerate global scientific advancement.",
+    "text": "For decades, academic publishing has functioned under a model where universities fund research, peer reviewers validate it for free, and commercial publishers lock the findings behind exorbitant paywalls. Now, global open-access mandates are upending this lucrative structure, sparking fierce legal battles over intellectual property rights.\n\nPublishing conglomerates argue that substantial subscription revenues are essential to maintain rigorous editorial standards and reliable digital archiving. Conversely, public research agencies insist that publicly funded knowledge should be freely accessible to accelerate global scientific advancement.",
+    "questions": [
+      {
+        "num": 36,
+        "stem": "Traditional academic publishing has been criticized because ______.",
+        "options": [
+          "A. commercial publishers monopolize publicly funded research behind paywalls",
+          "B. peer reviewers are paid excessively high salaries",
+          "C. universities refuse to publish scientific findings",
+          "D. open-access mandates have failed completely"
+        ],
+        "answer": "A",
+        "analysis": "【唐迟逻辑解析·细节题】第一句明确指出商业出版商将公费资助的研究锁在昂贵付费墙之后（lock the findings behind exorbitant paywalls），A项契合。"
+      },
+      {
+        "num": 37,
+        "stem": "The attitude of public research agencies towards open access is ______.",
+        "options": [
+          "A. skeptical",
+          "B. supportive",
+          "C. indifferent",
+          "D. ambiguous"
+        ],
+        "answer": "B",
+        "analysis": "【唐迟逻辑解析·态度题】第二段末尾公共研究机构坚持认为科研成果应当自由开放（freely accessible），表达积极支持的态度，故选B (supportive)。"
+      }
+    ]
+  }
+]

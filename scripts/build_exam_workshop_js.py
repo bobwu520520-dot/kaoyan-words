@@ -1,0 +1,1008 @@
+# -*- coding: utf-8 -*-
+"""
+Script to generate the updated js/exam_workshop.js with:
+1. EXAM_CACHE memory cache system.
+2. loadCategoryData(cat, callback) asynchronous on-demand JSON loader.
+3. Loading spinner UI in problem list & detail views.
+4. Seamless integration with the 6 JSON datasets in data/.
+5. Dropdown header navigation handler absorbed from inline script.
+6. 100% clean UTF-8 encoding.
+"""
+
+import os
+
+content = r"""/**
+ * 考研英语（一）全能分级真题实战工坊引擎 (3-Tier Hierarchical Exam Workshop Engine)
+ * Kaoyan English (I) Master Exam Workshop Engine
+ * - 按需异步加载 (On-demand Fetch & Memory Caching)
+ * - 纯原生无框架 (Vanilla JS + CSS)
+ */
+
+(function () {
+  'use strict';
+
+  var currentCategory = 'reading';
+  var currentItemId = 0;
+
+  // Completion Progress State Tracking (localStorage)
+  var examProgress = {};
+  try {
+    examProgress = JSON.parse(localStorage.getItem('kao_exam_progress') || '{}');
+  } catch (e) {
+    examProgress = {};
+  }
+
+  function saveExamProgress(key, data) {
+    examProgress[key] = Object.assign({}, examProgress[key] || {}, data);
+    try {
+      localStorage.setItem('kao_exam_progress', JSON.stringify(examProgress));
+    } catch (e) {}
+    renderHomeStats();
+  }
+
+  // Safe Audio Helper
+  function speak(text) {
+    if (!text) return;
+    try {
+      if (window.KaoyanAudio && window.KaoyanAudio.speak) {
+        window.KaoyanAudio.speak(text);
+      } else if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = localStorage.getItem('kao_ttslang') || 'en-US';
+        u.rate = parseFloat(localStorage.getItem('kao_ttsrate') || '0.92');
+        window.speechSynthesis.speak(u);
+      }
+    } catch (e) {}
+  }
+
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, function (m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+    });
+  }
+
+  // 题型大纲基础元数据
+  var CATEGORY_META = {
+    cloze: {
+      name: '完形填空',
+      icon: '🧩',
+      score: 'Section I · 10分',
+      desc: '考研英语（一）第一部分，共 20 小题，每题 0.5 分。重点考查语篇衔接、同义复现与 40 大高频红花绿叶词。建议用时：15~18 分钟。',
+      defaultCount: 2
+    },
+    reading: {
+      name: '传统阅读理解（Text 1-4）',
+      icon: '📖',
+      score: 'Part A · 40分',
+      desc: '共 4 篇精读，每篇 5 题，每题 2 分。占总分 40% 半壁江山！融汇唐迟逻辑六大题型拆解与命题陷阱排雷。建议用时：60~70 分钟。',
+      defaultCount: 4
+    },
+    newtype: {
+      name: '阅读新题型',
+      icon: '🎯',
+      score: 'Part B · 10分',
+      desc: '共 5 小题，每题 2 分。常考题型包括 7选5逻辑衔接、排序题与小标题匹配。抓代词复现、冠词与逻辑线索链。建议用时：15~20 分钟。',
+      defaultCount: 2
+    },
+    trans: {
+      name: '翻译（英译汉）',
+      icon: '🌐',
+      score: 'Part C · 10分',
+      desc: '共 5 个学术长难句，每句 2 分。运用田静句法五步拆分法（定从/状从/倒装/分割），重组符合汉语表达习惯的规范译文。建议用时：20~25 分钟。',
+      defaultCount: 105
+    },
+    writing: {
+      name: '考研写作（小作文+大作文）',
+      icon: '✍️',
+      score: 'Part A & B · 30分',
+      desc: 'Part A 应用文书信告示（10分）+ Part B 潘赟九宫格图画大作文（20分）。保底 24+ 分的必争优势板块。建议用时：45~50 分钟。',
+      defaultCount: 11
+    },
+    suite: {
+      name: '历年真题套卷（按年份）',
+      icon: '📚',
+      score: '全卷模拟 · 100分',
+      desc: '2010~2024 年全国统考英语（一）官方标准卷，支持 180 分钟考场全真计时与全题型全景模拟训练。',
+      defaultCount: 15
+    }
+  };
+
+  // --- 内存缓存仓库 (In-Memory Cache) ---
+  var EXAM_CACHE = {};
+  var examData = {
+    cloze: [],
+    reading: [],
+    newtype: [],
+    trans: [],
+    writing: [],
+    suite: []
+  };
+
+  /**
+   * 按需加载题型 JSON 数据并缓存到内存
+   * @param {string} cat 题型标识 (cloze / reading / newtype / trans / writing / suite)
+   * @param {Function} callback 加载完成回调 (err, items)
+   */
+  function loadCategoryData(cat, callback) {
+    if (!CATEGORY_META[cat]) cat = 'reading';
+
+    // 1. 命中内存缓存，直接零延迟返回
+    if (EXAM_CACHE[cat] && EXAM_CACHE[cat].length) {
+      examData[cat] = EXAM_CACHE[cat];
+      if (callback) callback(null, examData[cat]);
+      return;
+    }
+
+    var meta = CATEGORY_META[cat];
+    var container = document.getElementById('exam-problem-items-container');
+    var isListActive = document.getElementById('exam-view-list') && document.getElementById('exam-view-list').classList.contains('active');
+
+    // 2. 渲染正在加载 Loading 动画状态
+    if (container && isListActive) {
+      container.innerHTML = `
+        <div class="exam-loading-box" style="text-align:center;padding:50px 16px;color:var(--color-text-muted)">
+          <div class="exam-spinner" style="font-size:32px;display:inline-block;animation:kySpin 1s linear infinite">🔄</div>
+          <div style="font-size:14px;font-weight:700;color:var(--color-text);margin-top:14px">正在加载【${esc(meta.name)}】真题题库...</div>
+          <div style="font-size:12px;margin-top:4px;opacity:0.8">按需加载 · 极速离线缓存</div>
+        </div>
+      `;
+    }
+
+    // 3. 发起 Fetch 请求按需加载对应 JSON 文件
+    var jsonUrl = 'data/exam_' + cat + '.json';
+    fetch(jsonUrl)
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP status ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var items = [];
+        if (Array.isArray(data)) {
+          items = data;
+        } else if (data && Array.isArray(data.items)) {
+          items = data.items;
+        } else if (data && Array.isArray(data.passages)) {
+          items = data.passages;
+        } else if (data && Array.isArray(data.tasks)) {
+          items = data.tasks;
+        } else if (data && Array.isArray(data.sentences)) {
+          items = data.sentences;
+        } else if (data && Array.isArray(data.essays)) {
+          items = data.essays;
+        }
+
+        // 写入内存缓存
+        EXAM_CACHE[cat] = items;
+        examData[cat] = items;
+        renderHomeStats();
+
+        if (callback) callback(null, items);
+      })
+      .catch(function (err) {
+        console.error('加载题型数据失败 [' + cat + ']:', err);
+        if (container && isListActive) {
+          container.innerHTML = `
+            <div style="text-align:center;padding:40px 16px">
+              <div style="font-size:30px;margin-bottom:8px">⚠️</div>
+              <div style="font-size:14px;font-weight:700;color:var(--color-text)">【${esc(meta.name)}】数据加载遇到问题</div>
+              <p style="font-size:12px;color:var(--color-text-muted);margin:6px 0 16px">${esc(err.message || '网络连接超时或文件未找到')}</p>
+              <button class="nav-btn primary" id="exam-retry-btn" type="button" style="padding:8px 20px;border-radius:999px">重新加载</button>
+            </div>
+          `;
+          var retryBtn = document.getElementById('exam-retry-btn');
+          if (retryBtn) {
+            retryBtn.onclick = function () {
+              loadCategoryData(cat, callback);
+            };
+          }
+        }
+        if (callback) callback(err, []);
+      });
+  }
+
+  function initData() {
+    renderHomeStats();
+  }
+
+  // --- 1. 第一级首页统计更新 ---
+  function renderHomeStats() {
+    var counts = {
+      cloze: (EXAM_CACHE.cloze && EXAM_CACHE.cloze.length) || CATEGORY_META.cloze.defaultCount,
+      reading: (EXAM_CACHE.reading && EXAM_CACHE.reading.length) || CATEGORY_META.reading.defaultCount,
+      newtype: (EXAM_CACHE.newtype && EXAM_CACHE.newtype.length) || CATEGORY_META.newtype.defaultCount,
+      trans: (EXAM_CACHE.trans && EXAM_CACHE.trans.length) || CATEGORY_META.trans.defaultCount,
+      writing: (EXAM_CACHE.writing && EXAM_CACHE.writing.length) || CATEGORY_META.writing.defaultCount,
+      suite: (EXAM_CACHE.suite && EXAM_CACHE.suite.length) || CATEGORY_META.suite.defaultCount
+    };
+
+    var doneCounts = {
+      cloze: 0,
+      reading: 0,
+      newtype: 0,
+      trans: 0,
+      writing: 0,
+      suite: 0
+    };
+
+    Object.keys(examProgress).forEach(function (k) {
+      var parts = k.split('-');
+      var cat = parts[0];
+      if (doneCounts[cat] !== undefined && examProgress[k].done) {
+        doneCounts[cat]++;
+      }
+    });
+
+    var setBadge = function (id, cat, unit) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.textContent = `${doneCounts[cat]} / ${counts[cat]} ${unit}`;
+      }
+    };
+
+    setBadge('badge-cloze-count', 'cloze', '篇已学');
+    setBadge('badge-reading-count', 'reading', '篇精读');
+    setBadge('badge-newtype-count', 'newtype', '套大题');
+    setBadge('badge-trans-count', 'trans', '篇精译');
+    setBadge('badge-writing-count', 'writing', '篇范文');
+    setBadge('badge-suite-count', 'suite', '套全卷');
+
+    var totalSecsDone = (doneCounts.cloze > 0 ? 1 : 0) +
+      (doneCounts.reading > 0 ? 1 : 0) +
+      (doneCounts.newtype > 0 ? 1 : 0) +
+      (doneCounts.trans > 0 ? 1 : 0) +
+      (doneCounts.writing > 0 ? 1 : 0) +
+      (doneCounts.suite > 0 ? 1 : 0);
+
+    var pct = Math.round((totalSecsDone / 6) * 100);
+    var progBar = document.getElementById('exam-overall-prog-bar');
+    if (progBar) progBar.style.width = pct + '%';
+    var progSub = document.getElementById('exam-prog-sub-text');
+    if (progSub) progSub.textContent = `已学习 ${totalSecsDone} / 6 大题型 · 总分 100 分大纲`;
+    var doneBadge = document.getElementById('exam-done-badge');
+    if (doneBadge) doneBadge.textContent = `进度 ${pct}%`;
+    var headerBadge = document.getElementById('header-exam-progress-badge');
+    if (headerBadge) headerBadge.textContent = `100分大纲 · ${totalSecsDone}/6 已学`;
+  }
+
+  // --- 2. 第二级题目列表页渲染 ---
+  function renderProblemList(cat) {
+    currentCategory = cat;
+    var meta = CATEGORY_META[cat] || CATEGORY_META.reading;
+
+    var titleEl = document.getElementById('exam-list-header-title');
+    if (titleEl) titleEl.textContent = `${meta.icon} ${meta.name}`;
+
+    var catBannerTitle = document.getElementById('cat-banner-title');
+    var catBannerScore = document.getElementById('cat-banner-score');
+    var catBannerDesc = document.getElementById('cat-banner-desc');
+    var catBannerStat = document.getElementById('cat-banner-stat');
+
+    if (catBannerTitle) catBannerTitle.textContent = meta.name;
+    if (catBannerScore) catBannerScore.textContent = meta.score;
+    if (catBannerDesc) catBannerDesc.textContent = meta.desc;
+
+    var container = document.getElementById('exam-problem-items-container');
+    if (!container) return;
+
+    // 按需加载对应题型数据
+    loadCategoryData(cat, function (err, items) {
+      if (err && (!items || !items.length)) return;
+
+      var countBadge = document.getElementById('exam-list-count-badge');
+      if (countBadge) countBadge.textContent = `${items.length} 题/篇`;
+
+      var doneCount = 0;
+      var html = items.map(function (item, idx) {
+        var key = `${cat}-${idx}`;
+        var prog = examProgress[key] || {};
+        var isDone = !!prog.done;
+        if (isDone) doneCount++;
+
+        var titleText = item.title || (item.year ? item.year + '年 ' + meta.name : '真题第 ' + (idx + 1) + ' 篇');
+        var descText = item.desc || item.topic || item.picture_desc || '历年全真试题精析与考点训练';
+        var numLabel = item.year ? `${item.year}` : `P${idx + 1}`;
+
+        var statusBadge = isDone
+          ? `<span class="exam-status-badge done">✓ 已完成 ${prog.score ? '· ' + prog.score + '分' : ''}</span>`
+          : `<span class="exam-status-badge undone">未作答</span>`;
+
+        return `
+          <a class="exam-problem-item" href="#detail/${cat}/${idx}">
+            <div class="epi-left">
+              <span class="epi-num">${numLabel}</span>
+              <div class="epi-info">
+                <span class="epi-title">${esc(titleText)}</span>
+                <span class="epi-desc">${esc(descText)}</span>
+              </div>
+            </div>
+            <div class="epi-right">
+              ${statusBadge}
+              <span class="sni-arrow">›</span>
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      container.innerHTML = html || '<div class="empty-tip" style="padding:30px;text-align:center;color:var(--color-text-muted)">此题型暂无题目数据</div>';
+      if (catBannerStat) catBannerStat.textContent = `完成进度：${doneCount} / ${items.length} 篇 (${items.length ? Math.round(doneCount/items.length*100) : 0}%)`;
+    });
+  }
+
+  // --- 3. 第三级答题详情页渲染 ---
+  function renderDetail(cat, idxStr) {
+    currentCategory = cat;
+    var idx = parseInt(idxStr, 10) || 0;
+    currentItemId = idx;
+
+    var box = document.getElementById('exam-detail-content-box');
+    var meta = CATEGORY_META[cat] || CATEGORY_META.reading;
+
+    // 若尚未加载该分类，显示详情页 Loading 状态
+    if (!EXAM_CACHE[cat] && box) {
+      box.innerHTML = `
+        <div class="exam-loading-box" style="text-align:center;padding:50px 16px;color:var(--color-text-muted)">
+          <div class="exam-spinner" style="font-size:32px;display:inline-block;animation:kySpin 1s linear infinite">🔄</div>
+          <div style="font-size:14px;font-weight:700;color:var(--color-text);margin-top:14px">正在加载【${esc(meta.name)}】题目详情...</div>
+        </div>
+      `;
+    }
+
+    loadCategoryData(cat, function (err, items) {
+      if (err && (!items || !items.length)) return;
+
+      idx = Math.min(Math.max(0, idx), items.length - 1);
+      currentItemId = idx;
+
+      var cur = items[idx];
+      var meta = CATEGORY_META[cat] || CATEGORY_META.reading;
+
+      // Header updates
+      var titleEl = document.getElementById('exam-detail-header-title');
+      if (titleEl) {
+        titleEl.textContent = cur.year ? `${cur.year}年 ${cur.text_id || meta.name}` : `${meta.name} 第 ${idx + 1} 题`;
+      }
+
+      var key = `${cat}-${idx}`;
+      var prog = examProgress[key] || {};
+      var isDone = !!prog.done;
+
+      var statusPill = document.getElementById('exam-detail-status-pill');
+      if (statusPill) {
+        statusPill.className = 'exam-status-badge ' + (isDone ? 'done' : 'undone');
+        statusPill.textContent = isDone ? '✓ 已完成' : '未作答';
+      }
+
+      // Prev / Next Navigation buttons
+      var prevBtn = document.getElementById('exam-prev-btn');
+      var nextBtn = document.getElementById('exam-next-btn');
+      var counterEl = document.getElementById('exam-item-counter');
+
+      if (counterEl) {
+        counterEl.textContent = `第 ${idx + 1} / ${items.length} ${cat === 'suite' ? '套' : '篇'}`;
+      }
+
+      if (prevBtn) {
+        prevBtn.disabled = idx <= 0;
+        prevBtn.onclick = function () {
+          if (idx > 0) location.hash = `#detail/${cat}/${idx - 1}`;
+        };
+      }
+
+      if (nextBtn) {
+        nextBtn.disabled = idx >= items.length - 1;
+        nextBtn.onclick = function () {
+          if (idx < items.length - 1) location.hash = `#detail/${cat}/${idx + 1}`;
+        };
+      }
+
+      if (!box) return;
+
+      if (cat === 'reading') renderReadingDetail(box, cur, key, prog);
+      else if (cat === 'cloze') renderClozeDetail(box, cur, key, prog);
+      else if (cat === 'newtype') renderNewTypeDetail(box, cur, key, prog);
+      else if (cat === 'trans') renderTransDetail(box, cur, key, prog);
+      else if (cat === 'writing') renderWritingDetail(box, cur, key, prog);
+      else if (cat === 'suite') renderSuiteDetail(box, cur, key, prog);
+
+      bindWordLookup(box);
+    });
+  }
+
+  // --- A. Reading Detail ---
+  function renderReadingDetail(box, cur, key, prog) {
+    var questions = cur.questions || [];
+    var savedAnswers = prog.answers || {};
+
+    var contentText = cur.content || cur.text || '';
+
+    var html = `
+      <div class="exam-card" style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">📖 ${cur.year || 2024} ${cur.text_id || 'Text 1'} 考研全真精读</span>
+          <button class="audio-btn" id="reading-speak-btn" type="button" title="朗读全篇短文" style="font-size:12px;padding:3px 8px">🔊 朗读全文</button>
+        </div>
+        <h2 style="font-size:16px;margin:4px 0 10px;color:var(--color-text)">${esc(cur.title)}</h2>
+        <div style="font-size:13.5px;line-height:1.75;color:var(--color-text);background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border);user-select:text">
+          ${contentText ? contentText.replace(/\n/g, '<br><br>') : ''}
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <h3 style="font-size:15px;margin:0 0 12px;color:var(--color-text)">📝 唐迟逻辑选择题实战（点击选项作答）</h3>
+        <div class="reading-questions-list">
+          ${questions.map(function (q, qIdx) {
+            var userAns = savedAnswers[qIdx] || '';
+            var isSubmitted = !!prog.done;
+            return `
+              <div class="q-item-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:10px;padding:12px 14px;margin-bottom:12px">
+                <div style="font-weight:700;font-size:13.5px;color:var(--color-text);margin-bottom:8px">
+                  ${q.num || (qIdx + 1)}. ${esc(q.stem || '')}
+                </div>
+                <div class="q-options" style="display:flex;flex-direction:column;gap:6px">
+                  ${(q.options || []).map(function (opt) {
+                    var optLetter = typeof opt === 'string' ? opt.trim().charAt(0) : (opt.label || 'A');
+                    var optText = typeof opt === 'string' ? opt : `${opt.label}. ${opt.text}`;
+                    var isSelected = (userAns === optLetter);
+                    var isCorrect = (optLetter === q.answer);
+                    var optClass = 'filter-chip';
+                    if (isSelected) optClass += ' active';
+                    if (isSubmitted) {
+                      if (isCorrect) optClass += ' style="border-color:#10b981;background:rgba(16,185,129,0.15);color:#10b981"';
+                      else if (isSelected && !isCorrect) optClass += ' style="border-color:#ef4444;background:rgba(239,68,68,0.15);color:#ef4444"';
+                    }
+                    return `
+                      <button class="${optClass}" data-q-idx="${qIdx}" data-opt="${optLetter}" type="button" style="text-align:left;font-size:12.5px;padding:8px 12px;border-radius:8px">
+                        ${esc(optText)}
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+                <div class="q-analysis-box" id="analysis-${qIdx}" style="${isSubmitted ? 'display:block' : 'display:none'};margin-top:10px;font-size:12px;line-height:1.6;color:var(--color-text-muted);background:var(--color-surface-offset);padding:8px 12px;border-radius:8px;border-left:3px solid var(--color-primary)">
+                  <strong style="color:var(--color-primary)">正解：${q.answer}</strong> | ${esc(q.analysis || '同义替换法排除干扰项。')}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <div style="margin-top:16px;text-align:center">
+          <button class="nav-btn primary" id="reading-submit-btn" type="button" style="padding:10px 24px;border-radius:999px">
+            ${prog.done ? '✓ 已提交（点击重新评分）' : '🚀 提交本篇阅读答案并核对'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    box.innerHTML = html;
+
+    // Bind speak
+    var speakBtn = document.getElementById('reading-speak-btn');
+    if (speakBtn) speakBtn.onclick = function () { speak(cur.content || cur.text); };
+
+    // Bind option selections
+    box.querySelectorAll('.q-options button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var qIdx = this.getAttribute('data-q-idx');
+        var opt = this.getAttribute('data-opt');
+        savedAnswers[qIdx] = opt;
+        saveExamProgress(key, { answers: savedAnswers });
+        renderReadingDetail(box, cur, key, examProgress[key] || {});
+      });
+    });
+
+    // Submit handler
+    var submitBtn = document.getElementById('reading-submit-btn');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function () {
+        var score = 0;
+        questions.forEach(function (q, qIdx) {
+          if (savedAnswers[qIdx] === q.answer) score += 2;
+        });
+        saveExamProgress(key, { done: true, score: score, answers: savedAnswers });
+        renderReadingDetail(box, cur, key, examProgress[key]);
+        if (window.KaoyanToast) window.KaoyanToast(`阅读已提交！得分：${score} / ${questions.length * 2} 分`);
+      });
+    }
+  }
+
+  // --- B. Cloze Detail ---
+  function renderClozeDetail(box, cur, key, prog) {
+    var questions = cur.questions || [];
+    var savedAnswers = prog.answers || {};
+
+    var html = `
+      <div class="exam-card" style="margin-bottom:14px">
+        <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">🧩 ${cur.year || 2024} 完形填空真题实战</span>
+        <h2 style="font-size:16px;margin:4px 0 10px;color:var(--color-text)">${esc(cur.title)}</h2>
+        <div style="font-size:13.5px;line-height:1.75;color:var(--color-text);background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border)">
+          ${cur.text ? cur.text.replace(/\n/g, '<br><br>') : ''}
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <h3 style="font-size:15px;margin:0 0 12px;color:var(--color-text)">🎯 完形选项精解</h3>
+        <div class="cloze-questions-list">
+          ${questions.map(function (q, qIdx) {
+            var userAns = savedAnswers[qIdx] || '';
+            var isSubmitted = !!prog.done;
+            return `
+              <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:10px;padding:12px 14px;margin-bottom:10px">
+                <div style="font-weight:700;font-size:13px;margin-bottom:6px">【第 ${q.num || (qIdx + 1)} 空】</div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  ${(q.options || []).map(function (opt) {
+                    var optLetter = typeof opt === 'string' ? opt.trim().charAt(0) : (opt.label || 'A');
+                    var optText = typeof opt === 'string' ? opt : `${opt.label}. ${opt.text}`;
+                    var isSelected = (userAns === optLetter);
+                    return `
+                      <button class="filter-chip ${isSelected ? 'active' : ''}" data-cloze-q="${qIdx}" data-opt="${optLetter}" type="button" style="flex:1;min-width:110px">
+                        ${esc(optText)}
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+                <div id="cloze-ans-${qIdx}" style="${isSubmitted ? 'display:block' : 'display:none'};margin-top:8px;font-size:12px;background:var(--color-surface-offset);padding:8px;border-radius:6px;color:var(--color-primary)">
+                  ${esc(q.analysis || '正解：' + q.answer)}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+
+        <div style="margin-top:14px;text-align:center">
+          <button class="nav-btn primary" id="cloze-submit-btn" type="button" style="padding:10px 24px;border-radius:999px">
+            ${prog.done ? '✓ 已交卷（查看解析）' : '🚀 提交完形答卷并查看红花词'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    box.innerHTML = html;
+
+    box.querySelectorAll('.cloze-questions-list button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var qIdx = this.getAttribute('data-cloze-q');
+        var opt = this.getAttribute('data-opt');
+        savedAnswers[qIdx] = opt;
+        saveExamProgress(key, { answers: savedAnswers });
+        renderClozeDetail(box, cur, key, examProgress[key] || {});
+      });
+    });
+
+    var submitBtn = document.getElementById('cloze-submit-btn');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function () {
+        var score = 0;
+        questions.forEach(function (q, qIdx) {
+          if (savedAnswers[qIdx] === q.answer) score += 0.5;
+        });
+        saveExamProgress(key, { done: true, score: score, answers: savedAnswers });
+        renderClozeDetail(box, cur, key, examProgress[key]);
+        if (window.KaoyanToast) window.KaoyanToast(`完形已交卷！得分：${score} / ${questions.length * 0.5} 分`);
+      });
+    }
+  }
+
+  // --- C. NewType Detail ---
+  function renderNewTypeDetail(box, cur, key, prog) {
+    var paras = cur.paragraphs || [];
+    var html = `
+      <div class="exam-card" style="margin-bottom:14px">
+        <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">🎯 ${cur.year || 2024} ${cur.type || '新题型'}</span>
+        <h2 style="font-size:16px;margin:4px 0 10px;color:var(--color-text)">${esc(cur.title)}</h2>
+        <p style="font-size:12.5px;color:var(--color-text-muted)">解题密码：代词指代链 + 冠词与逻辑连接词前后咬合。</p>
+      </div>
+
+      <div class="exam-card">
+        <h3 style="font-size:15px;margin:0 0 12px;color:var(--color-text)">🧩 语篇段落与线索链拆解</h3>
+        ${paras.map(function (p) {
+          var pText = p.text || '';
+          return `
+            <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:8px;padding:12px 14px;margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <strong style="color:var(--color-primary);font-size:13px">【段落 ${p.id}】</strong>
+                <button class="audio-btn" data-speak-p="${encodeURIComponent(pText)}" type="button" style="font-size:11px;padding:2px 6px">🔊 朗读此段</button>
+              </div>
+              <div style="font-size:13px;line-height:1.6;color:var(--color-text)">${esc(pText)}</div>
+              ${p.clue ? `<div style="font-size:11.5px;color:var(--color-accent);margin-top:6px">💡 线索点：${esc(p.clue)}</div>` : ''}
+            </div>
+          `;
+        }).join('')}
+
+        <div style="background:var(--color-surface-offset);padding:12px 14px;border-radius:8px;margin-top:14px">
+          <strong style="font-size:13px;color:var(--color-text)">官方逻辑排序 / 匹配正解：</strong>
+          <div style="font-size:14px;font-weight:700;color:var(--color-primary);margin:4px 0">${(cur.correct_order || []).join(' ➔ ')}</div>
+          <p style="font-size:12px;color:var(--color-text-muted);margin:4px 0 0">${esc(cur.analysis || '抓住主题代词复现，锁定篇章逻辑。')}</p>
+        </div>
+
+        <div style="margin-top:16px;text-align:center">
+          <button class="nav-btn primary" id="newtype-done-btn" type="button" style="padding:8px 20px;border-radius:999px">
+            ${prog.done ? '✓ 本套新题型已攻克' : '标记已掌握解题逻辑'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    box.innerHTML = html;
+
+    box.querySelectorAll('[data-speak-p]').forEach(function (btn) {
+      btn.onclick = function () { speak(decodeURIComponent(btn.getAttribute('data-speak-p'))); };
+    });
+
+    var doneBtn = document.getElementById('newtype-done-btn');
+    if (doneBtn) {
+      doneBtn.onclick = function () {
+        saveExamProgress(key, { done: true });
+        doneBtn.textContent = '✓ 本套新题型已攻克！';
+        doneBtn.style.background = '#10b981';
+      };
+    }
+  }
+
+  // --- D. Translation Detail ---
+  function renderTransDetail(box, cur, key, prog) {
+    var enText = cur.en || cur.sentence_en || '';
+    var zhText = cur.zh || cur.translation || '';
+
+    var html = `
+      <div class="exam-card" style="margin-bottom:14px">
+        <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">🌐 考研英语（一）长难句真题精译</span>
+        <h2 style="font-size:16px;margin:6px 0 10px;color:var(--color-text)">${esc(cur.title || ('第 ' + (cur.id || 1) + ' 句学术长难句精读'))}</h2>
+        <div style="font-size:14px;line-height:1.75;background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border);color:var(--color-text);font-family:var(--font-sans)">
+          ${esc(enText)}
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:8px">
+          <button class="audio-btn" id="trans-speak-btn" type="button" style="font-size:12px;padding:4px 10px">🔊 朗读原句</button>
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <h3 style="font-size:15px;margin:0 0 10px;color:var(--color-text)">🎯 田静五步句法拆解与官方规范译文</h3>
+        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:8px;padding:12px 14px;margin-bottom:12px">
+          <strong style="color:var(--color-primary);font-size:13px">【中文标准译文】</strong>
+          <p style="font-size:13.5px;color:var(--color-text);margin:6px 0 0;line-height:1.6">${esc(zhText)}</p>
+        </div>
+
+        <div style="background:var(--color-surface-offset);border-left:3px solid var(--color-primary);padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.6;color:var(--color-text)">
+          ${esc(cur.analysis || '主干为主谓宾结构，从句进行后置定语修饰。')}
+        </div>
+
+        <div style="margin-top:16px;text-align:center">
+          <button class="nav-btn primary" id="trans-done-btn" type="button" style="padding:8px 20px;border-radius:999px">
+            ${prog.done ? '✓ 本句已掌握' : '标记本句已熟读掌握'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    box.innerHTML = html;
+
+    var speakBtn = document.getElementById('trans-speak-btn');
+    if (speakBtn) speakBtn.onclick = function () { speak(enText); };
+
+    var doneBtn = document.getElementById('trans-done-btn');
+    if (doneBtn) {
+      doneBtn.onclick = function () {
+        saveExamProgress(key, { done: true });
+        doneBtn.textContent = '✓ 本句已掌握！';
+        doneBtn.style.background = '#10b981';
+      };
+    }
+  }
+
+  // --- E. Writing Detail (Part A & B) ---
+  function renderWritingDetail(box, cur, key, prog) {
+    var raw = cur.raw || {};
+    var isPartB = cur.subType === 'b';
+    var draftKey = 'kao_writing_draft_' + cur.id;
+    var savedDraft = localStorage.getItem(draftKey) || '';
+
+    var html = `
+      <div class="exam-card" style="margin-bottom:14px">
+        <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">✍️ ${cur.year || 2024} ${isPartB ? '图画大作文 (Part B · 20分)' : '应用小作文 (Part A · 10分)'}</span>
+        <h2 style="font-size:16px;margin:6px 0 8px;color:var(--color-text)">${esc(cur.title)}</h2>
+        <div style="font-size:13px;color:var(--color-text-muted);background:var(--color-surface-offset);padding:10px 12px;border-radius:8px;border:1px solid var(--color-border);line-height:1.55">
+          ${esc(raw.picture_desc || raw.task_prompt || cur.desc)}
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <h3 style="font-size:15px;margin:0;color:var(--color-text)">📜 潘赟名师满分范文</h3>
+          <div style="display:flex;gap:6px">
+            <button class="audio-btn" id="writing-speak-btn" type="button" style="font-size:12px;padding:3px 8px">🔊 朗读范文</button>
+            <button class="filter-chip" id="writing-toggle-trans-btn" type="button" style="font-size:12px;padding:3px 8px">中英对照</button>
+          </div>
+        </div>
+
+        <div id="writing-model-box" style="font-size:13.5px;line-height:1.75;background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border);color:var(--color-text)">
+          ${(raw.model_essay || raw.model_letter || '范文收集中...').replace(/\n/g, '<br><br>')}
+        </div>
+
+        <div id="writing-trans-box" style="display:none;margin-top:10px;font-size:13px;line-height:1.6;color:var(--color-text-muted);background:var(--color-surface);padding:10px 14px;border-radius:8px;border:1px dashed var(--color-border)">
+          ${(raw.model_translation || '参考译文已备妥。').replace(/\n/g, '<br><br>')}
+        </div>
+
+        <div style="margin-top:16px">
+          <h4 style="font-size:14px;margin:0 0 6px;color:var(--color-text)">✍️ 考场模写沙盒</h4>
+          <textarea id="writing-sandbox-ta" placeholder="在此练习默写或仿写，内容实时自动保存在本地..." style="width:100%;height:140px;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface);padding:10px;font-size:13px;font-family:var(--font-sans);line-height:1.6;box-sizing:border-box;resize:vertical;color:var(--color-text)">${esc(savedDraft)}</textarea>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+            <span id="writing-wc" style="font-size:11.5px;color:var(--color-text-muted)">0 词</span>
+            <button class="nav-btn primary" id="writing-save-btn" type="button" style="font-size:12px;padding:6px 14px">保存草稿并完成</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    box.innerHTML = html;
+
+    var speakBtn = document.getElementById('writing-speak-btn');
+    if (speakBtn) speakBtn.onclick = function () { speak(raw.model_essay || raw.model_letter); };
+
+    var transToggleBtn = document.getElementById('writing-toggle-trans-btn');
+    var transBox = document.getElementById('writing-trans-box');
+    if (transToggleBtn && transBox) {
+      transToggleBtn.onclick = function () {
+        var isHidden = transBox.style.display === 'none';
+        transBox.style.display = isHidden ? 'block' : 'none';
+        transToggleBtn.classList.toggle('active', isHidden);
+      };
+    }
+
+    var ta = document.getElementById('writing-sandbox-ta');
+    var wc = document.getElementById('writing-wc');
+    var updateWc = function () {
+      var words = (ta.value.trim().match(/[a-zA-Z0-9'-]+/g) || []).length;
+      if (wc) wc.textContent = `${words} 词 · ${words >= (isPartB ? 160 : 80) ? '达到大纲字数 ✓' : '未达标'}`;
+    };
+    if (ta) {
+      ta.addEventListener('input', function () {
+        localStorage.setItem(draftKey, ta.value);
+        updateWc();
+      });
+      updateWc();
+    }
+
+    var saveBtn = document.getElementById('writing-save-btn');
+    if (saveBtn) {
+      saveBtn.onclick = function () {
+        saveExamProgress(key, { done: true });
+        saveBtn.textContent = '✓ 已保存打卡！';
+        saveBtn.style.background = '#10b981';
+      };
+    }
+  }
+
+  // --- F. Suite Detail ---
+  function renderSuiteDetail(box, cur, key, prog) {
+    var y = cur.year;
+    var html = `
+      <div class="exam-card" style="margin-bottom:14px">
+        <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">📚 ${y} 年全国统考英语（一）官方标准试卷</span>
+        <h2 style="font-size:16px;margin:6px 0 10px;color:var(--color-text)">${y} 年真题全卷模拟与各板块全景实战</h2>
+        <p style="font-size:12.5px;color:var(--color-text-muted);margin:0;line-height:1.6">
+          考场标准答题时限：180 分钟。建议节奏：小作文(15m) ➔ 大作文(35m) ➔ 阅读A四篇(65m) ➔ 新题型(18m) ➔ 翻译(22m) ➔ 完形填空(15m) ➔ 检查涂卡(10m)。
+        </p>
+      </div>
+
+      <div class="exam-card">
+        <h3 style="font-size:15px;margin:0 0 12px;color:var(--color-text)">🎯 ${y} 年各题型板块直达通道</h3>
+        <div class="settings-list-group">
+          <a class="settings-nav-item" href="#type/cloze">
+            <div class="sni-left"><span class="sni-icon">🧩</span><div class="sni-info"><span class="sni-title">Section I · 完形填空 (10分)</span><span class="sni-desc">${y} 完形语篇与20道选项</span></div></div>
+            <span class="sni-arrow">›</span>
+          </a>
+          <a class="settings-nav-item" href="#type/reading">
+            <div class="sni-left"><span class="sni-icon">📖</span><div class="sni-info"><span class="sni-title">Section II Part A · 传统阅读理解 (40分)</span><span class="sni-desc">${y} 4篇经典精读文章</span></div></div>
+            <span class="sni-arrow">›</span>
+          </a>
+          <a class="settings-nav-item" href="#type/newtype">
+            <div class="sni-left"><span class="sni-icon">🎯</span><div class="sni-info"><span class="sni-title">Section II Part B · 阅读新题型 (10分)</span><span class="sni-desc">${y} 7选5/排序题</span></div></div>
+            <span class="sni-arrow">›</span>
+          </a>
+          <a class="settings-nav-item" href="#type/trans">
+            <div class="sni-left"><span class="sni-icon">🌐</span><div class="sni-info"><span class="sni-title">Section II Part C · 翻译 (10分)</span><span class="sni-desc">${y} 5个学术长难句</span></div></div>
+            <span class="sni-arrow">›</span>
+          </a>
+          <a class="settings-nav-item" href="#type/writing">
+            <div class="sni-left"><span class="sni-icon">✍️</span><div class="sni-info"><span class="sni-title">Section III · 作文 (30分)</span><span class="sni-desc">${y} 小作文告示 + 图画大作文</span></div></div>
+            <span class="sni-arrow">›</span>
+          </a>
+        </div>
+
+        <div style="margin-top:16px;text-align:center">
+          <button class="nav-btn primary" id="suite-done-btn" type="button" style="padding:10px 24px;border-radius:999px">
+            ${prog.done ? '✓ 已完成整卷模拟' : '标记为已完成该年度真题套卷'}
+          </button>
+        </div>
+      </div>
+    `;
+
+    box.innerHTML = html;
+
+    var doneBtn = document.getElementById('suite-done-btn');
+    if (doneBtn) {
+      doneBtn.onclick = function () {
+        saveExamProgress(key, { done: true });
+        doneBtn.textContent = '✓ 已完成整卷模拟！';
+        doneBtn.style.background = '#10b981';
+      };
+    }
+  }
+
+  // --- 4. 路由状态机与视图切换 ---
+  var currentExamDepth = 1;
+  function getExamRouteDepth(hash) {
+    if (!hash || hash === 'home') return 1;
+    var parts = hash.split('/');
+    if (parts[0] === 'type') return 2;
+    if (parts[0] === 'detail') return 3;
+    return 1;
+  }
+
+  function switchView(viewId, isBack) {
+    document.querySelectorAll('.tier-view').forEach(function (v) {
+      v.classList.remove('active');
+      v.classList.remove('slide-back');
+    });
+    var target = document.getElementById(viewId);
+    if (target) {
+      if (isBack) {
+        target.classList.add('slide-back');
+      }
+      target.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function handleHashRoute() {
+    var hash = location.hash.replace(/^#\/?/, '').trim();
+    var newDepth = getExamRouteDepth(hash);
+    var isBack = newDepth < currentExamDepth;
+    currentExamDepth = newDepth;
+
+    if (!hash || hash === 'home') {
+      switchView('exam-view-home', isBack);
+      renderHomeStats();
+      return;
+    }
+
+    var parts = hash.split('/');
+    var route = parts[0];
+    var p1 = parts[1];
+    var p2 = parts[2];
+
+    if (route === 'type') {
+      switchView('exam-view-list', isBack);
+      renderProblemList(p1 || 'reading');
+    } else if (route === 'detail') {
+      switchView('exam-view-detail', isBack);
+      renderDetail(p1 || 'reading', p2 || '0');
+    } else {
+      switchView('exam-view-home', isBack);
+      renderHomeStats();
+    }
+  }
+
+  // --- 5. 返回按钮与导航绑定 ---
+  function bindNavControls() {
+    var listBackBtn = document.getElementById('exam-list-back-btn');
+    if (listBackBtn) {
+      listBackBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (history.length > 1) {
+          history.back();
+        } else {
+          location.hash = '#home';
+        }
+      });
+    }
+
+    var detailBackBtn = document.getElementById('exam-detail-back-btn');
+    if (detailBackBtn) {
+      detailBackBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (history.length > 1) {
+          history.back();
+        } else {
+          location.hash = '#type/' + currentCategory;
+        }
+      });
+    }
+
+    // 顶部下拉快捷导航展开/收起 (从 HTML 内联脚本抽离)
+    var examMenuBtn = document.getElementById('exam-menu-toggle');
+    var examNavBox = document.getElementById('exam-top-nav-box');
+    if (examMenuBtn && examNavBox) {
+      examMenuBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isHidden = examNavBox.hidden;
+        examNavBox.hidden = !isHidden;
+        examMenuBtn.classList.toggle('active', isHidden);
+      });
+      document.addEventListener('click', function (e) {
+        if (!examNavBox.hidden && !examNavBox.contains(e.target) && e.target !== examMenuBtn) {
+          examNavBox.hidden = true;
+          examMenuBtn.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('hashchange', handleHashRoute);
+  }
+
+  // --- 6. 单词弹窗快查 (Universal Word Lookup) ---
+  function bindWordLookup(root) {
+    if (!root) return;
+    root.querySelectorAll('.word-quick-chip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var word = btn.getAttribute('data-word');
+        var pos = btn.getAttribute('data-pos');
+        var zh = btn.getAttribute('data-zh');
+        openWordModal(word, pos, zh);
+      });
+    });
+  }
+
+  function openWordModal(word, pos, zh) {
+    var modal = document.getElementById('exam-word-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'exam-word-modal';
+      modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadein 0.2s ease';
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:20px;max-width:380px;width:100%;box-shadow:var(--shadow-lg);position:relative">
+        <button id="close-word-modal-btn" type="button" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--color-text-muted)">✕</button>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <h3 style="margin:0;font-size:18px;color:var(--color-text)">${esc(word)}</h3>
+          <button id="modal-word-speak" type="button" class="audio-btn" style="width:28px;height:28px;font-size:12px" title="朗读单词">🔊</button>
+        </div>
+        <p style="font-size:13px;color:var(--color-primary);font-weight:600;margin:0 0 12px">
+          ${pos ? `<i>${esc(pos)}</i> ` : ''}${esc(zh || '考研大纲核心词汇')}
+        </p>
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button id="modal-add-fav-btn" type="button" class="nav-btn" style="flex:1;font-size:12px;padding:8px">⭐ 收藏到生词本</button>
+          <a href="words.html#word/${encodeURIComponent(word)}" class="nav-btn primary" style="flex:1;text-align:center;font-size:12px;padding:8px;text-decoration:none;display:flex;align-items:center;justify-content:center">📚 词库完整释义</a>
+        </div>
+      </div>
+    `;
+    modal.style.display = 'flex';
+
+    document.getElementById('close-word-modal-btn').onclick = function () { modal.style.display = 'none'; };
+    modal.onclick = function (e) { if (e.target === modal) modal.style.display = 'none'; };
+    document.getElementById('modal-word-speak').onclick = function () { speak(word); };
+    document.getElementById('modal-add-fav-btn').onclick = function () {
+      try {
+        var favs = JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]');
+        if (favs.indexOf(word) === -1) {
+          favs.push(word);
+          localStorage.setItem('kao_quiz_favs', JSON.stringify(favs));
+        }
+        this.textContent = '✓ 已收藏！';
+      } catch (e) {}
+    };
+  }
+
+  // --- 初始化启动 ---
+  function startEngine() {
+    initData();
+    bindNavControls();
+    handleHashRoute();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startEngine);
+  } else {
+    startEngine();
+  }
+
+})();
+"""
+
+target_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'js', 'exam_workshop.js')
+with open(target_path, 'w', encoding='utf-8', newline='\n') as f:
+    f.write(content.strip() + '\n')
+print(f"Written updated js/exam_workshop.js to {target_path}")

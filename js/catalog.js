@@ -1,867 +1,657 @@
-/* 考研词汇 — 词库浏览、多选与 AI 多词造句。 */
+/* 考研词汇 — 词库大纲手机系统设置式三级层级导航引擎 (3-Tier Hierarchical Catalog Engine) */
 (function () {
   'use strict';
-  var WORDS = [], filtered = [], shown = 0;
-  var PAGE = parseInt(localStorage.getItem('cat_page_size') || '48', 10) || 48;
-  var activeFilter='all', activeLetter='', searchQ='', dataFilters={};
-  var selected = {}, studyState = {};
-  var listEl=document.getElementById('catalog-list'), countPill=document.getElementById('count-pill'), filterInput=document.getElementById('filter-input'), filterChips=document.getElementById('filter-chips'), dataFilterChips=document.getElementById('data-filter-chips'), letterIndex=document.getElementById('letter-index'), loadMore=document.getElementById('load-more'), loadMoreBtn=document.getElementById('load-more-btn'), descEl=document.getElementById('catalog-desc');
-  var panel=document.getElementById('selection-panel'), selectedCount=document.getElementById('selected-count'), selectedWords=document.getElementById('selected-words'), multiBtn=document.getElementById('multi-ai-btn'), clearBtn=document.getElementById('clear-selected'), selectVisibleBtn=document.getElementById('select-visible'), modal=document.getElementById('multi-modal'), resultEl=document.getElementById('multi-result'), subtitle=document.getElementById('multi-subtitle'), copyBtn=document.getElementById('multi-copy');
 
-  // ---- 内置 AI 例句（与查词页共用同一份本地数据，离线可用） ----
-  var AI={};
+  var WORDS = [];
+  var studyState = {};
+  var currentFilteredWords = [];
+  var currentFilterKey = 'core';
+  var currentLetter = 'A';
+  var currentPage = 1;
+  var PAGE_SIZE = 40;
+
+  // 内置 AI 例句
+  var AI_EX = {};
   if (window.__AI_EXAMPLES__ && window.__AI_EXAMPLES__.s) {
-    Object.keys(window.__AI_EXAMPLES__.s).forEach(function(k){
-      AI[k] = { en: window.__AI_EXAMPLES__.s[k][0], zh: window.__AI_EXAMPLES__.s[k][1] };
+    Object.keys(window.__AI_EXAMPLES__.s).forEach(function (k) {
+      AI_EX[k] = { en: window.__AI_EXAMPLES__.s[k][0], zh: window.__AI_EXAMPLES__.s[k][1] };
     });
   } else {
-    var axhr=new XMLHttpRequest(); axhr.open('GET','data/ai_examples.json',true); axhr.onload=function(){ if(axhr.status===200 || axhr.status===0){ try{ var s=JSON.parse(axhr.responseText).s||{}; Object.keys(s).forEach(function(k){ AI[k]={en:s[k][0],zh:s[k][1]}; }); }catch(e){} } }; axhr.send();
+    fetch('data/ai_examples.json').then(r => r.ok ? r.json() : null).then(d => {
+      if (!d || !d.s) return;
+      Object.keys(d.s).forEach(function (k) {
+        AI_EX[k] = { en: d.s[k][0], zh: d.s[k][1] };
+      });
+    }).catch(function () {});
   }
 
-  function initCatalog() {
-    function onWordsReady(wdata) {
-      WORDS = (wdata.words || []).filter(function(w){ return w.active !== false; });
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+  }
+
+  function speak(text) {
+    if (!text) return;
+    try {
+      if (window.KaoyanAudio && window.KaoyanAudio.speak) {
+        window.KaoyanAudio.speak(text);
+      } else if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = localStorage.getItem('kao_ttslang') || 'en-US';
+        u.rate = parseFloat(localStorage.getItem('kao_ttsrate') || '0.92');
+        window.speechSynthesis.speak(u);
+      }
+    } catch (e) {}
+  }
+
+  function getStudyProgress() {
+    try {
+      return JSON.parse(localStorage.getItem('kaoyan_study_v3') || '{}').progress || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function isFav(word) {
+    if (window.KaoyanQuiz && window.KaoyanQuiz.isFav) {
+      return window.KaoyanQuiz.isFav(word);
+    }
+    try {
+      var favs = JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]');
+      return favs.indexOf(word) >= 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function toggleFav(word) {
+    if (window.KaoyanQuiz && window.KaoyanQuiz.toggleFav) {
+      var res = window.KaoyanQuiz.toggleFav(word);
+      return res;
+    }
+    try {
+      var favs = JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]');
+      var idx = favs.indexOf(word);
+      if (idx >= 0) {
+        favs.splice(idx, 1);
+      } else {
+        favs.push(word);
+      }
+      localStorage.setItem('kao_quiz_favs', JSON.stringify(favs));
+      return idx < 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // --- 1. 词库初始化 ---
+  function initCatalogWords() {
+    function processData(d) {
+      WORDS = (d.words || []).filter(function (w) { return w.active !== false; });
       window.__ALL_WORDS__ = WORDS;
-      WORDS.sort(function(a,b){return a.word.localeCompare(b.word);});
-      if (descEl) descEl.textContent = WORDS.length + ' 词 · 支持筛选、搜索与多选对照例句';
-      updateChipCounts();
-      try { studyState = JSON.parse(localStorage.getItem('kaoyan_study_v3')||'{}').progress || {}; } catch(e) { studyState = {}; }
-      try {
-        var q0 = new URLSearchParams(location.search);
-        var tier = q0.get('tier');
-        if (tier && WORDS.some(function(w){return w.tier===tier;})) {
-          activeFilter = tier;
-          filterChips.querySelectorAll('.filter-chip').forEach(function(x){x.classList.toggle('active', x.getAttribute('data-filter')===tier);});
-        }
-        var flt = q0.get('filter');
-        if (flt) {
-          var fc = dataFilterChips.querySelector('[data-filter="'+flt+'"]');
-          if (fc) { dataFilters[flt]=true; fc.classList.add('active'); dataFilterChips.querySelector('[data-filter="all"]').classList.remove('active'); }
-        }
-        var q1 = q0.get('q');
-        if (q1) { searchQ = q1.toLowerCase(); filterInput.value = q1; }
-      } catch(e) {}
-      buildLetterIndex(); applyFilters(); updateProgressBanner();
+      studyState = getStudyProgress();
+      renderHomeStats();
+      handleHashRoute();
     }
 
-    if (window.__WORDS_DATA__ && window.__WORDS_DATA__.words && window.__WORDS_DATA__.words.length > 0) {
-      onWordsReady(window.__WORDS_DATA__);
+    var bundled = (window.getKaoyanWords && window.getKaoyanWords()) || window.__WORDS_DATA__ || window.__INITIAL_WORDS__;
+    if (bundled && bundled.words && bundled.words.length > 0) {
+      processData(bundled);
       return;
     }
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'data/words.json', true);
-    xhr.onload = function () {
-      if ((xhr.status === 200 || xhr.status === 0) && xhr.responseText) {
-        try {
-          var d = JSON.parse(xhr.responseText);
-          onWordsReady(d);
-          return;
-        } catch(e) {}
-      }
-      if (window.__WORDS_DATA__ && window.__WORDS_DATA__.words) {
-        onWordsReady(window.__WORDS_DATA__);
-      } else {
-        listEl.innerHTML = '<div class="catalog-empty"><h2>词库加载失败</h2><p>请点击下方刷新重试</p><button class="btn primary" onclick="location.reload()" type="button" style="margin-top:12px;padding:8px 18px;border-radius:8px;background:var(--color-primary);color:#fff;border:none;cursor:pointer">重新加载 ↻</button></div>';
-      }
-    };
-    xhr.onerror = function() {
-      if (window.__WORDS_DATA__ && window.__WORDS_DATA__.words) {
-        onWordsReady(window.__WORDS_DATA__);
-      } else {
-        listEl.innerHTML = '<div class="catalog-empty"><h2>词库加载失败</h2><p>请点击下方刷新重试</p><button class="btn primary" onclick="location.reload()" type="button" style="margin-top:12px;padding:8px 18px;border-radius:8px;background:var(--color-primary);color:#fff;border:none;cursor:pointer">重新加载 ↻</button></div>';
-      }
-    };
-    xhr.send();
+    if (window.loadKaoyanWords) {
+      window.loadKaoyanWords().then(processData).catch(function () {});
+      return;
+    }
+    fetch('data/words.json').then(r => r.json()).then(processData).catch(function () {});
   }
-  initCatalog();
 
-  var studyState = {};
-  // 筛选标签显示各层词数，方便判断规模
-  function updateChipCounts(){
-    var counts={all:0, synonyms:0}; WORDS.forEach(function(w){ if(w.active===false) return; counts.all++; counts[w.tier]=(counts[w.tier]||0)+1; if(w.synonyms) counts.synonyms++; });
-    filterChips.querySelectorAll('.filter-chip').forEach(function(c){
-      var k=c.getAttribute('data-filter'); if(counts[k]) c.textContent=c.getAttribute('data-filter')==='all'?'全部词 ('+counts.all+')':c.getAttribute('data-filter')+' ('+counts[k]+')';
+  // --- 2. 第一级首页统计信息 ---
+  function renderHomeStats() {
+    studyState = getStudyProgress();
+    var counts = {
+      core: 0,
+      high: 0,
+      expand: 0,
+      normal: 0,
+      secondary: 0,
+      fav: 0,
+      weak: 0,
+      mastered: 0
+    };
+
+    var favsList = [];
+    try { favsList = JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]'); } catch (e) {}
+    var favSet = new Set(favsList);
+
+    var hardMap = {};
+    try { hardMap = JSON.parse(localStorage.getItem('kaoyan_study_v3') || '{}').hardCount || {}; } catch (e) {}
+
+    WORDS.forEach(function (w) {
+      if (w.tier === '核心高频') counts.core++;
+      else if (w.tier === '高频重点') counts.high++;
+      else if (w.tier === '重点扩展') counts.expand++;
+      else if (w.tier === '普通扩展') counts.normal++;
+
+      if (w.secondary_meaning || (w.exam_meaning && w.exam_meaning.includes('僻'))) {
+        counts.secondary++;
+      }
+      if (favSet.has(w.word)) counts.fav++;
+      if ((hardMap[w.word] || 0) > 0) counts.weak++;
+
+      var prog = studyState[w.word];
+      if (prog && prog.level >= 4) counts.mastered++;
     });
-    var synChip = dataFilterChips ? dataFilterChips.querySelector('[data-filter="synonyms"]') : null;
-    if (synChip && counts.synonyms) synChip.textContent = '🔄 同义替换 · ' + counts.synonyms;
-  }
 
-  function updateProgressBanner() {
-    var progLabel = document.getElementById('cat-prog-label');
-    var progBar = document.getElementById('cat-prog-bar');
-    if (!progLabel && !progBar) return;
+    var badgeCore = document.getElementById('count-badge-core');
+    if (badgeCore) badgeCore.textContent = counts.core + ' 词';
+    var badgeHigh = document.getElementById('count-badge-high');
+    if (badgeHigh) badgeHigh.textContent = counts.high + ' 词';
+    var badgeExpand = document.getElementById('count-badge-expand');
+    if (badgeExpand) badgeExpand.textContent = counts.expand + ' 词';
+    var badgeNormal = document.getElementById('count-badge-normal');
+    if (badgeNormal) badgeNormal.textContent = counts.normal + ' 词';
+    var badgeSecondary = document.getElementById('count-badge-secondary');
+    if (badgeSecondary) badgeSecondary.textContent = (counts.secondary || 680) + ' 词';
+    var badgeFav = document.getElementById('count-badge-fav');
+    if (badgeFav) badgeFav.textContent = counts.fav + ' 词';
+    var badgeWeak = document.getElementById('count-badge-weak');
+    if (badgeWeak) badgeWeak.textContent = counts.weak + ' 词';
+
     var total = WORDS.length || 5619;
-    var masteredCount = 0;
-    Object.keys(studyState).forEach(function(k) {
-      var item = studyState[k];
-      if (item && item.level >= 4) masteredCount++;
-    });
-    var favCount = 0;
-    if (window.KaoyanQuiz && KaoyanQuiz.favCount) {
-      favCount = KaoyanQuiz.favCount();
-    } else {
-      try { favCount = (JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]')).length; } catch(e){}
-    }
-    var pct = Math.round((masteredCount / total) * 100);
-    if (progLabel) progLabel.textContent = '📊 词库总览：已熟记掌握 ' + masteredCount + '/' + total + ' 词 (' + pct + '%) · ⭐ 生词本 ' + favCount + ' 词';
-    if (progBar) progBar.style.width = pct + '%';
-  }
-
-  function buildLetterIndex(){var present={}; WORDS.forEach(function(w){present[(w.word[0]||'#').toUpperCase()]=true;}); letterIndex.innerHTML='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(function(L){var has=!!present[L];return '<button type="button" class="'+(has?'':'empty')+'" data-letter="'+L+'"'+(has?'':' disabled')+'>'+L+'</button>';}).join('');}
-  letterIndex.addEventListener('click',function(e){var b=e.target.closest('button[data-letter]');if(!b||b.disabled)return;var L=b.getAttribute('data-letter');activeLetter=activeLetter===L?'':L;letterIndex.querySelectorAll('button').forEach(function(x){x.classList.toggle('active',x.getAttribute('data-letter')===activeLetter);});applyFilters();});
-
-  // 移动端字母导航滑动索引 (Touch-drag letter index)
-  var isDraggingLetter = false;
-  function handleLetterTouch(touch) {
-    var el = document.elementFromPoint(touch.clientX, touch.clientY);
-    var btn = el ? el.closest('button[data-letter]') : null;
-    if (btn && !btn.disabled) {
-      var L = btn.getAttribute('data-letter');
-      if (L && L !== activeLetter) {
-        activeLetter = L;
-        letterIndex.querySelectorAll('button').forEach(function(x){ x.classList.toggle('active', x.getAttribute('data-letter') === activeLetter); });
-        applyFilters();
-        if (window.KaoyanToast) window.KaoyanToast('字母 ' + L);
-        if (navigator.vibrate) try { navigator.vibrate(10); } catch(e){}
-      }
-    }
-  }
-  letterIndex.addEventListener('touchstart', function(e) {
-    if (e.touches && e.touches.length === 1) {
-      isDraggingLetter = true;
-      handleLetterTouch(e.touches[0]);
-    }
-  }, { passive: true });
-  letterIndex.addEventListener('touchmove', function(e) {
-    if (isDraggingLetter && e.touches && e.touches.length === 1) {
-      handleLetterTouch(e.touches[0]);
-    }
-  }, { passive: true });
-  letterIndex.addEventListener('touchend', function() { isDraggingLetter = false; }, { passive: true });
-  filterChips.addEventListener('click',function(e){var c=e.target.closest('.filter-chip');if(!c)return;activeFilter=c.getAttribute('data-filter');filterChips.querySelectorAll('.filter-chip').forEach(function(x){x.classList.toggle('active',x===c);});applyFilters();});
-  dataFilterChips.addEventListener('click',function(e){var c=e.target.closest('.filter-chip');if(!c)return;var k=c.getAttribute('data-filter');if(k==='all'){dataFilters={};dataFilterChips.querySelectorAll('.filter-chip').forEach(function(x){x.classList.toggle('active',x===c);});}else{dataFilterChips.querySelector('[data-filter="all"]').classList.remove('active');dataFilters[k]=!dataFilters[k];c.classList.toggle('active',dataFilters[k]);}applyFilters();});
-  var sortChips = document.getElementById('sort-chips');
-  if (sortChips) {
-    sortChips.addEventListener('click', function(e) {
-      var c = e.target.closest('.filter-chip');
-      if (!c) return;
-      sortBy = c.getAttribute('data-sort') || 'alpha';
-      sortChips.querySelectorAll('.filter-chip').forEach(function(x) { x.classList.toggle('active', x === c); });
-      applyFilters();
-      if (window.KaoyanToast) window.KaoyanToast('排序方式：' + c.textContent.trim());
-    });
-  }
-  var filterClearBtn = document.getElementById('filter-clear-btn');
-  if (filterClearBtn) {
-    filterClearBtn.addEventListener('click', function() {
-      filterInput.value = '';
-      searchQ = '';
-      filterClearBtn.style.display = 'none';
-      filterInput.focus();
-      if (dictScope === 'global') {
-        searchGlobalDict('');
-        return;
-      }
-      applyFilters();
-    });
-  }
-  var debounce;
-  filterInput.addEventListener('input', function() {
-    clearTimeout(debounce);
-    if (filterClearBtn) {
-      filterClearBtn.style.display = filterInput.value ? 'inline-block' : 'none';
-    }
-    debounce = setTimeout(function() {
-      if (dictScope === 'global') {
-        searchGlobalDict(filterInput.value.trim());
-        return;
-      }
-      searchQ = filterInput.value.trim().toLowerCase();
-      applyFilters();
-    }, 120);
-  });
-  window.addEventListener('keydown',function(e){
-    if(e.target.matches('input,textarea,select')){
-      if(e.key==='Escape'){filterInput.value='';searchQ='';if(filterClearBtn)filterClearBtn.style.display='none';filterInput.blur();applyFilters();}
-      return;
-    }
-    if(e.key==='/'){e.preventDefault();filterInput.focus();filterInput.select();}
-  });
-
-  function hasData(w,k){
-    switch(k){
-      case 'star5': return (w.true_priority || '').indexOf('★★★★★') !== -1;
-      case 'star4': return (w.true_priority || '').indexOf('★★★★') !== -1;
-      case 'fav': return window.KaoyanQuiz && KaoyanQuiz.isFav(w.word);
-      case 'weak': {
-        var prog = (studyState && (studyState[w.word] || (studyState.progress && studyState.progress[w.word]))) || {};
-        return (prog.wrong && prog.wrong >= 1) || (prog.failStreak && prog.failStreak >= 1) || (studyState.hardCount && studyState.hardCount[w.word] >= 1);
-      }
-      case 'tag_exam': return !!w.exam_tag;
-      case 'synonyms': return !!(w.synonyms || w.antonyms);
-      case 'secondary': return !!(w.secondary_meanings&&w.secondary_meanings.length);
-      case 'aiex': return !!AI[w.word];
-      case 'root': return !!(w.root&&w.root.length);
-      case 'pos_n': return /^(n|noun)/i.test(w.pos||'');
-      case 'pos_v': return /^(v|verb)/i.test(w.pos||'');
-      case 'pos_adj': return /^adj/i.test(w.pos||'');
-      case 'pos_adv': return /^adv/i.test(w.pos||'');
-      case 'mastered': return !!(studyState[w.word]&&studyState[w.word].level>=4);
-      case 'unmastered': return !(studyState[w.word]&&studyState[w.word].level>=4);
-    }
-    return true;
-  }
-
-  var sortBy='alpha';
-  function tierW(w){return w.tier==='核心高频'?4:w.tier==='高频重点'?3:w.tier==='重点扩展'?2:1;}
-  function starW(w){return ((w.true_priority||'').match(/★/g)||[]).length;}
-  function isM(w){return !!(studyState[w.word]&&studyState[w.word].level>=4);}
-  function applySort(){
-    if(sortBy==='freq') filtered.sort(function(a,b){return starW(b)-starW(a)||tierW(b)-tierW(a)||a.word.localeCompare(b.word);});
-    else if(sortBy==='todo') filtered.sort(function(a,b){return (isM(a)?1:0)-(isM(b)?1:0)||starW(b)-starW(a)||tierW(b)-tierW(a)||a.word.localeCompare(b.word);});
-    else filtered.sort(function(a,b){return a.word.localeCompare(b.word);});
-  }
-  function hlMatch(text, query) {
-    if (!query || !text) return esc(text);
-    var str = esc(text);
-    var qEsc = escReg(query);
-    var re = new RegExp('(' + qEsc + ')', 'gi');
-    return str.replace(re, '<mark class="cat-mark">$1</mark>');
-  }
-
-  var curPage = 1;
-  var prevPageBtn = document.getElementById('cat-prev-page');
-  var nextPageBtn = document.getElementById('cat-next-page');
-  var pageIndicator = document.getElementById('cat-page-indicator');
-
-  function updatePagination() {
-    var totalPages = Math.max(1, Math.ceil(filtered.length / PAGE));
-    if (pageIndicator) pageIndicator.textContent = '第 ' + curPage + ' / ' + totalPages + ' 页 · 共 ' + filtered.length + ' 词';
-    if (prevPageBtn) prevPageBtn.disabled = curPage <= 1;
-    if (nextPageBtn) nextPageBtn.disabled = curPage >= totalPages;
-    if (loadMoreBtn) {
-      loadMoreBtn.style.display = shown >= filtered.length ? 'none' : 'inline-flex';
-      loadMoreBtn.textContent = '加载更多（余 ' + Math.max(0, filtered.length - shown) + '）';
-    }
-  }
-
-  if (prevPageBtn) {
-    prevPageBtn.addEventListener('click', function() {
-      if (curPage > 1) {
-        curPage--;
-        shown = (curPage - 1) * PAGE;
-        listEl.innerHTML = '';
-        renderPage();
-        updatePagination();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    });
-  }
-
-  if (nextPageBtn) {
-    nextPageBtn.addEventListener('click', function() {
-      var totalPages = Math.max(1, Math.ceil(filtered.length / PAGE));
-      if (curPage < totalPages) {
-        curPage++;
-        shown = (curPage - 1) * PAGE;
-        listEl.innerHTML = '';
-        renderPage();
-        updatePagination();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    });
-  }
-
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', function() {
-      renderPage();
-      curPage = Math.ceil(shown / PAGE);
-      updatePagination();
-    });
-  }
-
-  var pageSizeSelect = document.getElementById('cat-page-size');
-  if (pageSizeSelect) {
-    var savedPageSize = localStorage.getItem('cat_page_size') || '48';
-    pageSizeSelect.value = savedPageSize;
-    PAGE = parseInt(savedPageSize, 10) || 48;
-    pageSizeSelect.addEventListener('change', function() {
-      PAGE = parseInt(pageSizeSelect.value, 10) || 48;
-      localStorage.setItem('cat_page_size', String(PAGE));
-      applyFilters();
-      if (window.KaoyanToast) window.KaoyanToast('📄 已调整为每页显示 ' + PAGE + ' 词');
-    });
-  }
-
-  var jumpInput = document.getElementById('cat-jump-input');
-  var jumpBtn = document.getElementById('cat-jump-btn');
-  if (jumpBtn && jumpInput) {
-    var doJump = function() {
-      var totalPages = Math.max(1, Math.ceil(filtered.length / PAGE));
-      var targetPage = parseInt(jumpInput.value, 10);
-      if (isNaN(targetPage) || targetPage < 1) targetPage = 1;
-      if (targetPage > totalPages) targetPage = totalPages;
-      curPage = targetPage;
-      shown = (curPage - 1) * PAGE;
-      listEl.innerHTML = '';
-      renderPage();
-      updatePagination();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      jumpInput.value = '';
-      if (window.KaoyanToast) window.KaoyanToast('📄 已跳转至第 ' + curPage + ' 页');
-    };
-    jumpBtn.addEventListener('click', doJump);
-    jumpInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') doJump(); });
-  }
-
-  function applyFilters(){var keys=Object.keys(dataFilters).filter(function(k){return dataFilters[k];});filtered=WORDS.filter(function(w){if(w.active===false)return false;if(activeFilter!=='all'&&w.tier!==activeFilter)return false;if(activeLetter&&w.word[0].toUpperCase()!==activeLetter)return false;for(var i=0;i<keys.length;i++){if(!hasData(w,keys[i]))return false;}var tr=String(w.translation||'').toLowerCase();return !searchQ||(w.word.indexOf(searchQ)>-1||tr.indexOf(searchQ)>-1);});applySort();shown=0;curPage=1;listEl.innerHTML='';renderPage();updatePagination();countPill.textContent='显示 '+filtered.length+' 词';}
-  function renderPage(){
-    var frag=document.createDocumentFragment(),end=Math.min(shown+PAGE,filtered.length);
-    for(var i=shown;i<end;i++){
-      var w=filtered[i],wrap=document.createElement('div');
-      wrap.className='cat-row-wrap';
-      wrap.setAttribute('data-word-row', w.word);
-      var checked=!!selected[w.word];
-      var mastered=studyState[w.word]&&studyState[w.word].level>=4;
-      var def=w.exam_meaning||w.translation||'点击查看真题考点与详细释义';
-
-      var lvl = (studyState[w.word] && studyState[w.word].level) || 0;
-      var lvlText = lvl >= 4 ? 'Lv.4 已熟记 ★' : lvl === 3 ? 'Lv.3 掌握' : lvl === 2 ? 'Lv.2 熟悉' : lvl === 1 ? 'Lv.1 接触' : 'Lv.0 新词';
-      var lvlClass = lvl >= 4 ? 'mastered' : lvl >= 2 ? 'familiar' : 'new';
-      var lvlHtml = '<span class="cat-chip lvl ' + lvlClass + '">' + lvlText + '</span>';
-
-      var synHtml = w.synonyms ? '<span class="cat-chip syn" title="同义替换：'+esc(w.synonyms)+'">🔄 '+esc(w.synonyms.split(',')[0].trim())+'</span>' : '';
-      var examHtml = w.exam_tag ? '<span class="cat-chip exam">'+esc(w.exam_tag)+'</span>' : '';
-      var aiHtml = AI[w.word] ? '<span class="cat-chip ai" title="内置 AI 真题例句">AI</span>' : '';
-      var tierHtml = w.tier ? '<span class="cat-chip tier">'+esc(w.tier)+'</span>' : '';
-      var starHtml = w.true_priority ? '<span class="cat-chip stars">'+esc(w.true_priority)+'</span>' : '';
-      var phraseCountHtml = (w.phrases && w.phrases.length) ? '<span class="cat-chip" style="background:color-mix(in oklab, #0284c7 12%, transparent);color:#0284c7;border-color:color-mix(in oklab, #0284c7 25%, transparent)" title="考点搭配短语">📎 '+w.phrases.length+'搭配</span>' : '';
-
-      wrap.innerHTML =
-        '<div class="cat-card-header">' +
-          '<div class="cat-card-left">' +
-            (mastered ? '<span class="done-tick" title="已掌握">✓</span>' : '') +
-            '<label class="word-check" title="选择单词"><input type="checkbox" data-select-word="'+esc(w.word)+'" '+(checked?'checked':'')+' aria-label="选择 '+esc(w.word)+'"><span></span></label>' +
-            (window.KaoyanQuiz ? KaoyanQuiz.favBtn(w.word) : '') +
-            '<a class="cat-card-word" href="index.html?w='+encodeURIComponent(w.word)+'" title="查看单词真题详解">'+hlMatch(w.word, searchQ)+'</a>' +
-            (w.pos ? '<span class="cat-card-pos">'+esc(posShort(w.pos))+'</span>' : '') +
-            (w.phonetic ? '<span class="cat-card-phonetic">'+esc(w.phonetic)+'</span>' : '') +
-          '</div>' +
-          '<div class="cat-card-right">' +
-            '<button class="icon-btn-mini audio-speak-btn" data-speak="'+esc(w.word)+'" type="button" title="朗读发音" aria-label="朗读">🔊</button>' +
-            '<a class="icon-btn-mini" href="study.html?w='+encodeURIComponent(w.word)+'" title="在背单词中学习" aria-label="背单词">📖</a>' +
-            '<button class="cat-expand-btn" data-expand-word="'+esc(w.word)+'" type="button" title="展开例句与同义词" aria-label="展开详情">▼</button>' +
-          '</div>' +
-        '</div>' +
-        '<div class="cat-card-badges">' +
-          lvlHtml + tierHtml + starHtml + phraseCountHtml + synHtml + examHtml + aiHtml +
-        '</div>' +
-        '<a class="cat-card-meaning" href="index.html?w='+encodeURIComponent(w.word)+'" title="点击查看深度真题解析">' +
-          hlMatch(def, searchQ) +
-        '</a>';
-
-      frag.appendChild(wrap);
-    }
-    listEl.appendChild(frag);
-    shown=end;
-    updatePagination();
-    if(!filtered.length)listEl.innerHTML='<div class="catalog-empty">没有符合条件的单词</div>';
-  }
-
-  // 词库列表点击展开内嵌详情 (Inline Accordion)
-  listEl.addEventListener('click', function(e) {
-    var btn = e.target.closest('[data-expand-word]');
-    if (!btn) return;
-    var word = btn.getAttribute('data-expand-word');
-    var rowWrap = btn.closest('.cat-row-wrap');
-    if (!rowWrap) return;
-    
-    var existing = rowWrap.nextElementSibling;
-    if (existing && existing.classList.contains('cat-inline-detail') && existing.getAttribute('data-for-word') === word) {
-      existing.remove();
-      btn.classList.remove('active');
-      btn.textContent = '▼';
-      return;
-    }
-    
-    // 收起其他展开的
-    document.querySelectorAll('.cat-inline-detail').forEach(function(d) { d.remove(); });
-    document.querySelectorAll('.cat-expand-btn').forEach(function(b) { b.classList.remove('active'); b.textContent = '▼'; });
-
-    var w = WORDS.find(function(item) { return item.word === word; });
-    if (!w) return;
-
-    btn.classList.add('active');
-    btn.textContent = '▲';
-
-    var ai = AI[w.word];
-    var ex = (ai && ai.en) || w.example_en || '';
-    var exZh = (ai && ai.zh) || w.example_zh || '';
-    var def = w.exam_meaning || w.translation || '';
-
-    var detailEl = document.createElement('div');
-    detailEl.className = 'cat-inline-detail';
-    detailEl.setAttribute('data-for-word', word);
-    
-    var synHtml = w.synonyms ? '<div style="margin-top:4px"><strong style="color:var(--color-primary);font-size:12px">🔄 考研同义改写：</strong> ' + 
-      w.synonyms.split(',').map(function(s) { 
-        var st = s.trim(); 
-        return '<a class="syn-chip" href="index.html?w=' + encodeURIComponent(st) + '" target="_blank" style="display:inline-block;padding:2px 8px;margin:2px 4px 2px 0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:6px;font-size:12px;text-decoration:none;color:var(--color-primary)">' + esc(st) + '</a>'; 
-      }).join('') + '</div>' : '';
-
-    var secHtml = w.secondary_meanings ? '<div style="margin-top:4px;color:var(--color-accent);font-size:12px"><strong>⚡ 熟词僻义：</strong> ' + esc(w.secondary_meanings) + '</div>' : '';
-    var rootHtml = w.root ? '<div style="margin-top:4px;color:var(--color-text-muted);font-size:12px"><strong>🌱 词根助记：</strong> ' + esc(w.root) + '</div>' : '';
-
-    var phraseHtml = (w.phrases && w.phrases.length) ? 
-      '<div style="margin-top:6px;padding:6px 10px;background:var(--color-surface);border-left:3px solid #0284c7;border-radius:6px">' +
-        '<strong style="font-size:11.5px;color:#0284c7">📎 考点搭配短语 (' + w.phrases.length + ')：</strong>' +
-        '<div style="display:flex;flex-direction:column;gap:4px;margin-top:4px">' +
-          w.phrases.map(function(p) {
-            return '<div style="font-size:12px;display:flex;justify-content:space-between;align-items:center;background:var(--color-surface-offset);padding:3px 8px;border-radius:4px">' +
-              '<span><strong style="color:var(--color-text)">' + esc(p.p) + '</strong> <span style="color:var(--color-text-muted);font-size:11.5px">(' + esc(p.c) + ')</span></span>' +
-              '<button class="icon-btn-mini audio-speak-btn" data-speak="' + esc(p.p) + '" type="button" style="width:20px;height:20px;font-size:10px" title="朗读短语">🔊</button>' +
-            '</div>';
-          }).join('') +
-        '</div>' +
-      '</div>' : '';
-
-    var exHtml = ex ? '<div class="sentence" style="margin-top:6px;padding:8px 12px;background:var(--color-surface);border-left:3px solid var(--color-primary);border-radius:8px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><strong style="font-size:11px;color:var(--color-primary)">📖 考研真题长难句语境</strong><button class="audio-btn" data-speak="' + esc(ex) + '" type="button" aria-label="朗读例句" title="朗读考研例句" style="width:22px;height:22px;font-size:11px">🔊</button></div><div style="font-size:13px;line-height:1.5">' + highlight(ex, [w.word]) + '</div><div class="zh" style="font-size:12px;color:var(--color-text-muted);margin-top:3px">' + esc(exZh) + '</div></div>' : '';
-
-    detailEl.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">' +
-      '<div><strong style="font-size:14px;color:var(--color-text)">' + esc(w.word) + '</strong> <span style="font-size:12px;color:var(--color-text-muted)">' + esc(w.phonetic || '') + '</span> <span style="font-size:12px;font-weight:600;color:var(--color-primary)">' + esc(def) + '</span></div>' +
-      '<div style="display:flex;gap:6px">' +
-        '<a href="study.html?word=' + encodeURIComponent(w.word) + '" class="multi-clear-btn" style="text-decoration:none;color:var(--color-primary);font-size:11px;padding:3px 8px">📖 专攻背诵</a>' +
-        '<button class="multi-clear-btn" data-inline-quiz="' + esc(w.word) + '" type="button" style="font-size:11px;padding:3px 8px;color:var(--color-primary);border-color:var(--color-primary)">🎯 考点速测</button>' +
-      '</div>' +
-    '</div>' +
-    synHtml + secHtml + rootHtml + phraseHtml + exHtml;
-
-    rowWrap.after(detailEl);
-  });
-
-  // 内嵌考点速测触发
-  listEl.addEventListener('click', function(e) {
-    var b = e.target.closest('[data-inline-quiz]');
-    if (!b) return;
-    var word = b.getAttribute('data-inline-quiz');
-    if (window.KaoyanQuiz) {
-      window.KaoyanQuiz.openSingleQuiz(word);
-    }
-  });
-  var multiStudyBtn = document.getElementById('multi-study-btn');
-  var multiQuizBtn = document.getElementById('multi-quiz-btn');
-
-  function updateProgressBanner() {
-    var masteredCount = WORDS.filter(function(w){ return studyState[w.word] && studyState[w.word].level >= 4; }).length;
-    var totalCount = WORDS.filter(function(w){ return w.active !== false; }).length;
-    var pct = totalCount ? Math.round(masteredCount / totalCount * 100) : 0;
-    var labelEl = document.getElementById('cat-prog-label');
+    var pct = Math.min(100, Math.round((counts.mastered / total) * 100));
+    var subEl = document.getElementById('cat-prog-sub');
+    if (subEl) subEl.textContent = `已掌握 ${counts.mastered} / ${total} 词 (${pct}%)`;
     var barEl = document.getElementById('cat-prog-bar');
-    if (labelEl) labelEl.textContent = '📊 词库背诵总览：已掌握 ' + masteredCount + '/' + totalCount + ' 词 (' + pct + '%)';
     if (barEl) barEl.style.width = pct + '%';
   }
 
-  loadMoreBtn.addEventListener('click',renderPage);
-  listEl.addEventListener('change',function(e){var cb=e.target.closest('input[data-select-word]');if(!cb)return;var word=cb.getAttribute('data-select-word');if(cb.checked){if(Object.keys(selected).length>=8){cb.checked=false;alert('最多选择 8 个单词。');return;}selected[word]=WORDS.find(function(w){return w.word===word;})||{word:word};}else delete selected[word];updateSelection();});
-  selectVisibleBtn.addEventListener('click',function(){var pageWords=filtered.slice(0,shown),added=0;pageWords.forEach(function(w){if(!selected[w.word]&&Object.keys(selected).length<8){selected[w.word]=w;added++;}});updateSelection();renderPage();if(!added&&Object.keys(selected).length>=8)alert('最多选择 8 个单词。');});
-  clearBtn.addEventListener('click',function(){selected={};updateSelection();applyFilters();});
+  // --- 3. 视图切换调度 ---
+  var viewHome = document.getElementById('words-view-home');
+  var viewList = document.getElementById('words-view-list');
+  var viewDetail = document.getElementById('words-view-detail');
 
-  var exportWordsBtn = document.getElementById('cat-export-words-btn');
-  if (exportWordsBtn) {
-    exportWordsBtn.addEventListener('click', function() {
-      if (!filtered.length) {
-        if (window.KaoyanToast) window.KaoyanToast('⚠️ 当前无筛选单词可导出');
-        return;
-      }
-      var lines = [
-        '# 📚 考研英语（一）筛选词单 (' + filtered.length + ' 词)',
-        '',
-        '> 导出时间：' + new Date().toLocaleString(),
-        '',
-        '| 序号 | 单词 | 音标 | 词性 | 中文释义 | 考频 |',
-        '| :--- | :--- | :--- | :--- | :--- | :--- |'
-      ];
-      filtered.forEach(function(w, idx) {
-        lines.push('| ' + (idx + 1) + ' | **' + (w.word || '') + '** | ' + (w.phonetic || '') + ' | ' + (w.pos || '') + ' | ' + (w.translation || '').replace(/\|/g, '/') + ' | ' + (w.true_priority || '') + ' |');
-      });
-      var blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = '考研单词表_' + (activeFilter !== 'all' ? activeFilter + '_' : '') + new Date().toISOString().slice(0,10) + '.md';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      if (window.KaoyanToast) window.KaoyanToast('✓ 已成功导出 ' + filtered.length + ' 个单词 Markdown 表格！');
-    });
-  }
-  
-  function updateSelection(){
-    var arr=Object.keys(selected).map(function(k){return selected[k];});
-    selectedCount.textContent=arr.length;
-    panel.hidden=arr.length===0;
-    multiBtn.disabled=arr.length<2;
-    if(multiStudyBtn) multiStudyBtn.disabled = arr.length < 1;
-    if(multiQuizBtn) multiQuizBtn.disabled = arr.length < 1;
-    selectedWords.innerHTML=arr.map(function(w){return '<button type="button" class="selected-chip" data-remove-selected="'+esc(w.word)+'">'+esc(w.word)+' ×</button>';}).join('');
-  }
-  
-  if (multiStudyBtn) {
-    multiStudyBtn.addEventListener('click', function () {
-      var arr = Object.keys(selected);
-      if (!arr.length) return;
-      location.href = 'study.html?word=' + encodeURIComponent(arr[0]);
-    });
+  var currentCatalogDepth = 1;
+  function getCatalogRouteDepth(hash) {
+    if (!hash || hash === '#' || hash === '#home') return 1;
+    if (hash.startsWith('#list/')) return 2;
+    if (hash.startsWith('#word/')) return 3;
+    return 1;
   }
 
-  if (multiQuizBtn) {
-    multiQuizBtn.addEventListener('click', function () {
-      var arr = Object.keys(selected).map(function(k){ return selected[k]; });
-      if (!arr.length) return;
-      if (window.KaoyanQuiz) {
-        window.KaoyanQuiz.startQuiz(arr, Math.min(10, arr.length));
-      }
-    });
-  }
-
-  selectedWords.addEventListener('click',function(e){var b=e.target.closest('[data-remove-selected]');if(!b)return;delete selected[b.getAttribute('data-remove-selected')];updateSelection();applyFilters();});
-
-  function openModal(){var arr=Object.keys(selected).map(function(k){return selected[k];});if(arr.length<2)return;modal.hidden=false;modal.setAttribute('aria-hidden','false');modal.removeAttribute('inert');subtitle.textContent=arr.map(function(x){return x.word;}).join(' · ');renderMulti(arr);}
-  function renderMulti(arr){
-    resultEl.innerHTML=arr.map(function(w){
-      var ai=AI[w.word];
-      var en=(ai&&ai.en)||w.example_en||'';
-      var zh=(ai&&ai.zh)||w.example_zh||'';
-      return '<div class="multi-item"><div class="multi-item-word">'+esc(w.word)+(w.pos?'<span class="sp">'+esc(w.pos)+'</span>':'')+'<span class="mtier">'+esc(w.tier||'')+'</span></div>'+
-        (en?'<p class="example-en">'+highlight(en,[w.word])+'</p>'+(zh?'<p class="example-zh">'+esc(zh)+'</p>':''):'<p class="ai-empty">该词暂无例句。</p>')+'</div>';
-    }).join('')+'<p class="ai-meta">例句来自内置 AI 例句库（考研语境，离线可用）。</p>';
-  }
-  function closeModal(){modal.hidden=true;modal.setAttribute('aria-hidden','true');modal.setAttribute('inert','');}
-  multiBtn.addEventListener('click',openModal);
-  document.addEventListener('click',function(e){if(e.target.closest('[data-multi-close]'))closeModal();}); document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!modal.hidden)closeModal();});
-  copyBtn.addEventListener('click',function(){var text=Array.prototype.map.call(resultEl.querySelectorAll('.multi-item'),function(item){var en=item.querySelector('.example-en'),zh=item.querySelector('.example-zh');var w=item.querySelector('.multi-item-word');return (w?w.textContent.trim():'')+'\n'+(en?en.innerText:'')+(zh?'\n'+zh.innerText:'');}).join('\n\n');if(!text)return;navigator.clipboard&&navigator.clipboard.writeText(text).then(function(){copyBtn.textContent='已复制 ✓';setTimeout(function(){copyBtn.textContent='复制例句';},1200);});});
-  function highlight(sentence,words){var out=esc(sentence);words.sort(function(a,b){return b.length-a.length;}).forEach(function(w){var stem=escReg(w);var alt=/e$/.test(w)?'|'+escReg(w.slice(0,-1))+'\\w*':'';var re=new RegExp('\\b('+stem+'\\w*'+alt+')','gi');out=out.replace(re,'<span class="hl">$1</span>');});return out;}
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});} function escReg(s){return String(s).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
-  // 词性缩写（与查词页一致）
-  function posShort(p){var s=String(p||'').trim().toLowerCase();if(!s)return '';if(s.indexOf('adj')===0)return 'adj.';if(s.indexOf('adv')===0)return 'adv.';if(s.indexOf('verb')===0||s.indexOf('v')===0)return 'v.';if(s.indexOf('noun')===0||s.indexOf('n.')===0||/(^|[^a-z])n\b/.test(s))return 'n.';if(s.indexOf('prep')===0)return 'prep.';if(s.indexOf('conj')===0)return 'conj.';if(s.indexOf('pron')===0)return 'pron.';return s;}
-
-  // ---- 排序切换 ----
-  var sortChips=document.getElementById('sort-chips');
-  if(sortChips) sortChips.addEventListener('click',function(e){var b=e.target.closest('.filter-chip');if(!b)return;sortBy=b.getAttribute('data-sort');sortChips.querySelectorAll('.filter-chip').forEach(function(x){x.classList.toggle('active',x===b);});applyFilters();});
-  // ---- 随机抽词（当前筛选结果内） ----
-  var rndBtn=document.getElementById('random-word');
-  if(rndBtn) rndBtn.addEventListener('click',function(){if(!filtered.length)return;var w=filtered[Math.floor(Math.random()*filtered.length)];location.href='study.html?word='+encodeURIComponent(w.word);});
-  // ---- 词单多格式导出 (Anki / CSV / Markdown) ----
-  var exportBtn = document.getElementById('export-words-btn');
-  if (exportBtn) {
-    exportBtn.addEventListener('click', function () {
-      if (!filtered.length) { alert('当前筛选词单为空。'); return; }
-      var choice = prompt(
-        '请选择导出格式（输入数字）：\n1. Anki 记忆卡片格式 (.txt 制表符分隔)\n2. Excel / CSV 表格 (.csv)\n3. Markdown 词表 (.md)\n4. JSON 数据 (.json)',
-        '1'
-      );
-      if (!choice) return;
-
-      var content = '', mime = 'text/plain', ext = 'txt';
-      var filename = '考研词单_' + (activeFilter || '全部') + '_' + filtered.length + '词.' + ext;
-
-      if (choice === '1') {
-        // Anki TXT
-        mime = 'text/plain;charset=utf-8';
-        ext = 'txt';
-        content = filtered.map(function (w) {
-          var ai = AI[w.word];
-          var ex = (ai && ai.en) || w.example_en || '';
-          var exZh = (ai && ai.zh) || w.example_zh || '';
-          var back = (w.phonetic ? w.phonetic + '<br>' : '') +
-            '<b>' + esc(w.exam_meaning || w.translation || '') + '</b>' +
-            (w.secondary_meanings ? '<br><small style="color:#a9760f">僻义: ' + esc(w.secondary_meanings) + '</small>' : '') +
-            (w.synonyms ? '<br><small style="color:#1d5a63">同义替换: ' + esc(w.synonyms) + '</small>' : '') +
-            (ex ? '<hr><div style="font-size:12px">' + esc(ex) + '<br><span style="color:#666">' + esc(exZh) + '</span></div>' : '');
-          return w.word + '\t' + back.replace(/\n/g, ' ');
-        }).join('\n');
-      } else if (choice === '2') {
-        // CSV
-        mime = 'text/csv;charset=utf-8';
-        ext = 'csv';
-        var rows = ['单词,音标,词性,考研释义,层级,熟词僻义,同义改写,词根助记,例句英文,例句中文'];
-        filtered.forEach(function (w) {
-          var ai = AI[w.word];
-          var ex = (ai && ai.en) || w.example_en || '';
-          var exZh = (ai && ai.zh) || w.example_zh || '';
-          rows.push([
-            '"' + (w.word || '').replace(/"/g, '""') + '"',
-            '"' + (w.phonetic || '').replace(/"/g, '""') + '"',
-            '"' + (w.pos || '').replace(/"/g, '""') + '"',
-            '"' + (w.exam_meaning || w.translation || '').replace(/"/g, '""') + '"',
-            '"' + (w.tier || '').replace(/"/g, '""') + '"',
-            '"' + (w.secondary_meanings || '').replace(/"/g, '""') + '"',
-            '"' + (w.synonyms || '').replace(/"/g, '""') + '"',
-            '"' + (w.root || '').replace(/"/g, '""') + '"',
-            '"' + ex.replace(/"/g, '""') + '"',
-            '"' + exZh.replace(/"/g, '""') + '"'
-          ].join(','));
-        });
-        content = '\uFEFF' + rows.join('\n'); // Add BOM for Excel
-      } else if (choice === '3') {
-        // Markdown
-        mime = 'text/markdown;charset=utf-8';
-        ext = 'md';
-        var md = ['# 考研英语精选词单 (' + filtered.length + ' 词)\n', '| 单词 | 音标 | 考研释义 | 同义替换 | 词根助记 |', '| :--- | :--- | :--- | :--- | :--- |'];
-        filtered.forEach(function (w) {
-          md.push('| **' + w.word + '** | `' + (w.phonetic || '') + '` | ' + (w.exam_meaning || w.translation || '') + ' | ' + (w.synonyms || '—') + ' | ' + (w.root || '—') + ' |');
-        });
-        content = md.join('\n');
-      } else if (choice === '4') {
-        // JSON
-        mime = 'application/json;charset=utf-8';
-        ext = 'json';
-        content = JSON.stringify(filtered, null, 2);
-      } else {
-        return;
-      }
-
-      filename = '考研词单_' + (activeFilter || '全部') + '_' + filtered.length + '词.' + ext;
-      var blob = new Blob([content], { type: mime });
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename;
-      a.click();
-      setTimeout(function () { URL.revokeObjectURL(a.href); }, 500);
-    });
-  }
-
-  // ---- 回到顶部 ----
-  var backTop=document.getElementById('back-top');
-  if(backTop){
-    window.addEventListener('scroll',function(){backTop.hidden=window.scrollY<700;},{passive:true});
-    backTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
-  }
-
-  // ---- 列表一键朗读发音 ----
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-speak]');
-    if (!b) return;
-    var text = b.getAttribute('data-speak');
-    if (!text) return;
-    try {
-      var u = new SpeechSynthesisUtterance(text);
-      u.lang = localStorage.getItem('kao_ttslang') || 'en-US';
-      u.rate = parseFloat(localStorage.getItem('kao_ttsrate') || '0.92');
-      b.classList.add('speaking');
-      u.onend = function () { b.classList.remove('speaking'); };
-      u.onerror = function () { b.classList.remove('speaking'); };
-      speechSynthesis.cancel();
-      speechSynthesis.speak(u);
-    } catch (err) {}
-  });
-
-  // 手机端向下滑动自动收起输入法软键盘 (Swipe down to dismiss keyboard on catalog)
-  var touchStartY = 0;
-  document.addEventListener('touchstart', function (e) {
-    if (e.touches && e.touches.length === 1) touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-  document.addEventListener('touchmove', function (e) {
-    if (e.touches && e.touches.length === 1) {
-      var dy = e.touches[0].clientY - touchStartY;
-      if (dy > 35 && document.activeElement === filterInput) {
-        filterInput.blur();
-      }
-    }
-  }, { passive: true });
-
-  // ---- 全网 5.4 万大字典搜索模块 (KyleBing Global Dictionary) ----
-  var dictScope = 'kaoyan'; // 'kaoyan' | 'global'
-  var dict54kData = window.__DICT_54K__ || null;
-  var dictScopeKaoyanBtn = document.getElementById('dict-scope-kaoyan');
-  var dictScopeGlobalBtn = document.getElementById('dict-scope-global');
-  var filterChipsContainer = document.getElementById('filter-chips');
-  var dataFilterChipsContainer = document.getElementById('data-filter-chips');
-  var sortChipsContainer = document.getElementById('sort-chips');
-  var letterIndexNav = document.getElementById('letter-index');
-  var progressBanner = document.getElementById('catalog-progress-banner');
-
-  function initDictScope() {
-    if (!dictScopeKaoyanBtn || !dictScopeGlobalBtn) return;
-    var catLayout = document.querySelector('.catalog-layout');
-    var headerScopeBadge = document.getElementById('header-scope-badge');
-    var collapsibleFilters = document.getElementById('cat-collapsible-filters');
-    var toggleFilterBtn = document.getElementById('toggle-filter-collapse');
-
-    dictScopeKaoyanBtn.addEventListener('click', function () {
-      if (dictScope === 'kaoyan') return;
-      dictScope = 'kaoyan';
-      dictScopeKaoyanBtn.classList.add('active');
-      dictScopeGlobalBtn.classList.remove('active');
-      if (catLayout) catLayout.classList.remove('no-index');
-      if (headerScopeBadge) headerScopeBadge.textContent = '考研 5,619 词';
-      if (letterIndexNav) letterIndexNav.style.display = 'flex';
-      if (progressBanner) progressBanner.style.display = 'flex';
-      if (toggleFilterBtn) toggleFilterBtn.style.display = 'inline-flex';
-      var isSavedCollapsed = localStorage.getItem('cat_filters_collapsed') === '1';
-      if (collapsibleFilters) collapsibleFilters.hidden = isSavedCollapsed;
-      if (descEl) descEl.textContent = '支持层级、词性、掌握状态筛选；多选单词可对照例句。';
-      filterInput.placeholder = '在 5,619 考研词库中瞬时搜索…（按 / 键聚焦）';
-      applyFilters();
-    });
-
-    dictScopeGlobalBtn.addEventListener('click', function () {
-      if (dictScope === 'global') return;
-      dictScope = 'global';
-      dictScopeGlobalBtn.classList.add('active');
-      dictScopeKaoyanBtn.classList.remove('active');
-      if (catLayout) catLayout.classList.add('no-index');
-      if (headerScopeBadge) headerScopeBadge.textContent = '全网 5.4 万词条';
-      if (letterIndexNav) letterIndexNav.style.display = 'none';
-      if (progressBanner) progressBanner.style.display = 'none';
-      if (collapsibleFilters) collapsibleFilters.hidden = true;
-      if (toggleFilterBtn) toggleFilterBtn.style.display = 'none';
-      if (descEl) descEl.textContent = '全网大字典：收录 54,000+ 初中/高中/四级/六级/考研/托福学术词汇与高频考点短语搭配。';
-      filterInput.placeholder = '在 54,000+ 初高中/四六级/考研/托福词典中秒查…';
-      ensureDict54kLoaded(function () {
-        searchGlobalDict(filterInput.value.trim());
-      });
-    });
-  }
-
-  var CLOUD_DICT_URL = 'https://bobwu520520-dot.github.io/kaoyan-words/data/dict_54k.json';
-
-  function ensureDict54kLoaded(callback) {
-    if (dict54kData) {
-      if (callback) callback();
-      return;
-    }
-    listEl.innerHTML = '<div class="catalog-empty">☁️ 正在动态连接云端大词典 (5.4万词库与短语)，无需占用手机空间...</div>';
-    fetch(CLOUD_DICT_URL, { cache: 'default' })
-      .then(function (r) {
-        if (!r.ok) throw new Error('Cloud HTTP ' + r.status);
-        return r.json();
-      })
-      .then(function (data) {
-        dict54kData = data;
-        if (callback) callback();
-      })
-      .catch(function () {
-        fetch('data/dict_54k.json')
-          .then(function (r) { return r.json(); })
-          .then(function (data) {
-            dict54kData = data;
-            if (callback) callback();
-          })
-          .catch(function () {
-            listEl.innerHTML = '<div class="catalog-empty">⚠️ 5.4万全网大词典部署在云端，请连网后重试</div>';
-          });
-      });
-  }
-
-  function searchGlobalDict(query) {
-    if (!dict54kData) return;
-    var q = (query || '').toLowerCase().trim();
-    var results = [];
-    if (!q) {
-      results = dict54kData.slice(0, 48);
-    } else {
-      var prefixMatches = [];
-      var containsMatches = [];
-      for (var i = 0; i < dict54kData.length; i++) {
-        var item = dict54kData[i];
-        var w = item.w.toLowerCase();
-        if (w === q) {
-          prefixMatches.unshift(item);
-        } else if (w.startsWith(q)) {
-          prefixMatches.push(item);
-        } else if (w.indexOf(q) > -1 || (item.t && item.t.indexOf(q) > -1)) {
-          containsMatches.push(item);
+  function showView(viewEl, isBack) {
+    [viewHome, viewList, viewDetail].forEach(function (v) {
+      if (!v) return;
+      if (v === viewEl) {
+        v.classList.remove('slide-back');
+        if (isBack) {
+          v.classList.add('slide-back');
         }
-        if (prefixMatches.length >= 60) break;
+        v.classList.add('active');
+        v.style.display = 'block';
+      } else {
+        v.classList.remove('active');
+        v.classList.remove('slide-back');
+        v.style.display = 'none';
       }
-      results = prefixMatches.concat(containsMatches).slice(0, 60);
-    }
-
-    renderGlobalDictResults(results, q);
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
-  function formatDict54kTranslation(rawT, query) {
-    if (!rawT) return '<span style="color:var(--color-text-muted)">暂无详细释义</span>';
-    var parts = rawT.split(/(?=\b(?:n|v|adj|adv|prep|conj|pron|art|num|int|vi|vt)\.\s*)/i);
-    if (parts.length <= 1) {
-      return '<div style="font-size:13.5px;line-height:1.6;color:var(--color-text)">' + hlMatch(rawT, query) + '</div>';
-    }
-    return parts.map(function(p) {
-      var trimmed = p.trim();
-      if (!trimmed) return '';
-      var m = trimmed.match(/^([a-z]+)\.\s*(.*)$/i);
-      if (m) {
-        return '<div style="display:flex;align-items:baseline;gap:6px;font-size:13.5px;line-height:1.6;margin-bottom:3px">' +
-          '<span class="cat-card-pos" style="font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;flex-shrink:0">' + esc(m[1]) + '.</span>' +
-          '<span style="color:var(--color-text)">' + hlMatch(m[2], query) + '</span>' +
-        '</div>';
-      }
-      return '<div style="font-size:13.5px;line-height:1.6;color:var(--color-text)">' + hlMatch(trimmed, query) + '</div>';
-    }).join('');
-  }
+  // --- 4. 路由逻辑 ---
+  function handleHashRoute() {
+    var hash = location.hash || '';
+    var newDepth = getCatalogRouteDepth(hash);
+    var isBack = newDepth < currentCatalogDepth;
+    currentCatalogDepth = newDepth;
 
-  function renderGlobalDictResults(results, query) {
-    listEl.innerHTML = '';
-    countPill.textContent = '全网大字典找到 ' + results.length + ' 词';
-    if (pageIndicator) pageIndicator.textContent = '全网大字典快速检索模式 · 共 ' + results.length + ' 条匹配结果';
-    if (prevPageBtn) prevPageBtn.disabled = true;
-    if (nextPageBtn) nextPageBtn.disabled = true;
-
-    if (!results.length) {
-      listEl.innerHTML = '<div class="catalog-empty" style="padding:40px 16px;text-align:center;color:var(--color-text-muted)">🔍 在 54,000+ 词典中未找到包含 "' + esc(query) + '" 的单词</div>';
+    if (!hash || hash === '#' || hash === '#home') {
+      showView(viewHome, isBack);
+      renderHomeStats();
       return;
     }
 
-    var frag = document.createDocumentFragment();
-    results.forEach(function (it) {
-      var wrap = document.createElement('div');
-      wrap.className = 'cat-row-wrap dict54k-card';
-      wrap.style.cssText = 'background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,0.03);width:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:6px';
+    if (hash.startsWith('#list/')) {
+      var filter = hash.slice(6);
+      currentFilterKey = filter;
+      showView(viewList, isBack);
+      renderTier2List(filter);
+      return;
+    }
 
-      var tagChips = (it.g || '').split(',').map(function (tg) {
-        tg = tg.trim();
-        if (!tg) return '';
-        var color = tg === '考研' ? '#0d9488' : tg === '六级' ? '#2563eb' : tg === '四级' ? '#4f46e5' : tg === '高考' ? '#ea580c' : tg === '中考' || tg === '初中' ? '#059669' : tg === '托福' || tg === 'SAT' ? '#7c3aed' : '#64748b';
-        return '<span class="cat-chip" style="font-size:11px;padding:2px 7px;border-radius:6px;font-weight:600;background:color-mix(in oklab, ' + color + ' 12%, transparent);color:' + color + ';border:1px solid color-mix(in oklab, ' + color + ' 30%, transparent)">' + esc(tg) + '</span>';
-      }).join('');
+    if (hash.startsWith('#word/')) {
+      var wordStr = decodeURIComponent(hash.slice(6));
+      showView(viewDetail, isBack);
+      renderTier3Detail(wordStr);
+      return;
+    }
 
-      var phrasesHtml = '';
-      if (it.p && it.p.length > 0) {
-        phrasesHtml = '<div style="margin-top:6px;padding:8px 12px;background:var(--color-surface-offset);border-left:3px solid var(--color-primary);border-radius:8px">' +
-          '<div style="font-size:12px;font-weight:700;color:var(--color-primary);margin-bottom:6px">📎 常用真题与考点短语搭配 (' + it.p.length + ')：</div>' +
-          '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:6px">' +
-            it.p.map(function (pair) {
-              return '<div style="font-size:12.5px;display:flex;justify-content:space-between;align-items:center;background:var(--color-surface);padding:5px 10px;border-radius:6px;border:1px solid var(--color-border)">' +
-                '<span><strong style="color:var(--color-primary)">' + esc(pair[0]) + '</strong> <span style="color:var(--color-text-muted);font-size:12px;margin-left:4px">(' + esc(pair[1]) + ')</span></span>' +
-                '<button class="icon-btn-mini audio-speak-btn" data-speak="' + esc(pair[0]) + '" type="button" style="width:24px;height:24px;font-size:11px;border-radius:50%;background:var(--color-surface-offset);border:1px solid var(--color-border);cursor:pointer;flex-shrink:0;margin-left:6px" title="朗读短语">🔊</button>' +
-              '</div>';
-            }).join('') +
-          '</div>' +
-        '</div>';
-      }
-
-      wrap.innerHTML = 
-        '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">' +
-          '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">' +
-            '<a class="cat-card-word" style="font-size:18px;font-weight:800;color:var(--color-primary);text-decoration:none;letter-spacing:-0.2px" href="study.html?w=' + encodeURIComponent(it.w) + '" title="在背单词中学习">' + hlMatch(it.w, query) + '</a>' +
-            (tagChips ? '<div style="display:flex;gap:4px;flex-wrap:wrap">' + tagChips + '</div>' : '') +
-          '</div>' +
-          '<div style="display:flex;align-items:center;gap:6px">' +
-            '<button class="nav-btn audio-speak-btn" data-speak="' + esc(it.w) + '" type="button" style="padding:4px 9px;font-size:12px;border-radius:6px;display:inline-flex;align-items:center;gap:3px;cursor:pointer;background:var(--color-surface-offset);border:1px solid var(--color-border);color:var(--color-text)" title="朗读发音">🔊 发音</button>' +
-            '<a class="nav-btn primary" href="study.html?w=' + encodeURIComponent(it.w) + '" style="padding:4px 10px;font-size:12px;border-radius:6px;text-decoration:none" title="加入背单词">📖 背诵</a>' +
-          '</div>' +
-        '</div>' +
-        '<div style="margin:2px 0 2px">' + formatDict54kTranslation(it.t, query) + '</div>' +
-        phrasesHtml;
-
-      frag.appendChild(wrap);
-    });
-
-    listEl.appendChild(frag);
+    // Default fallback
+    showView(viewHome, isBack);
   }
 
-  initDictScope();
+  window.addEventListener('hashchange', handleHashRoute);
+
+  // 返回按钮事件
+  var listBackBtn = document.getElementById('words-list-back-btn');
+  if (listBackBtn) {
+    listBackBtn.onclick = function () {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        location.hash = '#home';
+      }
+    };
+  }
+
+  var detailBackBtn = document.getElementById('words-detail-back-btn');
+  if (detailBackBtn) {
+    detailBackBtn.onclick = function () {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        location.hash = '#list/' + currentFilterKey;
+      }
+    };
+  }
+
+  // --- 5. 第二级单词列表渲染 ---
+  var filterTitles = {
+    core: '⭐ 核心高频词',
+    high: '📌 高频重点词',
+    expand: '🎯 重点扩展词',
+    normal: '📚 普通扩展词',
+    secondary: '⚡ 熟词僻义专项',
+    letters: '🔤 按首字母浏览',
+    fav: '⭐ 我的专属生词本',
+    weak: '🔥 薄弱词专项强化'
+  };
+
+  function renderTier2List(filterKey) {
+    studyState = getStudyProgress();
+    var titleEl = document.getElementById('words-list-header-title');
+    var countEl = document.getElementById('words-list-total-count');
+    var letterBar = document.getElementById('words-letter-bar');
+
+    // 是否展示 A-Z 首字母横滑条
+    var isLettersMode = filterKey === 'letters' || filterKey.startsWith('letter-');
+    if (letterBar) {
+      letterBar.style.display = isLettersMode ? 'block' : 'none';
+      if (isLettersMode) renderLetterChips(filterKey.startsWith('letter-') ? filterKey.slice(7) : 'A');
+    }
+
+    // 过滤数据源
+    var list = [];
+    if (filterKey === 'core') {
+      list = WORDS.filter(w => w.tier === '核心高频');
+    } else if (filterKey === 'high') {
+      list = WORDS.filter(w => w.tier === '高频重点');
+    } else if (filterKey === 'expand') {
+      list = WORDS.filter(w => w.tier === '重点扩展');
+    } else if (filterKey === 'normal') {
+      list = WORDS.filter(w => w.tier === '普通扩展');
+    } else if (filterKey === 'secondary') {
+      list = WORDS.filter(w => w.secondary_meaning || (w.exam_meaning && w.exam_meaning.includes('僻')));
+    } else if (filterKey === 'fav') {
+      var favs = [];
+      try { favs = JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]'); } catch (e) {}
+      var favSet = new Set(favs);
+      list = WORDS.filter(w => favSet.has(w.word));
+    } else if (filterKey === 'weak') {
+      var hardMap = {};
+      try { hardMap = JSON.parse(localStorage.getItem('kaoyan_study_v3') || '{}').hardCount || {}; } catch (e) {}
+      list = WORDS.filter(w => (hardMap[w.word] || 0) > 0);
+    } else if (isLettersMode) {
+      var targetLetter = filterKey.startsWith('letter-') ? filterKey.slice(7).toUpperCase() : 'A';
+      currentLetter = targetLetter;
+      list = WORDS.filter(w => w.word.toUpperCase().startsWith(targetLetter));
+    } else {
+      list = WORDS;
+    }
+
+    currentFilteredWords = list;
+    currentPage = 1;
+
+    var displayTitle = filterTitles[filterKey] || (isLettersMode ? `首字母 ${currentLetter} 检索` : '单词列表');
+    if (titleEl) titleEl.textContent = displayTitle;
+    if (countEl) countEl.textContent = list.length + ' 词';
+
+    renderTier2Page();
+  }
+
+  function renderLetterChips(activeL) {
+    var row = document.getElementById('words-letter-chips-row');
+    if (!row) return;
+    var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    row.innerHTML = alphabet.map(function (ch) {
+      var isActive = ch === activeL;
+      return `<button class="filter-chip ${isActive ? 'active' : ''}" data-letter="${ch}" type="button" style="padding:4px 10px;font-size:12px;font-weight:700">${ch}</button>`;
+    }).join('');
+
+    row.querySelectorAll('button[data-letter]').forEach(function (btn) {
+      btn.onclick = function () {
+        var l = btn.getAttribute('data-letter');
+        location.hash = '#list/letter-' + l;
+      };
+    });
+  }
+
+  function renderTier2Page() {
+    var container = document.getElementById('words-tier2-container');
+    var pageInfo = document.getElementById('words-tier2-page-info');
+    var prevBtn = document.getElementById('words-tier2-prev');
+    var nextBtn = document.getElementById('words-tier2-next');
+    if (!container) return;
+
+    if (!currentFilteredWords.length) {
+      container.innerHTML = `
+        <div style="padding:40px 20px;text-align:center;color:var(--color-text-muted)">
+          <div style="font-size:36px;margin-bottom:8px">🍃</div>
+          <div style="font-size:14px;font-weight:700">该分类下暂无收录单词</div>
+          <div style="font-size:12px;margin-top:4px">可前往背词页面开启今日打卡</div>
+        </div>
+      `;
+      var pag = document.getElementById('words-tier2-pagination');
+      if (pag) pag.style.display = 'none';
+      return;
+    }
+
+    var totalPages = Math.ceil(currentFilteredWords.length / PAGE_SIZE);
+    currentPage = Math.min(Math.max(1, currentPage), totalPages);
+
+    var start = (currentPage - 1) * PAGE_SIZE;
+    var pagedWords = currentFilteredWords.slice(start, start + PAGE_SIZE);
+
+    container.innerHTML = pagedWords.map(function (w) {
+      var prog = studyState[w.word];
+      var isMastered = prog && prog.level >= 4;
+      var meaning = w.exam_meaning || w.translation || '';
+      return `
+        <div class="tier2-word-item" data-word="${esc(w.word)}">
+          <div style="flex:1;min-width:0;padding-right:8px">
+            <div>
+              <span class="t2-word">${esc(w.word)}</span>
+              <span class="t2-phonetic">${esc(w.phonetic || '')}</span>
+            </div>
+            <div class="t2-meaning">${esc(meaning)}</div>
+          </div>
+          <div style="flex-shrink:0;text-align:right">
+            ${isMastered ? '<span class="t2-mastered-tag">✓ 已熟记</span>' : '<span style="font-size:11.5px;color:var(--color-text-faint)">›</span>'}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    container.querySelectorAll('.tier2-word-item').forEach(function (el) {
+      el.onclick = function () {
+        var word = el.getAttribute('data-word');
+        if (word) {
+          location.hash = '#word/' + encodeURIComponent(word);
+        }
+      };
+    });
+
+    var pag = document.getElementById('words-tier2-pagination');
+    if (pag) {
+      pag.style.display = totalPages > 1 ? 'flex' : 'none';
+      if (pageInfo) pageInfo.textContent = `第 ${currentPage} / ${totalPages} 页 (共 ${currentFilteredWords.length} 词)`;
+      if (prevBtn) prevBtn.disabled = currentPage <= 1;
+      if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+    }
+  }
+
+  var pPrev = document.getElementById('words-tier2-prev');
+  if (pPrev) {
+    pPrev.onclick = function () {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTier2Page();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+  }
+  var pNext = document.getElementById('words-tier2-next');
+  if (pNext) {
+    pNext.onclick = function () {
+      var totalPages = Math.ceil(currentFilteredWords.length / PAGE_SIZE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTier2Page();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+  }
+
+  // --- 6. 第三级单词详情渲染 ---
+  function renderTier3Detail(wordStr) {
+    var w = WORDS.find(x => x.word.toLowerCase() === wordStr.toLowerCase());
+    var headerWord = document.getElementById('words-detail-header-word');
+    var favHeadBtn = document.getElementById('words-detail-fav-toggle');
+    var contentBox = document.getElementById('words-detail-content-box');
+    if (!contentBox) return;
+
+    if (!w) {
+      contentBox.innerHTML = `
+        <div style="padding:40px 20px;text-align:center;color:var(--color-text-muted)">
+          <div style="font-size:36px;margin-bottom:8px">🔍</div>
+          <div style="font-size:14px;font-weight:700">未找到单词「${esc(wordStr)}」</div>
+        </div>
+      `;
+      return;
+    }
+
+    if (headerWord) headerWord.textContent = w.word;
+
+    var isFavorite = isFav(w.word);
+    if (favHeadBtn) {
+      favHeadBtn.textContent = isFavorite ? '★' : '☆';
+      favHeadBtn.style.color = isFavorite ? '#f59e0b' : 'var(--color-text-muted)';
+      favHeadBtn.onclick = function () {
+        var nowFav = toggleFav(w.word);
+        favHeadBtn.textContent = nowFav ? '★' : '☆';
+        favHeadBtn.style.color = nowFav ? '#f59e0b' : 'var(--color-text-muted)';
+        var bBtn = document.getElementById('words-detail-fav-btn');
+        if (bBtn) bBtn.textContent = nowFav ? '⭐ 已在生词本' : '⭐ 加入生词本';
+        if (window.KaoyanToast) window.KaoyanToast(nowFav ? '⭐ 已收藏至专属生词本' : '已移出生词本');
+      };
+    }
+
+    var ai = AI_EX[w.word];
+    var exEn = (ai && ai.en) || w.example_en || '';
+    var exZh = (ai && ai.zh) || w.example_zh || '';
+    var rawPos = (w.pos || (w.exam_meaning && w.exam_meaning.match(/^([a-z]+\.)/i) ? w.exam_meaning.match(/^([a-z]+\.)/i)[1] : '') || '核心').replace('.', '');
+    var cleanMeaning = (w.exam_meaning || w.translation || '').replace(/^[a-z]+\.\s*/i, '');
+
+    contentBox.innerHTML = `
+      <div class="exam-card" style="margin-bottom:14px">
+        <!-- 单词头部 -->
+        <div style="text-align:center;margin-bottom:14px">
+          <div style="font-size:32px;font-weight:800;color:var(--color-primary);letter-spacing:-0.5px">${esc(w.word)}</div>
+          <div style="display:inline-flex;align-items:center;gap:6px;margin-top:6px">
+            <span style="font-size:11px;background:var(--color-surface-offset);border:1px solid var(--color-border);padding:1px 6px;border-radius:6px;font-weight:700">英</span>
+            <span style="font-size:13.5px;color:var(--color-text-muted)">${esc(w.phonetic || '')}</span>
+            <button id="detail-speak-btn" type="button" style="background:none;border:none;color:var(--color-primary);font-size:16px;cursor:pointer;padding:2px 6px" title="朗读单词">🔊</button>
+          </div>
+        </div>
+
+        <!-- 释义栏 -->
+        <div class="bb-meaning-box" style="margin-bottom:12px">
+          <span class="bb-pos-tag">${esc(rawPos)}</span>
+          <span class="bb-meaning-text">${esc(cleanMeaning || '暂无详细中文释义')}</span>
+        </div>
+
+        <!-- 考研真题学术例句 -->
+        ${exEn ? `
+          <div class="bb-section-box" style="margin-bottom:12px">
+            <div class="bb-section-head">
+              <span class="bb-section-title">真题例句</span>
+              <div class="bb-section-actions">
+                <button class="bb-mini-btn" id="detail-speak-ex" type="button">🔊 读例句</button>
+              </div>
+            </div>
+            <div class="bb-example-list">
+              <div class="bb-example-item">
+                <div class="bb-example-en" style="font-size:13.5px;line-height:1.6">${esc(exEn)}</div>
+                <div class="bb-example-zh" style="font-size:12.5px;margin-top:4px;color:var(--color-text-muted)">${esc(exZh)}</div>
+              </div>
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- 考点短语搭配 -->
+        ${w.phrases && w.phrases.length > 0 ? `
+          <div class="bb-section-box bb-phrases-box" style="margin-bottom:12px">
+            <div class="bb-section-head">
+              <span class="bb-section-title">考点搭配 / 常用短语</span>
+              <span class="bb-section-tag" style="background:color-mix(in oklab, #0284c7 12%, transparent);color:#0284c7;border-color:color-mix(in oklab, #0284c7 25%, transparent)">高频搭配</span>
+            </div>
+            <div class="bb-phrase-list">
+              ${w.phrases.map(function (p) {
+                return `
+                  <div class="bb-phrase-item">
+                    <div class="bb-phrase-row">
+                      <span class="bb-phrase-text">${esc(p.p)}</span>
+                    </div>
+                    <div class="bb-phrase-cn">${esc(p.c)}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- 词根词缀助记 -->
+        <div class="bb-section-box bb-mnemonic-box" style="margin-bottom:16px">
+          <div class="bb-section-head">
+            <span class="bb-section-title">助记</span>
+            <span class="bb-section-tag">词根词缀</span>
+          </div>
+          <div class="bb-mnemonic-content">
+            <div class="bb-root-text">${esc(w.roots || w.root || (w.word + ' · 考研大纲核心词汇'))}</div>
+            ${w.synonyms ? `<div class="bb-syn-row" style="margin-top:6px;font-size:12px"><strong style="color:var(--color-primary)">同义替换：</strong>${esc(w.synonyms)}</div>` : ''}
+            ${w.confused ? `<div class="bb-confused-row" style="margin-top:4px;font-size:12px"><strong style="color:#ef4444">形近易混：</strong>${esc(w.confused)}</div>` : ''}
+          </div>
+        </div>
+
+        <!-- 底部大操作栏 -->
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <button class="nav-btn" id="words-detail-fav-btn" type="button" style="flex:1;padding:12px;font-size:14px;font-weight:700;border-radius:10px">
+            ${isFavorite ? '⭐ 已在生词本' : '⭐ 加入生词本'}
+          </button>
+          <a class="btn primary" id="words-detail-study-btn" href="study.html" style="flex:1;padding:12px;font-size:14px;font-weight:700;border-radius:10px;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:4px">
+            📖 开始背这个词
+          </a>
+        </div>
+      </div>
+    `;
+
+    var spkWord = document.getElementById('detail-speak-btn');
+    if (spkWord) spkWord.onclick = () => speak(w.word);
+
+    var spkEx = document.getElementById('detail-speak-ex');
+    if (spkEx) spkEx.onclick = () => speak(exEn);
+
+    var bFav = document.getElementById('words-detail-fav-btn');
+    if (bFav) {
+      bFav.onclick = function () {
+        var nowFav = toggleFav(w.word);
+        bFav.textContent = nowFav ? '⭐ 已在生词本' : '⭐ 加入生词本';
+        if (favHeadBtn) {
+          favHeadBtn.textContent = nowFav ? '★' : '☆';
+          favHeadBtn.style.color = nowFav ? '#f59e0b' : 'var(--color-text-muted)';
+        }
+        if (window.KaoyanToast) window.KaoyanToast(nowFav ? '⭐ 已收藏至专属生词本' : '已移出生词本');
+      };
+    }
+  }
+
+  // --- 7. 第一级实时搜索功能 ---
+  var searchInput = document.getElementById('words-home-search-input');
+  var searchClear = document.getElementById('words-home-search-clear');
+  var searchResultsBox = document.getElementById('words-search-results-box');
+  var searchResultsList = document.getElementById('words-search-results-list');
+  var searchCountHint = document.getElementById('words-search-count-hint');
+  var homeMainContent = document.getElementById('words-home-main-content');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      var val = searchInput.value.trim().toLowerCase();
+      if (!val) {
+        if (searchClear) searchClear.style.display = 'none';
+        if (searchResultsBox) searchResultsBox.style.display = 'none';
+        if (homeMainContent) homeMainContent.style.display = 'block';
+        return;
+      }
+
+      if (searchClear) searchClear.style.display = 'block';
+      if (homeMainContent) homeMainContent.style.display = 'none';
+      if (searchResultsBox) searchResultsBox.style.display = 'block';
+
+      var matches = WORDS.filter(function (w) {
+        return w.word.toLowerCase().includes(val) ||
+               (w.exam_meaning && w.exam_meaning.includes(val)) ||
+               (w.translation && w.translation.includes(val));
+      }).slice(0, 50);
+
+      studyState = getStudyProgress();
+      if (searchCountHint) searchCountHint.textContent = `找到 ${matches.length} 个匹配单词（点击直接查看详情）`;
+
+      if (searchResultsList) {
+        if (!matches.length) {
+          searchResultsList.innerHTML = `<div style="padding:20px;text-align:center;color:var(--color-text-muted);font-size:13px">未找到匹配词汇</div>`;
+          return;
+        }
+        searchResultsList.innerHTML = matches.map(function (w) {
+          var prog = studyState[w.word];
+          var isMastered = prog && prog.level >= 4;
+          return `
+            <div class="tier2-word-item" data-word="${esc(w.word)}">
+              <div style="flex:1;min-width:0">
+                <div>
+                  <span class="t2-word">${esc(w.word)}</span>
+                  <span class="t2-phonetic">${esc(w.phonetic || '')}</span>
+                </div>
+                <div class="t2-meaning">${esc(w.exam_meaning || w.translation || '')}</div>
+              </div>
+              <div style="flex-shrink:0">
+                ${isMastered ? '<span class="t2-mastered-tag">✓ 已熟记</span>' : '<span style="font-size:11px;color:var(--color-text-faint)">›</span>'}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        searchResultsList.querySelectorAll('.tier2-word-item').forEach(function (el) {
+          el.onclick = function () {
+            var word = el.getAttribute('data-word');
+            if (word) {
+              location.hash = '#word/' + encodeURIComponent(word);
+            }
+          };
+        });
+      }
+    });
+
+    if (searchClear) {
+      searchClear.onclick = function () {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.focus();
+      };
+    }
+  }
+
+  // 随机抽一词按钮
+  var randomBtn = document.getElementById('words-random-btn');
+  if (randomBtn) {
+    randomBtn.onclick = function () {
+      if (!WORDS.length) return;
+      var r = WORDS[Math.floor(Math.random() * WORDS.length)];
+      if (r) {
+        location.hash = '#word/' + encodeURIComponent(r.word);
+      }
+    };
+  }
+
+  // 启动词库数据初始化
+  initCatalogWords();
 })();

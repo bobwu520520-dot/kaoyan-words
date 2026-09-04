@@ -8,7 +8,7 @@ with open(json_path, 'r', encoding='utf-8') as f:
     wdata = json.load(f)
 
 with open(bundle_path, 'w', encoding='utf-8') as f:
-    f.write('window.__WORDS_DATA__ = ' + json.dumps(wdata, ensure_ascii=False) + ';\n')
+    f.write('window.__WORDS_DATA__ = window.__INITIAL_WORDS__ = ' + json.dumps(wdata, ensure_ascii=False) + ';\n')
 
 count = len(wdata.get('words', []))
 size = os.path.getsize(bundle_path)

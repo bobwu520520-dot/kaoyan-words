@@ -3,8 +3,8 @@
   'use strict';
 
   // 1. 全局版本号与手机自动更新引擎 (Universal Auto-Updater)
-  var CURRENT_VERSION_CODE = 964;
-  var CURRENT_VERSION_STR = '9.64';
+  var CURRENT_VERSION_CODE = 966;
+  var CURRENT_VERSION_STR = '9.66';
 
   function showUpdateBanner(remote) {
     if (document.getElementById('kaoyan-update-banner')) return;
@@ -34,7 +34,7 @@
         window._kaoyanSwWaiting.postMessage({ action: 'skipWaiting' });
       }
       if (location.protocol === 'file:') {
-        location.href = 'https://bobwu520520-dot.github.io/kaoyan-words/' + (location.pathname.split('/').pop() || 'study.html');
+        if (window.KaoyanToast) window.KaoyanToast('当前为离线安装包，请安装桌面最新 APK 完成更新');
         return;
       }
       setTimeout(function () {

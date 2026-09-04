@@ -82,19 +82,24 @@
     LOADED++; maybeHome(); updateHeroStats();
   }
 
-  if (window.__WORDS_DATA__ && window.__WORDS_DATA__.words) {
-    onWordsLoaded(window.__WORDS_DATA__);
+  var bundledHome = (window.getKaoyanWords && window.getKaoyanWords()) || window.__WORDS_DATA__ || window.__INITIAL_WORDS__;
+  if (bundledHome && bundledHome.words) {
+    onWordsLoaded(bundledHome);
+  } else if (window.loadKaoyanWords) {
+    window.loadKaoyanWords().then(onWordsLoaded).catch(function () {});
   } else {
     var x1 = new XMLHttpRequest();
     x1.open('GET', 'data/words.json', true);
     x1.onload = function () {
-      if ((x1.status === 200 || x1.status === 0) && x1.responseText) {
+      if ((x1.status === 200 || x1.status === 0) && x1.responseText && x1.responseText.trim().charAt(0) !== '<') {
         try { onWordsLoaded(JSON.parse(x1.responseText)); return; } catch (e) {}
       }
-      if (window.__WORDS_DATA__ && window.__WORDS_DATA__.words) onWordsLoaded(window.__WORDS_DATA__);
+      var late = window.__WORDS_DATA__ || window.__INITIAL_WORDS__;
+      if (late && late.words) onWordsLoaded(late);
     };
     x1.onerror = function () {
-      if (window.__WORDS_DATA__ && window.__WORDS_DATA__.words) onWordsLoaded(window.__WORDS_DATA__);
+      var late = window.__WORDS_DATA__ || window.__INITIAL_WORDS__;
+      if (late && late.words) onWordsLoaded(late);
     };
     x1.send();
   }

@@ -1,23 +1,33 @@
 /* 考研词汇 — Service Worker: 全离线持久缓存 + 离线词库 */
-const CACHE = 'kaoyan-v9.64-offline-cache';
-const ASSETS = [
+const CACHE = 'kaoyan-v9.66-offline-cache';
+const SHELL = [
   './', 'index.html', 'study.html', 'exam.html', 'translate.html', 'words.html', 'memory.html',
   'css/style.css',
-  'js/app.js', 'js/study.js', 'js/translate.js', 'js/catalog.js', 'js/memory.js', 'js/pwa.js', 'js/quiz.js', 'js/exam_workshop.js', 'js/cloud_sync.js',
-  'data/words.json', 'data/words_bundle.js',
-  'data/ai_examples.json', 'data/ai_examples_bundle.js',
-  'data/translations.json', 'data/translations_bundle.js',
-  'data/exam_data_bundle.js',
-  'data/writings_b.json', 'data/writings_a.json', 'data/reading_real.json', 'data/cloze_real.json', 'data/newtype_real.json',
+  'js/word_data.js', 'js/app.js', 'js/study.js', 'js/translate.js', 'js/catalog.js', 'js/memory.js', 'js/pwa.js', 'js/quiz.js', 'js/exam_workshop.js', 'js/cloud_sync.js',
   'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon.png'
+];
+const DATA = [
+  'data/words_bundle.js',
+  'data/ai_examples_bundle.js',
+  'data/translations_bundle.js',
+  'data/exam_data_bundle.js',
+  'data/exam_cloze.json',
+  'data/exam_reading.json',
+  'data/exam_newtype.json',
+  'data/exam_trans.json',
+  'data/exam_writing.json',
+  'data/exam_suite.json'
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE)
-      .then((c) => c.addAll(ASSETS))
-      .then(() => self.skipWaiting())
-  );
+  e.waitUntil((async () => {
+    const cache = await caches.open(CACHE);
+    await cache.addAll(SHELL);
+    for (const url of DATA) {
+      try { await cache.add(url); } catch (err) {}
+    }
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', (e) => {
@@ -31,14 +41,29 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (url.origin !== location.origin || e.request.method !== 'GET') return;
-  // 网络优先(强制 revalidate, 避免词库更新后浏览器启发式缓存拿到旧数据), 失败回缓存: 离线时用缓存
-  e.respondWith(
-    fetch(e.request, { cache: 'no-cache' })
-      .then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
+  const isData = url.pathname.indexOf('/data/') !== -1 || /\.(json|js)$/.test(url.pathname);
+  e.respondWith((async () => {
+    if (isData) {
+      const cached = await caches.match(e.request);
+      if (cached) return cached;
+      try {
+        const res = await fetch(e.request);
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
+        }
         return res;
-      })
-      .catch(() => caches.match(e.request).then((m) => m || caches.match('./index.html')))
-  );
+      } catch (err) {
+        return new Response('', { status: 503, statusText: 'offline-data' });
+      }
+    }
+    try {
+      const res = await fetch(e.request, { cache: 'no-cache' });
+      const copy = res.clone();
+      caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
+      return res;
+    } catch (err) {
+      return (await caches.match(e.request)) || (await caches.match('./index.html'));
+    }
+  })());
 });

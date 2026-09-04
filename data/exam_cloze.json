@@ -1,0 +1,108 @@
+[
+  {
+    "id": "cloze-2022",
+    "year": 2022,
+    "title": "自然环境接触对心理压力恢复的积极效应",
+    "topic": "认知心理与环境行为",
+    "text": "Immersion in natural environments has long been recognized as a potent remedy for mental fatigue. Recent neurobiological experiments demonstrate that urban dwellers who regularly stroll in parks show significantly lower cortisol levels. (1)____, prolonged exposure to bustling city streets tends to deplete attentional reserves. Environmental psychologists attribute this disparity (2)____ the restorative power of natural stimuli. Natural landscapes offer 'soft fascination' that gently engages involuntary attention (3)____ demanding active cognitive exertion. Consequently, individuals emerge from wilderness walks with rejuvenated willpower and (4)____ emotional stability.",
+    "questions": [
+      {
+        "num": 1,
+        "options": [
+          "A. In contrast (经典转折对立 · 红花词)",
+          "B. In addition (顺承递进)",
+          "C. For instance (举例说明)",
+          "D. Therefore (因果总结)"
+        ],
+        "answer": "A",
+        "analysis": "空前一句为'公园散步降低皮质醇压力(+)'，空后一句为'繁华城市街道消耗注意力储备(-)'，前后正反鲜明对立，必选'In contrast'。"
+      },
+      {
+        "num": 2,
+        "options": [
+          "A. to (attribute A to B 经典固定搭配)",
+          "B. with (介词错误)",
+          "C. from (介词错误)",
+          "D. for (介词错误)"
+        ],
+        "answer": "A",
+        "analysis": "固定动词短语 'attribute [结果] to [原因]' 表示'把...归因于...'，正确答案为 to。"
+      },
+      {
+        "num": 3,
+        "options": [
+          "A. without (否定介词 · 无需消耗)",
+          "B. through (通过消耗)",
+          "C. besides (除...之外)",
+          "D. despite (尽管)"
+        ],
+        "answer": "A",
+        "analysis": "根据'soft fascination'（柔和吸引）的定义，自然刺激吸引不随意注意，而'无需(without)'主动消耗认知努力。"
+      },
+      {
+        "num": 4,
+        "options": [
+          "A. enhanced (提高的、增强的)",
+          "B. diminished (削弱的)",
+          "C. compromised (受损的)",
+          "D. vulnerable (脆弱的)"
+        ],
+        "answer": "A",
+        "analysis": "与前面'rejuvenated willpower'（重焕活力的意志力）构成并列同向关系，故选正面积极词'enhanced'（增强的情绪稳定性）。"
+      }
+    ]
+  },
+  {
+    "id": "cloze_2024",
+    "year": 2024,
+    "title": "传统阅读理解与网络社交认知机制",
+    "topic": "Reading habits and digital interaction",
+    "text": "The ongoing shift from print to digital media has transformed cognitive processing. Reading long texts demands sustained attention, which is frequently disrupted by digital notifications. Researchers observe that digital readers tend to browse rather than absorb complex information deeply. Consequently, critical thinking faculties may erode unless proactive habits are maintained.\n\nPsychological experiments reveal that physical books offer spatial anchors that assist memory consolidation. In contrast, infinite scrolling induces cognitive overload, scattering attention across fragmented snippets. To mitigate these adverse effects, educators recommend structured offline reading sessions to restore deep focus.",
+    "questions": [
+      {
+        "num": 1,
+        "options": [
+          "A. transformed",
+          "B. separated",
+          "C. eliminated",
+          "D. expanded"
+        ],
+        "answer": "A",
+        "analysis": "【唐迟逻辑解析】前文提到从纸质向数字化媒体的演变，此处表示媒体转型深度“改变”了认知过程，transformed（转变/重塑）最符合语境。"
+      },
+      {
+        "num": 2,
+        "options": [
+          "A. sustained",
+          "B. random",
+          "C. temporary",
+          "D. passive"
+        ],
+        "answer": "A",
+        "analysis": "【唐迟逻辑解析】阅读长文本需要“持续的”专注力，sustained attention 为学术高频固定搭配。"
+      },
+      {
+        "num": 3,
+        "options": [
+          "A. browse",
+          "B. memorize",
+          "C. translate",
+          "D. debate"
+        ],
+        "answer": "A",
+        "analysis": "【唐迟逻辑解析】与后文 absorb deeply 形成对照，数字读者更倾向于“浅层浏览”，browse 契合。"
+      },
+      {
+        "num": 4,
+        "options": [
+          "A. Consequently",
+          "B. Otherwise",
+          "C. Nevertheless",
+          "D. Similarly"
+        ],
+        "answer": "A",
+        "analysis": "【唐迟逻辑解析】因果逻辑线索词，承接前文浅层阅读导致的批判思维退化结果，选 Consequently。"
+      }
+    ]
+  }
+]

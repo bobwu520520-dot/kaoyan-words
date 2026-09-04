@@ -1,0 +1,264 @@
+# -*- coding: utf-8 -*-
+"""
+Build slim exam.html:
+1. Remove synchronously blocking translation and exam data bundles.
+2. Remove 90KB+ of inlined workshop roots / static question accordions.
+3. First screen only renders the 6 category cards and overall progress.
+4. Remove inline script, keeping all navigation and logic in js/exam_workshop.js.
+5. Target: Under 30KB (expected ~12KB).
+"""
+
+import os
+
+content = r"""<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>英一题型工坊 · 考研英语（一）题型与实战通关</title>
+  <meta name="description" content="全国硕士研究生招生考试英语（一）大纲官方题型深度拆解：手机系统设置式三级层级导航，完形填空、唐迟逻辑阅读、新题型、长难句翻译、作文九宫格与历年真题套卷。" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#1d5a63" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d5a63' stroke-width='2'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E" />
+  <script defer src="data/words_bundle.js"></script>
+  <script defer src="js/word_data.js"></script>
+  <script defer src="js/exam_workshop.js"></script>
+  <script defer src="js/pwa.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#exam-view-home">跳到主内容</a>
+
+  <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border);position:sticky;top:0;z-index:90">
+    <div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:16px;font-weight:800;color:var(--color-text)">📝 英一题型工坊</span>
+        <span class="cat-chip tier" id="header-exam-progress-badge" style="font-size:11px;padding:2px 8px;font-weight:600">100分大纲 · 0/6 已学</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="theme-toggle" data-theme-toggle aria-label="切换到深色模式" type="button"></button>
+        <button class="nav-menu-toggle-btn" id="exam-menu-toggle" data-nav-menu-toggle type="button" title="☰ 考研导航菜单">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 顶部考研导航菜单下拉收纳盒 -->
+  <div id="exam-top-nav-box" class="unified-nav-dropdown-card" data-nav-menu-box hidden>
+    <div style="font-size:11.5px;font-weight:700;color:var(--color-text-muted);margin-bottom:8px">🎯 考研核心模块直达</div>
+    <div class="unified-nav-grid-pills">
+      <a class="nav-grid-pill" href="study.html">📖 智能背单词</a>
+      <a class="nav-grid-pill active" href="exam.html">📝 英一题型工坊</a>
+      <a class="nav-grid-pill" href="words.html">📚 考研词库检索</a>
+      <a class="nav-grid-pill" href="memory.html">👤 我的数据中心</a>
+    </div>
+    <div style="height:1px;background:var(--color-border);margin:10px 0"></div>
+    <div style="font-size:11px;font-weight:700;color:var(--color-text-muted);margin-bottom:6px">⚡ 快捷工具</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <a class="nav-grid-pill" href="translate.html" style="flex:1">🌐 105长难句精读</a>
+      <a class="nav-grid-pill" href="words.html#list/secondary" style="flex:1">⚡ 熟词僻义速查</a>
+    </div>
+  </div>
+
+  <main class="tier-app-container">
+    <!-- ======================================================= -->
+    <!-- 第一级：题型首页 (Tier 1: 题型分类入口列表) -->
+    <!-- ======================================================= -->
+    <section class="tier-view active" id="exam-view-home">
+      <div style="padding: 12px 14px 20px">
+        <!-- 题型工坊总览与掌握进度卡片 -->
+        <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:14px 16px;margin-bottom:14px;box-shadow:var(--shadow-sm)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div>
+              <h1 style="font-size:15px;font-weight:800;color:var(--color-text);margin:0">🎯 考研英语（一）官方题型大纲</h1>
+              <div style="font-size:11.5px;color:var(--color-text-muted);margin-top:2px" id="exam-prog-sub-text">已学习 0 / 6 大题型 · 总分 100 分</div>
+            </div>
+            <span class="exam-status-badge done" id="exam-done-badge" style="font-size:11.5px">进度 0%</span>
+          </div>
+          <div class="progress" style="width:100%;height:7px;background:var(--color-surface-offset);border-radius:4px;overflow:hidden;border:1px solid var(--color-border)">
+            <i id="exam-overall-prog-bar" style="width:0%;height:100%;background:var(--color-primary);display:block;transition:width .3s"></i>
+          </div>
+        </div>
+
+        <div style="font-size:12px;font-weight:700;color:var(--color-text-muted);margin:0 0 8px 4px">📋 考试大纲 6 大题型系统入口</div>
+
+        <!-- 手机系统设置风格列表群组 (每行约 56px，带图标、标题、数量与箭头) -->
+        <div class="settings-list-group">
+          <!-- 1. 完形填空 -->
+          <a class="settings-nav-item" href="#type/cloze">
+            <div class="sni-left">
+              <span class="sni-icon">🧩</span>
+              <div class="sni-info">
+                <span class="sni-title">完形填空</span>
+                <span class="sni-desc">Section I · 10分 | 20空语篇逻辑秒杀 · 逻辑转折线索 · 红花词绿叶词</span>
+              </div>
+            </div>
+            <div class="sni-right">
+              <span class="sni-badge" id="badge-cloze-count">2 篇真题 · 40空</span>
+              <span class="sni-arrow">›</span>
+            </div>
+          </a>
+
+          <!-- 2. 传统阅读理解 -->
+          <a class="settings-nav-item" href="#type/reading">
+            <div class="sni-left">
+              <span class="sni-icon">📖</span>
+              <div class="sni-info">
+                <span class="sni-title">传统阅读理解（Text 1-4）</span>
+                <span class="sni-desc">Part A · 40分 | 唐迟逻辑六大题型拆解 · 4篇精读真题与排雷</span>
+              </div>
+            </div>
+            <div class="sni-right">
+              <span class="sni-badge" id="badge-reading-count">4 篇真题 · 20题</span>
+              <span class="sni-arrow">›</span>
+            </div>
+          </a>
+
+          <!-- 3. 阅读新题型 -->
+          <a class="settings-nav-item" href="#type/newtype">
+            <div class="sni-left">
+              <span class="sni-icon">🎯</span>
+              <div class="sni-info">
+                <span class="sni-title">阅读新题型（七选五/排序/小标题）</span>
+                <span class="sni-desc">Part B · 10分 | 80+提分突破口 · 代词指代链与语篇线索</span>
+              </div>
+            </div>
+            <div class="sni-right">
+              <span class="sni-badge" id="badge-newtype-count">2 套真题大题</span>
+              <span class="sni-arrow">›</span>
+            </div>
+          </a>
+
+          <!-- 4. 翻译（英译汉） -->
+          <a class="settings-nav-item" href="#type/trans">
+            <div class="sni-left">
+              <span class="sni-icon">🌐</span>
+              <div class="sni-info">
+                <span class="sni-title">翻译（英译汉）</span>
+                <span class="sni-desc">Part C · 10分 | 105篇历年全真学术长难句精析 · 田静句法拆分</span>
+              </div>
+            </div>
+            <div class="sni-right">
+              <span class="sni-badge" id="badge-trans-count">105 篇长难句</span>
+              <span class="sni-arrow">›</span>
+            </div>
+          </a>
+
+          <!-- 5. 作文（小作文+大作文） -->
+          <a class="settings-nav-item" href="#type/writing">
+            <div class="sni-left">
+              <span class="sni-icon">✍️</span>
+              <div class="sni-info">
+                <span class="sni-title">作文（小作文+大作文）</span>
+                <span class="sni-desc">Part A & B · 30分 | 潘赟九宫格图画大作文 + 10大应用文母版</span>
+              </div>
+            </div>
+            <div class="sni-right">
+              <span class="sni-badge" id="badge-writing-count">21 篇范文/沙盒</span>
+              <span class="sni-arrow">›</span>
+            </div>
+          </a>
+
+          <!-- 6. 历年真题套卷 -->
+          <a class="settings-nav-item" href="#type/suite">
+            <div class="sni-left">
+              <span class="sni-icon">📚</span>
+              <div class="sni-info">
+                <span class="sni-title">历年真题套卷（按年份）</span>
+                <span class="sni-desc">全卷模拟 · 100分 | 2010~2024 年份全真试卷与实战计时训练</span>
+              </div>
+            </div>
+            <div class="sni-right">
+              <span class="sni-badge" id="badge-suite-count">15 套真题全卷</span>
+              <span class="sni-arrow">›</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- 第二级：题目列表页 (Tier 2: 题型下的题目列表) -->
+    <!-- ======================================================= -->
+    <section class="tier-view" id="exam-view-list">
+      <div class="tier-header">
+        <button class="tier-back-btn" id="exam-list-back-btn" type="button">‹ 返回</button>
+        <span class="tier-header-title" id="exam-list-header-title">题目列表</span>
+        <div class="tier-header-action">
+          <span class="sni-badge" id="exam-list-count-badge">0 题</span>
+        </div>
+      </div>
+
+      <div style="padding: 12px 14px 20px">
+        <!-- 题型概要信息卡片 -->
+        <div id="exam-category-banner" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:12px 14px;margin-bottom:12px;box-shadow:var(--shadow-sm)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <strong style="font-size:14px;color:var(--color-text)" id="cat-banner-title">题型名称</strong>
+            <span style="font-size:11px;font-weight:700;color:var(--color-primary);background:color-mix(in oklab, var(--color-primary) 12%, transparent);padding:2px 8px;border-radius:999px" id="cat-banner-score">大纲分值</span>
+          </div>
+          <p style="font-size:12px;color:var(--color-text-muted);margin:0 0 6px;line-height:1.5" id="cat-banner-desc">题型描述与核心应试要点</p>
+          <div style="font-size:11.5px;color:var(--color-primary);font-weight:600" id="cat-banner-stat">完成进度：0 / 0 篇</div>
+        </div>
+
+        <!-- 题目列表容器 -->
+        <div class="exam-problem-list" id="exam-problem-items-container">
+          <!-- 动态按需渲染题目列表 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- 第三级：答题详情页 (Tier 3: 答题与解析详情) -->
+    <!-- ======================================================= -->
+    <section class="tier-view" id="exam-view-detail">
+      <div class="tier-header">
+        <button class="tier-back-btn" id="exam-detail-back-btn" type="button">‹ 返回</button>
+        <span class="tier-header-title" id="exam-detail-header-title">答题详情</span>
+        <div class="tier-header-action">
+          <span id="exam-detail-status-pill" class="exam-status-badge undone">未作答</span>
+        </div>
+      </div>
+
+      <div id="exam-detail-content-box" style="padding: 12px 14px 20px">
+        <!-- 动态按需注入答题详情与交互工坊 -->
+      </div>
+
+      <!-- 底部题目切换步进器 -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid var(--color-border);background:var(--color-surface);position:sticky;bottom:56px;z-index:90">
+        <button class="nav-btn" id="exam-prev-btn" type="button" style="font-size:12px;padding:6px 12px">◀ 上一题</button>
+        <span id="exam-item-counter" style="font-size:12px;color:var(--color-text-muted);font-weight:600">第 1 / 4 篇</span>
+        <button class="nav-btn" id="exam-next-btn" type="button" style="font-size:12px;padding:6px 12px">下一题 ▶</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="移动端导航">
+    <a class="bottom-nav-item" href="study.html">
+      <span class="icon">📖</span>
+      <span>背单词</span>
+    </a>
+    <a class="bottom-nav-item active" href="exam.html">
+      <span class="icon">📝</span>
+      <span>英一题型</span>
+    </a>
+    <a class="bottom-nav-item" href="words.html">
+      <span class="icon">📚</span>
+      <span>考研词库</span>
+    </a>
+    <a class="bottom-nav-item" href="memory.html">
+      <span class="icon">👤</span>
+      <span>我的</span>
+    </a>
+  </nav>
+</body>
+</html>
+"""
+
+target_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'exam.html')
+with open(target_path, 'w', encoding='utf-8', newline='\n') as f:
+    f.write(content.strip() + '\n')
+
+size = os.path.getsize(target_path)
+print(f"Written slim exam.html to {target_path} (Size: {size} bytes, {size/1024:.2f} KB)")

@@ -1123,19 +1123,23 @@
 
   // ---- 词库字典联动与长难句划词/点词即时取词气泡卡片 ----
   var WORD_MAP = {};
-  if (window.__WORDS_DATA__ && window.__WORDS_DATA__.words) {
-    (window.__WORDS_DATA__.words || []).forEach(function (w) {
-      WORD_MAP[w.word.toLowerCase()] = w;
+  function fillWordMap(list) {
+    (list || []).forEach(function (w) {
+      if (w && w.word) WORD_MAP[w.word.toLowerCase()] = w;
     });
+  }
+  var bundledTr = (window.getKaoyanWords && window.getKaoyanWords()) || window.__WORDS_DATA__ || window.__INITIAL_WORDS__;
+  if (bundledTr && bundledTr.words) {
+    fillWordMap(bundledTr.words);
+  } else if (window.loadKaoyanWords) {
+    window.loadKaoyanWords().then(function (d) { fillWordMap(d && d.words); }).catch(function () {});
   } else {
     fetch('data/words.json')
-      .then(function (r) { return (r.ok || r.status === 0) ? r.json() : null; })
-      .then(function (d) {
-        if (d && d.words) {
-          (d.words || []).forEach(function (w) {
-            WORD_MAP[w.word.toLowerCase()] = w;
-          });
-        }
+      .then(function (r) { return (r.ok || r.status === 0) ? r.text() : ''; })
+      .then(function (t) {
+        if (!t || t.trim().charAt(0) === '<') return;
+        var d = JSON.parse(t);
+        if (d && d.words) fillWordMap(d.words);
       }).catch(function () {});
   }
 

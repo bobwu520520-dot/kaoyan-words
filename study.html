@@ -357,7 +357,7 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
     <button class="minimal-tier-btn" id="tier-switch-btn" type="button" title="点击切换词库 / 学习模式">
       <span class="tier-name" id="tier-name">核心高频</span>
       <span class="minimal-mode-pill" id="current-mode-indicator">📘 标准</span>
-      <span class="puppy-wag-anim" id="study-puppy-wag" style="font-size:14px;margin-left:2px;cursor:pointer" title="小金毛学伴在线陪背中">🦮</span>
+      <img src="img/puppies/golden_smile.jpg" id="study-puppy-wag" alt="学伴" style="width:20px;height:20px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-left:3px;border:1.5px solid var(--color-primary);cursor:pointer" title="金毛学伴在线陪背中" class="puppy-bounce-anim">
     </button>
   </div>
   <div class="minimal-center">
@@ -390,12 +390,52 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
 <div class="study2">
 <button class="zen-exit-floating-btn" id="zen-exit-btn" type="button">✕ 退出沉浸</button>
 <div class="s-card" id="card">
-  <div class="bb-container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;gap:14px;color:var(--color-text-muted);background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px">
-    <div style="font-size:36px">🐕</div>
-    <div style="font-size:15px;font-weight:700;color:var(--color-text)">考研词汇通 · 极速加载中</div>
-    <div style="font-size:12px;color:var(--color-text-muted)">5,619 考研大纲词 · 100% 离线学术例句</div>
+  <div class="card-slider-stage" id="card-slider-stage">
+    <div class="card-slide-slot active" id="card-slot-a">
+      <div class="bb-container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;gap:14px;color:var(--color-text-muted);background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px">
+        <div style="font-size:36px">🐕</div>
+        <div style="font-size:15px;font-weight:700;color:var(--color-text)">考研词汇通 · 极速加载中</div>
+        <div style="font-size:12px;color:var(--color-text-muted)">5,619 考研大纲词 · 100% 离线学术例句</div>
+      </div>
+    </div>
+    <div class="card-slide-slot preload" id="card-slot-b"></div>
   </div>
 </div>
+</div>
+
+<!-- 撤销操作悬浮提示条 (P0: 3秒可撤销) -->
+<div id="study-undo-toast" class="study-undo-toast" aria-live="polite">
+  <span id="study-undo-msg">已标记为熟记</span>
+  <button id="study-undo-btn" class="study-undo-btn" type="button">↩️ 撤销</button>
+</div>
+
+<!-- 新手手势引导蒙层 (P1) -->
+<div id="gesture-guide-modal" class="gesture-guide-modal" hidden>
+  <div class="guide-backdrop" id="guide-backdrop"></div>
+  <div class="guide-card">
+    <div class="guide-dog-head"><img src="img/puppies/golden_smile.jpg" alt="金毛学伴"></div>
+    <h3>🐾 极简手势背词指南</h3>
+    <p class="guide-sub">左右滑动高效过词，配合底部大按键双模并存</p>
+    <div class="guide-items">
+      <div class="guide-item">
+        <div class="guide-icon">👆</div>
+        <div class="guide-desc"><strong>轻触卡片空白处</strong><span>翻转卡片，查看核心考义与真题长难句</span></div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-icon">👈</div>
+        <div class="guide-desc"><strong>向左滑动 (或点熟记)</strong><span>熟记掌握，进阶下一艾宾浩斯复习周期</span></div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-icon">👉</div>
+        <div class="guide-desc"><strong>向右滑动 (或点需重背)</strong><span>模糊/忘记，立即纳入今日滚动强化循环</span></div>
+      </div>
+      <div class="guide-item">
+        <div class="guide-icon">⬇️</div>
+        <div class="guide-desc"><strong>向下滑动</strong><span>一键收藏至专属生词本</span></div>
+      </div>
+    </div>
+    <button id="guide-confirm-btn" class="guide-confirm-btn" type="button">我知道了，开始背词 🚀</button>
+  </div>
 </div>
 
 <div class="s-drawer" id="drawer" hidden>
@@ -414,6 +454,16 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
     <button class="clean-pill-btn" data-study-mode="fav" type="button">⭐ 生词本专练</button>
     <button class="clean-pill-btn" id="drawer-commute-toggle" type="button">🚇 地铁单手</button>
     <button class="clean-pill-btn" id="drawer-zen-toggle" type="button">🧘 沉浸专注</button>
+  </div>
+</div>
+
+<!-- 0.5 操作交互模式切换 (P2: 滑动/纯按钮/拼写) -->
+<div class="d-clean-section">
+  <div class="d-clean-title">🎮 操作交互模式</div>
+  <div class="clean-pill-group" id="drawer-op-modes">
+    <button class="clean-pill-btn active" data-op-mode="gesture" type="button">🖐️ 滑动+按键</button>
+    <button class="clean-pill-btn" data-op-mode="button" type="button">🔘 纯按钮防误触</button>
+    <button class="clean-pill-btn" data-op-mode="spelling" type="button">✍️ 拼写测验</button>
   </div>
 </div>
 
@@ -527,7 +577,7 @@ body{padding-top:max(2px, env(safe-area-inset-top, 0px));padding-bottom:max(58px
   <a href="words.html"><span class="icon">📚</span><span>考研词库</span></a>
   <a href="memory.html"><span class="icon">👤</span><span>我的</span></a>
 </nav>
-<script defer src="data/words_bundle.js"></script><script defer src="data/ai_examples_bundle.js"></script><script defer src="js/quiz.js"></script><script defer src="js/study.js"></script><script defer src="js/pwa.js"></script><script>
+<script defer src="data/words_bundle.js"></script><script defer src="js/word_data.js"></script><script defer src="data/ai_examples_bundle.js"></script><script defer src="js/quiz.js"></script><script defer src="js/cloud_sync.js"></script><script defer src="js/study.js"></script><script defer src="js/pwa.js"></script><script>
 const SUN='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>',MOON='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',OLED='<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>';
 function paintTheme(){const b=document.documentElement,cur=b.dataset.theme||'light';document.querySelectorAll('[data-theme-toggle]').forEach(t=>{t.innerHTML=cur==='light'?MOON:(cur==='dark'?OLED:SUN);t.setAttribute('aria-label',cur==='light'?'切换到暗色模式':(cur==='dark'?'切换到OLED纯黑模式':'切换到浅色模式'));});}
 document.querySelectorAll('[data-theme-toggle]').forEach(t=>t.addEventListener('click',()=>{const b=document.documentElement,cur=b.dataset.theme||'light',next=cur==='light'?'dark':(cur==='dark'?'oled':'light');b.dataset.theme=next;localStorage.setItem('theme',next);paintTheme();}));
