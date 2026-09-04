@@ -835,7 +835,7 @@
     var ta = document.getElementById('writing-sandbox-ta');
     var wc = document.getElementById('writing-wc');
     var updateWc = function () {
-      var words = (ta.value.trim().match(/[a-zA-Z0-9'-]+/g) || []).length;
+      var words = ((ta.value || '').trim().match(/[a-zA-Z0-9'-]+/g) || []).length;
       if (wc) wc.textContent = `${words} 词 · ${words >= (isPartB ? 160 : 80) ? '达到大纲字数 ✓' : '未达标'}`;
     };
     if (ta) {
