@@ -48,7 +48,7 @@
   }
 
   function checkRemoteVersion(isManual) {
-    var checkUrl = 'https://bobwu520520-dot.github.io/kaoyan-words/version.json?_t=' + Date.now();
+    var checkUrl = 'https://kaoyan-words.bobwu520520.workers.dev/version.json?_t=' + Date.now();
     fetch(checkUrl, { cache: 'no-store' })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
