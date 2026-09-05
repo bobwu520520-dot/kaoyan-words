@@ -328,6 +328,13 @@
       suite: 0
     };
 
+    // 同时考量独立长难句工坊 (translate.html) 的掌握记录 (kaoyan_trans_done)
+    var transDoneSet = new Set();
+    try {
+      var td = JSON.parse(localStorage.getItem('kaoyan_trans_done') || '[]');
+      if (Array.isArray(td)) td.forEach(function (id) { transDoneSet.add(id); });
+    } catch (e) {}
+
     Object.keys(examProgress).forEach(function (k) {
       var parts = k.split('-');
       var cat = parts[0];
@@ -335,6 +342,10 @@
         doneCounts[cat]++;
       }
     });
+
+    if (transDoneSet.size > 0) {
+      doneCounts.trans = Math.max(doneCounts.trans, transDoneSet.size);
+    }
 
     var setBadge = function (id, cat, unit) {
       var el = document.getElementById(id);
@@ -460,22 +471,42 @@
       var cur = items[idx];
       var meta = CATEGORY_META[cat] || CATEGORY_META.reading;
 
-      // Header updates
+      // Header updates: 显示具体题型辨识度标题
       var titleEl = document.getElementById('exam-detail-header-title');
+      var displayTitle = '';
+      if (cur.text_id) {
+        displayTitle = (cur.year ? cur.year + '年 ' : '') + cur.text_id;
+      } else if (cat === 'writing' && cur.title) {
+        displayTitle = (cur.year ? cur.year + ' ' : '') + cur.title;
+      } else if (cat === 'suite') {
+        displayTitle = (cur.year ? cur.year + '年 ' : '') + '真题全卷';
+      } else if (cur.year) {
+        displayTitle = cur.year + '年 ' + meta.name;
+      } else {
+        displayTitle = `${meta.name} 第 ${idx + 1} 题`;
+      }
       if (titleEl) {
-        titleEl.textContent = cur.year ? `${cur.year}年 ${cur.text_id || meta.name}` : `${meta.name} 第 ${idx + 1} 题`;
+        titleEl.textContent = displayTitle;
       }
 
-  function updateDetailStatusPill(isDone, score) {
-    var statusPill = document.getElementById('exam-detail-status-pill');
-    if (statusPill) {
-      statusPill.className = 'exam-status-badge ' + (isDone ? 'done' : 'undone');
-      statusPill.textContent = isDone ? ('✓ 已完成' + (score !== undefined && score !== null ? ' · ' + score + '分' : '')) : '未作答';
-    }
-  }
+      function updateDetailStatusPill(isDone, score) {
+        var statusPill = document.getElementById('exam-detail-status-pill');
+        if (statusPill) {
+          statusPill.className = 'exam-status-badge ' + (isDone ? 'done' : 'undone');
+          statusPill.textContent = isDone ? ('✓ 已完成' + (score !== undefined && score !== null ? ' · ' + score + '分' : '')) : '未作答';
+        }
+      }
 
       var key = `${cat}-${idx}`;
       var prog = examProgress[key] || {};
+      if (cat === 'trans' && !prog.done) {
+        try {
+          var tdArr = JSON.parse(localStorage.getItem('kaoyan_trans_done') || '[]');
+          if (Array.isArray(tdArr) && tdArr.indexOf(cur.id || (idx + 1)) !== -1) {
+            prog.done = true;
+          }
+        } catch (e) {}
+      }
       var isDone = !!prog.done;
 
       updateDetailStatusPill(isDone, prog.score);
@@ -599,14 +630,24 @@
     var speakBtn = document.getElementById('reading-speak-btn');
     if (speakBtn) speakBtn.onclick = function () { speak(cur.content || cur.text); };
 
-    // Bind option selections
+    // Bind option selections (未交卷时直接切换样式，避免 DOM 整体重绘导致页面滚动跳顶)
     box.querySelectorAll('.q-options button').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var qIdx = this.getAttribute('data-q-idx');
         var opt = this.getAttribute('data-opt');
         savedAnswers[qIdx] = opt;
         saveExamProgress(key, { answers: savedAnswers });
-        renderReadingDetail(box, cur, key, examProgress[key] || {});
+
+        if (prog.done) {
+          renderReadingDetail(box, cur, key, examProgress[key] || {});
+        } else {
+          var parent = this.closest('.q-options');
+          if (parent) {
+            parent.querySelectorAll('button').forEach(function (b) {
+              b.classList.toggle('active', b.getAttribute('data-opt') === opt);
+            });
+          }
+        }
       });
     });
 
@@ -710,13 +751,24 @@
     var speakBtn = document.getElementById('cloze-speak-btn');
     if (speakBtn) speakBtn.onclick = function () { speak(cur.text); };
 
+    // Bind option selections (未交卷时直接切换样式，避免完形 20 空页面跳顶抖动)
     box.querySelectorAll('.cloze-questions-list button').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var qIdx = this.getAttribute('data-cloze-q');
         var opt = this.getAttribute('data-opt');
         savedAnswers[qIdx] = opt;
         saveExamProgress(key, { answers: savedAnswers });
-        renderClozeDetail(box, cur, key, examProgress[key] || {});
+
+        if (prog.done) {
+          renderClozeDetail(box, cur, key, examProgress[key] || {});
+        } else {
+          var parent = this.parentElement;
+          if (parent) {
+            parent.querySelectorAll('button').forEach(function (b) {
+              b.classList.toggle('active', b.getAttribute('data-opt') === opt);
+            });
+          }
+        }
       });
     });
 
@@ -773,7 +825,7 @@
         </div>
 
         <div style="margin-top:16px;text-align:center">
-          <button class="nav-btn primary" id="newtype-done-btn" type="button" style="padding:8px 20px;border-radius:999px">
+          <button class="nav-btn primary" id="newtype-done-btn" type="button" style="padding:8px 20px;border-radius:999px${prog.done ? ';background:#10b981;border-color:#10b981' : ''}">
             ${prog.done ? '✓ 本套新题型已攻克' : '标记已掌握解题逻辑'}
           </button>
         </div>
@@ -793,6 +845,8 @@
         updateDetailStatusPill(true);
         doneBtn.textContent = '✓ 本套新题型已攻克！';
         doneBtn.style.background = '#10b981';
+        doneBtn.style.borderColor = '#10b981';
+        if (window.KaoyanToast) window.KaoyanToast('✓ 已攻克本套新题型解题逻辑！');
       };
     }
   }
@@ -847,7 +901,7 @@
         </div>
 
         <div style="margin-top:16px;text-align:center">
-          <button class="nav-btn primary" id="trans-done-btn" type="button" style="padding:8px 20px;border-radius:999px">
+          <button class="nav-btn primary" id="trans-done-btn" type="button" style="padding:8px 20px;border-radius:999px${prog.done ? ';background:#10b981;border-color:#10b981' : ''}">
             ${prog.done ? '✓ 本句已掌握' : '标记本句已熟读掌握'}
           </button>
         </div>
@@ -866,6 +920,16 @@
         updateDetailStatusPill(true);
         doneBtn.textContent = '✓ 本句已掌握！';
         doneBtn.style.background = '#10b981';
+        doneBtn.style.borderColor = '#10b981';
+        try {
+          var tdArr = JSON.parse(localStorage.getItem('kaoyan_trans_done') || '[]');
+          var sId = cur.id || (idx + 1);
+          if (tdArr.indexOf(sId) === -1) {
+            tdArr.push(sId);
+            localStorage.setItem('kaoyan_trans_done', JSON.stringify(tdArr));
+          }
+        } catch (e) {}
+        if (window.KaoyanToast) window.KaoyanToast('✓ 本句学术长难句已熟读掌握！');
       };
     }
   }
@@ -931,11 +995,11 @@
         </div>
 
         <div id="writing-model-box" style="font-size:13.5px;line-height:1.75;background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border);color:var(--color-text)">
-          ${modelText.replace(/\n/g, '<br><br>')}
+          ${esc(modelText).replace(/\n\s*\n/g, '<br><br>').replace(/\n/g, '<br>')}
         </div>
 
         <div id="writing-trans-box" style="display:none;margin-top:10px;font-size:13px;line-height:1.6;color:var(--color-text-muted);background:var(--color-surface);padding:10px 14px;border-radius:8px;border:1px dashed var(--color-border)">
-          ${modelTrans.replace(/\n/g, '<br><br>')}
+          ${esc(modelTrans).replace(/\n\s*\n/g, '<br><br>').replace(/\n/g, '<br>')}
         </div>
 
         ${vocabHtml}
@@ -945,7 +1009,7 @@
           <textarea id="writing-sandbox-ta" placeholder="在此练习默写或仿写，内容实时自动保存在本地..." style="width:100%;height:140px;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface);padding:10px;font-size:13px;font-family:var(--font-sans);line-height:1.6;box-sizing:border-box;resize:vertical;color:var(--color-text)">${esc(savedDraft)}</textarea>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
             <span id="writing-wc" style="font-size:11.5px;color:var(--color-text-muted)">0 词</span>
-            <button class="nav-btn primary" id="writing-save-btn" type="button" style="font-size:12px;padding:6px 14px">保存草稿并完成</button>
+            <button class="nav-btn primary" id="writing-save-btn" type="button" style="font-size:12px;padding:6px 14px${prog.done ? ';background:#10b981;border-color:#10b981' : ''}">${prog.done ? '✓ 写作草稿已打卡' : '保存草稿并打卡'}</button>
           </div>
         </div>
       </div>
@@ -985,8 +1049,10 @@
       saveBtn.onclick = function () {
         saveExamProgress(key, { done: true });
         updateDetailStatusPill(true);
-        saveBtn.textContent = '✓ 已保存打卡！';
+        saveBtn.textContent = '✓ 写作草稿已打卡！';
         saveBtn.style.background = '#10b981';
+        saveBtn.style.borderColor = '#10b981';
+        if (window.KaoyanToast) window.KaoyanToast('✓ 考场写作草稿已保存打卡！');
       };
     }
   }
@@ -1029,7 +1095,7 @@
         </div>
 
         <div style="margin-top:16px;text-align:center">
-          <button class="nav-btn primary" id="suite-done-btn" type="button" style="padding:10px 24px;border-radius:999px">
+          <button class="nav-btn primary" id="suite-done-btn" type="button" style="padding:10px 24px;border-radius:999px${prog.done ? ';background:#10b981;border-color:#10b981' : ''}">
             ${prog.done ? '✓ 已完成整卷模拟' : '标记为已完成该年度真题套卷'}
           </button>
         </div>
@@ -1045,6 +1111,8 @@
         updateDetailStatusPill(true);
         doneBtn.textContent = '✓ 已完成整卷模拟！';
         doneBtn.style.background = '#10b981';
+        doneBtn.style.borderColor = '#10b981';
+        if (window.KaoyanToast) window.KaoyanToast(`✓ ${y} 年真题全卷模拟已打卡！`);
       };
     }
   }
@@ -1118,24 +1186,6 @@
       detailBackBtn.addEventListener('click', function (e) {
         e.preventDefault();
         location.hash = '#type/' + currentCategory;
-      });
-    }
-
-    // 顶部下拉快捷导航展开/收起 (从 HTML 内联脚本抽离)
-    var examMenuBtn = document.getElementById('exam-menu-toggle');
-    var examNavBox = document.getElementById('exam-top-nav-box');
-    if (examMenuBtn && examNavBox) {
-      examMenuBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var isHidden = examNavBox.hidden;
-        examNavBox.hidden = !isHidden;
-        examMenuBtn.classList.toggle('active', isHidden);
-      });
-      document.addEventListener('click', function (e) {
-        if (!examNavBox.hidden && !examNavBox.contains(e.target) && e.target !== examMenuBtn) {
-          examNavBox.hidden = true;
-          examMenuBtn.classList.remove('active');
-        }
       });
     }
 

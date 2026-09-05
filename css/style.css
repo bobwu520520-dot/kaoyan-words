@@ -4807,6 +4807,25 @@ body.zen-focus-active .zen-exit-floating-btn {
   border: 1px solid color-mix(in oklab, #2e7d32 30%, transparent);
 }
 
+/* 题型详情页底部步进悬浮工具条 (Responsive Stepper) */
+.exam-detail-stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  position: sticky;
+  bottom: 0;
+  z-index: 50;
+  box-sizing: border-box;
+}
+@media (max-width: 720px) {
+  .exam-detail-stepper {
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 /* 子设置页面表单群组 (Sub-Settings Group) */
 .sub-settings-card {
   background: var(--color-surface);

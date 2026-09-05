@@ -410,13 +410,30 @@
   // 备份与恢复数据结构
   // ==========================================
   function getBackupPayload() {
+    var writingDrafts = {};
+    try {
+      if (typeof localStorage !== 'undefined') {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf('kao_writing_draft_') === 0) {
+            writingDrafts[k] = localStorage.getItem(k);
+          }
+        }
+      }
+    } catch (e) {}
+
     return {
-      version: '9.69',
+      version: '9.70',
       timestamp: Date.now(),
       kaoyan_study_v3: localStorage.getItem('kaoyan_study_v3') || '{}',
       kao_exam_progress: localStorage.getItem('kao_exam_progress') || '{}',
       kao_exam_mastered: localStorage.getItem('kao_exam_mastered') || '{}',
       kao_trans_mastery: localStorage.getItem('kao_trans_mastery') || '{}',
+      kaoyan_trans_done: localStorage.getItem('kaoyan_trans_done') || '[]',
+      kaoyan_trans_stars: localStorage.getItem('kaoyan_trans_stars') || '[]',
+      kaoyan_trans_drafts: localStorage.getItem('kaoyan_trans_drafts') || '{}',
+      kaoyan_trans_scores: localStorage.getItem('kaoyan_trans_scores') || '{}',
+      writing_drafts: writingDrafts,
       kao_quiz_favs: localStorage.getItem('kao_quiz_favs') || '[]',
       kaoyan_favs: localStorage.getItem('kaoyan_favs') || '[]',
       settings: {
@@ -445,6 +462,15 @@
       if (payload.kao_exam_progress) safeSetItem('kao_exam_progress', payload.kao_exam_progress);
       if (payload.kao_exam_mastered) safeSetItem('kao_exam_mastered', payload.kao_exam_mastered);
       if (payload.kao_trans_mastery) safeSetItem('kao_trans_mastery', payload.kao_trans_mastery);
+      if (payload.kaoyan_trans_done) safeSetItem('kaoyan_trans_done', payload.kaoyan_trans_done);
+      if (payload.kaoyan_trans_stars) safeSetItem('kaoyan_trans_stars', payload.kaoyan_trans_stars);
+      if (payload.kaoyan_trans_drafts) safeSetItem('kaoyan_trans_drafts', payload.kaoyan_trans_drafts);
+      if (payload.kaoyan_trans_scores) safeSetItem('kaoyan_trans_scores', payload.kaoyan_trans_scores);
+      if (payload.writing_drafts && typeof payload.writing_drafts === 'object') {
+        Object.keys(payload.writing_drafts).forEach(function (dk) {
+          if (payload.writing_drafts[dk]) safeSetItem(dk, payload.writing_drafts[dk]);
+        });
+      }
       if (payload.kao_quiz_favs) safeSetItem('kao_quiz_favs', payload.kao_quiz_favs);
       if (payload.kaoyan_favs) safeSetItem('kaoyan_favs', payload.kaoyan_favs);
       
