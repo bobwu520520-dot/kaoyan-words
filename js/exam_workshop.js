@@ -466,15 +466,19 @@
         titleEl.textContent = cur.year ? `${cur.year}年 ${cur.text_id || meta.name}` : `${meta.name} 第 ${idx + 1} 题`;
       }
 
+  function updateDetailStatusPill(isDone, score) {
+    var statusPill = document.getElementById('exam-detail-status-pill');
+    if (statusPill) {
+      statusPill.className = 'exam-status-badge ' + (isDone ? 'done' : 'undone');
+      statusPill.textContent = isDone ? ('✓ 已完成' + (score !== undefined && score !== null ? ' · ' + score + '分' : '')) : '未作答';
+    }
+  }
+
       var key = `${cat}-${idx}`;
       var prog = examProgress[key] || {};
       var isDone = !!prog.done;
 
-      var statusPill = document.getElementById('exam-detail-status-pill');
-      if (statusPill) {
-        statusPill.className = 'exam-status-badge ' + (isDone ? 'done' : 'undone');
-        statusPill.textContent = isDone ? '✓ 已完成' : '未作答';
-      }
+      updateDetailStatusPill(isDone, prog.score);
 
       // Prev / Next Navigation buttons
       var prevBtn = document.getElementById('exam-prev-btn');
@@ -620,6 +624,7 @@
           if (savedAnswers[qIdx] === qAns) score += 2;
         });
         saveExamProgress(key, { done: true, score: score, answers: savedAnswers });
+        updateDetailStatusPill(true, score);
         renderReadingDetail(box, cur, key, examProgress[key]);
         if (window.KaoyanToast) window.KaoyanToast(`阅读已提交！得分：${score} / ${questions.length * 2} 分`);
       });
@@ -728,6 +733,7 @@
           if (savedAnswers[qIdx] === qAns) score += 0.5;
         });
         saveExamProgress(key, { done: true, score: score, answers: savedAnswers });
+        updateDetailStatusPill(true, score);
         renderClozeDetail(box, cur, key, examProgress[key]);
         if (window.KaoyanToast) window.KaoyanToast(`完形已交卷！得分：${score} / ${questions.length * 0.5} 分`);
       });
@@ -784,6 +790,7 @@
     if (doneBtn) {
       doneBtn.onclick = function () {
         saveExamProgress(key, { done: true });
+        updateDetailStatusPill(true);
         doneBtn.textContent = '✓ 本套新题型已攻克！';
         doneBtn.style.background = '#10b981';
       };
@@ -856,6 +863,7 @@
     if (doneBtn) {
       doneBtn.onclick = function () {
         saveExamProgress(key, { done: true });
+        updateDetailStatusPill(true);
         doneBtn.textContent = '✓ 本句已掌握！';
         doneBtn.style.background = '#10b981';
       };
@@ -976,6 +984,7 @@
     if (saveBtn) {
       saveBtn.onclick = function () {
         saveExamProgress(key, { done: true });
+        updateDetailStatusPill(true);
         saveBtn.textContent = '✓ 已保存打卡！';
         saveBtn.style.background = '#10b981';
       };
@@ -1033,6 +1042,7 @@
     if (doneBtn) {
       doneBtn.onclick = function () {
         saveExamProgress(key, { done: true });
+        updateDetailStatusPill(true);
         doneBtn.textContent = '✓ 已完成整卷模拟！';
         doneBtn.style.background = '#10b981';
       };
@@ -1099,11 +1109,7 @@
     if (listBackBtn) {
       listBackBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        if (history.length > 1) {
-          history.back();
-        } else {
-          location.hash = '#home';
-        }
+        location.hash = '#home';
       });
     }
 
@@ -1111,11 +1117,7 @@
     if (detailBackBtn) {
       detailBackBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        if (history.length > 1) {
-          history.back();
-        } else {
-          location.hash = '#type/' + currentCategory;
-        }
+        location.hash = '#type/' + currentCategory;
       });
     }
 
