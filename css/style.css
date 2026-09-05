@@ -5032,6 +5032,14 @@ input:checked + .switch-slider:before {
 .btn:active {
   transform: scale(0.97);
 }
+.nav-btn:disabled,
+.btn:disabled,
+button:disabled {
+  opacity: 0.45 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  transform: none !important;
+}
 
 /* 5. 视图层级切换轻量动画 (<0.18s) */
 .tier-view {

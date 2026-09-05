@@ -771,6 +771,16 @@
         });
       });
 
+      // 菜单内部链接点击后自动收起下拉盒
+      navBoxes.forEach(function (box) {
+        box.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            box.hidden = true;
+            menuBtns.forEach(function (b) { b.classList.remove('active'); });
+          });
+        });
+      });
+
       document.addEventListener('click', function (e) {
         navBoxes.forEach(function (box) {
           if (!box.hidden && !box.contains(e.target)) {

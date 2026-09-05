@@ -44,7 +44,8 @@
   }
 
   function esc(s) {
-    return String(s ?? '').replace(/[&<>"']/g, function (m) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, function (m) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
     });
   }
@@ -407,15 +408,49 @@
       if (countBadge) countBadge.textContent = `${items.length} 题/篇`;
 
       var doneCount = 0;
+      var transDoneSet = new Set();
+      if (cat === 'trans') {
+        try {
+          var td = JSON.parse(localStorage.getItem('kaoyan_trans_done') || '[]');
+          if (Array.isArray(td)) {
+            td.forEach(function (id) {
+              transDoneSet.add(id);
+              transDoneSet.add(String(id));
+            });
+          }
+        } catch (e) {}
+      }
+
       var html = items.map(function (item, idx) {
         var key = `${cat}-${idx}`;
         var prog = examProgress[key] || {};
         var isDone = !!prog.done;
+
+        if (cat === 'trans' && !isDone) {
+          var sId = item.id || (idx + 1);
+          if (transDoneSet.has(sId) || transDoneSet.has(String(sId)) || transDoneSet.has(idx + 1) || transDoneSet.has(String(idx + 1))) {
+            isDone = true;
+          }
+        }
         if (isDone) doneCount++;
 
-        var titleText = item.title || (item.year ? item.year + '年 ' + meta.name : '真题第 ' + (idx + 1) + ' 篇');
-        var descText = item.desc || item.topic || item.picture_desc || item.prompt || '历年全真试题精析与考点训练';
-        var numLabel = item.year ? `${item.year}` : `P${idx + 1}`;
+        var titleText = '';
+        var descText = '';
+        var numLabel = '';
+
+        if (cat === 'trans') {
+          titleText = item.title || item.source || ('学术长难句 第 ' + (idx + 1) + ' 句');
+          descText = item.source ? (item.source + (item.theme ? ' · ' + item.theme : '')) : (item.theme || item.desc || (item.zh ? item.zh.slice(0, 35) + '...' : '考研长难句精译'));
+          numLabel = `${idx + 1}`;
+        } else if (cat === 'writing') {
+          titleText = item.title || (item.year ? item.year + '年 ' + meta.name : '范文第 ' + (idx + 1) + ' 篇');
+          descText = item.picture_desc || item.task_prompt || item.prompt || item.desc || '考研真题写作范文研读与仿写模练';
+          numLabel = item.year ? `${item.year}` : `W${idx + 1}`;
+        } else {
+          titleText = item.title || (item.year ? item.year + '年 ' + meta.name : '真题第 ' + (idx + 1) + ' 篇');
+          descText = item.desc || item.topic || '历年全真试题精析与考点训练';
+          numLabel = item.year ? `${item.year}` : `P${idx + 1}`;
+        }
 
         var statusBadge = isDone
           ? `<span class="exam-status-badge done">✓ 已完成 ${prog.score ? '· ' + prog.score + '分' : ''}</span>`
@@ -474,7 +509,9 @@
       // Header updates: 显示具体题型辨识度标题
       var titleEl = document.getElementById('exam-detail-header-title');
       var displayTitle = '';
-      if (cur.text_id) {
+      if (cat === 'trans') {
+        displayTitle = cur.source ? (cur.source.replace('考研英语(一) ', '') + ' · ' + (cur.title || '长难句')) : ('学术长难句 第 ' + (idx + 1) + ' 句');
+      } else if (cur.text_id) {
         displayTitle = (cur.year ? cur.year + '年 ' : '') + cur.text_id;
       } else if (cat === 'writing' && cur.title) {
         displayTitle = (cur.year ? cur.year + ' ' : '') + cur.title;
@@ -502,8 +539,11 @@
       if (cat === 'trans' && !prog.done) {
         try {
           var tdArr = JSON.parse(localStorage.getItem('kaoyan_trans_done') || '[]');
-          if (Array.isArray(tdArr) && tdArr.indexOf(cur.id || (idx + 1)) !== -1) {
-            prog.done = true;
+          if (Array.isArray(tdArr)) {
+            var sId = cur.id || (idx + 1);
+            if (tdArr.indexOf(sId) !== -1 || tdArr.indexOf(String(sId)) !== -1 || (cur.num && tdArr.indexOf(cur.num) !== -1) || tdArr.indexOf(idx + 1) !== -1 || tdArr.indexOf(String(idx + 1)) !== -1) {
+              prog.done = true;
+            }
           }
         } catch (e) {}
       }
@@ -536,12 +576,12 @@
 
       if (!box) return;
 
-      if (cat === 'reading') renderReadingDetail(box, cur, key, prog);
-      else if (cat === 'cloze') renderClozeDetail(box, cur, key, prog);
-      else if (cat === 'newtype') renderNewTypeDetail(box, cur, key, prog);
-      else if (cat === 'trans') renderTransDetail(box, cur, key, prog);
-      else if (cat === 'writing') renderWritingDetail(box, cur, key, prog);
-      else if (cat === 'suite') renderSuiteDetail(box, cur, key, prog);
+      if (cat === 'reading') renderReadingDetail(box, cur, key, prog, idx);
+      else if (cat === 'cloze') renderClozeDetail(box, cur, key, prog, idx);
+      else if (cat === 'newtype') renderNewTypeDetail(box, cur, key, prog, idx);
+      else if (cat === 'trans') renderTransDetail(box, cur, key, prog, idx);
+      else if (cat === 'writing') renderWritingDetail(box, cur, key, prog, idx);
+      else if (cat === 'suite') renderSuiteDetail(box, cur, key, prog, idx);
 
       bindWordLookup(box);
     });
@@ -562,7 +602,7 @@
         </div>
         <h2 style="font-size:16px;margin:4px 0 10px;color:var(--color-text)">${esc(cur.title)}</h2>
         <div style="font-size:13.5px;line-height:1.75;color:var(--color-text);background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border);user-select:text">
-          ${contentText ? contentText.replace(/\n/g, '<br><br>') : ''}
+          ${contentText ? esc(contentText).replace(/\n\s*\n/g, '<br><br>').replace(/\n/g, '<br><br>') : ''}
         </div>
       </div>
 
@@ -685,7 +725,7 @@
         </div>
         <h2 style="font-size:16px;margin:4px 0 10px;color:var(--color-text)">${esc(cur.title)}</h2>
         <div style="font-size:13.5px;line-height:1.75;color:var(--color-text);background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border)">
-          ${cur.text ? cur.text.replace(/\n/g, '<br><br>') : ''}
+          ${cur.text ? esc(cur.text).replace(/\n\s*\n/g, '<br><br>').replace(/\n/g, '<br><br>') : ''}
         </div>
       </div>
 
@@ -852,9 +892,10 @@
   }
 
   // --- D. Translation Detail ---
-  function renderTransDetail(box, cur, key, prog) {
+  function renderTransDetail(box, cur, key, prog, idx) {
     var enText = cur.en || cur.sentence_en || '';
     var zhText = cur.zh || cur.translation || '';
+    var sId = cur.id || cur.num || ((idx !== undefined ? idx : currentItemId) + 1);
 
     var chunksHtml = '';
     if (cur.chunks && Array.isArray(cur.chunks) && cur.chunks.length) {
@@ -875,11 +916,92 @@
       `;
     }
 
+    var grammarHtml = '';
+    if (cur.grammar_points && Array.isArray(cur.grammar_points) && cur.grammar_points.length) {
+      grammarHtml = `
+        <div style="margin-top:12px">
+          <strong style="color:var(--color-primary);font-size:13px">【核心语法与考点拆解】</strong>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+            ${cur.grammar_points.map(function (gp) {
+              return `
+                <div style="background:var(--color-surface);border:1px solid var(--color-border);border-left:3px solid var(--color-accent);padding:8px 12px;border-radius:6px;font-size:12.5px">
+                  <div style="font-weight:700;color:var(--color-text);margin-bottom:2px">
+                    <span class="filter-chip active" style="font-size:11px;padding:2px 6px;margin-right:4px">${esc(gp.type || '句法考点')}</span>
+                    ${esc(gp.title || '')}
+                  </div>
+                  <div style="color:var(--color-text-muted);line-height:1.5">${esc(gp.desc || '')}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    var vocabHtml = '';
+    if (cur.key_vocab && Array.isArray(cur.key_vocab) && cur.key_vocab.length) {
+      vocabHtml = `
+        <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--color-border)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <strong style="color:var(--color-primary);font-size:13px">【核心词汇与语境释义】</strong>
+            <span style="font-size:11px;color:var(--color-text-muted)">（点击单词卡查完整释义）</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${cur.key_vocab.map(function (kv) {
+              return `
+                <button class="filter-chip active word-quick-chip" type="button" data-word="${esc(kv.word)}" data-pos="${esc(kv.pos || '')}" data-zh="${esc(kv.contextual_zh || kv.literal || '')}" style="font-size:12px;padding:4px 10px;cursor:pointer">
+                  <strong>${esc(kv.word)}</strong>
+                  <i style="opacity:0.8">${esc(kv.pos || '')}</i>
+                  <span>${esc(kv.contextual_zh || kv.literal || '')}</span>
+                  ${kv.tip ? `<span style="opacity:0.75;font-size:10.5px">(${esc(kv.tip)})</span>` : ''}
+                </button>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    var flawHtml = '';
+    if (cur.literal_flaw && cur.literal_flaw.bad) {
+      flawHtml = `
+        <div style="margin-top:12px;background:rgba(239,68,68,0.06);border:1px dashed rgba(239,68,68,0.4);padding:10px 12px;border-radius:8px;font-size:12.5px">
+          <div style="color:#ef4444;font-weight:700;margin-bottom:4px">⚠️ 考场生硬直译警示：</div>
+          <div style="color:var(--color-text);text-decoration:line-through;opacity:0.85;margin-bottom:4px">“${esc(cur.literal_flaw.bad)}”</div>
+          <div style="color:var(--color-text-muted);font-size:12px;line-height:1.5">💡 润色避坑：${esc(cur.literal_flaw.reason || '')}</div>
+        </div>
+      `;
+    }
+
+    var rubricHtml = '';
+    if (cur.scoring_rubric && Array.isArray(cur.scoring_rubric) && cur.scoring_rubric.length) {
+      rubricHtml = `
+        <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--color-border)">
+          <strong style="color:var(--color-primary);font-size:13px">【考场阅卷给分点剖析 (满分2分)】</strong>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+            ${cur.scoring_rubric.map(function (sr) {
+              return `
+                <div style="background:var(--color-surface);border:1px solid var(--color-border);padding:6px 10px;border-radius:6px;font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:8px">
+                  <div style="flex:1;color:var(--color-text)">
+                    <code style="font-family:var(--font-sans);font-weight:600;color:var(--color-primary)">${esc(sr.point)}</code>
+                    <div style="color:var(--color-text-muted);margin-top:2px">${esc(sr.desc)}</div>
+                  </div>
+                  <span class="exam-status-badge done" style="white-space:nowrap;font-size:11px">${esc(sr.score)}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    var difficultyStars = cur.difficulty ? ' · ' + '⭐'.repeat(cur.difficulty) : '';
+
     var html = `
       <div class="exam-card" style="margin-bottom:14px">
-        <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">🌐 考研英语（一）长难句真题精译</span>
-        <h2 style="font-size:16px;margin:6px 0 10px;color:var(--color-text)">${esc(cur.title || ('第 ' + (cur.id || 1) + ' 句学术长难句精读'))}</h2>
-        <div style="font-size:14px;line-height:1.75;background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border);color:var(--color-text);font-family:var(--font-sans)">
+        <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">🌐 ${esc(cur.source || '考研英语(一) 翻译真题')} · ${esc(cur.theme || '学术精译')}${difficultyStars}</span>
+        <h2 style="font-size:16px;margin:6px 0 10px;color:var(--color-text)">${esc(cur.title || ('第 ' + sId + ' 句学术长难句精读'))}</h2>
+        <div style="font-size:14px;line-height:1.75;background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border);color:var(--color-text);font-family:var(--font-sans);user-select:text">
           ${esc(enText)}
         </div>
         <div style="display:flex;justify-content:flex-end;margin-top:8px">
@@ -890,13 +1012,17 @@
       <div class="exam-card">
         <h3 style="font-size:15px;margin:0 0 10px;color:var(--color-text)">🎯 田静五步句法拆解与官方规范译文</h3>
         <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:8px;padding:12px 14px;margin-bottom:12px">
-          <strong style="color:var(--color-primary);font-size:13px">【中文标准译文】</strong>
+          <strong style="color:var(--color-primary);font-size:13px">【中文标准规范译文】</strong>
           <p style="font-size:13.5px;color:var(--color-text);margin:6px 0 0;line-height:1.6">${esc(zhText)}</p>
         </div>
 
         ${chunksHtml}
+        ${grammarHtml}
+        ${vocabHtml}
+        ${flawHtml}
+        ${rubricHtml}
 
-        <div style="background:var(--color-surface-offset);border-left:3px solid var(--color-primary);padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.6;color:var(--color-text);margin-top:10px">
+        <div style="background:var(--color-surface-offset);border-left:3px solid var(--color-primary);padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.6;color:var(--color-text);margin-top:12px">
           ${esc(cur.analysis || '主干为主谓宾结构，从句进行后置定语修饰。')}
         </div>
 
@@ -923,9 +1049,11 @@
         doneBtn.style.borderColor = '#10b981';
         try {
           var tdArr = JSON.parse(localStorage.getItem('kaoyan_trans_done') || '[]');
-          var sId = cur.id || (idx + 1);
-          if (tdArr.indexOf(sId) === -1) {
-            tdArr.push(sId);
+          if (Array.isArray(tdArr)) {
+            var itemsToAdd = [sId, cur.id, cur.num].filter(Boolean);
+            itemsToAdd.forEach(function (val) {
+              if (tdArr.indexOf(val) === -1) tdArr.push(val);
+            });
             localStorage.setItem('kaoyan_trans_done', JSON.stringify(tdArr));
           }
         } catch (e) {}
@@ -1143,6 +1271,11 @@
   }
 
   function handleHashRoute() {
+    var modal = document.getElementById('exam-word-modal');
+    if (modal && modal.style.display !== 'none') {
+      modal.style.display = 'none';
+    }
+
     var hash = location.hash.replace(/^#\/?/, '').trim();
     var newDepth = getExamRouteDepth(hash);
     var isBack = newDepth < currentExamDepth;
