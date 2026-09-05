@@ -27,18 +27,39 @@
     renderHomeStats();
   }
 
-  // Safe Audio Helper
-  function speak(text) {
+  // Safe Audio Helper with Toggle & Stop Control
+  function speak(text, btn) {
     if (!text) return;
     try {
-      if (window.KaoyanAudio && window.KaoyanAudio.speak) {
-        window.KaoyanAudio.speak(text);
-      } else if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
+      if (window.speechSynthesis) {
+        if (window.speechSynthesis.speaking) {
+          window.speechSynthesis.cancel();
+          if (btn) {
+            btn.textContent = btn.getAttribute('data-orig-text') || '🔊 朗读原句';
+            btn.classList.remove('active');
+          }
+          return;
+        }
         var u = new SpeechSynthesisUtterance(text);
         u.lang = localStorage.getItem('kao_ttslang') || 'en-US';
         u.rate = parseFloat(localStorage.getItem('kao_ttsrate') || '0.92');
+        if (btn) {
+          var orig = btn.textContent;
+          btn.setAttribute('data-orig-text', orig);
+          btn.textContent = '⏹ 停止朗读';
+          btn.classList.add('active');
+          u.onend = function () {
+            btn.textContent = orig;
+            btn.classList.remove('active');
+          };
+          u.onerror = function () {
+            btn.textContent = orig;
+            btn.classList.remove('active');
+          };
+        }
         window.speechSynthesis.speak(u);
+      } else if (window.KaoyanAudio && window.KaoyanAudio.speak) {
+        window.KaoyanAudio.speak(text);
       }
     } catch (e) {}
   }
@@ -114,6 +135,9 @@
     // 1. 翻译长难句
     if (cat === 'trans') {
       var tData = window.__TRANSLATIONS__ || window.__TRANSLATIONS_DATA__;
+      if (Array.isArray(tData) && tData.length) {
+        return tData;
+      }
       if (tData && Array.isArray(tData.sentences) && tData.sentences.length) {
         return tData.sentences;
       }
@@ -498,7 +522,25 @@
     }
 
     loadCategoryData(cat, function (err, items) {
-      if (err && (!items || !items.length)) return;
+      if (err || !items || !items.length) {
+        if (box) {
+          box.innerHTML = `
+            <div style="text-align:center;padding:40px 16px">
+              <div style="font-size:30px;margin-bottom:8px">⚠️</div>
+              <div style="font-size:14px;font-weight:700;color:var(--color-text)">【${esc(meta.name)}】题目数据加载遇到问题</div>
+              <p style="font-size:12px;color:var(--color-text-muted);margin:6px 0 16px">${esc((err && err.message) || '本地题库文件未找到或数据为空')}</p>
+              <button class="nav-btn primary" id="exam-detail-retry-btn" type="button" style="padding:8px 20px;border-radius:999px">重新加载</button>
+            </div>
+          `;
+          var rBtn = document.getElementById('exam-detail-retry-btn');
+          if (rBtn) {
+            rBtn.onclick = function () {
+              renderDetail(cat, idxStr);
+            };
+          }
+        }
+        return;
+      }
 
       idx = Math.min(Math.max(0, idx), items.length - 1);
       currentItemId = idx;
@@ -563,6 +605,7 @@
       if (prevBtn) {
         prevBtn.disabled = idx <= 0;
         prevBtn.onclick = function () {
+          if (window.speechSynthesis) window.speechSynthesis.cancel();
           if (idx > 0) location.hash = `#detail/${cat}/${idx - 1}`;
         };
       }
@@ -570,6 +613,7 @@
       if (nextBtn) {
         nextBtn.disabled = idx >= items.length - 1;
         nextBtn.onclick = function () {
+          if (window.speechSynthesis) window.speechSynthesis.cancel();
           if (idx < items.length - 1) location.hash = `#detail/${cat}/${idx + 1}`;
         };
       }
@@ -668,7 +712,7 @@
 
     // Bind speak
     var speakBtn = document.getElementById('reading-speak-btn');
-    if (speakBtn) speakBtn.onclick = function () { speak(cur.content || cur.text); };
+    if (speakBtn) speakBtn.onclick = function () { speak(cur.content || cur.text, speakBtn); };
 
     // Bind option selections (未交卷时直接切换样式，避免 DOM 整体重绘导致页面滚动跳顶)
     box.querySelectorAll('.q-options button').forEach(function (btn) {
@@ -679,7 +723,7 @@
         saveExamProgress(key, { answers: savedAnswers });
 
         if (prog.done) {
-          renderReadingDetail(box, cur, key, examProgress[key] || {});
+          renderReadingDetail(box, cur, key, examProgress[key] || {}, idx);
         } else {
           var parent = this.closest('.q-options');
           if (parent) {
@@ -706,7 +750,7 @@
         });
         saveExamProgress(key, { done: true, score: score, answers: savedAnswers });
         updateDetailStatusPill(true, score);
-        renderReadingDetail(box, cur, key, examProgress[key]);
+        renderReadingDetail(box, cur, key, examProgress[key], idx);
         if (window.KaoyanToast) window.KaoyanToast(`阅读已提交！得分：${score} / ${questions.length * 2} 分`);
       });
     }
@@ -789,7 +833,7 @@
     box.innerHTML = html;
 
     var speakBtn = document.getElementById('cloze-speak-btn');
-    if (speakBtn) speakBtn.onclick = function () { speak(cur.text); };
+    if (speakBtn) speakBtn.onclick = function () { speak(cur.text, speakBtn); };
 
     // Bind option selections (未交卷时直接切换样式，避免完形 20 空页面跳顶抖动)
     box.querySelectorAll('.cloze-questions-list button').forEach(function (btn) {
@@ -800,7 +844,7 @@
         saveExamProgress(key, { answers: savedAnswers });
 
         if (prog.done) {
-          renderClozeDetail(box, cur, key, examProgress[key] || {});
+          renderClozeDetail(box, cur, key, examProgress[key] || {}, idx);
         } else {
           var parent = this.parentElement;
           if (parent) {
@@ -826,14 +870,14 @@
         });
         saveExamProgress(key, { done: true, score: score, answers: savedAnswers });
         updateDetailStatusPill(true, score);
-        renderClozeDetail(box, cur, key, examProgress[key]);
+        renderClozeDetail(box, cur, key, examProgress[key], idx);
         if (window.KaoyanToast) window.KaoyanToast(`完形已交卷！得分：${score} / ${questions.length * 0.5} 分`);
       });
     }
   }
 
   // --- C. NewType Detail ---
-  function renderNewTypeDetail(box, cur, key, prog) {
+  function renderNewTypeDetail(box, cur, key, prog, idx) {
     var paras = cur.paragraphs || [];
     var html = `
       <div class="exam-card" style="margin-bottom:14px">
@@ -875,7 +919,7 @@
     box.innerHTML = html;
 
     box.querySelectorAll('[data-speak-p]').forEach(function (btn) {
-      btn.onclick = function () { speak(decodeURIComponent(btn.getAttribute('data-speak-p'))); };
+      btn.onclick = function () { speak(decodeURIComponent(btn.getAttribute('data-speak-p')), btn); };
     });
 
     var doneBtn = document.getElementById('newtype-done-btn');
@@ -1037,7 +1081,7 @@
     box.innerHTML = html;
 
     var speakBtn = document.getElementById('trans-speak-btn');
-    if (speakBtn) speakBtn.onclick = function () { speak(enText); };
+    if (speakBtn) speakBtn.onclick = function () { speak(enText, speakBtn); };
 
     var doneBtn = document.getElementById('trans-done-btn');
     if (doneBtn) {
@@ -1063,7 +1107,7 @@
   }
 
   // --- E. Writing Detail (Part A & B) ---
-  function renderWritingDetail(box, cur, key, prog) {
+  function renderWritingDetail(box, cur, key, prog, idx) {
     var raw = cur.raw || cur;
     var isPartB = cur.subType === 'b' || !!(raw.picture_desc || raw.theme || (cur.title && cur.title.indexOf('大作文') !== -1));
     var draftKey = 'kao_writing_draft_' + (cur.id || key);
@@ -1083,10 +1127,13 @@
     if (raw.key_vocab && Array.isArray(raw.key_vocab) && raw.key_vocab.length) {
       vocabHtml = `
         <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--color-border)">
-          <div style="font-size:12px;font-weight:700;color:var(--color-primary);margin-bottom:6px">💡 核心亮点词汇</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:12px;font-weight:700;color:var(--color-primary)">💡 核心亮点词汇</span>
+            <span style="font-size:11px;color:var(--color-text-muted)">（点击查词/收藏）</span>
+          </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap">
             ${raw.key_vocab.map(function (kv) {
-              return `<span class="filter-chip active" style="font-size:11.5px;padding:3px 8px">${esc(kv.word)} <i style="opacity:0.8">${esc(kv.pos || '')}</i> ${esc(kv.zh || '')}</span>`;
+              return `<button class="filter-chip active word-quick-chip" type="button" data-word="${esc(kv.word)}" data-pos="${esc(kv.pos || '')}" data-zh="${esc(kv.zh || '')}" style="font-size:11.5px;padding:3px 8px;cursor:pointer">${esc(kv.word)} <i style="opacity:0.8">${esc(kv.pos || '')}</i> ${esc(kv.zh || '')}</button>`;
             }).join('')}
           </div>
         </div>
@@ -1094,7 +1141,7 @@
     } else if (raw.key_phrases && Array.isArray(raw.key_phrases) && raw.key_phrases.length) {
       vocabHtml = `
         <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--color-border)">
-          <div style="font-size:12px;font-weight:700;color:var(--color-primary);margin-bottom:6px">💡 核心亮点表达</div>
+          <div style="font-size:12px;font-weight:700;color:var(--color-primary)">💡 核心亮点表达</div>
           <div style="display:flex;gap:6px;flex-wrap:wrap">
             ${raw.key_phrases.map(function (kp) {
               return `<span class="filter-chip active" style="font-size:11.5px;padding:3px 8px">${esc(kp)}</span>`;
@@ -1146,7 +1193,7 @@
     box.innerHTML = html;
 
     var speakBtn = document.getElementById('writing-speak-btn');
-    if (speakBtn) speakBtn.onclick = function () { speak(modelText); };
+    if (speakBtn) speakBtn.onclick = function () { speak(modelText, speakBtn); };
 
     var transToggleBtn = document.getElementById('writing-toggle-trans-btn');
     var transBox = document.getElementById('writing-trans-box');
@@ -1275,6 +1322,9 @@
     if (modal && modal.style.display !== 'none') {
       modal.style.display = 'none';
     }
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
 
     var hash = location.hash.replace(/^#\/?/, '').trim();
     var newDepth = getExamRouteDepth(hash);
@@ -1347,6 +1397,12 @@
       document.body.appendChild(modal);
     }
 
+    var isFav = false;
+    try {
+      var favs = JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]');
+      isFav = favs.indexOf(word) !== -1;
+    } catch (e) {}
+
     modal.innerHTML = `
       <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:20px;max-width:380px;width:100%;box-shadow:var(--shadow-lg);position:relative">
         <button id="close-word-modal-btn" type="button" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--color-text-muted)">✕</button>
@@ -1358,7 +1414,7 @@
           ${pos ? `<i>${esc(pos)}</i> ` : ''}${esc(zh || '考研大纲核心词汇')}
         </p>
         <div style="display:flex;gap:8px;margin-top:14px">
-          <button id="modal-add-fav-btn" type="button" class="nav-btn" style="flex:1;font-size:12px;padding:8px">⭐ 收藏到生词本</button>
+          <button id="modal-add-fav-btn" type="button" class="nav-btn" style="flex:1;font-size:12px;padding:8px">${isFav ? '✓ 已在生词本' : '⭐ 收藏到生词本'}</button>
           <a href="words.html#word/${encodeURIComponent(word)}" class="nav-btn primary" style="flex:1;text-align:center;font-size:12px;padding:8px;text-decoration:none;display:flex;align-items:center;justify-content:center">📚 词库完整释义</a>
         </div>
       </div>
@@ -1370,12 +1426,19 @@
     document.getElementById('modal-word-speak').onclick = function () { speak(word); };
     document.getElementById('modal-add-fav-btn').onclick = function () {
       try {
-        var favs = JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]');
-        if (favs.indexOf(word) === -1) {
-          favs.push(word);
-          localStorage.setItem('kao_quiz_favs', JSON.stringify(favs));
+        var curFavs = JSON.parse(localStorage.getItem('kao_quiz_favs') || '[]');
+        var fIdx = curFavs.indexOf(word);
+        if (fIdx === -1) {
+          curFavs.push(word);
+          localStorage.setItem('kao_quiz_favs', JSON.stringify(curFavs));
+          this.textContent = '✓ 已收藏！';
+          if (window.KaoyanToast) window.KaoyanToast(`已收藏【${word}】到专属生词本`);
+        } else {
+          curFavs.splice(fIdx, 1);
+          localStorage.setItem('kao_quiz_favs', JSON.stringify(curFavs));
+          this.textContent = '⭐ 收藏到生词本';
+          if (window.KaoyanToast) window.KaoyanToast(`已从生词本移出【${word}】`);
         }
-        this.textContent = '✓ 已收藏！';
       } catch (e) {}
     };
   }
