@@ -179,7 +179,7 @@
       c.classList.toggle('active', c.getAttribute('data-study-mode') === activeStudyMode);
     });
 
-    var commuteBtn = document.getElementById('commute-mode-toggle');
+    var commuteBtn = document.getElementById('commute-mode-toggle') || document.getElementById('drawer-commute-toggle');
     if (commuteBtn) {
       commuteBtn.classList.toggle('active', isCommuteMode);
       commuteBtn.onclick = function () {
@@ -523,7 +523,7 @@
           <div class="bb-top-bar">
             ${progressBadgeHtml}
             <div class="bb-top-tools">
-              <span class="bb-timer bb-timer-display">${getStudyTimeStr()}</span>
+              <span class="bb-timer bb-timer-display" id="bb-timer-display">${getStudyTimeStr()}</span>
               ${voicePillsHtml}
               ${window.KaoyanQuiz ? KaoyanQuiz.favBtn(w.word) : ''}
               <button class="bb-tool-icon drawer-btn-inline" type="button" title="⚙️ 学习偏好与模式设置">⚙</button>
@@ -579,7 +579,7 @@
         <div class="bb-top-bar">
           ${progressBadgeHtml}
           <div class="bb-top-tools">
-            <span class="bb-timer bb-timer-display">${getStudyTimeStr()}</span>
+            <span class="bb-timer bb-timer-display" id="bb-timer-display">${getStudyTimeStr()}</span>
             ${voicePillsHtml}
             ${window.KaoyanQuiz ? KaoyanQuiz.favBtn(w.word) : ''}
             <button class="bb-tool-icon drawer-btn-inline" type="button" title="⚙️ 学习偏好与模式设置">⚙</button>
@@ -1815,7 +1815,7 @@
     var elapsed = Math.floor((Date.now() - studyStartTime) / 1000);
     var mins = String(Math.floor(elapsed / 60)).padStart(2, '0');
     var secs = String(elapsed % 60).padStart(2, '0');
-    var el = document.getElementById('bb-timer-display');
+    var el = document.getElementById('bb-timer-display') || document.querySelector('.bb-timer-display');
     if (el) el.textContent = mins + ':' + secs;
   }, 1000);
 

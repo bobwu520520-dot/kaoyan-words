@@ -121,33 +121,43 @@
     var eData = window.__EXAM_DATA__;
     if (!eData) return null;
 
-    // 2. 完形填空
+    // 优先读取标准化数据数组 (Standardized Arrays)
+    if (Array.isArray(eData[cat]) && eData[cat].length) {
+      return eData[cat];
+    }
+    if (eData[cat] && Array.isArray(eData[cat].items) && eData[cat].items.length) {
+      return eData[cat].items;
+    }
+    if (eData[cat] && Array.isArray(eData[cat].passages) && eData[cat].passages.length) {
+      return eData[cat].passages;
+    }
+    if (eData[cat] && Array.isArray(eData[cat].tasks) && eData[cat].tasks.length) {
+      return eData[cat].tasks;
+    }
+
+    // 2. 完形填空 (兼容历史字段)
     if (cat === 'cloze') {
       if (eData.cloze_real && Array.isArray(eData.cloze_real.passages) && eData.cloze_real.passages.length) {
         return eData.cloze_real.passages;
       }
-      if (Array.isArray(eData.cloze) && eData.cloze.length) return eData.cloze;
     }
 
-    // 3. 传统阅读理解
+    // 3. 传统阅读理解 (兼容历史字段)
     if (cat === 'reading') {
       if (eData.reading_real && Array.isArray(eData.reading_real.passages) && eData.reading_real.passages.length) {
         return eData.reading_real.passages;
       }
-      if (Array.isArray(eData.reading) && eData.reading.length) return eData.reading;
     }
 
-    // 4. 阅读新题型
+    // 4. 阅读新题型 (兼容历史字段)
     if (cat === 'newtype') {
       if (eData.newtype_real && Array.isArray(eData.newtype_real.tasks) && eData.newtype_real.tasks.length) {
         return eData.newtype_real.tasks;
       }
-      if (Array.isArray(eData.newtype) && eData.newtype.length) return eData.newtype;
     }
 
-    // 5. 写作 (小作文 + 大作文)
+    // 5. 写作 (小作文 + 大作文兼容历史字段)
     if (cat === 'writing') {
-      if (Array.isArray(eData.writing) && eData.writing.length) return eData.writing;
       if (Array.isArray(eData.items) && eData.items.length) return eData.items;
       var wa = (eData.writings_a && Array.isArray(eData.writings_a.letters)) ? eData.writings_a.letters : [];
       var wb = (eData.writings_b && Array.isArray(eData.writings_b.essays)) ? eData.writings_b.essays : [];
@@ -383,7 +393,7 @@
         if (isDone) doneCount++;
 
         var titleText = item.title || (item.year ? item.year + '年 ' + meta.name : '真题第 ' + (idx + 1) + ' 篇');
-        var descText = item.desc || item.topic || item.picture_desc || '历年全真试题精析与考点训练';
+        var descText = item.desc || item.topic || item.picture_desc || item.prompt || '历年全真试题精析与考点训练';
         var numLabel = item.year ? `${item.year}` : `P${idx + 1}`;
 
         var statusBadge = isDone
@@ -517,6 +527,14 @@
           ${questions.map(function (q, qIdx) {
             var userAns = savedAnswers[qIdx] || '';
             var isSubmitted = !!prog.done;
+            var qAnswer = q.answer;
+            if (!qAnswer && Array.isArray(q.options)) {
+              var correctOpt = q.options.find(function (o) { return o && o.correct; });
+              if (correctOpt) {
+                qAnswer = correctOpt.label || (typeof correctOpt === 'string' ? correctOpt.trim().charAt(0) : 'A');
+              }
+            }
+
             return `
               <div class="q-item-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:10px;padding:12px 14px;margin-bottom:12px">
                 <div style="font-weight:700;font-size:13.5px;color:var(--color-text);margin-bottom:8px">
@@ -527,22 +545,26 @@
                     var optLetter = typeof opt === 'string' ? opt.trim().charAt(0) : (opt.label || 'A');
                     var optText = typeof opt === 'string' ? opt : `${opt.label}. ${opt.text}`;
                     var isSelected = (userAns === optLetter);
-                    var isCorrect = (optLetter === q.answer);
+                    var isCorrect = (optLetter === qAnswer);
                     var optClass = 'filter-chip';
+                    var optStyle = 'text-align:left;font-size:12.5px;padding:8px 12px;border-radius:8px';
                     if (isSelected) optClass += ' active';
                     if (isSubmitted) {
-                      if (isCorrect) optClass += ' style="border-color:#10b981;background:rgba(16,185,129,0.15);color:#10b981"';
-                      else if (isSelected && !isCorrect) optClass += ' style="border-color:#ef4444;background:rgba(239,68,68,0.15);color:#ef4444"';
+                      if (isCorrect) {
+                        optStyle += ';border-color:#10b981;background:rgba(16,185,129,0.15);color:#10b981;font-weight:700';
+                      } else if (isSelected && !isCorrect) {
+                        optStyle += ';border-color:#ef4444;background:rgba(239,68,68,0.15);color:#ef4444';
+                      }
                     }
                     return `
-                      <button class="${optClass}" data-q-idx="${qIdx}" data-opt="${optLetter}" type="button" style="text-align:left;font-size:12.5px;padding:8px 12px;border-radius:8px">
+                      <button class="${optClass}" data-q-idx="${qIdx}" data-opt="${optLetter}" type="button" style="${optStyle}">
                         ${esc(optText)}
                       </button>
                     `;
                   }).join('')}
                 </div>
                 <div class="q-analysis-box" id="analysis-${qIdx}" style="${isSubmitted ? 'display:block' : 'display:none'};margin-top:10px;font-size:12px;line-height:1.6;color:var(--color-text-muted);background:var(--color-surface-offset);padding:8px 12px;border-radius:8px;border-left:3px solid var(--color-primary)">
-                  <strong style="color:var(--color-primary)">正解：${q.answer}</strong> | ${esc(q.analysis || '同义替换法排除干扰项。')}
+                  <strong style="color:var(--color-primary)">正解：${qAnswer || 'A'}</strong> | ${esc(q.analysis || '同义替换法排除干扰项。')}
                 </div>
               </div>
             `;
@@ -580,7 +602,12 @@
       submitBtn.addEventListener('click', function () {
         var score = 0;
         questions.forEach(function (q, qIdx) {
-          if (savedAnswers[qIdx] === q.answer) score += 2;
+          var qAns = q.answer;
+          if (!qAns && Array.isArray(q.options)) {
+            var co = q.options.find(function (o) { return o && o.correct; });
+            if (co) qAns = co.label || (typeof co === 'string' ? co.trim().charAt(0) : 'A');
+          }
+          if (savedAnswers[qIdx] === qAns) score += 2;
         });
         saveExamProgress(key, { done: true, score: score, answers: savedAnswers });
         renderReadingDetail(box, cur, key, examProgress[key]);
@@ -591,12 +618,15 @@
 
   // --- B. Cloze Detail ---
   function renderClozeDetail(box, cur, key, prog) {
-    var questions = cur.questions || [];
+    var questions = cur.questions || cur.blanks || [];
     var savedAnswers = prog.answers || {};
 
     var html = `
       <div class="exam-card" style="margin-bottom:14px">
-        <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">🧩 ${cur.year || 2024} 完形填空真题实战</span>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">🧩 ${cur.year || 2024} 完形填空真题实战</span>
+          <button class="audio-btn" id="cloze-speak-btn" type="button" title="朗读全篇短文" style="font-size:12px;padding:3px 8px">🔊 朗读全文</button>
+        </div>
         <h2 style="font-size:16px;margin:4px 0 10px;color:var(--color-text)">${esc(cur.title)}</h2>
         <div style="font-size:13.5px;line-height:1.75;color:var(--color-text);background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border)">
           ${cur.text ? cur.text.replace(/\n/g, '<br><br>') : ''}
@@ -609,23 +639,43 @@
           ${questions.map(function (q, qIdx) {
             var userAns = savedAnswers[qIdx] || '';
             var isSubmitted = !!prog.done;
+            var qNum = q.num || q.blank_num || (qIdx + 1);
+            var qAnswer = q.answer;
+            if (!qAnswer && Array.isArray(q.options)) {
+              var correctOpt = q.options.find(function (o) { return o && o.correct; });
+              if (correctOpt) {
+                qAnswer = correctOpt.label || (typeof correctOpt === 'string' ? correctOpt.trim().charAt(0) : 'A');
+              }
+            }
+
             return `
               <div style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:10px;padding:12px 14px;margin-bottom:10px">
-                <div style="font-weight:700;font-size:13px;margin-bottom:6px">【第 ${q.num || (qIdx + 1)} 空】</div>
+                <div style="font-weight:700;font-size:13px;margin-bottom:6px">【第 ${qNum} 空】</div>
                 <div style="display:flex;gap:6px;flex-wrap:wrap">
                   ${(q.options || []).map(function (opt) {
                     var optLetter = typeof opt === 'string' ? opt.trim().charAt(0) : (opt.label || 'A');
                     var optText = typeof opt === 'string' ? opt : `${opt.label}. ${opt.text}`;
                     var isSelected = (userAns === optLetter);
+                    var isCorrect = (optLetter === qAnswer);
+                    var optClass = 'filter-chip';
+                    var optStyle = 'flex:1;min-width:110px';
+                    if (isSelected) optClass += ' active';
+                    if (isSubmitted) {
+                      if (isCorrect) {
+                        optStyle += ';border-color:#10b981;background:rgba(16,185,129,0.15);color:#10b981;font-weight:700';
+                      } else if (isSelected && !isCorrect) {
+                        optStyle += ';border-color:#ef4444;background:rgba(239,68,68,0.15);color:#ef4444';
+                      }
+                    }
                     return `
-                      <button class="filter-chip ${isSelected ? 'active' : ''}" data-cloze-q="${qIdx}" data-opt="${optLetter}" type="button" style="flex:1;min-width:110px">
+                      <button class="${optClass}" data-cloze-q="${qIdx}" data-opt="${optLetter}" type="button" style="${optStyle}">
                         ${esc(optText)}
                       </button>
                     `;
                   }).join('')}
                 </div>
                 <div id="cloze-ans-${qIdx}" style="${isSubmitted ? 'display:block' : 'display:none'};margin-top:8px;font-size:12px;background:var(--color-surface-offset);padding:8px;border-radius:6px;color:var(--color-primary)">
-                  ${esc(q.analysis || '正解：' + q.answer)}
+                  <strong style="color:var(--color-primary)">正解：${qAnswer || 'A'}</strong> | ${esc(q.analysis || '根据上下文逻辑线索推导。')}
                 </div>
               </div>
             `;
@@ -642,6 +692,9 @@
 
     box.innerHTML = html;
 
+    var speakBtn = document.getElementById('cloze-speak-btn');
+    if (speakBtn) speakBtn.onclick = function () { speak(cur.text); };
+
     box.querySelectorAll('.cloze-questions-list button').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var qIdx = this.getAttribute('data-cloze-q');
@@ -657,7 +710,12 @@
       submitBtn.addEventListener('click', function () {
         var score = 0;
         questions.forEach(function (q, qIdx) {
-          if (savedAnswers[qIdx] === q.answer) score += 0.5;
+          var qAns = q.answer;
+          if (!qAns && Array.isArray(q.options)) {
+            var co = q.options.find(function (o) { return o && o.correct; });
+            if (co) qAns = co.label || (typeof co === 'string' ? co.trim().charAt(0) : 'A');
+          }
+          if (savedAnswers[qIdx] === qAns) score += 0.5;
         });
         saveExamProgress(key, { done: true, score: score, answers: savedAnswers });
         renderClozeDetail(box, cur, key, examProgress[key]);
@@ -727,6 +785,25 @@
     var enText = cur.en || cur.sentence_en || '';
     var zhText = cur.zh || cur.translation || '';
 
+    var chunksHtml = '';
+    if (cur.chunks && Array.isArray(cur.chunks) && cur.chunks.length) {
+      chunksHtml = `
+        <div style="margin-top:12px">
+          <strong style="color:var(--color-primary);font-size:13px">【五步分层拆分意群】</strong>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+            ${cur.chunks.map(function (c) {
+              return `
+                <div style="background:var(--color-surface);border:1px solid var(--color-border);padding:8px 10px;border-radius:6px;font-size:12.5px">
+                  <div style="font-weight:600;color:var(--color-text)">${esc(c.en)}</div>
+                  <div style="color:var(--color-text-muted);font-size:12px;margin-top:2px">${esc(c.zh)} <span style="opacity:0.75;font-size:11px">(${esc(c.role || '')})</span></div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
     var html = `
       <div class="exam-card" style="margin-bottom:14px">
         <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">🌐 考研英语（一）长难句真题精译</span>
@@ -746,7 +823,9 @@
           <p style="font-size:13.5px;color:var(--color-text);margin:6px 0 0;line-height:1.6">${esc(zhText)}</p>
         </div>
 
-        <div style="background:var(--color-surface-offset);border-left:3px solid var(--color-primary);padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.6;color:var(--color-text)">
+        ${chunksHtml}
+
+        <div style="background:var(--color-surface-offset);border-left:3px solid var(--color-primary);padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.6;color:var(--color-text);margin-top:10px">
           ${esc(cur.analysis || '主干为主谓宾结构，从句进行后置定语修饰。')}
         </div>
 
@@ -775,17 +854,52 @@
 
   // --- E. Writing Detail (Part A & B) ---
   function renderWritingDetail(box, cur, key, prog) {
-    var raw = cur.raw || {};
-    var isPartB = cur.subType === 'b';
-    var draftKey = 'kao_writing_draft_' + cur.id;
+    var raw = cur.raw || cur;
+    var isPartB = cur.subType === 'b' || !!(raw.picture_desc || raw.theme || (cur.title && cur.title.indexOf('大作文') !== -1));
+    var draftKey = 'kao_writing_draft_' + (cur.id || key);
     var savedDraft = localStorage.getItem(draftKey) || '';
+
+    var promptDesc = raw.picture_desc || raw.task_prompt || raw.prompt || cur.desc || '考研真题写作范文研读与仿写模练';
+    var modelText = raw.model_essay || raw.model_letter || cur.model_essay || cur.model_letter || '范文收集中...';
+    var modelTrans = raw.model_translation || cur.model_translation;
+    if (!modelTrans && raw.paragraphs && Array.isArray(raw.paragraphs)) {
+      modelTrans = raw.paragraphs.map(function (p) {
+        return (p.sentences || []).map(function (s) { return s.zh; }).join('');
+      }).filter(Boolean).join('\n\n');
+    }
+    if (!modelTrans) modelTrans = '参考译文已备妥。';
+
+    var vocabHtml = '';
+    if (raw.key_vocab && Array.isArray(raw.key_vocab) && raw.key_vocab.length) {
+      vocabHtml = `
+        <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--color-border)">
+          <div style="font-size:12px;font-weight:700;color:var(--color-primary);margin-bottom:6px">💡 核心亮点词汇</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${raw.key_vocab.map(function (kv) {
+              return `<span class="filter-chip active" style="font-size:11.5px;padding:3px 8px">${esc(kv.word)} <i style="opacity:0.8">${esc(kv.pos || '')}</i> ${esc(kv.zh || '')}</span>`;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    } else if (raw.key_phrases && Array.isArray(raw.key_phrases) && raw.key_phrases.length) {
+      vocabHtml = `
+        <div style="margin-top:12px;padding-top:10px;border-top:1px dashed var(--color-border)">
+          <div style="font-size:12px;font-weight:700;color:var(--color-primary);margin-bottom:6px">💡 核心亮点表达</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${raw.key_phrases.map(function (kp) {
+              return `<span class="filter-chip active" style="font-size:11.5px;padding:3px 8px">${esc(kp)}</span>`;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
 
     var html = `
       <div class="exam-card" style="margin-bottom:14px">
         <span class="exam-badge" style="background:var(--color-primary-soft);color:var(--color-primary)">✍️ ${cur.year || 2024} ${isPartB ? '图画大作文 (Part B · 20分)' : '应用小作文 (Part A · 10分)'}</span>
         <h2 style="font-size:16px;margin:6px 0 8px;color:var(--color-text)">${esc(cur.title)}</h2>
         <div style="font-size:13px;color:var(--color-text-muted);background:var(--color-surface-offset);padding:10px 12px;border-radius:8px;border:1px solid var(--color-border);line-height:1.55">
-          ${esc(raw.picture_desc || raw.task_prompt || cur.desc)}
+          ${esc(promptDesc)}
         </div>
       </div>
 
@@ -799,12 +913,14 @@
         </div>
 
         <div id="writing-model-box" style="font-size:13.5px;line-height:1.75;background:var(--color-surface-offset);padding:14px;border-radius:10px;border:1px solid var(--color-border);color:var(--color-text)">
-          ${(raw.model_essay || raw.model_letter || '范文收集中...').replace(/\n/g, '<br><br>')}
+          ${modelText.replace(/\n/g, '<br><br>')}
         </div>
 
         <div id="writing-trans-box" style="display:none;margin-top:10px;font-size:13px;line-height:1.6;color:var(--color-text-muted);background:var(--color-surface);padding:10px 14px;border-radius:8px;border:1px dashed var(--color-border)">
-          ${(raw.model_translation || '参考译文已备妥。').replace(/\n/g, '<br><br>')}
+          ${modelTrans.replace(/\n/g, '<br><br>')}
         </div>
+
+        ${vocabHtml}
 
         <div style="margin-top:16px">
           <h4 style="font-size:14px;margin:0 0 6px;color:var(--color-text)">✍️ 考场模写沙盒</h4>
@@ -820,7 +936,7 @@
     box.innerHTML = html;
 
     var speakBtn = document.getElementById('writing-speak-btn');
-    if (speakBtn) speakBtn.onclick = function () { speak(raw.model_essay || raw.model_letter); };
+    if (speakBtn) speakBtn.onclick = function () { speak(modelText); };
 
     var transToggleBtn = document.getElementById('writing-toggle-trans-btn');
     var transBox = document.getElementById('writing-trans-box');
