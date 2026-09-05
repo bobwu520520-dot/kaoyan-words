@@ -116,10 +116,12 @@
       if (tData && Array.isArray(tData.sentences) && tData.sentences.length) {
         return tData.sentences;
       }
+      if (window.__EXAM_DATA__ && Array.isArray(window.__EXAM_DATA__.trans)) {
+        return window.__EXAM_DATA__.trans;
+      }
     }
 
-    var eData = window.__EXAM_DATA__;
-    if (!eData) return null;
+    var eData = window.__EXAM_DATA__ || {};
 
     // 优先读取标准化数据数组 (Standardized Arrays)
     if (Array.isArray(eData[cat]) && eData[cat].length) {
@@ -135,32 +137,40 @@
       return eData[cat].tasks;
     }
 
-    // 2. 完形填空 (兼容历史字段)
+    // 2. 完形填空 (兼容全局变量与历史字段)
     if (cat === 'cloze') {
       if (eData.cloze_real && Array.isArray(eData.cloze_real.passages) && eData.cloze_real.passages.length) {
         return eData.cloze_real.passages;
       }
+      var cG = window.__EXAM_CLOZE__;
+      if (cG && Array.isArray(cG.passages) && cG.passages.length) return cG.passages;
     }
 
-    // 3. 传统阅读理解 (兼容历史字段)
+    // 3. 传统阅读理解 (兼容全局变量与历史字段)
     if (cat === 'reading') {
       if (eData.reading_real && Array.isArray(eData.reading_real.passages) && eData.reading_real.passages.length) {
         return eData.reading_real.passages;
       }
+      var rG = window.__EXAM_READING__;
+      if (rG && Array.isArray(rG.passages) && rG.passages.length) return rG.passages;
     }
 
-    // 4. 阅读新题型 (兼容历史字段)
+    // 4. 阅读新题型 (兼容全局变量与历史字段)
     if (cat === 'newtype') {
       if (eData.newtype_real && Array.isArray(eData.newtype_real.tasks) && eData.newtype_real.tasks.length) {
         return eData.newtype_real.tasks;
       }
+      var nG = window.__EXAM_NEWTYPE__;
+      if (nG && Array.isArray(nG.tasks) && nG.tasks.length) return nG.tasks;
     }
 
-    // 5. 写作 (小作文 + 大作文兼容历史字段)
+    // 5. 写作 (小作文 + 大作文兼容全局变量与历史字段)
     if (cat === 'writing') {
       if (Array.isArray(eData.items) && eData.items.length) return eData.items;
-      var wa = (eData.writings_a && Array.isArray(eData.writings_a.letters)) ? eData.writings_a.letters : [];
-      var wb = (eData.writings_b && Array.isArray(eData.writings_b.essays)) ? eData.writings_b.essays : [];
+      var wa = (eData.writings_a && Array.isArray(eData.writings_a.letters)) ? eData.writings_a.letters :
+               (window.__EXAM_WRITINGS_A__ && Array.isArray(window.__EXAM_WRITINGS_A__.letters) ? window.__EXAM_WRITINGS_A__.letters : []);
+      var wb = (eData.writings_b && Array.isArray(eData.writings_b.essays)) ? eData.writings_b.essays :
+               (window.__EXAM_WRITINGS_B__ && Array.isArray(window.__EXAM_WRITINGS_B__.essays) ? window.__EXAM_WRITINGS_B__.essays : []);
       if (wa.length || wb.length) {
         return wa.concat(wb);
       }

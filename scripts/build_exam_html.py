@@ -24,6 +24,8 @@ content = r"""<!DOCTYPE html>
   <meta name="theme-color" content="#1d5a63" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d5a63' stroke-width='2'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E" />
+  <script src="data/exam_data_bundle.js"></script>
+  <script src="data/translations_bundle.js"></script>
   <script defer src="data/words_bundle.js"></script>
   <script defer src="js/word_data.js"></script>
   <script defer src="js/exam_workshop.js"></script>
@@ -156,7 +158,7 @@ content = r"""<!DOCTYPE html>
               </div>
             </div>
             <div class="sni-right">
-              <span class="sni-badge" id="badge-writing-count">21 篇范文/沙盒</span>
+              <span class="sni-badge" id="badge-writing-count">11 篇范文/沙盒</span>
               <span class="sni-arrow">›</span>
             </div>
           </a>

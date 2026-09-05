@@ -414,7 +414,9 @@
       version: '9.69',
       timestamp: Date.now(),
       kaoyan_study_v3: localStorage.getItem('kaoyan_study_v3') || '{}',
+      kao_exam_progress: localStorage.getItem('kao_exam_progress') || '{}',
       kao_exam_mastered: localStorage.getItem('kao_exam_mastered') || '{}',
+      kao_trans_mastery: localStorage.getItem('kao_trans_mastery') || '{}',
       kao_quiz_favs: localStorage.getItem('kao_quiz_favs') || '[]',
       kaoyan_favs: localStorage.getItem('kaoyan_favs') || '[]',
       settings: {
@@ -440,7 +442,9 @@
     if (!payload || typeof payload !== 'object') return false;
     try {
       if (payload.kaoyan_study_v3) safeSetItem('kaoyan_study_v3', payload.kaoyan_study_v3);
+      if (payload.kao_exam_progress) safeSetItem('kao_exam_progress', payload.kao_exam_progress);
       if (payload.kao_exam_mastered) safeSetItem('kao_exam_mastered', payload.kao_exam_mastered);
+      if (payload.kao_trans_mastery) safeSetItem('kao_trans_mastery', payload.kao_trans_mastery);
       if (payload.kao_quiz_favs) safeSetItem('kao_quiz_favs', payload.kao_quiz_favs);
       if (payload.kaoyan_favs) safeSetItem('kaoyan_favs', payload.kaoyan_favs);
       
