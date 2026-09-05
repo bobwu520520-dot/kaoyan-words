@@ -52,11 +52,11 @@
 
   <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border);position:sticky;top:0;z-index:90">
     <div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px">
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:16px;font-weight:800;color:var(--color-text)">👤 我的数据中心</span>
-        <span class="cat-chip tier" style="font-size:11px;padding:2px 8px;font-weight:600">个人设置与统计</span>
+      <div class="site-header-title-box" style="display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 auto;overflow:hidden">
+        <span class="site-header-title" style="font-size:16px;font-weight:800;color:var(--color-text);white-space:nowrap;flex-shrink:0">👤 我的数据中心</span>
+        <span class="cat-chip tier site-header-badge" style="font-size:11px;padding:2px 8px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:1">个人设置与统计</span>
       </div>
-      <div style="display:flex;align-items:center;gap:8px">
+      <div class="site-header-actions" style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:8px">
         <button class="theme-toggle" data-theme-toggle aria-label="切换到深色模式" type="button"></button>
         <button class="nav-menu-toggle-btn" id="mem-menu-toggle" data-nav-menu-toggle type="button" title="☰ 考研导航菜单">☰</button>
       </div>
@@ -310,11 +310,11 @@
                 <span class="sni-icon">ℹ️</span>
                 <div class="sni-info">
                   <span class="sni-title">关于</span>
-                  <span class="sni-desc" id="mem-version-desc">版本 v9.68 · 5,619 词大纲说明 · 检查更新 · 开源声明</span>
+                  <span class="sni-desc" id="mem-version-desc">版本 v9.69 · 5,619 词大纲说明 · 检查更新 · 开源声明</span>
                 </div>
               </div>
               <div class="sni-right">
-                <span class="sni-badge" id="mem-version-badge">v9.68</span>
+                <span class="sni-badge" id="mem-version-badge">v9.69</span>
                 <span class="sni-arrow">›</span>
               </div>
             </a>
@@ -691,7 +691,7 @@
               <img src="icon-192.png" alt="考研词汇通" style="width:54px;height:54px;border-radius:12px;border:2px solid var(--color-primary);box-shadow:var(--shadow-sm)">
               <div>
                 <strong style="font-size:16px;color:var(--color-text)">考研词汇通 · 金毛背单词</strong>
-                <div id="mem-version-title" style="font-size:12px;color:var(--color-primary);font-weight:700;margin-top:2px">v9.68 旗舰离线增强版</div>
+                <div id="mem-version-title" style="font-size:12px;color:var(--color-primary);font-weight:700;margin-top:2px">v9.69 旗舰离线增强版</div>
               </div>
             </div>
             <p style="font-size:12.5px;color:var(--color-text-muted);line-height:1.6;margin:0 0 14px">

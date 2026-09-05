@@ -54,11 +54,11 @@ memory_html = '''<!DOCTYPE html>
 
   <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border);position:sticky;top:0;z-index:90">
     <div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px">
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:16px;font-weight:800;color:var(--color-text)">👤 我的数据中心</span>
-        <span class="cat-chip tier" style="font-size:11px;padding:2px 8px;font-weight:600">个人设置与统计</span>
+      <div class="site-header-title-box" style="display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 auto;overflow:hidden">
+        <span class="site-header-title" style="font-size:16px;font-weight:800;color:var(--color-text);white-space:nowrap;flex-shrink:0">👤 我的数据中心</span>
+        <span class="cat-chip tier site-header-badge" style="font-size:11px;padding:2px 8px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:1">个人设置与统计</span>
       </div>
-      <div style="display:flex;align-items:center;gap:8px">
+      <div class="site-header-actions" style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:8px">
         <button class="theme-toggle" data-theme-toggle aria-label="切换到深色模式" type="button"></button>
         <button class="nav-menu-toggle-btn" id="mem-menu-toggle" data-nav-menu-toggle type="button" title="☰ 考研导航菜单">☰</button>
       </div>

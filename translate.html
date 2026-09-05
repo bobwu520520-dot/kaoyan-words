@@ -23,11 +23,11 @@
 <body>
   <header class="site-header" style="background:var(--color-surface);border-bottom:1px solid var(--color-border);position:sticky;top:0;z-index:100">
     <div class="header-inner" style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px">
-      <div style="display:flex;align-items:center;gap:10px">
+      <div class="site-header-title-box" style="display:flex;align-items:center;gap:10px;min-width:0;flex:1 1 auto;overflow:hidden">
         <button class="nav-menu-toggle-btn" data-nav-menu-toggle type="button" aria-label="收纳功能菜单" title="打开/收纳导航与功能">☰</button>
-        <span style="font-size:16px;font-weight:800;color:var(--color-text)">🌐 英译汉长难句翻译工坊</span>
+        <span class="site-header-title" style="font-size:16px;font-weight:800;color:var(--color-text);white-space:nowrap;flex-shrink:0">🌐 英译汉长难句翻译工坊</span>
       </div>
-      <div style="display:flex;align-items:center;gap:8px">
+      <div class="site-header-actions" style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:8px">
         <button class="theme-toggle" data-theme-toggle aria-label="切换深浅色模式" type="button"></button>
         <button class="settings-btn" data-settings-open="true" type="button" title="⚙️ 系统偏好设置" style="width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--color-border);background:var(--color-surface-offset);cursor:pointer;font-size:14px">⚙️</button>
       </div>
