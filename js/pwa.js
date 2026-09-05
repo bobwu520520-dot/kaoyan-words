@@ -29,13 +29,15 @@
     document.body.appendChild(banner);
 
     banner.querySelector('#ky-do-update-btn').onclick = function () {
+      var downloadUrl = (remote && remote.web_url) ? remote.web_url : 'https://github.com/bobwu520520-dot/kaoyan-words/releases/latest';
+      if (location.protocol === 'file:') {
+        if (window.KaoyanToast) window.KaoyanToast('正在使用系统浏览器打开下载页面...');
+        window.location.href = downloadUrl;
+        return;
+      }
       if (window.KaoyanToast) window.KaoyanToast('正在无缝切换到新版本...');
       if (window._kaoyanSwWaiting) {
         window._kaoyanSwWaiting.postMessage({ action: 'skipWaiting' });
-      }
-      if (location.protocol === 'file:') {
-        if (window.KaoyanToast) window.KaoyanToast('当前为离线安装包，请安装桌面最新 APK 完成更新');
-        return;
       }
       setTimeout(function () {
         location.reload();

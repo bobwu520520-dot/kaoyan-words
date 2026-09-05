@@ -287,12 +287,10 @@ public class MainActivity extends Activity {
 
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                String url = request.getUrl().toString();
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.startsWith("file:///android_asset/") || 
                     url.startsWith("http://127.0.0.1") || 
-                    url.startsWith("http://localhost") || 
-                    url.startsWith("https://bobwu520520-dot.github.io/kaoyan-words/")) {
+                    url.startsWith("http://localhost")) {
                     return false;
                 }
                 if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -305,6 +303,11 @@ public class MainActivity extends Activity {
                     }
                 }
                 return false;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return shouldOverrideUrlLoading(view, request.getUrl().toString());
             }
         });
 
@@ -332,6 +335,7 @@ public class MainActivity extends Activity {
             }
         });
 
+        mWebView.clearCache(true);
         mWebView.loadUrl("file:///android_asset/study.html");
     }
 
